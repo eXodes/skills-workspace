@@ -1,0 +1,124 @@
+# Code Review: OrderProcessor.process()
+
+Here's what's wrong with this code, using precise Refactoring Guru vocabulary.
+
+---
+
+## Switch Statements — significant
+**Where:** `process()`, item-type `if/elif` chain
+**Why it matters:** Every time a new item type is added (e.g., `'furniture'`), you must open and modify `OrderProcessor`. The conditional is scattered with business logic that belongs on the items themselves.
+**Fix:** Apply **Replace Conditional with Polymorphism** using the **Strategy pattern**.
+
+Create a `PricingStrategy` interface with a `discounted_price(item)` method, then implement one class per type:
+
+```python
+class BookPricingStrategy:
+    def discounted_price(self, item): return item.price * 0.9
+
+class ElectronicsPricingStrategy:
+    def discounted_price(self, item):
+        return item.price * (0.85 if item.price > 1000 else 0.95)
+
+class ClothingPricingStrategy:
+    def discounted_price(self, item): return item.price * 0.8
+
+class DefaultPricingStrategy:
+    def discounted_price(self, item): return item.price
+```
+
+Register strategies in a dict keyed by type string. The `process()` method looks up the strategy and calls it — no if/elif chain needed. Adding a new type means adding a new class, not modifying existing code (Open/Closed Principle).
+
+---
+
+## Divergent Change — significant
+**Where:** `OrderProcessor.process()` as a whole
+**Why it matters:** This single method has at least four completely unrelated reasons to change: (1) item discount rules change, (2) loyalty tier rules change, (3) shipping thresholds change, (4) email/SMTP config changes, (5) database schema changes. Any one of those changes sends you to the same method.
+**Fix:** Apply **Extract Class** to separate the concerns into collaborators:
+
+- `PricingCalculator` — computes item totals with discounts
+- `LoyaltyDiscountPolicy` — applies customer loyalty discount
+- `ShippingCalculator` — determines shipping cost
+- `OrderNotifier` — sends confirmation emails
+- `OrderRepository` — persists orders to the database
+
+`OrderProcessor.process()` becomes an orchestrator that calls each collaborator in sequence — short, readable, and stable.
+
+---
+
+## Long Method — significant
+**Where:** `process()`, ~45 lines
+**Why it matters:** The method is doing five different jobs end-to-end. It's hard to test any one concern in isolation, and the comments `# Send confirmation email` and `# Save to database` are a tell-tale sign — each commented block wants to be its own named method.
+**Fix:** Apply **Extract Method** for each logical block:
+
+```python
+def process(self, order):
+    total = self._calculate_item_total(order.items)
+    total = self._apply_loyalty_discount(total, order.customer)
+    total += self._calculate_shipping(total)
+    self._send_confirmation(order, total)
+    self._save_order(order, total)
+    return total
+```
+
+Each extracted method can then be tested independently.
+
+---
+
+## Magic Numbers (Primitive Obsession) — moderate
+**Where:** Throughout `process()` — `0.9`, `0.85`, `0.95`, `0.8`, `0.97`, `5.99`, `12.99`, `1000`, `500`, `100`, `5`, `2`
+**Why it matters:** A reader has no idea what `0.85` means without reading the surrounding context. When business rules change ("books are now 15% off instead of 10%"), you hunt for the right literal.
+**Fix:** Apply **Replace Magic Number with Symbolic Constant**:
+
+```python
+BOOK_DISCOUNT = 0.90
+ELECTRONICS_DISCOUNT_STANDARD = 0.95
+ELECTRONICS_DISCOUNT_PREMIUM = 0.85
+ELECTRONICS_PREMIUM_THRESHOLD = 1000
+CLOTHING_DISCOUNT = 0.80
+LOYALTY_SENIOR_DISCOUNT = 0.95
+LOYALTY_SENIOR_YEARS = 5
+LOYALTY_MID_DISCOUNT = 0.97
+LOYALTY_MID_YEARS = 2
+FREE_SHIPPING_THRESHOLD = 500
+REDUCED_SHIPPING_THRESHOLD = 100
+REDUCED_SHIPPING_COST = 5.99
+STANDARD_SHIPPING_COST = 12.99
+```
+
+Group these by domain concern (or put them in the relevant extracted class).
+
+---
+
+## Hardcoded Credentials — critical (security)
+**Where:** `server.login('user@example.com', 'password123')`
+**Why it matters:** This is a plaintext password in source code. It will end up in version control history and be readable by anyone with repository access. This is a security vulnerability, not just a code smell.
+**Fix:** Read credentials from environment variables or a secrets manager:
+
+```python
+import os
+server.login(os.environ['SMTP_USER'], os.environ['SMTP_PASSWORD'])
+```
+
+---
+
+## Additional Issues
+
+**Imports inside method body** — `import smtplib` and `import sqlite3` appear mid-method. Python re-evaluates these on every call (though it caches after the first). More importantly, they hide dependencies. Move all imports to the top of the module.
+
+**Duplicate Code** — The `elif item.type == 'food'` branch and the `else` branch are identical (`total += item.price`). Apply **Consolidate Conditional Expression**: drop the explicit `food` branch and let it fall through to `else`, or make `DefaultPricingStrategy` handle both.
+
+**Message Chains** — `order.customer.loyalty_years` and `order.customer.email` are message chains (`a.b.c`). This couples `OrderProcessor` to the internal structure of both `Order` and `Customer`. Apply **Hide Delegate**: add `order.customer_loyalty_years` and `order.customer_email` properties, or pass the relevant values directly to the extracted methods.
+
+---
+
+## Summary
+
+The root problem is that `process()` violates the Single Responsibility Principle in several dimensions at once. The priority fix order is:
+
+1. **Security first** — remove hardcoded credentials immediately.
+2. **Extract the five concerns** into separate classes (Divergent Change / Long Method).
+3. **Introduce pricing strategies** via polymorphism to kill the Switch Statements smell.
+4. **Name the magic numbers** as symbolic constants.
+5. **Clean up** the duplicate food/else branch and message chains.
+
+After these changes, adding a new item type means adding one new strategy class. Changing shipping rules means editing `ShippingCalculator` only. The code becomes open for extension and closed for modification.

@@ -1,0 +1,36 @@
+{
+  "eval_id": 1,
+  "eval_name": "eval-1-code-review",
+  "expectations": [
+    {
+      "text": "Uses 'Switch Statements' smell name or equivalent",
+      "passed": false,
+      "evidence": "Does not use 'Switch Statements' smell name. Labels the issue as 'Open/Closed Principle Violation' instead. No reference to the Refactoring Guru smell taxonomy."
+    },
+    {
+      "text": "Identifies Long Method smell by name",
+      "passed": false,
+      "evidence": "Mentions SRP violation and breaking into classes, but never names 'Long Method' smell specifically."
+    },
+    {
+      "text": "Identifies SRP violation / multiple responsibilities",
+      "passed": true,
+      "evidence": "'SINGLE RESPONSIBILITY PRINCIPLE VIOLATION (Design)' — clearly identifies the method handles 5 distinct concerns."
+    },
+    {
+      "text": "Recommends at least one named refactoring technique",
+      "passed": false,
+      "evidence": "Mentions 'extract into separate methods or classes' but does not use canonical Refactoring Guru technique names like 'Extract Method' or 'Extract Class'."
+    },
+    {
+      "text": "Uses Refactoring Guru vocabulary throughout",
+      "passed": false,
+      "evidence": "Uses general software engineering terms (SRP, OCP, context managers, error handling) but not Refactoring Guru canonical smell/technique names."
+    },
+    {
+      "text": "Mentions Strategy pattern for the discount logic",
+      "passed": true,
+      "evidence": "'Fix: Replace the chain with a dispatch dictionary or a strategy pattern.' — mentions Strategy in the OCP section."
+    }
+  ]
+}

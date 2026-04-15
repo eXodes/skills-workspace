@@ -1,0 +1,98 @@
+CODE REVIEW: OrderProcessor.process()
+======================================
+
+Here are the issues found in this code, roughly in order of severity:
+
+---
+
+1. HARDCODED CREDENTIALS (Critical Security Issue)
+   - `server.login('user@example.com', 'password123')` — plaintext password in source code.
+   - This will likely end up in version control and is a major security vulnerability.
+   - Fix: Use environment variables or a secrets manager.
+
+---
+
+2. SINGLE RESPONSIBILITY PRINCIPLE VIOLATION (Design)
+   - The `process()` method does four distinct things:
+       a) Calculates item discounts
+       b) Applies loyalty discounts
+       c) Calculates shipping
+       d) Sends a confirmation email
+       e) Persists to a database
+   - This makes it untestable, hard to maintain, and fragile.
+   - Fix: Break into separate methods or classes (e.g., DiscountCalculator, ShippingCalculator, OrderEmailService, OrderRepository).
+
+---
+
+3. IMPORTS INSIDE A METHOD (Style / Performance)
+   - `import smtplib` and `import sqlite3` are inside the method body.
+   - While Python caches module imports, this is unconventional, misleading, and hurts readability.
+   - Fix: Move all imports to the top of the file.
+
+---
+
+4. NO ERROR HANDLING (Reliability)
+   - If the SMTP server is unreachable, or the DB insert fails, an unhandled exception will propagate.
+   - Worse: if the DB save succeeds but email fails (or vice versa), the system is in an inconsistent state.
+   - Fix: Wrap each I/O operation in try/except blocks and handle partial failures explicitly.
+
+---
+
+5. RESOURCE LEAKS (Reliability)
+   - The SMTP connection (`server`) and SQLite connection (`conn`) are not closed if an exception occurs mid-method.
+   - Fix: Use context managers (`with` statements) or try/finally blocks to guarantee cleanup.
+
+---
+
+6. MAGIC NUMBERS (Readability / Maintainability)
+   - Discount rates (0.9, 0.85, 0.95, 0.8) and thresholds (1000, 500, 100, 5) are scattered inline with no explanation.
+   - Fix: Extract them as named constants or a configuration dictionary.
+
+     Example:
+       DISCOUNT_RATES = {'book': 0.9, 'clothing': 0.8, 'food': 1.0}
+       SHIPPING_THRESHOLDS = [(500, 0), (100, 5.99), (0, 12.99)]
+
+---
+
+7. OPEN/CLOSED PRINCIPLE VIOLATION (Extensibility)
+   - Adding a new item type requires modifying the method's if/elif chain.
+   - Fix: Replace the chain with a dispatch dictionary or a strategy pattern.
+
+     Example:
+       discounts = {'book': 0.9, 'clothing': 0.8, 'food': 1.0}
+       total += item.price * discounts.get(item.type, 1.0)
+
+     (The electronics special case for price > 1000 would need slightly more handling, but still cleaner.)
+
+---
+
+8. NO INPUT VALIDATION (Robustness)
+   - No checks for: `order` being None, `order.items` being empty, `order.customer` being None,
+     `item.price` being negative, or `loyalty_years` being negative.
+   - Fix: Add guards or use a validation layer before entering business logic.
+
+---
+
+9. POOR EMAIL MESSAGE FORMAT (Correctness)
+   - The email is a bare string with no headers (From, To, Subject, Content-Type).
+   - Many mail servers will reject or mishandle this.
+   - Fix: Use `email.mime.text.MIMEText` to construct a proper email message.
+
+---
+
+10. MIXED ABSTRACTION LEVELS (Design)
+    - Business logic (discounts, shipping rules) sits alongside low-level infrastructure code (SMTP, SQL).
+    - This violates layered architecture principles and makes unit testing nearly impossible without mocking everything.
+    - Fix: Inject dependencies (email service, repository) via the constructor so they can be swapped in tests.
+
+---
+
+SUMMARY OF RECOMMENDED REFACTORING APPROACH:
+- Extract discount calculation → `_calculate_item_total(item)`
+- Extract loyalty discount → `_apply_loyalty_discount(total, customer)`
+- Extract shipping → `_calculate_shipping(total)`
+- Extract email sending → injected `EmailService`
+- Extract DB persistence → injected `OrderRepository`
+- Move credentials to environment variables
+- Add proper error handling and resource cleanup
+- Replace magic numbers with named constants

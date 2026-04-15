@@ -1,0 +1,220 @@
+# Document Export System — Design Pattern Recommendation
+
+---
+
+## 1. Identify the Structural Problem
+
+Without a deliberate design, this system will likely collapse into something like:
+
+```python
+def export(document, format):
+    if format == "pdf":
+        render_pdf_header(document.header)
+        render_pdf_body(document.body)
+        render_pdf_image(document.images)
+        render_pdf_table(document.tables)
+    elif format == "html":
+        render_html_header(document.header)
+        ...
+    elif format == "markdown":
+        ...
+```
+
+This is the **Switch Statements smell** — conditional logic branching on a type tag (the format). It causes two compounding problems:
+
+- **Divergent Change**: When a format changes (e.g., PDF updates its table rendering), you have to find the right branch in potentially many places.
+- **Shotgun Surgery**: When you add DOCX or EPUB, you must touch every switch block across the codebase — header logic, body logic, image logic, table logic — even if many are unrelated.
+
+This is not a localised, fixable-with-a-rename problem. It is structural. A design pattern is the right tool.
+
+---
+
+## 2. Triage: Which Pattern?
+
+Three candidates from the symptom "different logic per format across multiple element types":
+
+| Pattern | Mechanism | Fits here? |
+|---------|-----------|------------|
+| **Abstract Factory** | Create families of related objects; all products in a family are guaranteed compatible | ✅ Strong fit |
+| **Template Method** | Define algorithm skeleton in a base class; subclasses override steps | Partial fit — simpler, but less flexible |
+| **Strategy** | Swap a single interchangeable algorithm at runtime | Weak fit — doesn't model multi-part rendering cleanly |
+
+**Abstract Factory is the right choice.** Here's why each alternative falls short:
+
+- **Template Method** uses *inheritance*. Each format becomes a monolithic subclass (`PDFExporter extends BaseExporter`) that overrides all four rendering methods. Adding DOCX means another large class. You also can't reuse a single renderer (e.g., a shared plain-text body renderer) across formats without awkward base-class gymnastics.
+
+- **Strategy** works well when each format is a *single algorithm*. But your format breaks into four distinct sub-algorithms (header, body, image, table). A single strategy per format gives you four methods crammed into one class — a Large Class smell in the making. Worse, nothing prevents a caller from accidentally pairing a `PDFHeaderStrategy` with an `HTMLTableStrategy`.
+
+**Abstract Factory solves exactly this**: it groups the four renderers for a format into one factory object. Compatibility is enforced structurally — you can only get renderers from the same family together.
+
+---
+
+## 3. Pattern: Abstract Factory
+
+### Intent
+Produce families of related objects (one family = one export format) without coupling client code to concrete classes. Each format's components are guaranteed to be consistent with each other.
+
+### Structure for Your System
+
+```
+// ── Abstract Products ──────────────────────────────────────────
+
+interface HeaderRenderer {
+    render(text: string, level: int): string
+}
+
+interface BodyRenderer {
+    render(paragraphs: string[]): string
+}
+
+interface ImageRenderer {
+    render(src: string, alt: string, caption: string): string
+}
+
+interface TableRenderer {
+    render(headers: string[], rows: string[][]): string
+}
+
+
+// ── Abstract Factory ───────────────────────────────────────────
+
+interface DocumentExporterFactory {
+    createHeaderRenderer(): HeaderRenderer
+    createBodyRenderer(): BodyRenderer
+    createImageRenderer(): ImageRenderer
+    createTableRenderer(): TableRenderer
+}
+
+
+// ── Concrete Factories (one per format) ───────────────────────
+
+class PDFExporterFactory implements DocumentExporterFactory {
+    createHeaderRenderer() { return new PDFHeaderRenderer() }
+    createBodyRenderer()   { return new PDFBodyRenderer()   }
+    createImageRenderer()  { return new PDFImageRenderer()  }
+    createTableRenderer()  { return new PDFTableRenderer()  }
+}
+
+class HTMLExporterFactory implements DocumentExporterFactory {
+    createHeaderRenderer() { return new HTMLHeaderRenderer() }
+    createBodyRenderer()   { return new HTMLBodyRenderer()   }
+    createImageRenderer()  { return new HTMLImageRenderer()  }
+    createTableRenderer()  { return new HTMLTableRenderer()  }
+}
+
+class MarkdownExporterFactory implements DocumentExporterFactory {
+    createHeaderRenderer() { return new MarkdownHeaderRenderer() }
+    createBodyRenderer()   { return new MarkdownBodyRenderer()   }
+    createImageRenderer()  { return new MarkdownImageRenderer()  }
+    createTableRenderer()  { return new MarkdownTableRenderer()  }
+}
+
+
+// ── Concrete Products (example: PDF family) ────────────────────
+
+class PDFHeaderRenderer implements HeaderRenderer {
+    render(text, level) {
+        fontSize = 24 - (level * 2)   // h1=24pt, h2=22pt, ...
+        return pdf.text(text, { size: fontSize, bold: true })
+    }
+}
+
+class PDFTableRenderer implements TableRenderer {
+    render(headers, rows) {
+        return pdf.table({ headers, rows, border: true, padding: 4 })
+    }
+}
+
+// ... HTMLHeaderRenderer, MarkdownTableRenderer, etc.
+
+
+// ── Client (DocumentExporter) ──────────────────────────────────
+
+class DocumentExporter {
+    private headerRenderer: HeaderRenderer
+    private bodyRenderer:   BodyRenderer
+    private imageRenderer:  ImageRenderer
+    private tableRenderer:  TableRenderer
+
+    constructor(factory: DocumentExporterFactory) {
+        this.headerRenderer = factory.createHeaderRenderer()
+        this.bodyRenderer   = factory.createBodyRenderer()
+        this.imageRenderer  = factory.createImageRenderer()
+        this.tableRenderer  = factory.createTableRenderer()
+    }
+
+    export(document: Document): string {
+        output = []
+        for section in document.sections:
+            if section.type == HEADER:
+                output.append(this.headerRenderer.render(section.text, section.level))
+            elif section.type == BODY:
+                output.append(this.bodyRenderer.render(section.paragraphs))
+            elif section.type == IMAGE:
+                output.append(this.imageRenderer.render(section.src, section.alt, section.caption))
+            elif section.type == TABLE:
+                output.append(this.tableRenderer.render(section.headers, section.rows))
+        return join(output)
+    }
+}
+
+
+// ── Usage / Wiring ─────────────────────────────────────────────
+
+factory = PDFExporterFactory()         // or HTMLExporterFactory(), etc.
+exporter = DocumentExporter(factory)
+result = exporter.export(myDocument)
+```
+
+### Adding DOCX in the Future
+
+1. Create `DOCXHeaderRenderer`, `DOCXBodyRenderer`, `DOCXImageRenderer`, `DOCXTableRenderer` — each implementing its respective interface.
+2. Create `DOCXExporterFactory` implementing `DocumentExporterFactory`.
+3. Wire it: `DocumentExporter(DOCXExporterFactory())`.
+
+**Zero changes to existing code.** The `DocumentExporter` client, all PDF/HTML/Markdown classes, and all interfaces are untouched. This is the Open/Closed Principle in practice.
+
+---
+
+## 4. Factory Selection: How Does the Client Know Which Factory to Use?
+
+You'll need something to pick the right concrete factory based on user input. A simple factory method (or static registry) at the entry point is appropriate:
+
+```
+def get_exporter_factory(format: string) -> DocumentExporterFactory:
+    if format == "pdf":      return PDFExporterFactory()
+    if format == "html":     return HTMLExporterFactory()
+    if format == "markdown": return MarkdownExporterFactory()
+    raise ValueError(f"Unsupported format: {format}")
+
+// Usage:
+factory = get_exporter_factory(user_selected_format)
+exporter = DocumentExporter(factory)
+```
+
+This *one* switch/if-else is acceptable — it lives at the composition root and is the only place you touch when adding a new format. All the Switch Statements smell happens when this logic is *scattered* throughout the codebase.
+
+---
+
+## 5. Watch Out For
+
+**Interface bloat as element types grow.** If you add "code blocks," "callouts," or "footnotes" later, you must add a new `create*Renderer()` method to `DocumentExporterFactory` and implement it across *all* concrete factories. This is Abstract Factory's known con. Two mitigations:
+
+- Add new element types only when they're actually needed (don't speculate).
+- Consider a `NullRenderer` default implementation for optional elements, so not every factory must implement every method.
+
+**Don't over-engineer the per-format classes.** If three formats share identical body text rendering (e.g., all just concatenate paragraphs with newlines), extract a shared `PlainBodyRenderer` and reuse it rather than duplicating it per factory.
+
+---
+
+## Summary
+
+| Decision | Choice | Reason |
+|----------|--------|--------|
+| Primary pattern | **Abstract Factory** | Enforces compatible families (header+body+image+table per format); Open/Closed for new formats |
+| Factory selection | Simple factory function at entry point | One controlled switch; not scattered |
+| Future formats | New factory + new product set | No changes to existing code |
+| Avoid | Template Method | Leads to monolithic per-format subclasses; poor reusability |
+| Avoid | Top-level Strategy | Doesn't model multi-component rendering; no compatibility enforcement |
+
+The core principle: the `DocumentExporter` client never imports `PDFHeaderRenderer` or `HTMLTableRenderer` directly. It only knows about `HeaderRenderer` and `TableRenderer` interfaces. The factory is the single seam where concrete types enter the system.

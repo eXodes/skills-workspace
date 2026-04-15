@@ -1,0 +1,37 @@
+{
+  "eval_id": 2,
+  "eval_name": "eval-2-pattern-selection",
+  "prompt": "I'm building a document export system. Users can export documents as PDF, HTML, or Markdown. The export format might grow (we're thinking about adding DOCX and EPUB in the future). Each format needs different logic for headers, body text, images, and tables. What design pattern should I use and how would I structure it?",
+  "assertions": [
+    {
+      "id": "recommends-strategy-or-visitor",
+      "description": "Recommends Strategy pattern (or Visitor as a secondary option) as the primary answer",
+      "check": "response recommends Strategy pattern as primary recommendation"
+    },
+    {
+      "id": "explains-why-strategy-fits",
+      "description": "Explains why Strategy fits — interchangeable algorithms, same interface, extensible by adding new classes",
+      "check": "response explains the reasoning: new formats = new classes, not modifying existing ones"
+    },
+    {
+      "id": "mentions-open-closed",
+      "description": "References Open/Closed Principle or extensibility as a benefit",
+      "check": "response mentions Open/Closed Principle, OCP, or extensibility / open for extension / closed for modification"
+    },
+    {
+      "id": "sketches-structure",
+      "description": "Provides a structural sketch — interface + concrete implementations",
+      "check": "response shows an interface/abstract class for the exporter and concrete classes per format"
+    },
+    {
+      "id": "considers-alternatives",
+      "description": "Mentions at least one alternative pattern (Template Method or Visitor) and explains when it would apply",
+      "check": "response mentions Template Method or Visitor as an alternative and explains the tradeoff"
+    },
+    {
+      "id": "language-agnostic",
+      "description": "Response is language-agnostic or uses pseudocode/generic code rather than tying to one language",
+      "check": "response uses pseudocode, generic class notation, or explicitly states it is language-agnostic"
+    }
+  ]
+}

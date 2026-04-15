@@ -1,0 +1,36 @@
+{
+  "eval_id": 2,
+  "eval_name": "eval-2-pattern-selection",
+  "expectations": [
+    {
+      "text": "Recommends a well-reasoned primary design pattern (Strategy or Abstract Factory both acceptable)",
+      "passed": true,
+      "evidence": "Recommends Abstract Factory with clear reasoning about product families and renderer consistency requirements."
+    },
+    {
+      "text": "Explains why the recommended pattern fits",
+      "passed": true,
+      "evidence": "Explains coordinated families of renderers, enforced compatibility, and extensibility."
+    },
+    {
+      "text": "References Open/Closed Principle or extensibility",
+      "passed": true,
+      "evidence": "'Adding a new format means adding one new factory class without touching existing code (Open/Closed Principle).'"
+    },
+    {
+      "text": "Provides a structural sketch — interface + concrete implementations",
+      "passed": true,
+      "evidence": "Provides ASCII diagram with ExporterFactory, concrete factories (PdfExporterFactory etc.), and renderer interfaces."
+    },
+    {
+      "text": "Mentions at least one alternative pattern and explains the tradeoff",
+      "passed": true,
+      "evidence": "Discusses Template Method (fixed skeleton, coupled hierarchy), Strategy (single algorithm, doesn't handle multi-part), and Builder (complement, not solution)."
+    },
+    {
+      "text": "Response is language-agnostic or uses pseudocode",
+      "passed": false,
+      "evidence": "Provides a full Python implementation with from abc import ABC, @abstractmethod, List typing — language-specific rather than language-agnostic."
+    }
+  ]
+}

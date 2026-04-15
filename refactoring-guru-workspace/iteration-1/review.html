@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eval Review</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js" integrity="sha384-EnyY0/GSHQGSxSgMwaIPzSESbqoOLSexfnSMN2AP+39Ckmn92stwABZynq1JyzdT" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #faf9f5;
+      --surface: #ffffff;
+      --border: #e8e6dc;
+      --text: #141413;
+      --text-muted: #b0aea5;
+      --accent: #d97757;
+      --accent-hover: #c4613f;
+      --green: #788c5d;
+      --green-bg: #eef2e8;
+      --red: #c44;
+      --red-bg: #fceaea;
+      --header-bg: #141413;
+      --header-text: #faf9f5;
+      --radius: 6px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Lora', Georgia, serif;
+      background: var(--bg);
+      color: var(--text);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ---- Header ---- */
+    .header {
+      background: var(--header-bg);
+      color: var(--header-text);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .header h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+    .header .instructions {
+      font-size: 0.8rem;
+      opacity: 0.7;
+      margin-top: 0.25rem;
+    }
+    .header .progress {
+      font-size: 0.875rem;
+      opacity: 0.8;
+      text-align: right;
+    }
+
+    /* ---- Main content ---- */
+    .main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    /* ---- Sections ---- */
+    .section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      flex-shrink: 0;
+    }
+    .section-header {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.75rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+    .section-body {
+      padding: 1rem;
+    }
+
+    /* ---- Config badge ---- */
+    .config-badge {
+      display: inline-block;
+      padding: 0.2rem 0.625rem;
+      border-radius: 9999px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-left: 0.75rem;
+      vertical-align: middle;
+    }
+    .config-badge.config-primary {
+      background: rgba(33, 150, 243, 0.12);
+      color: #1976d2;
+    }
+    .config-badge.config-baseline {
+      background: rgba(255, 193, 7, 0.15);
+      color: #f57f17;
+    }
+
+    /* ---- Prompt ---- */
+    .prompt-text {
+      white-space: pre-wrap;
+      font-size: 0.9375rem;
+      line-height: 1.6;
+    }
+
+    /* ---- Outputs ---- */
+    .output-file {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .output-file + .output-file {
+      margin-top: 1rem;
+    }
+    .output-file-header {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      font-family: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .output-file-header .dl-btn {
+      font-size: 0.7rem;
+      color: var(--accent);
+      text-decoration: none;
+      cursor: pointer;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 500;
+      opacity: 0.8;
+    }
+    .output-file-header .dl-btn:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+    .output-file-content {
+      padding: 0.75rem;
+      overflow-x: auto;
+    }
+    .output-file-content pre {
+      font-size: 0.8125rem;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+    }
+    .output-file-content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+    }
+    .output-file-content iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+    }
+    .output-file-content table {
+      border-collapse: collapse;
+      font-size: 0.8125rem;
+      width: 100%;
+    }
+    .output-file-content table td,
+    .output-file-content table th {
+      border: 1px solid var(--border);
+      padding: 0.375rem 0.5rem;
+      text-align: left;
+    }
+    .output-file-content table th {
+      background: var(--bg);
+      font-weight: 600;
+    }
+    .output-file-content .download-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.875rem;
+      cursor: pointer;
+    }
+    .output-file-content .download-link:hover {
+      background: var(--border);
+    }
+    .empty-state {
+      color: var(--text-muted);
+      font-style: italic;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    /* ---- Feedback ---- */
+    .prev-feedback {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.625rem 0.75rem;
+      margin-top: 0.75rem;
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .prev-feedback-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.25rem;
+      color: var(--text-muted);
+    }
+    .feedback-textarea {
+      width: 100%;
+      min-height: 100px;
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 0.9375rem;
+      line-height: 1.5;
+      resize: vertical;
+      color: var(--text);
+    }
+    .feedback-textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    .feedback-status {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      min-height: 1.1em;
+    }
+
+    /* ---- Grades (collapsible) ---- */
+    .grades-toggle {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+    }
+    .grades-toggle:hover {
+      color: var(--accent);
+    }
+    .grades-toggle .arrow {
+      margin-right: 0.5rem;
+      transition: transform 0.15s;
+      font-size: 0.75rem;
+    }
+    .grades-toggle .arrow.open {
+      transform: rotate(90deg);
+    }
+    .grades-content {
+      display: none;
+      margin-top: 0.75rem;
+    }
+    .grades-content.open {
+      display: block;
+    }
+    .grades-summary {
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .grade-badge {
+      display: inline-block;
+      padding: 0.125rem 0.5rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .grade-pass { background: var(--green-bg); color: var(--green); }
+    .grade-fail { background: var(--red-bg); color: var(--red); }
+    .assertion-list {
+      list-style: none;
+    }
+    .assertion-item {
+      padding: 0.625rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.8125rem;
+    }
+    .assertion-item:last-child { border-bottom: none; }
+    .assertion-status {
+      font-weight: 600;
+      margin-right: 0.5rem;
+    }
+    .assertion-status.pass { color: var(--green); }
+    .assertion-status.fail { color: var(--red); }
+    .assertion-evidence {
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+      padding-left: 1.5rem;
+    }
+
+    /* ---- View tabs ---- */
+    .view-tabs {
+      display: flex;
+      gap: 0;
+      padding: 0 2rem;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .view-tab {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.625rem 1.25rem;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: var(--text-muted);
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s;
+    }
+    .view-tab:hover { color: var(--text); }
+    .view-tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+    .view-panel { display: none; }
+    .view-panel.active { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
+
+    /* ---- Benchmark view ---- */
+    .benchmark-view {
+      padding: 1.5rem 2rem;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .benchmark-table {
+      border-collapse: collapse;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.8125rem;
+      width: 100%;
+      margin-bottom: 1.5rem;
+    }
+    .benchmark-table th, .benchmark-table td {
+      padding: 0.625rem 0.75rem;
+      text-align: left;
+      border: 1px solid var(--border);
+    }
+    .benchmark-table th {
+      font-family: 'Poppins', sans-serif;
+      background: var(--header-bg);
+      color: var(--header-text);
+      font-weight: 500;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .benchmark-table tr:hover { background: var(--bg); }
+    .benchmark-table tr.benchmark-row-with { background: rgba(33, 150, 243, 0.06); }
+    .benchmark-table tr.benchmark-row-without { background: rgba(255, 193, 7, 0.06); }
+    .benchmark-table tr.benchmark-row-with:hover { background: rgba(33, 150, 243, 0.12); }
+    .benchmark-table tr.benchmark-row-without:hover { background: rgba(255, 193, 7, 0.12); }
+    .benchmark-table tr.benchmark-row-avg { font-weight: 600; border-top: 2px solid var(--border); }
+    .benchmark-table tr.benchmark-row-avg.benchmark-row-with { background: rgba(33, 150, 243, 0.12); }
+    .benchmark-table tr.benchmark-row-avg.benchmark-row-without { background: rgba(255, 193, 7, 0.12); }
+    .benchmark-delta-positive { color: var(--green); font-weight: 600; }
+    .benchmark-delta-negative { color: var(--red); font-weight: 600; }
+    .benchmark-notes {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+    }
+    .benchmark-notes h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
+    }
+    .benchmark-notes ul {
+      list-style: disc;
+      padding-left: 1.25rem;
+    }
+    .benchmark-notes li {
+      font-size: 0.8125rem;
+      line-height: 1.6;
+      margin-bottom: 0.375rem;
+    }
+    .benchmark-empty {
+      color: var(--text-muted);
+      font-style: italic;
+      text-align: center;
+      padding: 3rem;
+    }
+
+    /* ---- Navigation ---- */
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+      flex-shrink: 0;
+    }
+    .nav-btn {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.5rem 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text);
+      transition: all 0.15s;
+    }
+    .nav-btn:hover:not(:disabled) {
+      background: var(--bg);
+      border-color: var(--text-muted);
+    }
+    .nav-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+    .done-btn {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.5rem 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.15s;
+    }
+    .done-btn:hover {
+      background: var(--bg);
+      border-color: var(--text-muted);
+    }
+    .done-btn.ready {
+      border: none;
+      background: var(--accent);
+      color: white;
+      font-weight: 600;
+    }
+    .done-btn.ready:hover {
+      background: var(--accent-hover);
+    }
+    /* ---- Done overlay ---- */
+    .done-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+    }
+    .done-overlay.visible {
+      display: flex;
+    }
+    .done-card {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 2rem 3rem;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      max-width: 500px;
+    }
+    .done-card h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .done-card p {
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+    .done-card .btn-row {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+    .done-card button {
+      padding: 0.5rem 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 0.875rem;
+    }
+    .done-card button:hover {
+      background: var(--bg);
+    }
+    /* ---- Toast ---- */
+    .toast {
+      position: fixed;
+      bottom: 5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--header-bg);
+      color: var(--header-text);
+      padding: 0.625rem 1.25rem;
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      z-index: 200;
+    }
+    .toast.visible {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div id="app" style="height:100vh; display:flex; flex-direction:column;">
+    <div class="header">
+      <div>
+        <h1>Eval Review: <span id="skill-name"></span></h1>
+        <div class="instructions">Review each output and leave feedback below. Navigate with arrow keys or buttons. When done, copy feedback and paste into Claude Code.</div>
+      </div>
+      <div class="progress" id="progress"></div>
+    </div>
+
+    <!-- View tabs (only shown when benchmark data exists) -->
+    <div class="view-tabs" id="view-tabs" style="display:none;">
+      <button class="view-tab active" onclick="switchView('outputs')">Outputs</button>
+      <button class="view-tab" onclick="switchView('benchmark')">Benchmark</button>
+    </div>
+
+    <!-- Outputs panel (qualitative review) -->
+    <div class="view-panel active" id="panel-outputs">
+    <div class="main">
+      <!-- Prompt -->
+      <div class="section">
+        <div class="section-header">Prompt <span class="config-badge" id="config-badge" style="display:none;"></span></div>
+        <div class="section-body">
+          <div class="prompt-text" id="prompt-text"></div>
+        </div>
+      </div>
+
+      <!-- Outputs -->
+      <div class="section">
+        <div class="section-header">Output</div>
+        <div class="section-body" id="outputs-body">
+          <div class="empty-state">No output files found</div>
+        </div>
+      </div>
+
+      <!-- Previous Output (collapsible) -->
+      <div class="section" id="prev-outputs-section" style="display:none;">
+        <div class="section-header">
+          <div class="grades-toggle" onclick="togglePrevOutputs()">
+            <span class="arrow" id="prev-outputs-arrow">&#9654;</span>
+            Previous Output
+          </div>
+        </div>
+        <div class="grades-content" id="prev-outputs-content"></div>
+      </div>
+
+      <!-- Grades (collapsible) -->
+      <div class="section" id="grades-section" style="display:none;">
+        <div class="section-header">
+          <div class="grades-toggle" onclick="toggleGrades()">
+            <span class="arrow" id="grades-arrow">&#9654;</span>
+            Formal Grades
+          </div>
+        </div>
+        <div class="grades-content" id="grades-content"></div>
+      </div>
+
+      <!-- Feedback -->
+      <div class="section">
+        <div class="section-header">Your Feedback</div>
+        <div class="section-body">
+          <textarea
+            class="feedback-textarea"
+            id="feedback"
+            placeholder="What do you think of this output? Any issues, suggestions, or things that look great?"
+          ></textarea>
+          <div class="feedback-status" id="feedback-status"></div>
+          <div class="prev-feedback" id="prev-feedback" style="display:none;">
+            <div class="prev-feedback-label">Previous feedback</div>
+            <div id="prev-feedback-text"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav" id="outputs-nav">
+      <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">&#8592; Previous</button>
+      <button class="done-btn" id="done-btn" onclick="showDoneDialog()">Submit All Reviews</button>
+      <button class="nav-btn" id="next-btn" onclick="navigate(1)">Next &#8594;</button>
+    </div>
+    </div><!-- end panel-outputs -->
+
+    <!-- Benchmark panel (quantitative stats) -->
+    <div class="view-panel" id="panel-benchmark">
+      <div class="benchmark-view" id="benchmark-content">
+        <div class="benchmark-empty">No benchmark data available. Run a benchmark to see quantitative results here.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Done overlay -->
+  <div class="done-overlay" id="done-overlay">
+    <div class="done-card">
+      <h2>Review Complete</h2>
+      <p>Your feedback has been saved. Go back to your Claude Code session and tell Claude you're done reviewing.</p>
+      <div class="btn-row">
+        <button onclick="closeDoneDialog()">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ---- Embedded data (injected by generate_review.py) ----
+    const EMBEDDED_DATA = {"skill_name": "refactoring-guru", "runs": [{"id": "eval-1-code-review-with_skill", "prompt": "Can you review this code and tell me what's wrong with it? [OrderProcessor with switch statements, long method, SRP violations, hardcoded credentials]", "eval_id": 1, "outputs": [{"name": "response.txt", "type": "text", "content": "# Code Review: OrderProcessor.process()\n\nHere's what's wrong with this code, using precise Refactoring Guru vocabulary.\n\n---\n\n## Switch Statements \u2014 significant\n**Where:** `process()`, item-type `if/elif` chain\n**Why it matters:** Every time a new item type is added (e.g., `'furniture'`), you must open and modify `OrderProcessor`. The conditional is scattered with business logic that belongs on the items themselves.\n**Fix:** Apply **Replace Conditional with Polymorphism** using the **Strategy pattern**.\n\nCreate a `PricingStrategy` interface with a `discounted_price(item)` method, then implement one class per type:\n\n```python\nclass BookPricingStrategy:\n    def discounted_price(self, item): return item.price * 0.9\n\nclass ElectronicsPricingStrategy:\n    def discounted_price(self, item):\n        return item.price * (0.85 if item.price > 1000 else 0.95)\n\nclass ClothingPricingStrategy:\n    def discounted_price(self, item): return item.price * 0.8\n\nclass DefaultPricingStrategy:\n    def discounted_price(self, item): return item.price\n```\n\nRegister strategies in a dict keyed by type string. The `process()` method looks up the strategy and calls it \u2014 no if/elif chain needed. Adding a new type means adding a new class, not modifying existing code (Open/Closed Principle).\n\n---\n\n## Divergent Change \u2014 significant\n**Where:** `OrderProcessor.process()` as a whole\n**Why it matters:** This single method has at least four completely unrelated reasons to change: (1) item discount rules change, (2) loyalty tier rules change, (3) shipping thresholds change, (4) email/SMTP config changes, (5) database schema changes. Any one of those changes sends you to the same method.\n**Fix:** Apply **Extract Class** to separate the concerns into collaborators:\n\n- `PricingCalculator` \u2014 computes item totals with discounts\n- `LoyaltyDiscountPolicy` \u2014 applies customer loyalty discount\n- `ShippingCalculator` \u2014 determines shipping cost\n- `OrderNotifier` \u2014 sends confirmation emails\n- `OrderRepository` \u2014 persists orders to the database\n\n`OrderProcessor.process()` becomes an orchestrator that calls each collaborator in sequence \u2014 short, readable, and stable.\n\n---\n\n## Long Method \u2014 significant\n**Where:** `process()`, ~45 lines\n**Why it matters:** The method is doing five different jobs end-to-end. It's hard to test any one concern in isolation, and the comments `# Send confirmation email` and `# Save to database` are a tell-tale sign \u2014 each commented block wants to be its own named method.\n**Fix:** Apply **Extract Method** for each logical block:\n\n```python\ndef process(self, order):\n    total = self._calculate_item_total(order.items)\n    total = self._apply_loyalty_discount(total, order.customer)\n    total += self._calculate_shipping(total)\n    self._send_confirmation(order, total)\n    self._save_order(order, total)\n    return total\n```\n\nEach extracted method can then be tested independently.\n\n---\n\n## Magic Numbers (Primitive Obsession) \u2014 moderate\n**Where:** Throughout `process()` \u2014 `0.9`, `0.85`, `0.95`, `0.8`, `0.97`, `5.99`, `12.99`, `1000`, `500`, `100`, `5`, `2`\n**Why it matters:** A reader has no idea what `0.85` means without reading the surrounding context. When business rules change (\"books are now 15% off instead of 10%\"), you hunt for the right literal.\n**Fix:** Apply **Replace Magic Number with Symbolic Constant**:\n\n```python\nBOOK_DISCOUNT = 0.90\nELECTRONICS_DISCOUNT_STANDARD = 0.95\nELECTRONICS_DISCOUNT_PREMIUM = 0.85\nELECTRONICS_PREMIUM_THRESHOLD = 1000\nCLOTHING_DISCOUNT = 0.80\nLOYALTY_SENIOR_DISCOUNT = 0.95\nLOYALTY_SENIOR_YEARS = 5\nLOYALTY_MID_DISCOUNT = 0.97\nLOYALTY_MID_YEARS = 2\nFREE_SHIPPING_THRESHOLD = 500\nREDUCED_SHIPPING_THRESHOLD = 100\nREDUCED_SHIPPING_COST = 5.99\nSTANDARD_SHIPPING_COST = 12.99\n```\n\nGroup these by domain concern (or put them in the relevant extracted class).\n\n---\n\n## Hardcoded Credentials \u2014 critical (security)\n**Where:** `server.login('user@example.com', 'password123')`\n**Why it matters:** This is a plaintext password in source code. It will end up in version control history and be readable by anyone with repository access. This is a security vulnerability, not just a code smell.\n**Fix:** Read credentials from environment variables or a secrets manager:\n\n```python\nimport os\nserver.login(os.environ['SMTP_USER'], os.environ['SMTP_PASSWORD'])\n```\n\n---\n\n## Additional Issues\n\n**Imports inside method body** \u2014 `import smtplib` and `import sqlite3` appear mid-method. Python re-evaluates these on every call (though it caches after the first). More importantly, they hide dependencies. Move all imports to the top of the module.\n\n**Duplicate Code** \u2014 The `elif item.type == 'food'` branch and the `else` branch are identical (`total += item.price`). Apply **Consolidate Conditional Expression**: drop the explicit `food` branch and let it fall through to `else`, or make `DefaultPricingStrategy` handle both.\n\n**Message Chains** \u2014 `order.customer.loyalty_years` and `order.customer.email` are message chains (`a.b.c`). This couples `OrderProcessor` to the internal structure of both `Order` and `Customer`. Apply **Hide Delegate**: add `order.customer_loyalty_years` and `order.customer_email` properties, or pass the relevant values directly to the extracted methods.\n\n---\n\n## Summary\n\nThe root problem is that `process()` violates the Single Responsibility Principle in several dimensions at once. The priority fix order is:\n\n1. **Security first** \u2014 remove hardcoded credentials immediately.\n2. **Extract the five concerns** into separate classes (Divergent Change / Long Method).\n3. **Introduce pricing strategies** via polymorphism to kill the Switch Statements smell.\n4. **Name the magic numbers** as symbolic constants.\n5. **Clean up** the duplicate food/else branch and message chains.\n\nAfter these changes, adding a new item type means adding one new strategy class. Changing shipping rules means editing `ShippingCalculator` only. The code becomes open for extension and closed for modification.\n"}], "grading": {"eval_id": 1, "eval_name": "eval-1-code-review", "expectations": [{"text": "Uses 'Switch Statements' smell name or equivalent", "passed": true, "evidence": "Response has '## Switch Statements \u2014 significant' as a section heading"}, {"text": "Identifies Long Method smell by name", "passed": true, "evidence": "Response has '## Long Method \u2014 significant' as a section heading"}, {"text": "Identifies SRP violation / multiple responsibilities", "passed": true, "evidence": "'## Divergent Change \u2014 significant' covers multiple unrelated reasons to change, including 5 distinct concerns"}, {"text": "Recommends at least one named refactoring technique", "passed": true, "evidence": "Recommends: Replace Conditional with Polymorphism, Extract Class, Extract Method, Replace Magic Number with Symbolic Constant"}, {"text": "Uses Refactoring Guru vocabulary throughout", "passed": true, "evidence": "Uses: Switch Statements, Divergent Change, Long Method, Magic Numbers (Primitive Obsession), Extract Class, Extract Method, Replace Magic Number with Symbolic Constant, Open/Closed Principle"}, {"text": "Mentions Strategy pattern for the discount logic", "passed": true, "evidence": "'Fix: Apply Replace Conditional with Polymorphism using the Strategy pattern. Create a PricingStrategy interface...'"}]}}, {"id": "eval-1-code-review-without_skill", "prompt": "Can you review this code and tell me what's wrong with it? [OrderProcessor with switch statements, long method, SRP violations, hardcoded credentials]", "eval_id": 1, "outputs": [{"name": "response.txt", "type": "text", "content": "CODE REVIEW: OrderProcessor.process()\n======================================\n\nHere are the issues found in this code, roughly in order of severity:\n\n---\n\n1. HARDCODED CREDENTIALS (Critical Security Issue)\n   - `server.login('user@example.com', 'password123')` \u2014 plaintext password in source code.\n   - This will likely end up in version control and is a major security vulnerability.\n   - Fix: Use environment variables or a secrets manager.\n\n---\n\n2. SINGLE RESPONSIBILITY PRINCIPLE VIOLATION (Design)\n   - The `process()` method does four distinct things:\n       a) Calculates item discounts\n       b) Applies loyalty discounts\n       c) Calculates shipping\n       d) Sends a confirmation email\n       e) Persists to a database\n   - This makes it untestable, hard to maintain, and fragile.\n   - Fix: Break into separate methods or classes (e.g., DiscountCalculator, ShippingCalculator, OrderEmailService, OrderRepository).\n\n---\n\n3. IMPORTS INSIDE A METHOD (Style / Performance)\n   - `import smtplib` and `import sqlite3` are inside the method body.\n   - While Python caches module imports, this is unconventional, misleading, and hurts readability.\n   - Fix: Move all imports to the top of the file.\n\n---\n\n4. NO ERROR HANDLING (Reliability)\n   - If the SMTP server is unreachable, or the DB insert fails, an unhandled exception will propagate.\n   - Worse: if the DB save succeeds but email fails (or vice versa), the system is in an inconsistent state.\n   - Fix: Wrap each I/O operation in try/except blocks and handle partial failures explicitly.\n\n---\n\n5. RESOURCE LEAKS (Reliability)\n   - The SMTP connection (`server`) and SQLite connection (`conn`) are not closed if an exception occurs mid-method.\n   - Fix: Use context managers (`with` statements) or try/finally blocks to guarantee cleanup.\n\n---\n\n6. MAGIC NUMBERS (Readability / Maintainability)\n   - Discount rates (0.9, 0.85, 0.95, 0.8) and thresholds (1000, 500, 100, 5) are scattered inline with no explanation.\n   - Fix: Extract them as named constants or a configuration dictionary.\n\n     Example:\n       DISCOUNT_RATES = {'book': 0.9, 'clothing': 0.8, 'food': 1.0}\n       SHIPPING_THRESHOLDS = [(500, 0), (100, 5.99), (0, 12.99)]\n\n---\n\n7. OPEN/CLOSED PRINCIPLE VIOLATION (Extensibility)\n   - Adding a new item type requires modifying the method's if/elif chain.\n   - Fix: Replace the chain with a dispatch dictionary or a strategy pattern.\n\n     Example:\n       discounts = {'book': 0.9, 'clothing': 0.8, 'food': 1.0}\n       total += item.price * discounts.get(item.type, 1.0)\n\n     (The electronics special case for price > 1000 would need slightly more handling, but still cleaner.)\n\n---\n\n8. NO INPUT VALIDATION (Robustness)\n   - No checks for: `order` being None, `order.items` being empty, `order.customer` being None,\n     `item.price` being negative, or `loyalty_years` being negative.\n   - Fix: Add guards or use a validation layer before entering business logic.\n\n---\n\n9. POOR EMAIL MESSAGE FORMAT (Correctness)\n   - The email is a bare string with no headers (From, To, Subject, Content-Type).\n   - Many mail servers will reject or mishandle this.\n   - Fix: Use `email.mime.text.MIMEText` to construct a proper email message.\n\n---\n\n10. MIXED ABSTRACTION LEVELS (Design)\n    - Business logic (discounts, shipping rules) sits alongside low-level infrastructure code (SMTP, SQL).\n    - This violates layered architecture principles and makes unit testing nearly impossible without mocking everything.\n    - Fix: Inject dependencies (email service, repository) via the constructor so they can be swapped in tests.\n\n---\n\nSUMMARY OF RECOMMENDED REFACTORING APPROACH:\n- Extract discount calculation \u2192 `_calculate_item_total(item)`\n- Extract loyalty discount \u2192 `_apply_loyalty_discount(total, customer)`\n- Extract shipping \u2192 `_calculate_shipping(total)`\n- Extract email sending \u2192 injected `EmailService`\n- Extract DB persistence \u2192 injected `OrderRepository`\n- Move credentials to environment variables\n- Add proper error handling and resource cleanup\n- Replace magic numbers with named constants\n"}], "grading": {"eval_id": 1, "eval_name": "eval-1-code-review", "expectations": [{"text": "Uses 'Switch Statements' smell name or equivalent", "passed": false, "evidence": "Does not use 'Switch Statements' smell name. Labels the issue as 'Open/Closed Principle Violation' instead. No reference to the Refactoring Guru smell taxonomy."}, {"text": "Identifies Long Method smell by name", "passed": false, "evidence": "Mentions SRP violation and breaking into classes, but never names 'Long Method' smell specifically."}, {"text": "Identifies SRP violation / multiple responsibilities", "passed": true, "evidence": "'SINGLE RESPONSIBILITY PRINCIPLE VIOLATION (Design)' \u2014 clearly identifies the method handles 5 distinct concerns."}, {"text": "Recommends at least one named refactoring technique", "passed": false, "evidence": "Mentions 'extract into separate methods or classes' but does not use canonical Refactoring Guru technique names like 'Extract Method' or 'Extract Class'."}, {"text": "Uses Refactoring Guru vocabulary throughout", "passed": false, "evidence": "Uses general software engineering terms (SRP, OCP, context managers, error handling) but not Refactoring Guru canonical smell/technique names."}, {"text": "Mentions Strategy pattern for the discount logic", "passed": true, "evidence": "'Fix: Replace the chain with a dispatch dictionary or a strategy pattern.' \u2014 mentions Strategy in the OCP section."}]}}, {"id": "eval-2-pattern-selection-with_skill", "prompt": "I'm building a document export system. Users can export documents as PDF, HTML, or Markdown. The export format might grow (we're thinking about adding DOCX and EPUB in the future). Each format needs different logic for headers, body text, images, and tables. What design pattern should I use and how would I structure it?", "eval_id": 2, "outputs": [{"name": "response.txt", "type": "text", "content": "# Document Export System \u2014 Design Pattern Recommendation\n\n---\n\n## 1. Identify the Structural Problem\n\nWithout a deliberate design, this system will likely collapse into something like:\n\n```python\ndef export(document, format):\n    if format == \"pdf\":\n        render_pdf_header(document.header)\n        render_pdf_body(document.body)\n        render_pdf_image(document.images)\n        render_pdf_table(document.tables)\n    elif format == \"html\":\n        render_html_header(document.header)\n        ...\n    elif format == \"markdown\":\n        ...\n```\n\nThis is the **Switch Statements smell** \u2014 conditional logic branching on a type tag (the format). It causes two compounding problems:\n\n- **Divergent Change**: When a format changes (e.g., PDF updates its table rendering), you have to find the right branch in potentially many places.\n- **Shotgun Surgery**: When you add DOCX or EPUB, you must touch every switch block across the codebase \u2014 header logic, body logic, image logic, table logic \u2014 even if many are unrelated.\n\nThis is not a localised, fixable-with-a-rename problem. It is structural. A design pattern is the right tool.\n\n---\n\n## 2. Triage: Which Pattern?\n\nThree candidates from the symptom \"different logic per format across multiple element types\":\n\n| Pattern | Mechanism | Fits here? |\n|---------|-----------|------------|\n| **Abstract Factory** | Create families of related objects; all products in a family are guaranteed compatible | \u2705 Strong fit |\n| **Template Method** | Define algorithm skeleton in a base class; subclasses override steps | Partial fit \u2014 simpler, but less flexible |\n| **Strategy** | Swap a single interchangeable algorithm at runtime | Weak fit \u2014 doesn't model multi-part rendering cleanly |\n\n**Abstract Factory is the right choice.** Here's why each alternative falls short:\n\n- **Template Method** uses *inheritance*. Each format becomes a monolithic subclass (`PDFExporter extends BaseExporter`) that overrides all four rendering methods. Adding DOCX means another large class. You also can't reuse a single renderer (e.g., a shared plain-text body renderer) across formats without awkward base-class gymnastics.\n\n- **Strategy** works well when each format is a *single algorithm*. But your format breaks into four distinct sub-algorithms (header, body, image, table). A single strategy per format gives you four methods crammed into one class \u2014 a Large Class smell in the making. Worse, nothing prevents a caller from accidentally pairing a `PDFHeaderStrategy` with an `HTMLTableStrategy`.\n\n**Abstract Factory solves exactly this**: it groups the four renderers for a format into one factory object. Compatibility is enforced structurally \u2014 you can only get renderers from the same family together.\n\n---\n\n## 3. Pattern: Abstract Factory\n\n### Intent\nProduce families of related objects (one family = one export format) without coupling client code to concrete classes. Each format's components are guaranteed to be consistent with each other.\n\n### Structure for Your System\n\n```\n// \u2500\u2500 Abstract Products \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\ninterface HeaderRenderer {\n    render(text: string, level: int): string\n}\n\ninterface BodyRenderer {\n    render(paragraphs: string[]): string\n}\n\ninterface ImageRenderer {\n    render(src: string, alt: string, caption: string): string\n}\n\ninterface TableRenderer {\n    render(headers: string[], rows: string[][]): string\n}\n\n\n// \u2500\u2500 Abstract Factory \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\ninterface DocumentExporterFactory {\n    createHeaderRenderer(): HeaderRenderer\n    createBodyRenderer(): BodyRenderer\n    createImageRenderer(): ImageRenderer\n    createTableRenderer(): TableRenderer\n}\n\n\n// \u2500\u2500 Concrete Factories (one per format) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\nclass PDFExporterFactory implements DocumentExporterFactory {\n    createHeaderRenderer() { return new PDFHeaderRenderer() }\n    createBodyRenderer()   { return new PDFBodyRenderer()   }\n    createImageRenderer()  { return new PDFImageRenderer()  }\n    createTableRenderer()  { return new PDFTableRenderer()  }\n}\n\nclass HTMLExporterFactory implements DocumentExporterFactory {\n    createHeaderRenderer() { return new HTMLHeaderRenderer() }\n    createBodyRenderer()   { return new HTMLBodyRenderer()   }\n    createImageRenderer()  { return new HTMLImageRenderer()  }\n    createTableRenderer()  { return new HTMLTableRenderer()  }\n}\n\nclass MarkdownExporterFactory implements DocumentExporterFactory {\n    createHeaderRenderer() { return new MarkdownHeaderRenderer() }\n    createBodyRenderer()   { return new MarkdownBodyRenderer()   }\n    createImageRenderer()  { return new MarkdownImageRenderer()  }\n    createTableRenderer()  { return new MarkdownTableRenderer()  }\n}\n\n\n// \u2500\u2500 Concrete Products (example: PDF family) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\nclass PDFHeaderRenderer implements HeaderRenderer {\n    render(text, level) {\n        fontSize = 24 - (level * 2)   // h1=24pt, h2=22pt, ...\n        return pdf.text(text, { size: fontSize, bold: true })\n    }\n}\n\nclass PDFTableRenderer implements TableRenderer {\n    render(headers, rows) {\n        return pdf.table({ headers, rows, border: true, padding: 4 })\n    }\n}\n\n// ... HTMLHeaderRenderer, MarkdownTableRenderer, etc.\n\n\n// \u2500\u2500 Client (DocumentExporter) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\nclass DocumentExporter {\n    private headerRenderer: HeaderRenderer\n    private bodyRenderer:   BodyRenderer\n    private imageRenderer:  ImageRenderer\n    private tableRenderer:  TableRenderer\n\n    constructor(factory: DocumentExporterFactory) {\n        this.headerRenderer = factory.createHeaderRenderer()\n        this.bodyRenderer   = factory.createBodyRenderer()\n        this.imageRenderer  = factory.createImageRenderer()\n        this.tableRenderer  = factory.createTableRenderer()\n    }\n\n    export(document: Document): string {\n        output = []\n        for section in document.sections:\n            if section.type == HEADER:\n                output.append(this.headerRenderer.render(section.text, section.level))\n            elif section.type == BODY:\n                output.append(this.bodyRenderer.render(section.paragraphs))\n            elif section.type == IMAGE:\n                output.append(this.imageRenderer.render(section.src, section.alt, section.caption))\n            elif section.type == TABLE:\n                output.append(this.tableRenderer.render(section.headers, section.rows))\n        return join(output)\n    }\n}\n\n\n// \u2500\u2500 Usage / Wiring \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\nfactory = PDFExporterFactory()         // or HTMLExporterFactory(), etc.\nexporter = DocumentExporter(factory)\nresult = exporter.export(myDocument)\n```\n\n### Adding DOCX in the Future\n\n1. Create `DOCXHeaderRenderer`, `DOCXBodyRenderer`, `DOCXImageRenderer`, `DOCXTableRenderer` \u2014 each implementing its respective interface.\n2. Create `DOCXExporterFactory` implementing `DocumentExporterFactory`.\n3. Wire it: `DocumentExporter(DOCXExporterFactory())`.\n\n**Zero changes to existing code.** The `DocumentExporter` client, all PDF/HTML/Markdown classes, and all interfaces are untouched. This is the Open/Closed Principle in practice.\n\n---\n\n## 4. Factory Selection: How Does the Client Know Which Factory to Use?\n\nYou'll need something to pick the right concrete factory based on user input. A simple factory method (or static registry) at the entry point is appropriate:\n\n```\ndef get_exporter_factory(format: string) -> DocumentExporterFactory:\n    if format == \"pdf\":      return PDFExporterFactory()\n    if format == \"html\":     return HTMLExporterFactory()\n    if format == \"markdown\": return MarkdownExporterFactory()\n    raise ValueError(f\"Unsupported format: {format}\")\n\n// Usage:\nfactory = get_exporter_factory(user_selected_format)\nexporter = DocumentExporter(factory)\n```\n\nThis *one* switch/if-else is acceptable \u2014 it lives at the composition root and is the only place you touch when adding a new format. All the Switch Statements smell happens when this logic is *scattered* throughout the codebase.\n\n---\n\n## 5. Watch Out For\n\n**Interface bloat as element types grow.** If you add \"code blocks,\" \"callouts,\" or \"footnotes\" later, you must add a new `create*Renderer()` method to `DocumentExporterFactory` and implement it across *all* concrete factories. This is Abstract Factory's known con. Two mitigations:\n\n- Add new element types only when they're actually needed (don't speculate).\n- Consider a `NullRenderer` default implementation for optional elements, so not every factory must implement every method.\n\n**Don't over-engineer the per-format classes.** If three formats share identical body text rendering (e.g., all just concatenate paragraphs with newlines), extract a shared `PlainBodyRenderer` and reuse it rather than duplicating it per factory.\n\n---\n\n## Summary\n\n| Decision | Choice | Reason |\n|----------|--------|--------|\n| Primary pattern | **Abstract Factory** | Enforces compatible families (header+body+image+table per format); Open/Closed for new formats |\n| Factory selection | Simple factory function at entry point | One controlled switch; not scattered |\n| Future formats | New factory + new product set | No changes to existing code |\n| Avoid | Template Method | Leads to monolithic per-format subclasses; poor reusability |\n| Avoid | Top-level Strategy | Doesn't model multi-component rendering; no compatibility enforcement |\n\nThe core principle: the `DocumentExporter` client never imports `PDFHeaderRenderer` or `HTMLTableRenderer` directly. It only knows about `HeaderRenderer` and `TableRenderer` interfaces. The factory is the single seam where concrete types enter the system.\n"}], "grading": {"eval_id": 2, "eval_name": "eval-2-pattern-selection", "expectations": [{"text": "Recommends a well-reasoned primary design pattern (Strategy or Abstract Factory both acceptable)", "passed": true, "evidence": "Recommends Abstract Factory with strong justification: 4 related product types per format require a coordinated family; prevents mismatched renderer combinations. Note: original assertion expected Strategy, but Abstract Factory is a valid and arguably better answer for this multi-product-family problem."}, {"text": "Explains why the recommended pattern fits", "passed": true, "evidence": "Explains that Abstract Factory enforces renderer family compatibility; explains why Strategy and Template Method fall short for this multi-part problem."}, {"text": "References Open/Closed Principle or extensibility", "passed": true, "evidence": "'Adding DOCX/EPUB later: Create a new factory + 4 product classes. Zero changes to existing code \u2014 that's the Open/Closed Principle in action.'"}, {"text": "Provides a structural sketch \u2014 interface + concrete implementations", "passed": true, "evidence": "Provides full interface definitions for HeaderRenderer, BodyRenderer, ImageRenderer, TableRenderer, plus the AbstractExporterFactory with concrete subclasses."}, {"text": "Mentions at least one alternative pattern and explains the tradeoff", "passed": true, "evidence": "Discusses Template Method (monolithic subclass, poor reuse) and Strategy (doesn't model 4 sub-parts cleanly) with explicit tradeoffs in a comparison table."}, {"text": "Response is language-agnostic or uses pseudocode", "passed": true, "evidence": "Uses interface notation and pseudocode-style code blocks rather than tying to a single language."}]}}, {"id": "eval-2-pattern-selection-without_skill", "prompt": "I'm building a document export system. Users can export documents as PDF, HTML, or Markdown. The export format might grow (we're thinking about adding DOCX and EPUB in the future). Each format needs different logic for headers, body text, images, and tables. What design pattern should I use and how would I structure it?", "eval_id": 2, "outputs": [{"name": "response.txt", "type": "text", "content": "# Design Pattern for Document Export System\n\n## Recommended Pattern: Abstract Factory\n\nFor a document export system where each format (PDF, HTML, Markdown, DOCX, EPUB) requires\ndifferent logic for multiple components (headers, body text, images, tables), the\n**Abstract Factory** pattern is the best fit.\n\n### Why Abstract Factory?\n\n- You have *families* of related objects that vary together per format.\n  Each format needs a coordinated set of renderers \u2014 you never mix a PDF header\n  renderer with an HTML table renderer.\n- Adding a new format means adding one new factory class without touching existing code\n  (Open/Closed Principle).\n- The factory enforces that all components (header, body, image, table) are implemented\n  for every format \u2014 the compiler/type system catches incomplete implementations.\n\n### Why NOT other patterns?\n\n- **Strategy pattern** works when you have *one* varying algorithm. Here you have four\n  (header, body, image, table) that must stay consistent per format \u2014 Strategy alone\n  would scatter format logic across multiple strategy classes.\n- **Template Method** is good for a fixed skeleton with varying steps, but it couples all\n  formats into a single inheritance hierarchy, making it harder to extend.\n- **Builder** is a great complement here (for assembling the final document), but it\n  doesn't solve the problem of format-specific rendering logic on its own.\n\n---\n\n## Structure\n\n```\nDocumentExporter (Director / Client)\n\u2502\n\u251c\u2500\u2500 ExporterFactory (Abstract Factory interface)\n\u2502     \u251c\u2500\u2500 createHeaderRenderer()  -> HeaderRenderer\n\u2502     \u251c\u2500\u2500 createBodyRenderer()    -> BodyRenderer\n\u2502     \u251c\u2500\u2500 createImageRenderer()   -> ImageRenderer\n\u2502     \u2514\u2500\u2500 createTableRenderer()  -> TableRenderer\n\u2502\n\u251c\u2500\u2500 PdfExporterFactory   implements ExporterFactory\n\u251c\u2500\u2500 HtmlExporterFactory  implements ExporterFactory\n\u251c\u2500\u2500 MarkdownExporterFactory implements ExporterFactory\n\u251c\u2500\u2500 DocxExporterFactory  implements ExporterFactory  \u2190 future\n\u2514\u2500\u2500 EpubExporterFactory  implements ExporterFactory  \u2190 future\n\nRenderer interfaces:\n\u251c\u2500\u2500 HeaderRenderer   { render(level, text) }\n\u251c\u2500\u2500 BodyRenderer     { render(text) }\n\u251c\u2500\u2500 ImageRenderer    { render(src, alt) }\n\u2514\u2500\u2500 TableRenderer    { render(rows) }\n```\n\n---\n\n## Python Implementation\n\n```python\nfrom abc import ABC, abstractmethod\nfrom typing import List\n\n\n# \u2500\u2500 Renderer interfaces \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\nclass HeaderRenderer(ABC):\n    @abstractmethod\n    def render(self, level: int, text: str) -> str: ...\n\nclass BodyRenderer(ABC):\n    @abstractmethod\n    def render(self, text: str) -> str: ...\n\nclass ImageRenderer(ABC):\n    @abstractmethod\n    def render(self, src: str, alt: str) -> str: ...\n\nclass TableRenderer(ABC):\n    @abstractmethod\n    def render(self, rows: List[List[str]]) -> str: ...\n\n\n# \u2500\u2500 Abstract Factory \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\nclass ExporterFactory(ABC):\n    @abstractmethod\n    def create_header_renderer(self) -> HeaderRenderer: ...\n\n    @abstractmethod\n    def create_body_renderer(self) -> BodyRenderer: ...\n\n    @abstractmethod\n    def create_image_renderer(self) -> ImageRenderer: ...\n\n    @abstractmethod\n    def create_table_renderer(self) -> TableRenderer: ...\n\n\n# \u2500\u2500 HTML Concrete Factory & Renderers \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\nclass HtmlHeaderRenderer(HeaderRenderer):\n    def render(self, level: int, text: str) -> str:\n        return f\"<h{level}>{text}</h{level}>\"\n\nclass HtmlBodyRenderer(BodyRenderer):\n    def render(self, text: str) -> str:\n        return f\"<p>{text}</p>\"\n\nclass HtmlImageRenderer(ImageRenderer):\n    def render(self, src: str, alt: str) -> str:\n        return f'<img src=\"{src}\" alt=\"{alt}\" />'\n\nclass HtmlTableRenderer(TableRenderer):\n    def render(self, rows: List[List[str]]) -> str:\n        html_rows = \"\".join(\n            \"<tr>\" + \"\".join(f\"<td>{cell}</td>\" for cell in row) + \"</tr>\"\n            for row in rows\n        )\n        return f\"<table>{html_rows}</table>\"\n\nclass HtmlExporterFactory(ExporterFactory):\n    def create_header_renderer(self) -> HeaderRenderer:\n        return HtmlHeaderRenderer()\n    def create_body_renderer(self) -> BodyRenderer:\n        return HtmlBodyRenderer()\n    def create_image_renderer(self) -> ImageRenderer:\n        return HtmlImageRenderer()\n    def create_table_renderer(self) -> TableRenderer:\n        return HtmlTableRenderer()\n\n\n# \u2500\u2500 Markdown Concrete Factory & Renderers \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\nclass MarkdownHeaderRenderer(HeaderRenderer):\n    def render(self, level: int, text: str) -> str:\n        return f\"{'#' * level} {text}\"\n\nclass MarkdownBodyRenderer(BodyRenderer):\n    def render(self, text: str) -> str:\n        return text\n\nclass MarkdownImageRenderer(ImageRenderer):\n    def render(self, src: str, alt: str) -> str:\n        return f\"![{alt}]({src})\"\n\nclass MarkdownTableRenderer(TableRenderer):\n    def render(self, rows: List[List[str]]) -> str:\n        if not rows:\n            return \"\"\n        header = \"| \" + \" | \".join(rows[0]) + \" |\"\n        separator = \"| \" + \" | \".join(\"---\" for _ in rows[0]) + \" |\"\n        body = \"\\n\".join(\"| \" + \" | \".join(row) + \" |\" for row in rows[1:])\n        return \"\\n\".join([header, separator, body])\n\nclass MarkdownExporterFactory(ExporterFactory):\n    def create_header_renderer(self) -> HeaderRenderer:\n        return MarkdownHeaderRenderer()\n    def create_body_renderer(self) -> BodyRenderer:\n        return MarkdownBodyRenderer()\n    def create_image_renderer(self) -> ImageRenderer:\n        return MarkdownImageRenderer()\n    def create_table_renderer(self) -> TableRenderer:\n        return MarkdownTableRenderer()\n\n\n# \u2500\u2500 Document Exporter (Director) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\nclass DocumentExporter:\n    def __init__(self, factory: ExporterFactory):\n        self._header = factory.create_header_renderer()\n        self._body   = factory.create_body_renderer()\n        self._image  = factory.create_image_renderer()\n        self._table  = factory.create_table_renderer()\n\n    def export(self, document: dict) -> str:\n        parts = []\n        for block in document[\"blocks\"]:\n            if block[\"type\"] == \"header\":\n                parts.append(self._header.render(block[\"level\"], block[\"text\"]))\n            elif block[\"type\"] == \"body\":\n                parts.append(self._body.render(block[\"text\"]))\n            elif block[\"type\"] == \"image\":\n                parts.append(self._image.render(block[\"src\"], block[\"alt\"]))\n            elif block[\"type\"] == \"table\":\n                parts.append(self._table.render(block[\"rows\"]))\n        return \"\\n\".join(parts)\n\n\n# \u2500\u2500 Factory registry (for extensibility) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\nEXPORT_FACTORIES = {\n    \"html\":     HtmlExporterFactory,\n    \"markdown\": MarkdownExporterFactory,\n    # \"pdf\":    PdfExporterFactory,    \u2190 add when ready\n    # \"docx\":   DocxExporterFactory,   \u2190 add when ready\n    # \"epub\":   EpubExporterFactory,   \u2190 add when ready\n}\n\ndef get_exporter(fmt: str) -> DocumentExporter:\n    factory_cls = EXPORT_FACTORIES.get(fmt)\n    if not factory_cls:\n        raise ValueError(f\"Unsupported export format: {fmt}\")\n    return DocumentExporter(factory_cls())\n\n\n# \u2500\u2500 Usage \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\ndocument = {\n    \"blocks\": [\n        {\"type\": \"header\", \"level\": 1, \"text\": \"My Report\"},\n        {\"type\": \"body\",   \"text\": \"This is the introduction.\"},\n        {\"type\": \"image\",  \"src\": \"chart.png\", \"alt\": \"Sales Chart\"},\n        {\"type\": \"table\",  \"rows\": [[\"Name\", \"Score\"], [\"Alice\", \"95\"], [\"Bob\", \"87\"]]},\n    ]\n}\n\nfor fmt in [\"html\", \"markdown\"]:\n    exporter = get_exporter(fmt)\n    print(f\"=== {fmt.upper()} ===\")\n    print(exporter.export(document))\n    print()\n```\n\n---\n\n## Adding a New Format (e.g., DOCX)\n\n1. Implement `DocxHeaderRenderer`, `DocxBodyRenderer`, `DocxImageRenderer`, `DocxTableRenderer`.\n2. Implement `DocxExporterFactory` that returns them.\n3. Register it: `EXPORT_FACTORIES[\"docx\"] = DocxExporterFactory`.\n4. Zero changes to `DocumentExporter` or any existing factory.\n\n---\n\n## Optional Enhancements\n\n- **Builder pattern on top**: If the export process has a mandatory sequence\n  (front matter \u2192 body \u2192 footer \u2192 metadata), wrap `DocumentExporter` in a\n  `DocumentExportBuilder` that enforces that order.\n- **Plugin/registry pattern**: Load format factories dynamically from entry points\n  (useful for a plugin system where DOCX/EPUB are optional packages).\n- **Composite pattern**: If document blocks can be nested (e.g., a table inside a\n  callout block), represent the document tree as a Composite and walk it with a\n  visitor \u2014 but start simple with the Abstract Factory first.\n\n---\n\n## Summary\n\n| Concern                        | Solution                          |\n|-------------------------------|-----------------------------------|\n| Format-specific rendering logic | Abstract Factory per format       |\n| Consistent component families   | Each factory produces all 4 types |\n| Adding new formats              | Add one factory class, register it|\n| Adding new block types          | Add one renderer interface + impls|\n| Document assembly order         | DocumentExporter (Director)       |\n"}], "grading": {"eval_id": 2, "eval_name": "eval-2-pattern-selection", "expectations": [{"text": "Recommends a well-reasoned primary design pattern (Strategy or Abstract Factory both acceptable)", "passed": true, "evidence": "Recommends Abstract Factory with clear reasoning about product families and renderer consistency requirements."}, {"text": "Explains why the recommended pattern fits", "passed": true, "evidence": "Explains coordinated families of renderers, enforced compatibility, and extensibility."}, {"text": "References Open/Closed Principle or extensibility", "passed": true, "evidence": "'Adding a new format means adding one new factory class without touching existing code (Open/Closed Principle).'"}, {"text": "Provides a structural sketch \u2014 interface + concrete implementations", "passed": true, "evidence": "Provides ASCII diagram with ExporterFactory, concrete factories (PdfExporterFactory etc.), and renderer interfaces."}, {"text": "Mentions at least one alternative pattern and explains the tradeoff", "passed": true, "evidence": "Discusses Template Method (fixed skeleton, coupled hierarchy), Strategy (single algorithm, doesn't handle multi-part), and Builder (complement, not solution)."}, {"text": "Response is language-agnostic or uses pseudocode", "passed": false, "evidence": "Provides a full Python implementation with from abc import ABC, @abstractmethod, List typing \u2014 language-specific rather than language-agnostic."}]}}, {"id": "eval-3-smell-and-pattern-with_skill", "prompt": "I have this code that manages user notifications. Every time I need to add a new notification channel (email, SMS, push), I have to touch 5 different files. And whenever the notification rules change, I break something. How do I refactor this? [UserService with hardcoded notification calls in every method]", "eval_id": 3, "outputs": [{"name": "response.txt", "type": "text", "content": "# Code Review: User Notification Management\n\n---\n\n## Shotgun Surgery \u2014 significant\n**Where:** `UserService.updateEmail`, `updatePassword`, `deactivateAccount`\n**Why it matters:** Every time you add a new notification channel (e.g., WhatsApp), you must open `UserService` and edit all three methods \u2014 plus wire in the new service dependency. A single logical change fans out across many callsites.\n**Fix:** Observer pattern (see primary recommendation below).\n\n---\n\n## Duplicate Code \u2014 moderate\n**Where:** Notification fan-out block in all three methods\n**Why it matters:** The triple-send pattern (`emailService.send` \u2192 `smsService.send` \u2192 `pushService.notify` \u2192 `auditLog.write`) is copy-pasted into every method. When the fan-out logic changes (e.g., \"only push if user opted in\"), you must update it in three places and will likely miss one.\n**Fix:** Extract Method to consolidate the notification block first, then replace with Observer.\n\n---\n\n## Divergent Change \u2014 significant\n**Where:** `UserService` class\n**Why it matters:** `UserService` has two completely different reasons to change: (1) business logic around user state changes, and (2) notification/side-effect routing. Adding a new notification channel OR changing notification rules both require modifying this class \u2014 even though they're unrelated concerns.\n**Fix:** Extract Class \u2014 split notification concerns out of `UserService` entirely.\n\n---\n\n## Inappropriate Intimacy \u2014 moderate\n**Where:** All three methods in `UserService`\n**Why it matters:** `UserService` has direct, named dependencies on `emailService`, `smsService`, `pushService`, `auditLog`, `securityService`, and `sessionService`. It knows far too much about how notifications are delivered. Business logic and infrastructure are tangled.\n**Fix:** Invert the dependency via Observer \u2014 `UserService` should emit events, not orchestrate side effects.\n\n---\n\n## Primary Recommendation: Observer Pattern\n\n### Why it fits\nThe core problem is that `UserService` acts as both the subject (the thing that changes) and the orchestrator (the thing that decides who to notify and how). Observer decouples these: `UserService` just announces that something happened; independent handlers react to that event. Adding a new notification channel becomes adding a new subscriber \u2014 zero changes to `UserService` or existing handlers.\n\n### How to apply it to your code\n\n**Step 1 \u2014 Define a typed event hierarchy**\n\n```typescript\n// events.ts\ntype UserEventType = 'email_updated' | 'password_changed' | 'account_deactivated';\n\ninterface UserEvent {\n  type: UserEventType;\n  userId: string;\n  payload?: Record<string, unknown>;\n}\n```\n\n**Step 2 \u2014 Create a UserEventPublisher (the Subject)**\n\n```typescript\n// UserEventPublisher.ts\ninterface UserEventHandler {\n  handle(event: UserEvent): void;\n}\n\nclass UserEventPublisher {\n  private handlers: UserEventHandler[] = [];\n\n  subscribe(handler: UserEventHandler): void {\n    this.handlers.push(handler);\n  }\n\n  publish(event: UserEvent): void {\n    for (const handler of this.handlers) {\n      handler.handle(event);\n    }\n  }\n}\n```\n\n**Step 3 \u2014 Rewrite UserService to publish, not orchestrate**\n\n```typescript\n// UserService.ts\nclass UserService {\n  constructor(\n    private db: Database,\n    private publisher: UserEventPublisher,\n    private securityService: SecurityService,\n    private sessionService: SessionService\n  ) {}\n\n  updateEmail(userId: string, newEmail: string) {\n    this.db.updateUser(userId, { email: newEmail });\n    this.publisher.publish({ type: 'email_updated', userId, payload: { newEmail } });\n  }\n\n  updatePassword(userId: string, newPassword: string) {\n    this.db.updateUser(userId, { password: hash(newPassword) });\n    this.securityService.revokeTokens(userId);\n    this.publisher.publish({ type: 'password_changed', userId });\n  }\n\n  deactivateAccount(userId: string) {\n    this.db.updateUser(userId, { active: false });\n    this.sessionService.killSessions(userId);\n    this.publisher.publish({ type: 'account_deactivated', userId });\n  }\n}\n```\n\n**Step 4 \u2014 Move each notification channel into its own subscriber**\n\n```typescript\n// NotificationHandler.ts\nclass NotificationHandler implements UserEventHandler {\n  constructor(\n    private db: Database,\n    private emailService: EmailService,\n    private smsService: SmsService,\n    private pushService: PushService\n  ) {}\n\n  handle(event: UserEvent): void {\n    const user = this.db.getUser(event.userId);\n    const messages: Record<UserEventType, string> = {\n      email_updated: 'Email updated',\n      password_changed: 'Password changed',\n      account_deactivated: 'Account deactivated',\n    };\n    const message = messages[event.type];\n\n    this.emailService.send(user.email, message);\n    this.smsService.send(user.phone, message);\n    this.pushService.notify(event.userId, message);\n  }\n}\n\n// AuditHandler.ts\nclass AuditHandler implements UserEventHandler {\n  constructor(private auditLog: AuditLog) {}\n\n  handle(event: UserEvent): void {\n    const descriptions: Record<UserEventType, string> = {\n      email_updated: 'changed email',\n      password_changed: 'changed password',\n      account_deactivated: 'deactivated',\n    };\n    this.auditLog.write(`User ${event.userId} ${descriptions[event.type]}`);\n  }\n}\n```\n\n**Step 5 \u2014 Wire it up in composition root**\n\n```typescript\nconst publisher = new UserEventPublisher();\npublisher.subscribe(new NotificationHandler(db, emailService, smsService, pushService));\npublisher.subscribe(new AuditHandler(auditLog));\n\nconst userService = new UserService(db, publisher, securityService, sessionService);\n```\n\n### What you gain\n- **Adding a new channel** (e.g., Slack): create a `SlackHandler`, call `publisher.subscribe(new SlackHandler(...))`. Zero changes to `UserService` or existing handlers.\n- **Changing notification rules** (e.g., only email on password change): modify `NotificationHandler.handle` in one place, governed by its own logic.\n- **Changing business rules** (e.g., what happens on deactivation): modify `UserService` only.\n- The two reasons to change are now in two different classes \u2014 **Divergent Change** is resolved.\n\n### Watch out for\n- **Subscriber ordering**: by default, handlers fire in subscription order. If your audit log must always run (even if the email handler throws), add a try/catch inside each handler or make the publisher fault-tolerant.\n- **Memory leaks**: if handlers have a shorter lifetime than the publisher, make sure to call an `unsubscribe` method (add one to `UserEventPublisher`) when they're torn down.\n- **Testing**: `UserService` is now trivially testable \u2014 just assert that `publisher.publish` was called with the right event. Handler tests are independent.\n\n---\n\n## Secondary Issues (worth noting)\n\n**Multiple `db.getUser` calls per method** \u2014 `updatePassword` and `deactivateAccount` call `db.getUser` inside each method body (in the original) after already having `userId`. These are redundant database round-trips. The `NotificationHandler` consolidates this into a single lookup.\n\n**Security-sensitive operations mixed with notifications** \u2014 `revokeTokens` and `killSessions` are still in `UserService` in the refactored version, which is correct. They are core business invariants, not side-effect handlers, so they should NOT be pushed into subscribers. Subscribers are for \"also do this\" concerns, not \"must do this for correctness\" concerns. Don't overextend Observer to cover everything.\n"}], "grading": {"eval_id": 3, "eval_name": "eval-3-smell-and-pattern", "expectations": [{"text": "Identifies 'Shotgun Surgery' smell by name", "passed": true, "evidence": "'## Shotgun Surgery \u2014 significant' is the first section heading."}, {"text": "Identifies 'Divergent Change' or 'Feature Envy' smell by name", "passed": true, "evidence": "'## Divergent Change \u2014 significant' \u2014 UserService has two different reasons to change: business logic and notification routing."}, {"text": "Recommends Observer pattern as the primary solution", "passed": true, "evidence": "'## Primary Recommendation: Observer Pattern' \u2014 full section dedicated to Observer."}, {"text": "Explains why Observer fits \u2014 publisher/subscriber model", "passed": true, "evidence": "'UserService just announces that something happened; independent handlers react to that event.' Full typed event + publisher implementation provided."}, {"text": "Explains how new channels are added without modifying UserService", "passed": true, "evidence": "'Adding a new notification channel becomes adding a new subscriber \u2014 zero changes to UserService or existing handlers.'"}, {"text": "Suggests concrete steps or migration path", "passed": true, "evidence": "Lists Step 1\u2013Step 3 migration: define event types, create publisher, rewrite UserService to publish. Also mentions Extract Method as a stepping stone."}]}}, {"id": "eval-3-smell-and-pattern-without_skill", "prompt": "I have this code that manages user notifications. Every time I need to add a new notification channel (email, SMS, push), I have to touch 5 different files. And whenever the notification rules change, I break something. How do I refactor this? [UserService with hardcoded notification calls in every method]", "eval_id": 3, "outputs": [{"name": "response.txt", "type": "text", "content": "## Diagnosis: Shotgun Surgery + Missing Domain Events\n\nYou have two intertwined problems:\n1. **Shotgun Surgery** \u2014 one logical change (add SMS channel) forces edits across many files\n2. **Violation of Open/Closed Principle** \u2014 adding a channel requires modifying existing, working code\n\nThe fix is the **Observer / Domain Event pattern**: `UserService` emits events; notification handlers subscribe independently.\n\n---\n\n## Refactored Solution\n\n### Step 1 \u2014 Define Domain Events\n\n```typescript\n// events/UserEvents.ts\nexport type UserEvent =\n  | { type: 'EMAIL_UPDATED';     userId: string; newEmail: string }\n  | { type: 'PASSWORD_CHANGED';  userId: string }\n  | { type: 'ACCOUNT_DEACTIVATED'; userId: string };\n```\n\n### Step 2 \u2014 A Minimal Event Bus\n\n```typescript\n// events/EventBus.ts\ntype Handler<T> = (event: T) => void | Promise<void>;\n\nexport class EventBus {\n  private handlers: Map<string, Handler<any>[]> = new Map();\n\n  on<T>(eventType: string, handler: Handler<T>) {\n    if (!this.handlers.has(eventType)) this.handlers.set(eventType, []);\n    this.handlers.get(eventType)!.push(handler);\n  }\n\n  async emit<T extends { type: string }>(event: T) {\n    const handlers = this.handlers.get(event.type) ?? [];\n    await Promise.all(handlers.map(h => h(event)));\n  }\n}\n\nexport const eventBus = new EventBus();\n```\n\n### Step 3 \u2014 Slim Down UserService\n\n```typescript\n// UserService.ts\nclass UserService {\n  constructor(private db: DB, private eventBus: EventBus) {}\n\n  async updateEmail(userId: string, newEmail: string) {\n    await this.db.updateUser(userId, { email: newEmail });\n    await this.eventBus.emit({ type: 'EMAIL_UPDATED', userId, newEmail });\n  }\n\n  async updatePassword(userId: string, newPassword: string) {\n    await this.db.updateUser(userId, { password: hash(newPassword) });\n    await this.eventBus.emit({ type: 'PASSWORD_CHANGED', userId });\n  }\n\n  async deactivateAccount(userId: string) {\n    await this.db.updateUser(userId, { active: false });\n    await this.eventBus.emit({ type: 'ACCOUNT_DEACTIVATED', userId });\n  }\n}\n```\n\n`UserService` now has **zero knowledge** of notifications, audit logs, or sessions.\n\n### Step 4 \u2014 Independent Handlers (one per concern)\n\n```typescript\n// handlers/NotificationHandler.ts\nexport class NotificationHandler {\n  constructor(\n    private db: DB,\n    private email: EmailService,\n    private sms: SmsService,\n    private push: PushService,\n  ) {}\n\n  register(bus: EventBus) {\n    bus.on('EMAIL_UPDATED',      e => this.notify(e.userId, 'Email updated'));\n    bus.on('PASSWORD_CHANGED',   e => this.notify(e.userId, 'Password changed'));\n    bus.on('ACCOUNT_DEACTIVATED',e => this.notify(e.userId, 'Account deactivated'));\n  }\n\n  private async notify(userId: string, message: string) {\n    const user = await this.db.getUser(userId);\n    await Promise.all([\n      this.email.send(user.email, message),\n      this.sms.send(user.phone, message),\n      this.push.notify(userId, message),\n    ]);\n  }\n}\n\n// handlers/AuditHandler.ts\nexport class AuditHandler {\n  constructor(private auditLog: AuditLog) {}\n\n  register(bus: EventBus) {\n    bus.on('EMAIL_UPDATED',      e => this.auditLog.write(`User ${e.userId} changed email`));\n    bus.on('PASSWORD_CHANGED',   e => this.auditLog.write(`User ${e.userId} changed password`));\n    bus.on('ACCOUNT_DEACTIVATED',e => this.auditLog.write(`User ${e.userId} deactivated`));\n  }\n}\n\n// handlers/SecurityHandler.ts\nexport class SecurityHandler {\n  constructor(private security: SecurityService, private sessions: SessionService) {}\n\n  register(bus: EventBus) {\n    bus.on('PASSWORD_CHANGED',   e => this.security.revokeTokens(e.userId));\n    bus.on('ACCOUNT_DEACTIVATED',e => this.sessions.killSessions(e.userId));\n  }\n}\n```\n\n### Step 5 \u2014 Wire it up once (composition root)\n\n```typescript\n// bootstrap.ts\nconst bus = new EventBus();\n\nnew NotificationHandler(db, emailService, smsService, pushService).register(bus);\nnew AuditHandler(auditLog).register(bus);\nnew SecurityHandler(securityService, sessionService).register(bus);\n\nconst userService = new UserService(db, bus);\n```\n\n---\n\n## What You Gained\n\n| Before | After |\n|---|---|\n| Add WhatsApp channel \u2192 touch UserService + 5 files | Add WhatsApp channel \u2192 create `WhatsAppService`, inject into `NotificationHandler` only |\n| Change \"password changed\" rules \u2192 risk breaking audit/session logic | Each concern lives in its own handler; changes are isolated |\n| Testing UserService requires mocking 4+ services | UserService only needs `db` + `eventBus` mocked |\n| Reading `updatePassword` reveals unrelated concerns | `updatePassword` is 2 lines: persist + emit |\n\n## Adding a New Channel (e.g., WhatsApp) \u2014 Now Just 2 Steps\n\n1. Create `WhatsAppService` implementing your messaging interface\n2. Add one line in `NotificationHandler.notify()`:\n   ```typescript\n   this.whatsApp.send(user.phone, message),\n   ```\n\nZero changes to `UserService`. Zero risk of breaking audit or security logic.\n\n## Key Principles Applied\n\n- **Single Responsibility**: Each class owns exactly one concern\n- **Open/Closed**: System is open for extension (new handlers), closed for modification\n- **Dependency Inversion**: `UserService` depends on the abstraction (`EventBus`), not concrete notification services\n- **Observer Pattern**: Decouples event producers from consumers\n"}], "grading": {"eval_id": 3, "eval_name": "eval-3-smell-and-pattern", "expectations": [{"text": "Identifies 'Shotgun Surgery' smell by name", "passed": true, "evidence": "'You have **Shotgun Surgery**' \u2014 explicitly named in the opening diagnosis."}, {"text": "Identifies 'Divergent Change' or 'Feature Envy' smell by name", "passed": false, "evidence": "Does not use 'Divergent Change' or 'Feature Envy'. Describes the same problem as 'Violation of Open/Closed Principle' instead. No Refactoring Guru smell taxonomy used."}, {"text": "Recommends Observer pattern as the primary solution", "passed": true, "evidence": "'Fix is the Observer / Domain Event pattern' \u2014 clearly recommended."}, {"text": "Explains why Observer fits \u2014 publisher/subscriber model", "passed": true, "evidence": "'UserService emits typed events (EMAIL_UPDATED, PASSWORD_CHANGED, etc.) \u2014 nothing else. Independent handlers subscribe.' Full EventBus implementation shown."}, {"text": "Explains how new channels are added without modifying UserService", "passed": true, "evidence": "'Adding WhatsApp? \u2192 touch NotificationHandler only.' Clear extensibility explanation."}, {"text": "Suggests concrete steps or migration path", "passed": false, "evidence": "Goes directly to full rewrite (new UserService with EventBus). Does not mention Extract Method/Extract Class as incremental stepping stones to reduce risk during migration."}]}}], "previous_feedback": {}, "previous_outputs": {}, "benchmark": {"metadata": {"skill_name": "refactoring-guru", "skill_path": "<path/to/skill>", "executor_model": "<model-name>", "analyzer_model": "<model-name>", "timestamp": "2026-04-14T04:23:46Z", "evals_run": [1, 2, 3], "runs_per_configuration": 3}, "runs": [{"eval_id": 1, "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 6, "failed": 0, "total": 6, "time_seconds": 77.0, "tokens": 0, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Uses 'Switch Statements' smell name or equivalent", "passed": true, "evidence": "Response has '## Switch Statements \u2014 significant' as a section heading"}, {"text": "Identifies Long Method smell by name", "passed": true, "evidence": "Response has '## Long Method \u2014 significant' as a section heading"}, {"text": "Identifies SRP violation / multiple responsibilities", "passed": true, "evidence": "'## Divergent Change \u2014 significant' covers multiple unrelated reasons to change, including 5 distinct concerns"}, {"text": "Recommends at least one named refactoring technique", "passed": true, "evidence": "Recommends: Replace Conditional with Polymorphism, Extract Class, Extract Method, Replace Magic Number with Symbolic Constant"}, {"text": "Uses Refactoring Guru vocabulary throughout", "passed": true, "evidence": "Uses: Switch Statements, Divergent Change, Long Method, Magic Numbers (Primitive Obsession), Extract Class, Extract Method, Replace Magic Number with Symbolic Constant, Open/Closed Principle"}, {"text": "Mentions Strategy pattern for the discount logic", "passed": true, "evidence": "'Fix: Apply Replace Conditional with Polymorphism using the Strategy pattern. Create a PricingStrategy interface...'"}], "notes": []}, {"eval_id": 2, "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 6, "failed": 0, "total": 6, "time_seconds": 113.0, "tokens": 0, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Recommends a well-reasoned primary design pattern (Strategy or Abstract Factory both acceptable)", "passed": true, "evidence": "Recommends Abstract Factory with strong justification: 4 related product types per format require a coordinated family; prevents mismatched renderer combinations. Note: original assertion expected Strategy, but Abstract Factory is a valid and arguably better answer for this multi-product-family problem."}, {"text": "Explains why the recommended pattern fits", "passed": true, "evidence": "Explains that Abstract Factory enforces renderer family compatibility; explains why Strategy and Template Method fall short for this multi-part problem."}, {"text": "References Open/Closed Principle or extensibility", "passed": true, "evidence": "'Adding DOCX/EPUB later: Create a new factory + 4 product classes. Zero changes to existing code \u2014 that's the Open/Closed Principle in action.'"}, {"text": "Provides a structural sketch \u2014 interface + concrete implementations", "passed": true, "evidence": "Provides full interface definitions for HeaderRenderer, BodyRenderer, ImageRenderer, TableRenderer, plus the AbstractExporterFactory with concrete subclasses."}, {"text": "Mentions at least one alternative pattern and explains the tradeoff", "passed": true, "evidence": "Discusses Template Method (monolithic subclass, poor reuse) and Strategy (doesn't model 4 sub-parts cleanly) with explicit tradeoffs in a comparison table."}, {"text": "Response is language-agnostic or uses pseudocode", "passed": true, "evidence": "Uses interface notation and pseudocode-style code blocks rather than tying to a single language."}], "notes": []}, {"eval_id": 3, "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 6, "failed": 0, "total": 6, "time_seconds": 100.0, "tokens": 0, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Identifies 'Shotgun Surgery' smell by name", "passed": true, "evidence": "'## Shotgun Surgery \u2014 significant' is the first section heading."}, {"text": "Identifies 'Divergent Change' or 'Feature Envy' smell by name", "passed": true, "evidence": "'## Divergent Change \u2014 significant' \u2014 UserService has two different reasons to change: business logic and notification routing."}, {"text": "Recommends Observer pattern as the primary solution", "passed": true, "evidence": "'## Primary Recommendation: Observer Pattern' \u2014 full section dedicated to Observer."}, {"text": "Explains why Observer fits \u2014 publisher/subscriber model", "passed": true, "evidence": "'UserService just announces that something happened; independent handlers react to that event.' Full typed event + publisher implementation provided."}, {"text": "Explains how new channels are added without modifying UserService", "passed": true, "evidence": "'Adding a new notification channel becomes adding a new subscriber \u2014 zero changes to UserService or existing handlers.'"}, {"text": "Suggests concrete steps or migration path", "passed": true, "evidence": "Lists Step 1\u2013Step 3 migration: define event types, create publisher, rewrite UserService to publish. Also mentions Extract Method as a stepping stone."}], "notes": []}, {"eval_id": 1, "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 0.3333, "passed": 2, "failed": 4, "total": 6, "time_seconds": 46.0, "tokens": 0, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Uses 'Switch Statements' smell name or equivalent", "passed": false, "evidence": "Does not use 'Switch Statements' smell name. Labels the issue as 'Open/Closed Principle Violation' instead. No reference to the Refactoring Guru smell taxonomy."}, {"text": "Identifies Long Method smell by name", "passed": false, "evidence": "Mentions SRP violation and breaking into classes, but never names 'Long Method' smell specifically."}, {"text": "Identifies SRP violation / multiple responsibilities", "passed": true, "evidence": "'SINGLE RESPONSIBILITY PRINCIPLE VIOLATION (Design)' \u2014 clearly identifies the method handles 5 distinct concerns."}, {"text": "Recommends at least one named refactoring technique", "passed": false, "evidence": "Mentions 'extract into separate methods or classes' but does not use canonical Refactoring Guru technique names like 'Extract Method' or 'Extract Class'."}, {"text": "Uses Refactoring Guru vocabulary throughout", "passed": false, "evidence": "Uses general software engineering terms (SRP, OCP, context managers, error handling) but not Refactoring Guru canonical smell/technique names."}, {"text": "Mentions Strategy pattern for the discount logic", "passed": true, "evidence": "'Fix: Replace the chain with a dispatch dictionary or a strategy pattern.' \u2014 mentions Strategy in the OCP section."}], "notes": []}, {"eval_id": 2, "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 0.8333, "passed": 5, "failed": 1, "total": 6, "time_seconds": 56.0, "tokens": 0, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Recommends a well-reasoned primary design pattern (Strategy or Abstract Factory both acceptable)", "passed": true, "evidence": "Recommends Abstract Factory with clear reasoning about product families and renderer consistency requirements."}, {"text": "Explains why the recommended pattern fits", "passed": true, "evidence": "Explains coordinated families of renderers, enforced compatibility, and extensibility."}, {"text": "References Open/Closed Principle or extensibility", "passed": true, "evidence": "'Adding a new format means adding one new factory class without touching existing code (Open/Closed Principle).'"}, {"text": "Provides a structural sketch \u2014 interface + concrete implementations", "passed": true, "evidence": "Provides ASCII diagram with ExporterFactory, concrete factories (PdfExporterFactory etc.), and renderer interfaces."}, {"text": "Mentions at least one alternative pattern and explains the tradeoff", "passed": true, "evidence": "Discusses Template Method (fixed skeleton, coupled hierarchy), Strategy (single algorithm, doesn't handle multi-part), and Builder (complement, not solution)."}, {"text": "Response is language-agnostic or uses pseudocode", "passed": false, "evidence": "Provides a full Python implementation with from abc import ABC, @abstractmethod, List typing \u2014 language-specific rather than language-agnostic."}], "notes": []}, {"eval_id": 3, "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 0.6667, "passed": 4, "failed": 2, "total": 6, "time_seconds": 38.0, "tokens": 0, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Identifies 'Shotgun Surgery' smell by name", "passed": true, "evidence": "'You have **Shotgun Surgery**' \u2014 explicitly named in the opening diagnosis."}, {"text": "Identifies 'Divergent Change' or 'Feature Envy' smell by name", "passed": false, "evidence": "Does not use 'Divergent Change' or 'Feature Envy'. Describes the same problem as 'Violation of Open/Closed Principle' instead. No Refactoring Guru smell taxonomy used."}, {"text": "Recommends Observer pattern as the primary solution", "passed": true, "evidence": "'Fix is the Observer / Domain Event pattern' \u2014 clearly recommended."}, {"text": "Explains why Observer fits \u2014 publisher/subscriber model", "passed": true, "evidence": "'UserService emits typed events (EMAIL_UPDATED, PASSWORD_CHANGED, etc.) \u2014 nothing else. Independent handlers subscribe.' Full EventBus implementation shown."}, {"text": "Explains how new channels are added without modifying UserService", "passed": true, "evidence": "'Adding WhatsApp? \u2192 touch NotificationHandler only.' Clear extensibility explanation."}, {"text": "Suggests concrete steps or migration path", "passed": false, "evidence": "Goes directly to full rewrite (new UserService with EventBus). Does not mention Extract Method/Extract Class as incremental stepping stones to reduce risk during migration."}], "notes": []}], "run_summary": {"with_skill": {"pass_rate": {"mean": 1.0, "stddev": 0.0, "min": 1.0, "max": 1.0}, "time_seconds": {"mean": 96.6667, "stddev": 18.23, "min": 77.0, "max": 113.0}, "tokens": {"mean": 0.0, "stddev": 0.0, "min": 0, "max": 0}}, "without_skill": {"pass_rate": {"mean": 0.6111, "stddev": 0.2546, "min": 0.3333, "max": 0.8333}, "time_seconds": {"mean": 46.6667, "stddev": 9.0185, "min": 38.0, "max": 56.0}, "tokens": {"mean": 0.0, "stddev": 0.0, "min": 0, "max": 0}}, "delta": {"pass_rate": "+0.39", "time_seconds": "+50.0", "tokens": "+0"}}, "notes": []}};
+
+    // ---- State ----
+    let feedbackMap = {};  // run_id -> feedback text
+    let currentIndex = 0;
+    let visitedRuns = new Set();
+
+    // ---- Init ----
+    async function init() {
+      // Load saved feedback from server — but only if this isn't a fresh
+      // iteration (indicated by previous_feedback being present). When
+      // previous feedback exists, the feedback.json on disk is stale from
+      // the prior iteration and should not pre-fill the textareas.
+      const hasPrevious = Object.keys(EMBEDDED_DATA.previous_feedback || {}).length > 0
+        || Object.keys(EMBEDDED_DATA.previous_outputs || {}).length > 0;
+      if (!hasPrevious) {
+        try {
+          const resp = await fetch("/api/feedback");
+          const data = await resp.json();
+          if (data.reviews) {
+            for (const r of data.reviews) feedbackMap[r.run_id] = r.feedback;
+          }
+        } catch { /* first run, no feedback yet */ }
+      }
+
+      document.getElementById("skill-name").textContent = EMBEDDED_DATA.skill_name;
+      showRun(0);
+
+      // Wire up feedback auto-save
+      const textarea = document.getElementById("feedback");
+      let saveTimeout = null;
+      textarea.addEventListener("input", () => {
+        clearTimeout(saveTimeout);
+        document.getElementById("feedback-status").textContent = "";
+        saveTimeout = setTimeout(() => saveCurrentFeedback(), 800);
+      });
+    }
+
+    // ---- Navigation ----
+    function navigate(delta) {
+      const newIndex = currentIndex + delta;
+      if (newIndex >= 0 && newIndex < EMBEDDED_DATA.runs.length) {
+        saveCurrentFeedback();
+        showRun(newIndex);
+      }
+    }
+
+    function updateNavButtons() {
+      document.getElementById("prev-btn").disabled = currentIndex === 0;
+      document.getElementById("next-btn").disabled =
+        currentIndex === EMBEDDED_DATA.runs.length - 1;
+    }
+
+    // ---- Show a run ----
+    function showRun(index) {
+      currentIndex = index;
+      const run = EMBEDDED_DATA.runs[index];
+
+      // Progress
+      document.getElementById("progress").textContent =
+        `${index + 1} of ${EMBEDDED_DATA.runs.length}`;
+
+      // Prompt
+      document.getElementById("prompt-text").textContent = run.prompt;
+
+      // Config badge
+      const badge = document.getElementById("config-badge");
+      const configMatch = run.id.match(/(with_skill|without_skill|new_skill|old_skill)/);
+      if (configMatch) {
+        const config = configMatch[1];
+        const isBaseline = config === "without_skill" || config === "old_skill";
+        badge.textContent = config.replace(/_/g, " ");
+        badge.className = "config-badge " + (isBaseline ? "config-baseline" : "config-primary");
+        badge.style.display = "inline-block";
+      } else {
+        badge.style.display = "none";
+      }
+
+      // Outputs
+      renderOutputs(run);
+
+      // Previous outputs
+      renderPrevOutputs(run);
+
+      // Grades
+      renderGrades(run);
+
+      // Previous feedback
+      const prevFb = (EMBEDDED_DATA.previous_feedback || {})[run.id];
+      const prevEl = document.getElementById("prev-feedback");
+      if (prevFb) {
+        document.getElementById("prev-feedback-text").textContent = prevFb;
+        prevEl.style.display = "block";
+      } else {
+        prevEl.style.display = "none";
+      }
+
+      // Feedback
+      document.getElementById("feedback").value = feedbackMap[run.id] || "";
+      document.getElementById("feedback-status").textContent = "";
+
+      updateNavButtons();
+
+      // Track visited runs and promote done button when all visited
+      visitedRuns.add(index);
+      const doneBtn = document.getElementById("done-btn");
+      if (visitedRuns.size >= EMBEDDED_DATA.runs.length) {
+        doneBtn.classList.add("ready");
+      }
+
+      // Scroll main content to top
+      document.querySelector(".main").scrollTop = 0;
+    }
+
+    // ---- Render outputs ----
+    function renderOutputs(run) {
+      const container = document.getElementById("outputs-body");
+      container.innerHTML = "";
+
+      const outputs = run.outputs || [];
+      if (outputs.length === 0) {
+        container.innerHTML = '<div class="empty-state">No output files</div>';
+        return;
+      }
+
+      for (const file of outputs) {
+        const fileDiv = document.createElement("div");
+        fileDiv.className = "output-file";
+
+        // Always show file header with download link
+        const header = document.createElement("div");
+        header.className = "output-file-header";
+        const nameSpan = document.createElement("span");
+        nameSpan.textContent = file.name;
+        header.appendChild(nameSpan);
+        const dlBtn = document.createElement("a");
+        dlBtn.className = "dl-btn";
+        dlBtn.textContent = "Download";
+        dlBtn.download = file.name;
+        dlBtn.href = getDownloadUri(file);
+        header.appendChild(dlBtn);
+        fileDiv.appendChild(header);
+
+        const content = document.createElement("div");
+        content.className = "output-file-content";
+
+        if (file.type === "text") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          content.appendChild(pre);
+        } else if (file.type === "image") {
+          const img = document.createElement("img");
+          img.src = file.data_uri;
+          img.alt = file.name;
+          content.appendChild(img);
+        } else if (file.type === "pdf") {
+          const iframe = document.createElement("iframe");
+          iframe.src = file.data_uri;
+          content.appendChild(iframe);
+        } else if (file.type === "xlsx") {
+          renderXlsx(content, file.data_b64);
+        } else if (file.type === "binary") {
+          const a = document.createElement("a");
+          a.className = "download-link";
+          a.href = file.data_uri;
+          a.download = file.name;
+          a.textContent = "Download " + file.name;
+          content.appendChild(a);
+        } else if (file.type === "error") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          pre.style.color = "var(--red)";
+          content.appendChild(pre);
+        }
+
+        fileDiv.appendChild(content);
+        container.appendChild(fileDiv);
+      }
+    }
+
+    // ---- XLSX rendering via SheetJS ----
+    function renderXlsx(container, b64Data) {
+      try {
+        const raw = Uint8Array.from(atob(b64Data), c => c.charCodeAt(0));
+        const wb = XLSX.read(raw, { type: "array" });
+
+        for (let i = 0; i < wb.SheetNames.length; i++) {
+          const sheetName = wb.SheetNames[i];
+          const ws = wb.Sheets[sheetName];
+
+          if (wb.SheetNames.length > 1) {
+            const sheetLabel = document.createElement("div");
+            sheetLabel.style.cssText =
+              "font-weight:600; font-size:0.8rem; color:#b0aea5; margin-top:0.5rem; margin-bottom:0.25rem;";
+            sheetLabel.textContent = "Sheet: " + sheetName;
+            container.appendChild(sheetLabel);
+          }
+
+          const htmlStr = XLSX.utils.sheet_to_html(ws, { editable: false });
+          const wrapper = document.createElement("div");
+          wrapper.innerHTML = htmlStr;
+          container.appendChild(wrapper);
+        }
+      } catch (err) {
+        container.textContent = "Error rendering spreadsheet: " + err.message;
+      }
+    }
+
+    // ---- Grades ----
+    function renderGrades(run) {
+      const section = document.getElementById("grades-section");
+      const content = document.getElementById("grades-content");
+
+      if (!run.grading) {
+        section.style.display = "none";
+        return;
+      }
+
+      const grading = run.grading;
+      section.style.display = "block";
+      // Reset to collapsed
+      content.classList.remove("open");
+      document.getElementById("grades-arrow").classList.remove("open");
+
+      const summary = grading.summary || {};
+      const expectations = grading.expectations || [];
+
+      let html = '<div style="padding: 1rem;">';
+
+      // Summary line
+      const passRate = summary.pass_rate != null
+        ? Math.round(summary.pass_rate * 100) + "%"
+        : "?";
+      const badgeClass = summary.pass_rate >= 0.8 ? "grade-pass" : summary.pass_rate >= 0.5 ? "" : "grade-fail";
+      html += '<div class="grades-summary">';
+      html += '<span class="grade-badge ' + badgeClass + '">' + passRate + '</span>';
+      html += '<span>' + (summary.passed || 0) + ' passed, ' + (summary.failed || 0) + ' failed of ' + (summary.total || 0) + '</span>';
+      html += '</div>';
+
+      // Assertions list
+      html += '<ul class="assertion-list">';
+      for (const exp of expectations) {
+        const statusClass = exp.passed ? "pass" : "fail";
+        const statusIcon = exp.passed ? "\u2713" : "\u2717";
+        html += '<li class="assertion-item">';
+        html += '<span class="assertion-status ' + statusClass + '">' + statusIcon + '</span>';
+        html += '<span>' + escapeHtml(exp.text) + '</span>';
+        if (exp.evidence) {
+          html += '<div class="assertion-evidence">' + escapeHtml(exp.evidence) + '</div>';
+        }
+        html += '</li>';
+      }
+      html += '</ul>';
+
+      html += '</div>';
+      content.innerHTML = html;
+    }
+
+    function toggleGrades() {
+      const content = document.getElementById("grades-content");
+      const arrow = document.getElementById("grades-arrow");
+      content.classList.toggle("open");
+      arrow.classList.toggle("open");
+    }
+
+    // ---- Previous outputs (collapsible) ----
+    function renderPrevOutputs(run) {
+      const section = document.getElementById("prev-outputs-section");
+      const content = document.getElementById("prev-outputs-content");
+      const prevOutputs = (EMBEDDED_DATA.previous_outputs || {})[run.id];
+
+      if (!prevOutputs || prevOutputs.length === 0) {
+        section.style.display = "none";
+        return;
+      }
+
+      section.style.display = "block";
+      // Reset to collapsed
+      content.classList.remove("open");
+      document.getElementById("prev-outputs-arrow").classList.remove("open");
+
+      // Render the files into the content area
+      content.innerHTML = "";
+      const wrapper = document.createElement("div");
+      wrapper.style.padding = "1rem";
+
+      for (const file of prevOutputs) {
+        const fileDiv = document.createElement("div");
+        fileDiv.className = "output-file";
+
+        const header = document.createElement("div");
+        header.className = "output-file-header";
+        const nameSpan = document.createElement("span");
+        nameSpan.textContent = file.name;
+        header.appendChild(nameSpan);
+        const dlBtn = document.createElement("a");
+        dlBtn.className = "dl-btn";
+        dlBtn.textContent = "Download";
+        dlBtn.download = file.name;
+        dlBtn.href = getDownloadUri(file);
+        header.appendChild(dlBtn);
+        fileDiv.appendChild(header);
+
+        const fc = document.createElement("div");
+        fc.className = "output-file-content";
+
+        if (file.type === "text") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          fc.appendChild(pre);
+        } else if (file.type === "image") {
+          const img = document.createElement("img");
+          img.src = file.data_uri;
+          img.alt = file.name;
+          fc.appendChild(img);
+        } else if (file.type === "pdf") {
+          const iframe = document.createElement("iframe");
+          iframe.src = file.data_uri;
+          fc.appendChild(iframe);
+        } else if (file.type === "xlsx") {
+          renderXlsx(fc, file.data_b64);
+        } else if (file.type === "binary") {
+          const a = document.createElement("a");
+          a.className = "download-link";
+          a.href = file.data_uri;
+          a.download = file.name;
+          a.textContent = "Download " + file.name;
+          fc.appendChild(a);
+        }
+
+        fileDiv.appendChild(fc);
+        wrapper.appendChild(fileDiv);
+      }
+
+      content.appendChild(wrapper);
+    }
+
+    function togglePrevOutputs() {
+      const content = document.getElementById("prev-outputs-content");
+      const arrow = document.getElementById("prev-outputs-arrow");
+      content.classList.toggle("open");
+      arrow.classList.toggle("open");
+    }
+
+    // ---- Feedback (saved to server -> feedback.json) ----
+    function saveCurrentFeedback() {
+      const run = EMBEDDED_DATA.runs[currentIndex];
+      const text = document.getElementById("feedback").value;
+
+      if (text.trim() === "") {
+        delete feedbackMap[run.id];
+      } else {
+        feedbackMap[run.id] = text;
+      }
+
+      // Build reviews array from map
+      const reviews = [];
+      for (const [run_id, feedback] of Object.entries(feedbackMap)) {
+        if (feedback.trim()) {
+          reviews.push({ run_id, feedback, timestamp: new Date().toISOString() });
+        }
+      }
+
+      fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reviews, status: "in_progress" }),
+      }).then(() => {
+        document.getElementById("feedback-status").textContent = "Saved";
+      }).catch(() => {
+        // Static mode or server unavailable — no-op on auto-save,
+        // feedback will be downloaded on final submit
+        document.getElementById("feedback-status").textContent = "Will download on submit";
+      });
+    }
+
+    // ---- Done ----
+    function showDoneDialog() {
+      // Save current textarea to feedbackMap (but don't POST yet)
+      const run = EMBEDDED_DATA.runs[currentIndex];
+      const text = document.getElementById("feedback").value;
+      if (text.trim() === "") {
+        delete feedbackMap[run.id];
+      } else {
+        feedbackMap[run.id] = text;
+      }
+
+      // POST once with status: complete — include ALL runs so the model
+      // can distinguish "no feedback" (looks good) from "not reviewed"
+      const reviews = [];
+      const ts = new Date().toISOString();
+      for (const r of EMBEDDED_DATA.runs) {
+        reviews.push({ run_id: r.id, feedback: feedbackMap[r.id] || "", timestamp: ts });
+      }
+      const payload = JSON.stringify({ reviews, status: "complete" }, null, 2);
+      fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: payload,
+      }).then(() => {
+        document.getElementById("done-overlay").classList.add("visible");
+      }).catch(() => {
+        // Server not available (static mode) — download as file
+        const blob = new Blob([payload], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "feedback.json";
+        a.click();
+        URL.revokeObjectURL(url);
+        document.getElementById("done-overlay").classList.add("visible");
+      });
+    }
+
+    function closeDoneDialog() {
+      // Reset status back to in_progress
+      saveCurrentFeedback();
+      document.getElementById("done-overlay").classList.remove("visible");
+    }
+
+    // ---- Toast ----
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.classList.add("visible");
+      setTimeout(() => toast.classList.remove("visible"), 2000);
+    }
+
+    // ---- Keyboard nav ----
+    document.addEventListener("keydown", (e) => {
+      // Don't capture when typing in textarea
+      if (e.target.tagName === "TEXTAREA") return;
+
+      if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+        e.preventDefault();
+        navigate(-1);
+      } else if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+        e.preventDefault();
+        navigate(1);
+      }
+    });
+
+    // ---- Util ----
+    function getDownloadUri(file) {
+      if (file.data_uri) return file.data_uri;
+      if (file.data_b64) return "data:application/octet-stream;base64," + file.data_b64;
+      if (file.type === "text") return "data:text/plain;charset=utf-8," + encodeURIComponent(file.content);
+      return "#";
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement("div");
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // ---- View switching ----
+    function switchView(view) {
+      document.querySelectorAll(".view-tab").forEach(t => t.classList.remove("active"));
+      document.querySelectorAll(".view-panel").forEach(p => p.classList.remove("active"));
+      document.querySelector(`[onclick="switchView('${view}')"]`).classList.add("active");
+      document.getElementById("panel-" + view).classList.add("active");
+    }
+
+    // ---- Benchmark rendering ----
+    function renderBenchmark() {
+      const data = EMBEDDED_DATA.benchmark;
+      if (!data) return;
+
+      // Show the tabs
+      document.getElementById("view-tabs").style.display = "flex";
+
+      const container = document.getElementById("benchmark-content");
+      const summary = data.run_summary || {};
+      const metadata = data.metadata || {};
+      const notes = data.notes || [];
+
+      let html = "";
+
+      // Header
+      html += "<h2 style='font-family: Poppins, sans-serif; margin-bottom: 0.5rem;'>Benchmark Results</h2>";
+      html += "<p style='color: var(--text-muted); font-size: 0.875rem; margin-bottom: 1.25rem;'>";
+      if (metadata.skill_name) html += "<strong>" + escapeHtml(metadata.skill_name) + "</strong> &mdash; ";
+      if (metadata.timestamp) html += metadata.timestamp + " &mdash; ";
+      if (metadata.evals_run) html += "Evals: " + metadata.evals_run.join(", ") + " &mdash; ";
+      html += (metadata.runs_per_configuration || "?") + " runs per configuration";
+      html += "</p>";
+
+      // Summary table
+      html += '<table class="benchmark-table">';
+
+      function fmtStat(stat, pct) {
+        if (!stat) return "—";
+        const suffix = pct ? "%" : "";
+        const m = pct ? (stat.mean * 100).toFixed(0) : stat.mean.toFixed(1);
+        const s = pct ? (stat.stddev * 100).toFixed(0) : stat.stddev.toFixed(1);
+        return m + suffix + " ± " + s + suffix;
+      }
+
+      function deltaClass(val) {
+        if (!val) return "";
+        const n = parseFloat(val);
+        if (n > 0) return "benchmark-delta-positive";
+        if (n < 0) return "benchmark-delta-negative";
+        return "";
+      }
+
+      // Discover config names dynamically (everything except "delta")
+      const configs = Object.keys(summary).filter(k => k !== "delta");
+      const configA = configs[0] || "config_a";
+      const configB = configs[1] || "config_b";
+      const labelA = configA.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+      const labelB = configB.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+      const a = summary[configA] || {};
+      const b = summary[configB] || {};
+      const delta = summary.delta || {};
+
+      html += "<thead><tr><th>Metric</th><th>" + escapeHtml(labelA) + "</th><th>" + escapeHtml(labelB) + "</th><th>Delta</th></tr></thead>";
+      html += "<tbody>";
+
+      html += "<tr><td><strong>Pass Rate</strong></td>";
+      html += "<td>" + fmtStat(a.pass_rate, true) + "</td>";
+      html += "<td>" + fmtStat(b.pass_rate, true) + "</td>";
+      html += '<td class="' + deltaClass(delta.pass_rate) + '">' + (delta.pass_rate || "—") + "</td></tr>";
+
+      // Time (only show row if data exists)
+      if (a.time_seconds || b.time_seconds) {
+        html += "<tr><td><strong>Time (s)</strong></td>";
+        html += "<td>" + fmtStat(a.time_seconds, false) + "</td>";
+        html += "<td>" + fmtStat(b.time_seconds, false) + "</td>";
+        html += '<td class="' + deltaClass(delta.time_seconds) + '">' + (delta.time_seconds ? delta.time_seconds + "s" : "—") + "</td></tr>";
+      }
+
+      // Tokens (only show row if data exists)
+      if (a.tokens || b.tokens) {
+        html += "<tr><td><strong>Tokens</strong></td>";
+        html += "<td>" + fmtStat(a.tokens, false) + "</td>";
+        html += "<td>" + fmtStat(b.tokens, false) + "</td>";
+        html += '<td class="' + deltaClass(delta.tokens) + '">' + (delta.tokens || "—") + "</td></tr>";
+      }
+
+      html += "</tbody></table>";
+
+      // Per-eval breakdown (if runs data available)
+      const runs = data.runs || [];
+      if (runs.length > 0) {
+        const evalIds = [...new Set(runs.map(r => r.eval_id))].sort((a, b) => a - b);
+
+        html += "<h3 style='font-family: Poppins, sans-serif; margin-bottom: 0.75rem;'>Per-Eval Breakdown</h3>";
+
+        const hasTime = runs.some(r => r.result && r.result.time_seconds != null);
+        const hasErrors = runs.some(r => r.result && r.result.errors > 0);
+
+        for (const evalId of evalIds) {
+          const evalRuns = runs.filter(r => r.eval_id === evalId);
+          const evalName = evalRuns[0] && evalRuns[0].eval_name ? evalRuns[0].eval_name : "Eval " + evalId;
+
+          html += "<h4 style='font-family: Poppins, sans-serif; margin: 1rem 0 0.5rem; color: var(--text);'>" + escapeHtml(evalName) + "</h4>";
+          html += '<table class="benchmark-table">';
+          html += "<thead><tr><th>Config</th><th>Run</th><th>Pass Rate</th>";
+          if (hasTime) html += "<th>Time (s)</th>";
+          if (hasErrors) html += "<th>Crashes During Execution</th>";
+          html += "</tr></thead>";
+          html += "<tbody>";
+
+          // Group by config and render with average rows
+          const configGroups = [...new Set(evalRuns.map(r => r.configuration))];
+          for (let ci = 0; ci < configGroups.length; ci++) {
+            const config = configGroups[ci];
+            const configRuns = evalRuns.filter(r => r.configuration === config);
+            if (configRuns.length === 0) continue;
+
+            const rowClass = ci === 0 ? "benchmark-row-with" : "benchmark-row-without";
+            const configLabel = config.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+
+            for (const run of configRuns) {
+              const r = run.result || {};
+              const prClass = r.pass_rate >= 0.8 ? "benchmark-delta-positive" : r.pass_rate < 0.5 ? "benchmark-delta-negative" : "";
+              html += '<tr class="' + rowClass + '">';
+              html += "<td>" + configLabel + "</td>";
+              html += "<td>" + run.run_number + "</td>";
+              html += '<td class="' + prClass + '">' + ((r.pass_rate || 0) * 100).toFixed(0) + "% (" + (r.passed || 0) + "/" + (r.total || 0) + ")</td>";
+              if (hasTime) html += "<td>" + (r.time_seconds != null ? r.time_seconds.toFixed(1) : "—") + "</td>";
+              if (hasErrors) html += "<td>" + (r.errors || 0) + "</td>";
+              html += "</tr>";
+            }
+
+            // Average row
+            const rates = configRuns.map(r => (r.result || {}).pass_rate || 0);
+            const avgRate = rates.reduce((a, b) => a + b, 0) / rates.length;
+            const avgPrClass = avgRate >= 0.8 ? "benchmark-delta-positive" : avgRate < 0.5 ? "benchmark-delta-negative" : "";
+            html += '<tr class="benchmark-row-avg ' + rowClass + '">';
+            html += "<td>" + configLabel + "</td>";
+            html += "<td>Avg</td>";
+            html += '<td class="' + avgPrClass + '">' + (avgRate * 100).toFixed(0) + "%</td>";
+            if (hasTime) {
+              const times = configRuns.map(r => (r.result || {}).time_seconds).filter(t => t != null);
+              html += "<td>" + (times.length ? (times.reduce((a, b) => a + b, 0) / times.length).toFixed(1) : "—") + "</td>";
+            }
+            if (hasErrors) html += "<td></td>";
+            html += "</tr>";
+          }
+          html += "</tbody></table>";
+
+          // Per-assertion detail for this eval
+          const runsWithExpectations = {};
+          for (const config of configGroups) {
+            runsWithExpectations[config] = evalRuns.filter(r => r.configuration === config && r.expectations && r.expectations.length > 0);
+          }
+          const hasAnyExpectations = Object.values(runsWithExpectations).some(runs => runs.length > 0);
+          if (hasAnyExpectations) {
+            // Collect all unique assertion texts across all configs
+            const allAssertions = [];
+            const seen = new Set();
+            for (const config of configGroups) {
+              for (const run of runsWithExpectations[config]) {
+                for (const exp of (run.expectations || [])) {
+                  if (!seen.has(exp.text)) {
+                    seen.add(exp.text);
+                    allAssertions.push(exp.text);
+                  }
+                }
+              }
+            }
+
+            html += '<table class="benchmark-table" style="margin-top: 0.5rem;">';
+            html += "<thead><tr><th>Assertion</th>";
+            for (const config of configGroups) {
+              const label = config.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+              html += "<th>" + escapeHtml(label) + "</th>";
+            }
+            html += "</tr></thead><tbody>";
+
+            for (const assertionText of allAssertions) {
+              html += "<tr><td>" + escapeHtml(assertionText) + "</td>";
+
+              for (const config of configGroups) {
+                html += "<td>";
+                for (const run of runsWithExpectations[config]) {
+                  const exp = (run.expectations || []).find(e => e.text === assertionText);
+                  if (exp) {
+                    const cls = exp.passed ? "benchmark-delta-positive" : "benchmark-delta-negative";
+                    const icon = exp.passed ? "\u2713" : "\u2717";
+                    html += '<span class="' + cls + '" title="Run ' + run.run_number + ': ' + escapeHtml(exp.evidence || "") + '">' + icon + "</span> ";
+                  } else {
+                    html += "— ";
+                  }
+                }
+                html += "</td>";
+              }
+              html += "</tr>";
+            }
+            html += "</tbody></table>";
+          }
+        }
+      }
+
+      // Notes
+      if (notes.length > 0) {
+        html += '<div class="benchmark-notes">';
+        html += "<h3>Analysis Notes</h3>";
+        html += "<ul>";
+        for (const note of notes) {
+          html += "<li>" + escapeHtml(note) + "</li>";
+        }
+        html += "</ul></div>";
+      }
+
+      container.innerHTML = html;
+    }
+
+    // ---- Start ----
+    init();
+    renderBenchmark();
+  </script>
+</body>
+</html>

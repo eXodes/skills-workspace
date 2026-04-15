@@ -1,0 +1,22 @@
+[
+  {"query": "can you review this python class and tell me what code smells you spot? it's getting really hard to maintain", "should_trigger": true},
+  {"query": "I keep having to change 6 different files every time I add a new payment method to our checkout system, how do I fix this design?", "should_trigger": true},
+  {"query": "which design pattern should I use for a notification system where multiple services need to react when an order is placed?", "should_trigger": true},
+  {"query": "my colleague says this code has 'shotgun surgery' — what does that mean and how do I fix it?", "should_trigger": true},
+  {"query": "I have a method that's 200 lines long and does like 8 different things, where do I start refactoring it?", "should_trigger": true},
+  {"query": "should I use composition or inheritance here? I keep adding more subclasses and it feels wrong", "should_trigger": true},
+  {"query": "what's the best way to structure an export system that supports multiple formats — strategy pattern or something else?", "should_trigger": true},
+  {"query": "I need to implement undo/redo functionality in my editor app — what pattern handles this?", "should_trigger": true},
+  {"query": "this code works but smells bad, can you tell me what's wrong with it structurally?\n```java\npublic void processOrder(Order o) {\n  // 150 lines...\n}\n```", "should_trigger": true},
+  {"query": "difference between factory method and abstract factory — when do I use each?", "should_trigger": true},
+  {"query": "write me a unit test for this python function that parses CSV files", "should_trigger": false},
+  {"query": "how do I set up a CI/CD pipeline with GitHub Actions for a node.js project?", "should_trigger": false},
+  {"query": "can you help me debug this SQL query? it's returning duplicate rows", "should_trigger": false},
+  {"query": "what's the difference between REST and GraphQL and which should I use for my API?", "should_trigger": false},
+  {"query": "I want to add a dark mode toggle to my React app, how do I implement that with context?", "should_trigger": false},
+  {"query": "how do I center a div in CSS — I keep forgetting the flexbox syntax", "should_trigger": false},
+  {"query": "my docker container keeps crashing with an OOM error, how do I debug memory issues?", "should_trigger": false},
+  {"query": "help me write a regex to validate email addresses in javascript", "should_trigger": false},
+  {"query": "I'm using the observer pattern in my code but I'm getting memory leaks — how do I fix that specific bug?", "should_trigger": false},
+  {"query": "explain how async/await works in python and when to use it over threading", "should_trigger": false}
+]

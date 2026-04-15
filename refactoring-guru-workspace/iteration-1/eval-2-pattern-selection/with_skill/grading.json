@@ -1,0 +1,36 @@
+{
+  "eval_id": 2,
+  "eval_name": "eval-2-pattern-selection",
+  "expectations": [
+    {
+      "text": "Recommends a well-reasoned primary design pattern (Strategy or Abstract Factory both acceptable)",
+      "passed": true,
+      "evidence": "Recommends Abstract Factory with strong justification: 4 related product types per format require a coordinated family; prevents mismatched renderer combinations. Note: original assertion expected Strategy, but Abstract Factory is a valid and arguably better answer for this multi-product-family problem."
+    },
+    {
+      "text": "Explains why the recommended pattern fits",
+      "passed": true,
+      "evidence": "Explains that Abstract Factory enforces renderer family compatibility; explains why Strategy and Template Method fall short for this multi-part problem."
+    },
+    {
+      "text": "References Open/Closed Principle or extensibility",
+      "passed": true,
+      "evidence": "'Adding DOCX/EPUB later: Create a new factory + 4 product classes. Zero changes to existing code — that's the Open/Closed Principle in action.'"
+    },
+    {
+      "text": "Provides a structural sketch — interface + concrete implementations",
+      "passed": true,
+      "evidence": "Provides full interface definitions for HeaderRenderer, BodyRenderer, ImageRenderer, TableRenderer, plus the AbstractExporterFactory with concrete subclasses."
+    },
+    {
+      "text": "Mentions at least one alternative pattern and explains the tradeoff",
+      "passed": true,
+      "evidence": "Discusses Template Method (monolithic subclass, poor reuse) and Strategy (doesn't model 4 sub-parts cleanly) with explicit tradeoffs in a comparison table."
+    },
+    {
+      "text": "Response is language-agnostic or uses pseudocode",
+      "passed": true,
+      "evidence": "Uses interface notation and pseudocode-style code blocks rather than tying to a single language."
+    }
+  ]
+}

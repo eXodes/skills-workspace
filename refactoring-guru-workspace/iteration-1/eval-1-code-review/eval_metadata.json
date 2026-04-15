@@ -1,0 +1,37 @@
+{
+  "eval_id": 1,
+  "eval_name": "eval-1-code-review",
+  "prompt": "Can you review this code and tell me what's wrong with it? [OrderProcessor with switch statements, long method, SRP violations, hardcoded credentials]",
+  "assertions": [
+    {
+      "id": "names-switch-smell",
+      "description": "Uses the Refactoring Guru name 'Switch Statements' (or equivalent) to identify the conditional-on-type smell",
+      "check": "response mentions 'Switch Statements' or 'conditional' or 'polymorphism' in relation to the item-type if/elif chain"
+    },
+    {
+      "id": "names-long-method",
+      "description": "Identifies the Long Method smell by name",
+      "check": "response mentions 'Long Method' or 'method is too long' or 'Extract Method'"
+    },
+    {
+      "id": "names-srp-violation",
+      "description": "Identifies that the method is doing too many things (pricing + email + DB) — references SRP or Large Class or divergent responsibilities",
+      "check": "response mentions single responsibility, or that the method handles multiple concerns (pricing, email, database)"
+    },
+    {
+      "id": "recommends-concrete-technique",
+      "description": "Recommends at least one named refactoring technique (e.g., Extract Method, Replace Conditional with Polymorphism, Extract Class)",
+      "check": "response mentions at least one specific named technique from Refactoring Guru"
+    },
+    {
+      "id": "uses-rg-vocabulary",
+      "description": "Uses Refactoring Guru vocabulary (smell names, technique names) rather than generic descriptions",
+      "check": "response uses at least 2 canonical Refactoring Guru terms (smell or technique names)"
+    },
+    {
+      "id": "mentions-pattern-option",
+      "description": "Mentions Strategy pattern as an option for the discount calculation conditionals",
+      "check": "response mentions Strategy pattern in the context of the discount/type-based logic"
+    }
+  ]
+}

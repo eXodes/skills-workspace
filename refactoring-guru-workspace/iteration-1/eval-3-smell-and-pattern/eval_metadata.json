@@ -1,0 +1,37 @@
+{
+  "eval_id": 3,
+  "eval_name": "eval-3-smell-and-pattern",
+  "prompt": "I have this code that manages user notifications. Every time I need to add a new notification channel (email, SMS, push), I have to touch 5 different files. And whenever the notification rules change, I break something. How do I refactor this? [UserService with hardcoded notification calls in every method]",
+  "assertions": [
+    {
+      "id": "names-shotgun-surgery",
+      "description": "Identifies 'Shotgun Surgery' smell — adding a channel touches many files/methods",
+      "check": "response mentions 'Shotgun Surgery' or the description of needing to change multiple places"
+    },
+    {
+      "id": "names-divergent-change",
+      "description": "Identifies 'Divergent Change' or Feature Envy — UserService is responsible for notification decisions",
+      "check": "response mentions 'Divergent Change' or 'Feature Envy' or that UserService has too many responsibilities"
+    },
+    {
+      "id": "recommends-observer",
+      "description": "Recommends Observer pattern as the primary solution",
+      "check": "response recommends Observer pattern"
+    },
+    {
+      "id": "explains-observer-fit",
+      "description": "Explains why Observer fits — UserService emits events, channels subscribe",
+      "check": "response explains events/publisher-subscriber model where UserService publishes and channels subscribe"
+    },
+    {
+      "id": "addresses-extensibility",
+      "description": "Explains how the refactored design handles adding a new channel without modifying UserService",
+      "check": "response states that new channels are added by registering subscribers, not modifying UserService"
+    },
+    {
+      "id": "suggests-migration-path",
+      "description": "Suggests concrete steps or a migration approach (Extract Class, Move Method as stepping stones)",
+      "check": "response mentions Extract Class, Move Method, or describes a practical migration path"
+    }
+  ]
+}

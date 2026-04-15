@@ -1,0 +1,176 @@
+# Code Review: User Notification Management
+
+---
+
+## Shotgun Surgery — significant
+**Where:** `UserService.updateEmail`, `updatePassword`, `deactivateAccount`
+**Why it matters:** Every time you add a new notification channel (e.g., WhatsApp), you must open `UserService` and edit all three methods — plus wire in the new service dependency. A single logical change fans out across many callsites.
+**Fix:** Observer pattern (see primary recommendation below).
+
+---
+
+## Duplicate Code — moderate
+**Where:** Notification fan-out block in all three methods
+**Why it matters:** The triple-send pattern (`emailService.send` → `smsService.send` → `pushService.notify` → `auditLog.write`) is copy-pasted into every method. When the fan-out logic changes (e.g., "only push if user opted in"), you must update it in three places and will likely miss one.
+**Fix:** Extract Method to consolidate the notification block first, then replace with Observer.
+
+---
+
+## Divergent Change — significant
+**Where:** `UserService` class
+**Why it matters:** `UserService` has two completely different reasons to change: (1) business logic around user state changes, and (2) notification/side-effect routing. Adding a new notification channel OR changing notification rules both require modifying this class — even though they're unrelated concerns.
+**Fix:** Extract Class — split notification concerns out of `UserService` entirely.
+
+---
+
+## Inappropriate Intimacy — moderate
+**Where:** All three methods in `UserService`
+**Why it matters:** `UserService` has direct, named dependencies on `emailService`, `smsService`, `pushService`, `auditLog`, `securityService`, and `sessionService`. It knows far too much about how notifications are delivered. Business logic and infrastructure are tangled.
+**Fix:** Invert the dependency via Observer — `UserService` should emit events, not orchestrate side effects.
+
+---
+
+## Primary Recommendation: Observer Pattern
+
+### Why it fits
+The core problem is that `UserService` acts as both the subject (the thing that changes) and the orchestrator (the thing that decides who to notify and how). Observer decouples these: `UserService` just announces that something happened; independent handlers react to that event. Adding a new notification channel becomes adding a new subscriber — zero changes to `UserService` or existing handlers.
+
+### How to apply it to your code
+
+**Step 1 — Define a typed event hierarchy**
+
+```typescript
+// events.ts
+type UserEventType = 'email_updated' | 'password_changed' | 'account_deactivated';
+
+interface UserEvent {
+  type: UserEventType;
+  userId: string;
+  payload?: Record<string, unknown>;
+}
+```
+
+**Step 2 — Create a UserEventPublisher (the Subject)**
+
+```typescript
+// UserEventPublisher.ts
+interface UserEventHandler {
+  handle(event: UserEvent): void;
+}
+
+class UserEventPublisher {
+  private handlers: UserEventHandler[] = [];
+
+  subscribe(handler: UserEventHandler): void {
+    this.handlers.push(handler);
+  }
+
+  publish(event: UserEvent): void {
+    for (const handler of this.handlers) {
+      handler.handle(event);
+    }
+  }
+}
+```
+
+**Step 3 — Rewrite UserService to publish, not orchestrate**
+
+```typescript
+// UserService.ts
+class UserService {
+  constructor(
+    private db: Database,
+    private publisher: UserEventPublisher,
+    private securityService: SecurityService,
+    private sessionService: SessionService
+  ) {}
+
+  updateEmail(userId: string, newEmail: string) {
+    this.db.updateUser(userId, { email: newEmail });
+    this.publisher.publish({ type: 'email_updated', userId, payload: { newEmail } });
+  }
+
+  updatePassword(userId: string, newPassword: string) {
+    this.db.updateUser(userId, { password: hash(newPassword) });
+    this.securityService.revokeTokens(userId);
+    this.publisher.publish({ type: 'password_changed', userId });
+  }
+
+  deactivateAccount(userId: string) {
+    this.db.updateUser(userId, { active: false });
+    this.sessionService.killSessions(userId);
+    this.publisher.publish({ type: 'account_deactivated', userId });
+  }
+}
+```
+
+**Step 4 — Move each notification channel into its own subscriber**
+
+```typescript
+// NotificationHandler.ts
+class NotificationHandler implements UserEventHandler {
+  constructor(
+    private db: Database,
+    private emailService: EmailService,
+    private smsService: SmsService,
+    private pushService: PushService
+  ) {}
+
+  handle(event: UserEvent): void {
+    const user = this.db.getUser(event.userId);
+    const messages: Record<UserEventType, string> = {
+      email_updated: 'Email updated',
+      password_changed: 'Password changed',
+      account_deactivated: 'Account deactivated',
+    };
+    const message = messages[event.type];
+
+    this.emailService.send(user.email, message);
+    this.smsService.send(user.phone, message);
+    this.pushService.notify(event.userId, message);
+  }
+}
+
+// AuditHandler.ts
+class AuditHandler implements UserEventHandler {
+  constructor(private auditLog: AuditLog) {}
+
+  handle(event: UserEvent): void {
+    const descriptions: Record<UserEventType, string> = {
+      email_updated: 'changed email',
+      password_changed: 'changed password',
+      account_deactivated: 'deactivated',
+    };
+    this.auditLog.write(`User ${event.userId} ${descriptions[event.type]}`);
+  }
+}
+```
+
+**Step 5 — Wire it up in composition root**
+
+```typescript
+const publisher = new UserEventPublisher();
+publisher.subscribe(new NotificationHandler(db, emailService, smsService, pushService));
+publisher.subscribe(new AuditHandler(auditLog));
+
+const userService = new UserService(db, publisher, securityService, sessionService);
+```
+
+### What you gain
+- **Adding a new channel** (e.g., Slack): create a `SlackHandler`, call `publisher.subscribe(new SlackHandler(...))`. Zero changes to `UserService` or existing handlers.
+- **Changing notification rules** (e.g., only email on password change): modify `NotificationHandler.handle` in one place, governed by its own logic.
+- **Changing business rules** (e.g., what happens on deactivation): modify `UserService` only.
+- The two reasons to change are now in two different classes — **Divergent Change** is resolved.
+
+### Watch out for
+- **Subscriber ordering**: by default, handlers fire in subscription order. If your audit log must always run (even if the email handler throws), add a try/catch inside each handler or make the publisher fault-tolerant.
+- **Memory leaks**: if handlers have a shorter lifetime than the publisher, make sure to call an `unsubscribe` method (add one to `UserEventPublisher`) when they're torn down.
+- **Testing**: `UserService` is now trivially testable — just assert that `publisher.publish` was called with the right event. Handler tests are independent.
+
+---
+
+## Secondary Issues (worth noting)
+
+**Multiple `db.getUser` calls per method** — `updatePassword` and `deactivateAccount` call `db.getUser` inside each method body (in the original) after already having `userId`. These are redundant database round-trips. The `NotificationHandler` consolidates this into a single lookup.
+
+**Security-sensitive operations mixed with notifications** — `revokeTokens` and `killSessions` are still in `UserService` in the refactored version, which is correct. They are core business invariants, not side-effect handlers, so they should NOT be pushed into subscribers. Subscribers are for "also do this" concerns, not "must do this for correctness" concerns. Don't overextend Observer to cover everything.

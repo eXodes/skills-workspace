@@ -1,0 +1,353 @@
+{
+  "metadata": {
+    "skill_name": "refactoring-guru",
+    "skill_path": "<path/to/skill>",
+    "executor_model": "<model-name>",
+    "analyzer_model": "<model-name>",
+    "timestamp": "2026-04-14T04:23:46Z",
+    "evals_run": [
+      1,
+      2,
+      3
+    ],
+    "runs_per_configuration": 3
+  },
+  "runs": [
+    {
+      "eval_id": 1,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 6,
+        "failed": 0,
+        "total": 6,
+        "time_seconds": 77.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Uses 'Switch Statements' smell name or equivalent",
+          "passed": true,
+          "evidence": "Response has '## Switch Statements \u2014 significant' as a section heading"
+        },
+        {
+          "text": "Identifies Long Method smell by name",
+          "passed": true,
+          "evidence": "Response has '## Long Method \u2014 significant' as a section heading"
+        },
+        {
+          "text": "Identifies SRP violation / multiple responsibilities",
+          "passed": true,
+          "evidence": "'## Divergent Change \u2014 significant' covers multiple unrelated reasons to change, including 5 distinct concerns"
+        },
+        {
+          "text": "Recommends at least one named refactoring technique",
+          "passed": true,
+          "evidence": "Recommends: Replace Conditional with Polymorphism, Extract Class, Extract Method, Replace Magic Number with Symbolic Constant"
+        },
+        {
+          "text": "Uses Refactoring Guru vocabulary throughout",
+          "passed": true,
+          "evidence": "Uses: Switch Statements, Divergent Change, Long Method, Magic Numbers (Primitive Obsession), Extract Class, Extract Method, Replace Magic Number with Symbolic Constant, Open/Closed Principle"
+        },
+        {
+          "text": "Mentions Strategy pattern for the discount logic",
+          "passed": true,
+          "evidence": "'Fix: Apply Replace Conditional with Polymorphism using the Strategy pattern. Create a PricingStrategy interface...'"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 6,
+        "failed": 0,
+        "total": 6,
+        "time_seconds": 113.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Recommends a well-reasoned primary design pattern (Strategy or Abstract Factory both acceptable)",
+          "passed": true,
+          "evidence": "Recommends Abstract Factory with strong justification: 4 related product types per format require a coordinated family; prevents mismatched renderer combinations. Note: original assertion expected Strategy, but Abstract Factory is a valid and arguably better answer for this multi-product-family problem."
+        },
+        {
+          "text": "Explains why the recommended pattern fits",
+          "passed": true,
+          "evidence": "Explains that Abstract Factory enforces renderer family compatibility; explains why Strategy and Template Method fall short for this multi-part problem."
+        },
+        {
+          "text": "References Open/Closed Principle or extensibility",
+          "passed": true,
+          "evidence": "'Adding DOCX/EPUB later: Create a new factory + 4 product classes. Zero changes to existing code \u2014 that's the Open/Closed Principle in action.'"
+        },
+        {
+          "text": "Provides a structural sketch \u2014 interface + concrete implementations",
+          "passed": true,
+          "evidence": "Provides full interface definitions for HeaderRenderer, BodyRenderer, ImageRenderer, TableRenderer, plus the AbstractExporterFactory with concrete subclasses."
+        },
+        {
+          "text": "Mentions at least one alternative pattern and explains the tradeoff",
+          "passed": true,
+          "evidence": "Discusses Template Method (monolithic subclass, poor reuse) and Strategy (doesn't model 4 sub-parts cleanly) with explicit tradeoffs in a comparison table."
+        },
+        {
+          "text": "Response is language-agnostic or uses pseudocode",
+          "passed": true,
+          "evidence": "Uses interface notation and pseudocode-style code blocks rather than tying to a single language."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 3,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 6,
+        "failed": 0,
+        "total": 6,
+        "time_seconds": 100.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Identifies 'Shotgun Surgery' smell by name",
+          "passed": true,
+          "evidence": "'## Shotgun Surgery \u2014 significant' is the first section heading."
+        },
+        {
+          "text": "Identifies 'Divergent Change' or 'Feature Envy' smell by name",
+          "passed": true,
+          "evidence": "'## Divergent Change \u2014 significant' \u2014 UserService has two different reasons to change: business logic and notification routing."
+        },
+        {
+          "text": "Recommends Observer pattern as the primary solution",
+          "passed": true,
+          "evidence": "'## Primary Recommendation: Observer Pattern' \u2014 full section dedicated to Observer."
+        },
+        {
+          "text": "Explains why Observer fits \u2014 publisher/subscriber model",
+          "passed": true,
+          "evidence": "'UserService just announces that something happened; independent handlers react to that event.' Full typed event + publisher implementation provided."
+        },
+        {
+          "text": "Explains how new channels are added without modifying UserService",
+          "passed": true,
+          "evidence": "'Adding a new notification channel becomes adding a new subscriber \u2014 zero changes to UserService or existing handlers.'"
+        },
+        {
+          "text": "Suggests concrete steps or migration path",
+          "passed": true,
+          "evidence": "Lists Step 1\u2013Step 3 migration: define event types, create publisher, rewrite UserService to publish. Also mentions Extract Method as a stepping stone."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.3333,
+        "passed": 2,
+        "failed": 4,
+        "total": 6,
+        "time_seconds": 46.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Uses 'Switch Statements' smell name or equivalent",
+          "passed": false,
+          "evidence": "Does not use 'Switch Statements' smell name. Labels the issue as 'Open/Closed Principle Violation' instead. No reference to the Refactoring Guru smell taxonomy."
+        },
+        {
+          "text": "Identifies Long Method smell by name",
+          "passed": false,
+          "evidence": "Mentions SRP violation and breaking into classes, but never names 'Long Method' smell specifically."
+        },
+        {
+          "text": "Identifies SRP violation / multiple responsibilities",
+          "passed": true,
+          "evidence": "'SINGLE RESPONSIBILITY PRINCIPLE VIOLATION (Design)' \u2014 clearly identifies the method handles 5 distinct concerns."
+        },
+        {
+          "text": "Recommends at least one named refactoring technique",
+          "passed": false,
+          "evidence": "Mentions 'extract into separate methods or classes' but does not use canonical Refactoring Guru technique names like 'Extract Method' or 'Extract Class'."
+        },
+        {
+          "text": "Uses Refactoring Guru vocabulary throughout",
+          "passed": false,
+          "evidence": "Uses general software engineering terms (SRP, OCP, context managers, error handling) but not Refactoring Guru canonical smell/technique names."
+        },
+        {
+          "text": "Mentions Strategy pattern for the discount logic",
+          "passed": true,
+          "evidence": "'Fix: Replace the chain with a dispatch dictionary or a strategy pattern.' \u2014 mentions Strategy in the OCP section."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.8333,
+        "passed": 5,
+        "failed": 1,
+        "total": 6,
+        "time_seconds": 56.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Recommends a well-reasoned primary design pattern (Strategy or Abstract Factory both acceptable)",
+          "passed": true,
+          "evidence": "Recommends Abstract Factory with clear reasoning about product families and renderer consistency requirements."
+        },
+        {
+          "text": "Explains why the recommended pattern fits",
+          "passed": true,
+          "evidence": "Explains coordinated families of renderers, enforced compatibility, and extensibility."
+        },
+        {
+          "text": "References Open/Closed Principle or extensibility",
+          "passed": true,
+          "evidence": "'Adding a new format means adding one new factory class without touching existing code (Open/Closed Principle).'"
+        },
+        {
+          "text": "Provides a structural sketch \u2014 interface + concrete implementations",
+          "passed": true,
+          "evidence": "Provides ASCII diagram with ExporterFactory, concrete factories (PdfExporterFactory etc.), and renderer interfaces."
+        },
+        {
+          "text": "Mentions at least one alternative pattern and explains the tradeoff",
+          "passed": true,
+          "evidence": "Discusses Template Method (fixed skeleton, coupled hierarchy), Strategy (single algorithm, doesn't handle multi-part), and Builder (complement, not solution)."
+        },
+        {
+          "text": "Response is language-agnostic or uses pseudocode",
+          "passed": false,
+          "evidence": "Provides a full Python implementation with from abc import ABC, @abstractmethod, List typing \u2014 language-specific rather than language-agnostic."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 3,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.6667,
+        "passed": 4,
+        "failed": 2,
+        "total": 6,
+        "time_seconds": 38.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Identifies 'Shotgun Surgery' smell by name",
+          "passed": true,
+          "evidence": "'You have **Shotgun Surgery**' \u2014 explicitly named in the opening diagnosis."
+        },
+        {
+          "text": "Identifies 'Divergent Change' or 'Feature Envy' smell by name",
+          "passed": false,
+          "evidence": "Does not use 'Divergent Change' or 'Feature Envy'. Describes the same problem as 'Violation of Open/Closed Principle' instead. No Refactoring Guru smell taxonomy used."
+        },
+        {
+          "text": "Recommends Observer pattern as the primary solution",
+          "passed": true,
+          "evidence": "'Fix is the Observer / Domain Event pattern' \u2014 clearly recommended."
+        },
+        {
+          "text": "Explains why Observer fits \u2014 publisher/subscriber model",
+          "passed": true,
+          "evidence": "'UserService emits typed events (EMAIL_UPDATED, PASSWORD_CHANGED, etc.) \u2014 nothing else. Independent handlers subscribe.' Full EventBus implementation shown."
+        },
+        {
+          "text": "Explains how new channels are added without modifying UserService",
+          "passed": true,
+          "evidence": "'Adding WhatsApp? \u2192 touch NotificationHandler only.' Clear extensibility explanation."
+        },
+        {
+          "text": "Suggests concrete steps or migration path",
+          "passed": false,
+          "evidence": "Goes directly to full rewrite (new UserService with EventBus). Does not mention Extract Method/Extract Class as incremental stepping stones to reduce risk during migration."
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {
+        "mean": 1.0,
+        "stddev": 0.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 96.6667,
+        "stddev": 18.23,
+        "min": 77.0,
+        "max": 113.0
+      },
+      "tokens": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    "without_skill": {
+      "pass_rate": {
+        "mean": 0.6111,
+        "stddev": 0.2546,
+        "min": 0.3333,
+        "max": 0.8333
+      },
+      "time_seconds": {
+        "mean": 46.6667,
+        "stddev": 9.0185,
+        "min": 38.0,
+        "max": 56.0
+      },
+      "tokens": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    "delta": {
+      "pass_rate": "+0.39",
+      "time_seconds": "+50.0",
+      "tokens": "+0"
+    }
+  },
+  "notes": []
+}

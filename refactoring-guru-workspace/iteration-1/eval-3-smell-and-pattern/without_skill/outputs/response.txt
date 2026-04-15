@@ -1,0 +1,161 @@
+## Diagnosis: Shotgun Surgery + Missing Domain Events
+
+You have two intertwined problems:
+1. **Shotgun Surgery** — one logical change (add SMS channel) forces edits across many files
+2. **Violation of Open/Closed Principle** — adding a channel requires modifying existing, working code
+
+The fix is the **Observer / Domain Event pattern**: `UserService` emits events; notification handlers subscribe independently.
+
+---
+
+## Refactored Solution
+
+### Step 1 — Define Domain Events
+
+```typescript
+// events/UserEvents.ts
+export type UserEvent =
+  | { type: 'EMAIL_UPDATED';     userId: string; newEmail: string }
+  | { type: 'PASSWORD_CHANGED';  userId: string }
+  | { type: 'ACCOUNT_DEACTIVATED'; userId: string };
+```
+
+### Step 2 — A Minimal Event Bus
+
+```typescript
+// events/EventBus.ts
+type Handler<T> = (event: T) => void | Promise<void>;
+
+export class EventBus {
+  private handlers: Map<string, Handler<any>[]> = new Map();
+
+  on<T>(eventType: string, handler: Handler<T>) {
+    if (!this.handlers.has(eventType)) this.handlers.set(eventType, []);
+    this.handlers.get(eventType)!.push(handler);
+  }
+
+  async emit<T extends { type: string }>(event: T) {
+    const handlers = this.handlers.get(event.type) ?? [];
+    await Promise.all(handlers.map(h => h(event)));
+  }
+}
+
+export const eventBus = new EventBus();
+```
+
+### Step 3 — Slim Down UserService
+
+```typescript
+// UserService.ts
+class UserService {
+  constructor(private db: DB, private eventBus: EventBus) {}
+
+  async updateEmail(userId: string, newEmail: string) {
+    await this.db.updateUser(userId, { email: newEmail });
+    await this.eventBus.emit({ type: 'EMAIL_UPDATED', userId, newEmail });
+  }
+
+  async updatePassword(userId: string, newPassword: string) {
+    await this.db.updateUser(userId, { password: hash(newPassword) });
+    await this.eventBus.emit({ type: 'PASSWORD_CHANGED', userId });
+  }
+
+  async deactivateAccount(userId: string) {
+    await this.db.updateUser(userId, { active: false });
+    await this.eventBus.emit({ type: 'ACCOUNT_DEACTIVATED', userId });
+  }
+}
+```
+
+`UserService` now has **zero knowledge** of notifications, audit logs, or sessions.
+
+### Step 4 — Independent Handlers (one per concern)
+
+```typescript
+// handlers/NotificationHandler.ts
+export class NotificationHandler {
+  constructor(
+    private db: DB,
+    private email: EmailService,
+    private sms: SmsService,
+    private push: PushService,
+  ) {}
+
+  register(bus: EventBus) {
+    bus.on('EMAIL_UPDATED',      e => this.notify(e.userId, 'Email updated'));
+    bus.on('PASSWORD_CHANGED',   e => this.notify(e.userId, 'Password changed'));
+    bus.on('ACCOUNT_DEACTIVATED',e => this.notify(e.userId, 'Account deactivated'));
+  }
+
+  private async notify(userId: string, message: string) {
+    const user = await this.db.getUser(userId);
+    await Promise.all([
+      this.email.send(user.email, message),
+      this.sms.send(user.phone, message),
+      this.push.notify(userId, message),
+    ]);
+  }
+}
+
+// handlers/AuditHandler.ts
+export class AuditHandler {
+  constructor(private auditLog: AuditLog) {}
+
+  register(bus: EventBus) {
+    bus.on('EMAIL_UPDATED',      e => this.auditLog.write(`User ${e.userId} changed email`));
+    bus.on('PASSWORD_CHANGED',   e => this.auditLog.write(`User ${e.userId} changed password`));
+    bus.on('ACCOUNT_DEACTIVATED',e => this.auditLog.write(`User ${e.userId} deactivated`));
+  }
+}
+
+// handlers/SecurityHandler.ts
+export class SecurityHandler {
+  constructor(private security: SecurityService, private sessions: SessionService) {}
+
+  register(bus: EventBus) {
+    bus.on('PASSWORD_CHANGED',   e => this.security.revokeTokens(e.userId));
+    bus.on('ACCOUNT_DEACTIVATED',e => this.sessions.killSessions(e.userId));
+  }
+}
+```
+
+### Step 5 — Wire it up once (composition root)
+
+```typescript
+// bootstrap.ts
+const bus = new EventBus();
+
+new NotificationHandler(db, emailService, smsService, pushService).register(bus);
+new AuditHandler(auditLog).register(bus);
+new SecurityHandler(securityService, sessionService).register(bus);
+
+const userService = new UserService(db, bus);
+```
+
+---
+
+## What You Gained
+
+| Before | After |
+|---|---|
+| Add WhatsApp channel → touch UserService + 5 files | Add WhatsApp channel → create `WhatsAppService`, inject into `NotificationHandler` only |
+| Change "password changed" rules → risk breaking audit/session logic | Each concern lives in its own handler; changes are isolated |
+| Testing UserService requires mocking 4+ services | UserService only needs `db` + `eventBus` mocked |
+| Reading `updatePassword` reveals unrelated concerns | `updatePassword` is 2 lines: persist + emit |
+
+## Adding a New Channel (e.g., WhatsApp) — Now Just 2 Steps
+
+1. Create `WhatsAppService` implementing your messaging interface
+2. Add one line in `NotificationHandler.notify()`:
+   ```typescript
+   this.whatsApp.send(user.phone, message),
+   ```
+
+Zero changes to `UserService`. Zero risk of breaking audit or security logic.
+
+## Key Principles Applied
+
+- **Single Responsibility**: Each class owns exactly one concern
+- **Open/Closed**: System is open for extension (new handlers), closed for modification
+- **Dependency Inversion**: `UserService` depends on the abstraction (`EventBus`), not concrete notification services
+- **Observer Pattern**: Decouples event producers from consumers

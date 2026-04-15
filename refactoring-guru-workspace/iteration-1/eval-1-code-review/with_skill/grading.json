@@ -1,0 +1,36 @@
+{
+  "eval_id": 1,
+  "eval_name": "eval-1-code-review",
+  "expectations": [
+    {
+      "text": "Uses 'Switch Statements' smell name or equivalent",
+      "passed": true,
+      "evidence": "Response has '## Switch Statements — significant' as a section heading"
+    },
+    {
+      "text": "Identifies Long Method smell by name",
+      "passed": true,
+      "evidence": "Response has '## Long Method — significant' as a section heading"
+    },
+    {
+      "text": "Identifies SRP violation / multiple responsibilities",
+      "passed": true,
+      "evidence": "'## Divergent Change — significant' covers multiple unrelated reasons to change, including 5 distinct concerns"
+    },
+    {
+      "text": "Recommends at least one named refactoring technique",
+      "passed": true,
+      "evidence": "Recommends: Replace Conditional with Polymorphism, Extract Class, Extract Method, Replace Magic Number with Symbolic Constant"
+    },
+    {
+      "text": "Uses Refactoring Guru vocabulary throughout",
+      "passed": true,
+      "evidence": "Uses: Switch Statements, Divergent Change, Long Method, Magic Numbers (Primitive Obsession), Extract Class, Extract Method, Replace Magic Number with Symbolic Constant, Open/Closed Principle"
+    },
+    {
+      "text": "Mentions Strategy pattern for the discount logic",
+      "passed": true,
+      "evidence": "'Fix: Apply Replace Conditional with Polymorphism using the Strategy pattern. Create a PricingStrategy interface...'"
+    }
+  ]
+}

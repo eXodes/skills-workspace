@@ -1,0 +1,42 @@
+{
+  "eval_id": 3,
+  "eval_name": "eval-3-smell-and-pattern",
+  "expectations": [
+    {
+      "text": "Identifies 'Shotgun Surgery' smell by name",
+      "passed": true,
+      "evidence": "'You have **Shotgun Surgery**' \u2014 explicitly named in the opening diagnosis."
+    },
+    {
+      "text": "Identifies 'Divergent Change' or 'Feature Envy' smell by name",
+      "passed": false,
+      "evidence": "Does not use 'Divergent Change' or 'Feature Envy'. Describes the same problem as 'Violation of Open/Closed Principle' instead. No Refactoring Guru smell taxonomy used."
+    },
+    {
+      "text": "Recommends Observer pattern as the primary solution",
+      "passed": true,
+      "evidence": "'Fix is the Observer / Domain Event pattern' \u2014 clearly recommended."
+    },
+    {
+      "text": "Explains why Observer fits \u2014 publisher/subscriber model",
+      "passed": true,
+      "evidence": "'UserService emits typed events (EMAIL_UPDATED, PASSWORD_CHANGED, etc.) \u2014 nothing else. Independent handlers subscribe.' Full EventBus implementation shown."
+    },
+    {
+      "text": "Explains how new channels are added without modifying UserService",
+      "passed": true,
+      "evidence": "'Adding WhatsApp? \u2192 touch NotificationHandler only.' Clear extensibility explanation."
+    },
+    {
+      "text": "Suggests concrete steps or migration path",
+      "passed": false,
+      "evidence": "Goes directly to full rewrite (new UserService with EventBus). Does not mention Extract Method/Extract Class as incremental stepping stones to reduce risk during migration."
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 2,
+    "total": 6,
+    "pass_rate": 0.6667
+  }
+}

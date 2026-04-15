@@ -1,0 +1,42 @@
+{
+  "eval_id": 3,
+  "eval_name": "eval-3-smell-and-pattern",
+  "expectations": [
+    {
+      "text": "Identifies 'Shotgun Surgery' smell by name",
+      "passed": true,
+      "evidence": "'## Shotgun Surgery \u2014 significant' is the first section heading."
+    },
+    {
+      "text": "Identifies 'Divergent Change' or 'Feature Envy' smell by name",
+      "passed": true,
+      "evidence": "'## Divergent Change \u2014 significant' \u2014 UserService has two different reasons to change: business logic and notification routing."
+    },
+    {
+      "text": "Recommends Observer pattern as the primary solution",
+      "passed": true,
+      "evidence": "'## Primary Recommendation: Observer Pattern' \u2014 full section dedicated to Observer."
+    },
+    {
+      "text": "Explains why Observer fits \u2014 publisher/subscriber model",
+      "passed": true,
+      "evidence": "'UserService just announces that something happened; independent handlers react to that event.' Full typed event + publisher implementation provided."
+    },
+    {
+      "text": "Explains how new channels are added without modifying UserService",
+      "passed": true,
+      "evidence": "'Adding a new notification channel becomes adding a new subscriber \u2014 zero changes to UserService or existing handlers.'"
+    },
+    {
+      "text": "Suggests concrete steps or migration path",
+      "passed": true,
+      "evidence": "Lists Step 1\u2013Step 3 migration: define event types, create publisher, rewrite UserService to publish. Also mentions Extract Method as a stepping stone."
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "pass_rate": 1.0
+  }
+}

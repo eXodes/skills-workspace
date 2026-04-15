@@ -1,0 +1,6 @@
+Split: 12 train, 8 test (holdout=0.4)
+
+============================================================
+Iteration 1/5
+Description: Expert advisor for code quality using the Refactoring Guru knowledge base. Use this skill whenever the user shares code and wants a review, asks about design patterns, wants to refactor or clean up code, mentions code smells, asks which pattern to use, wants to understand when to apply Factory/Observer/Strategy/Decorator/etc., needs to decide between patterns, wants to eliminate duplication, untangle dependencies, simplify conditionals, or improve overall code structure. Trigger even when the user phrases it casually — "this code is a mess", "how do I design this?", "what's the best way to structure X?", "should I use inheritance or composition?" All of these are design/refactoring questions that benefit from this skill.
+============================================================

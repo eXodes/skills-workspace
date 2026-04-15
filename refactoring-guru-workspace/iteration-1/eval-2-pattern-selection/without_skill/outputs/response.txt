@@ -1,0 +1,256 @@
+# Design Pattern for Document Export System
+
+## Recommended Pattern: Abstract Factory
+
+For a document export system where each format (PDF, HTML, Markdown, DOCX, EPUB) requires
+different logic for multiple components (headers, body text, images, tables), the
+**Abstract Factory** pattern is the best fit.
+
+### Why Abstract Factory?
+
+- You have *families* of related objects that vary together per format.
+  Each format needs a coordinated set of renderers — you never mix a PDF header
+  renderer with an HTML table renderer.
+- Adding a new format means adding one new factory class without touching existing code
+  (Open/Closed Principle).
+- The factory enforces that all components (header, body, image, table) are implemented
+  for every format — the compiler/type system catches incomplete implementations.
+
+### Why NOT other patterns?
+
+- **Strategy pattern** works when you have *one* varying algorithm. Here you have four
+  (header, body, image, table) that must stay consistent per format — Strategy alone
+  would scatter format logic across multiple strategy classes.
+- **Template Method** is good for a fixed skeleton with varying steps, but it couples all
+  formats into a single inheritance hierarchy, making it harder to extend.
+- **Builder** is a great complement here (for assembling the final document), but it
+  doesn't solve the problem of format-specific rendering logic on its own.
+
+---
+
+## Structure
+
+```
+DocumentExporter (Director / Client)
+│
+├── ExporterFactory (Abstract Factory interface)
+│     ├── createHeaderRenderer()  -> HeaderRenderer
+│     ├── createBodyRenderer()    -> BodyRenderer
+│     ├── createImageRenderer()   -> ImageRenderer
+│     └── createTableRenderer()  -> TableRenderer
+│
+├── PdfExporterFactory   implements ExporterFactory
+├── HtmlExporterFactory  implements ExporterFactory
+├── MarkdownExporterFactory implements ExporterFactory
+├── DocxExporterFactory  implements ExporterFactory  ← future
+└── EpubExporterFactory  implements ExporterFactory  ← future
+
+Renderer interfaces:
+├── HeaderRenderer   { render(level, text) }
+├── BodyRenderer     { render(text) }
+├── ImageRenderer    { render(src, alt) }
+└── TableRenderer    { render(rows) }
+```
+
+---
+
+## Python Implementation
+
+```python
+from abc import ABC, abstractmethod
+from typing import List
+
+
+# ── Renderer interfaces ──────────────────────────────────────────────────────
+
+class HeaderRenderer(ABC):
+    @abstractmethod
+    def render(self, level: int, text: str) -> str: ...
+
+class BodyRenderer(ABC):
+    @abstractmethod
+    def render(self, text: str) -> str: ...
+
+class ImageRenderer(ABC):
+    @abstractmethod
+    def render(self, src: str, alt: str) -> str: ...
+
+class TableRenderer(ABC):
+    @abstractmethod
+    def render(self, rows: List[List[str]]) -> str: ...
+
+
+# ── Abstract Factory ─────────────────────────────────────────────────────────
+
+class ExporterFactory(ABC):
+    @abstractmethod
+    def create_header_renderer(self) -> HeaderRenderer: ...
+
+    @abstractmethod
+    def create_body_renderer(self) -> BodyRenderer: ...
+
+    @abstractmethod
+    def create_image_renderer(self) -> ImageRenderer: ...
+
+    @abstractmethod
+    def create_table_renderer(self) -> TableRenderer: ...
+
+
+# ── HTML Concrete Factory & Renderers ────────────────────────────────────────
+
+class HtmlHeaderRenderer(HeaderRenderer):
+    def render(self, level: int, text: str) -> str:
+        return f"<h{level}>{text}</h{level}>"
+
+class HtmlBodyRenderer(BodyRenderer):
+    def render(self, text: str) -> str:
+        return f"<p>{text}</p>"
+
+class HtmlImageRenderer(ImageRenderer):
+    def render(self, src: str, alt: str) -> str:
+        return f'<img src="{src}" alt="{alt}" />'
+
+class HtmlTableRenderer(TableRenderer):
+    def render(self, rows: List[List[str]]) -> str:
+        html_rows = "".join(
+            "<tr>" + "".join(f"<td>{cell}</td>" for cell in row) + "</tr>"
+            for row in rows
+        )
+        return f"<table>{html_rows}</table>"
+
+class HtmlExporterFactory(ExporterFactory):
+    def create_header_renderer(self) -> HeaderRenderer:
+        return HtmlHeaderRenderer()
+    def create_body_renderer(self) -> BodyRenderer:
+        return HtmlBodyRenderer()
+    def create_image_renderer(self) -> ImageRenderer:
+        return HtmlImageRenderer()
+    def create_table_renderer(self) -> TableRenderer:
+        return HtmlTableRenderer()
+
+
+# ── Markdown Concrete Factory & Renderers ────────────────────────────────────
+
+class MarkdownHeaderRenderer(HeaderRenderer):
+    def render(self, level: int, text: str) -> str:
+        return f"{'#' * level} {text}"
+
+class MarkdownBodyRenderer(BodyRenderer):
+    def render(self, text: str) -> str:
+        return text
+
+class MarkdownImageRenderer(ImageRenderer):
+    def render(self, src: str, alt: str) -> str:
+        return f"![{alt}]({src})"
+
+class MarkdownTableRenderer(TableRenderer):
+    def render(self, rows: List[List[str]]) -> str:
+        if not rows:
+            return ""
+        header = "| " + " | ".join(rows[0]) + " |"
+        separator = "| " + " | ".join("---" for _ in rows[0]) + " |"
+        body = "\n".join("| " + " | ".join(row) + " |" for row in rows[1:])
+        return "\n".join([header, separator, body])
+
+class MarkdownExporterFactory(ExporterFactory):
+    def create_header_renderer(self) -> HeaderRenderer:
+        return MarkdownHeaderRenderer()
+    def create_body_renderer(self) -> BodyRenderer:
+        return MarkdownBodyRenderer()
+    def create_image_renderer(self) -> ImageRenderer:
+        return MarkdownImageRenderer()
+    def create_table_renderer(self) -> TableRenderer:
+        return MarkdownTableRenderer()
+
+
+# ── Document Exporter (Director) ─────────────────────────────────────────────
+
+class DocumentExporter:
+    def __init__(self, factory: ExporterFactory):
+        self._header = factory.create_header_renderer()
+        self._body   = factory.create_body_renderer()
+        self._image  = factory.create_image_renderer()
+        self._table  = factory.create_table_renderer()
+
+    def export(self, document: dict) -> str:
+        parts = []
+        for block in document["blocks"]:
+            if block["type"] == "header":
+                parts.append(self._header.render(block["level"], block["text"]))
+            elif block["type"] == "body":
+                parts.append(self._body.render(block["text"]))
+            elif block["type"] == "image":
+                parts.append(self._image.render(block["src"], block["alt"]))
+            elif block["type"] == "table":
+                parts.append(self._table.render(block["rows"]))
+        return "\n".join(parts)
+
+
+# ── Factory registry (for extensibility) ─────────────────────────────────────
+
+EXPORT_FACTORIES = {
+    "html":     HtmlExporterFactory,
+    "markdown": MarkdownExporterFactory,
+    # "pdf":    PdfExporterFactory,    ← add when ready
+    # "docx":   DocxExporterFactory,   ← add when ready
+    # "epub":   EpubExporterFactory,   ← add when ready
+}
+
+def get_exporter(fmt: str) -> DocumentExporter:
+    factory_cls = EXPORT_FACTORIES.get(fmt)
+    if not factory_cls:
+        raise ValueError(f"Unsupported export format: {fmt}")
+    return DocumentExporter(factory_cls())
+
+
+# ── Usage ─────────────────────────────────────────────────────────────────────
+
+document = {
+    "blocks": [
+        {"type": "header", "level": 1, "text": "My Report"},
+        {"type": "body",   "text": "This is the introduction."},
+        {"type": "image",  "src": "chart.png", "alt": "Sales Chart"},
+        {"type": "table",  "rows": [["Name", "Score"], ["Alice", "95"], ["Bob", "87"]]},
+    ]
+}
+
+for fmt in ["html", "markdown"]:
+    exporter = get_exporter(fmt)
+    print(f"=== {fmt.upper()} ===")
+    print(exporter.export(document))
+    print()
+```
+
+---
+
+## Adding a New Format (e.g., DOCX)
+
+1. Implement `DocxHeaderRenderer`, `DocxBodyRenderer`, `DocxImageRenderer`, `DocxTableRenderer`.
+2. Implement `DocxExporterFactory` that returns them.
+3. Register it: `EXPORT_FACTORIES["docx"] = DocxExporterFactory`.
+4. Zero changes to `DocumentExporter` or any existing factory.
+
+---
+
+## Optional Enhancements
+
+- **Builder pattern on top**: If the export process has a mandatory sequence
+  (front matter → body → footer → metadata), wrap `DocumentExporter` in a
+  `DocumentExportBuilder` that enforces that order.
+- **Plugin/registry pattern**: Load format factories dynamically from entry points
+  (useful for a plugin system where DOCX/EPUB are optional packages).
+- **Composite pattern**: If document blocks can be nested (e.g., a table inside a
+  callout block), represent the document tree as a Composite and walk it with a
+  visitor — but start simple with the Abstract Factory first.
+
+---
+
+## Summary
+
+| Concern                        | Solution                          |
+|-------------------------------|-----------------------------------|
+| Format-specific rendering logic | Abstract Factory per format       |
+| Consistent component families   | Each factory produces all 4 types |
+| Adding new formats              | Add one factory class, register it|
+| Adding new block types          | Add one renderer interface + impls|
+| Document assembly order         | DocumentExporter (Director)       |
