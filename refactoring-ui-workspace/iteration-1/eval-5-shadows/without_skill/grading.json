@@ -1,0 +1,27 @@
+{
+  "expectations": [
+    {
+      "text": "Explains that shadow size/softness communicates elevation — closer elements have larger, softer shadows",
+      "passed": true,
+      "evidence": "'Objects close to a surface cast short, tight, dark shadows. Objects far from a surface cast long, wide, diffuse shadows.' — clear physics analogy explaining the relationship"
+    },
+    {
+      "text": "Justifies why the modal should have a larger/heavier shadow than the tooltip based on elevation",
+      "passed": true,
+      "evidence": "'Elevation Hierarchy: Modals represent high elevation...Tooltips are low elevation — a small label that barely lifts off the surface. Matching shadow values collapses this distinction'"
+    },
+    {
+      "text": "Includes specific CSS box-shadow values for at least one element",
+      "passed": true,
+      "evidence": "Modal: `0 20px 60px rgba(0, 0, 0, 0.30), 0 8px 20px rgba(0, 0, 0, 0.15)`; Tooltip: `0 4px 12px rgba(0, 0, 0, 0.15)` — both provided"
+    },
+    {
+      "text": "Recommends building a reusable shadow scale/system rather than ad-hoc values",
+      "passed": true,
+      "evidence": "'Use the same shadow system — not the same shadow value. Define a shadow scale (like shadow-sm, shadow-md, shadow-xl) and assign modals to the highest tier and tooltips to a lower tier'"
+    }
+  ],
+  "summary": {"passed": 4, "failed": 0, "total": 4, "pass_rate": 1.0},
+  "claims": [],
+  "eval_feedback": {"suggestions": [{"reason": "The shadow eval is not discriminating — general knowledge handles it well. Consider adding an assertion specifically about two-part shadows (ambient + direct) which is Refactoring UI-specific advice the skill provides but generic knowledge does not"}], "overall": "Both with_skill and without_skill pass all assertions. This eval needs stronger Refactoring UI-specific assertions to be discriminating."}
+}

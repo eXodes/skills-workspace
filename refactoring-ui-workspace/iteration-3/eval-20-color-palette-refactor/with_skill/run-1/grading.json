@@ -1,0 +1,32 @@
+{
+  "eval_id": 20,
+  "config": "with_skill",
+  "expectations": [
+    {
+      "text": "Output uses hsl() color notation",
+      "passed": true,
+      "evidence": "PASS: uses_hsl_colors"
+    },
+    {
+      "text": "Pure saturated primaries (#0000FF, #FF0000, #00FF00 etc.) removed",
+      "passed": true,
+      "evidence": "PASS: removes_pure_saturated_primaries"
+    },
+    {
+      "text": "Colors defined as CSS custom properties",
+      "passed": true,
+      "evidence": "PASS: uses_css_variables"
+    },
+    {
+      "text": "Alert backgrounds exist and are not fully saturated (uses tinted/light backgrounds)",
+      "passed": true,
+      "evidence": "PASS: tinted_backgrounds_for_alerts"
+    }
+  ],
+  "summary": {
+    "pass_rate": 1.0,
+    "passed": 4,
+    "failed": 0,
+    "total": 4
+  }
+}

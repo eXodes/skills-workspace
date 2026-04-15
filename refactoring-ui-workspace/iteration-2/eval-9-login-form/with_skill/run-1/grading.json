@@ -1,0 +1,30 @@
+{
+  "expectations": [
+    {
+      "text": "Uses hsl() color notation for color values",
+      "passed": true,
+      "evidence": "13 hsl() uses; only 3 hex values in file"
+    },
+    {
+      "text": "Primary button uses font-weight >= 600 for strong visual emphasis",
+      "passed": true,
+      "evidence": "Font-weight values 400, 500, 600, 700 all present; button uses 600+ per CSS"
+    },
+    {
+      "text": "Label-to-input spacing is visually tighter than the spacing between separate form groups",
+      "passed": true,
+      "evidence": "CSS comment explicitly states 'tight label\u2192input spacing (4px), wider group\u2192group spacing (20px)'; .form-group uses gap: var(--space-1) \u2248 4px while .form uses gap: var(--space-5) \u2248 20px"
+    },
+    {
+      "text": "Input fields have a visible focus state or border styling",
+      "passed": true,
+      "evidence": "Inputs have explicit :focus state styling with box-shadow and border color change per CSS"
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "pass_rate": 1.0
+  }
+}

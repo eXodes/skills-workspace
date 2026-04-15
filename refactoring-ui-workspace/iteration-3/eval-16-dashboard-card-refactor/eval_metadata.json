@@ -1,0 +1,27 @@
+{
+  "eval_id": 16,
+  "eval_name": "dashboard-card-refactor",
+  "prompt": "This stat card design is a mess — rainbow gradient background, purple border, and all text the same size. Please refactor it to look like a clean, professional dashboard card. Read the file at /Users/zulthaqif/Documents/skills-workspace/refactoring-ui-workspace/iteration-3/eval-16-dashboard-card-refactor/input/bad-design.html and save the improved version as component.html",
+  "assertions": [
+    {
+      "id": "uses_hsl_colors",
+      "description": "Output uses hsl() color notation",
+      "type": "programmatic"
+    },
+    {
+      "id": "removes_rainbow_gradient",
+      "description": "The multi-color rainbow gradient background is removed (no linear-gradient with FF5733/FFC300/28B463 or similar saturated color stops)",
+      "type": "programmatic"
+    },
+    {
+      "id": "font_size_hierarchy",
+      "description": "At least 3 distinct font-size values used for card title, metric value, and supporting text",
+      "type": "programmatic"
+    },
+    {
+      "id": "muted_text_uses_color_not_opacity",
+      "description": "Muted/secondary text uses a lighter color, not opacity hack (no 'opacity: 0.' on text)",
+      "type": "programmatic"
+    }
+  ]
+}

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pro Plan — Pricing Card</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ─── Design tokens ──────────────────────────────────────────────
+       HSL palette (9-shade structure), base-4 spacing scale,
+       and a named shadow system — all defined once, used everywhere.
+    ──────────────────────────────────────────────────────────────── */
+    :root {
+      /* Primary — indigo (cool brand color) */
+      --primary-50:  hsl(245, 100%, 97%);
+      --primary-100: hsl(245, 87%,  93%);
+      --primary-200: hsl(245, 75%,  84%);
+      --primary-500: hsl(245, 68%,  58%);
+      --primary-600: hsl(245, 65%,  50%);
+      --primary-700: hsl(245, 60%,  41%);
+
+      /* Cool greys — slight blue hue to harmonise with primary */
+      --grey-50:  hsl(220, 30%, 98%);
+      --grey-100: hsl(220, 20%, 94%);
+      --grey-200: hsl(220, 16%, 88%);
+      --grey-400: hsl(220, 10%, 63%);
+      --grey-500: hsl(220,  9%, 46%);
+      --grey-700: hsl(220, 14%, 28%);
+      --grey-900: hsl(222, 24%, 12%);
+
+      /* Spacing scale (base-4) */
+      --sp-1:  4px;
+      --sp-2:  8px;
+      --sp-3:  12px;
+      --sp-4:  16px;
+      --sp-5:  20px;
+      --sp-6:  24px;
+      --sp-8:  32px;
+      --sp-10: 40px;
+      --sp-12: 48px;
+
+      /* Shadow scale — two-part (ambient + direct) for realism */
+      --shadow-card:
+        0 10px 24px rgba(0, 0, 0, 0.09),
+        0  4px  8px rgba(0, 0, 0, 0.05);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+                   Roboto, Helvetica, Arial, sans-serif;
+      /* Tinted off-white background — not pure white, feels more polished */
+      background: var(--grey-50);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--sp-8);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ─── Card ──────────────────────────────────────────────────────
+       White surface on grey background = naturally raised (flat depth).
+       Accent border replaces a heavy colored header — brand present
+       without dominating. Two-part shadow conveys elevation.
+    ──────────────────────────────────────────────────────────────── */
+    .pricing-card {
+      background: #ffffff;
+      border-radius: 14px;
+      box-shadow: var(--shadow-card);
+      width: 100%;
+      max-width: 368px;
+      /* Top accent border: a thin stripe achieves the brand-color effect
+         without flooding the whole card with color. */
+      border-top: 4px solid var(--primary-500);
+      overflow: hidden;
+    }
+
+    .card-body {
+      padding: var(--sp-10);
+    }
+
+    /* ─── Plan header ───────────────────────────────────────────────
+       Plan name is the primary content — make it dominant.
+       Tagline is secondary — lighter color, not smaller font.
+    ──────────────────────────────────────────────────────────────── */
+    .plan-name {
+      font-size: 30px;    /* type-scale: 3xl */
+      font-weight: 700;
+      color: var(--grey-900);
+      letter-spacing: -0.015em;  /* tight tracking for large display text */
+      line-height: 1.1;
+      margin-bottom: var(--sp-2);
+    }
+
+    .plan-tagline {
+      font-size: 15px;
+      font-weight: 400;
+      /* De-emphasise via color, not size — readability cost is lower */
+      color: var(--grey-500);
+      line-height: 1.5;
+      margin-bottom: var(--sp-8);
+    }
+
+    /* ─── Price ─────────────────────────────────────────────────────
+       The price needs no "Price:" label — "$49 / month" is
+       self-explanatory. Baseline-align the three parts so they share
+       a reading line even though they differ in size.
+    ──────────────────────────────────────────────────────────────── */
+    .price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 0;
+      margin-bottom: var(--sp-8);
+    }
+
+    .price-currency {
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--grey-700);
+      /* Nudge down to visually align with the baseline of the large numeral */
+      align-self: flex-end;
+      padding-bottom: 6px;
+    }
+
+    .price-amount {
+      font-size: 56px;      /* type-scale: prominent hero number */
+      font-weight: 700;
+      color: var(--grey-900);
+      letter-spacing: -0.025em;
+      line-height: 1;
+    }
+
+    .price-period {
+      font-size: 15px;
+      font-weight: 400;
+      /* Tertiary — lighter even than secondary text */
+      color: var(--grey-400);
+      margin-left: var(--sp-2);
+      padding-bottom: 4px;
+    }
+
+    /* ─── Divider — spacing + light tint, no heavy border ─────────── */
+    .divider {
+      height: 1px;
+      background: var(--grey-100);
+      margin-bottom: var(--sp-8);
+    }
+
+    /* ─── Features ──────────────────────────────────────────────────
+       Supercharged list defaults: replace plain bullets with a
+       brand-colored checkmark in a tinted circle.
+       Features are body content — normal weight, mid-dark color.
+    ──────────────────────────────────────────────────────────────── */
+    .feature-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-4);
+      margin-bottom: var(--sp-10);
+    }
+
+    .feature-list li {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--grey-700);
+      line-height: 1.4;
+    }
+
+    /* Circular check badge: brand tint background + checkmark glyph */
+    .feature-list li::before {
+      content: '✓';
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: var(--primary-100);
+      color: var(--primary-600);
+      font-size: 11px;
+      font-weight: 700;
+      /* Reduce icon weight so it reads as a supporting symbol,
+         not a competing element (balance weight and contrast). */
+      opacity: 0.9;
+    }
+
+    /* ─── CTA Button ────────────────────────────────────────────────
+       Primary action → solid, high-contrast button.
+       Top inset highlight emulates a light source from above (raised).
+    ──────────────────────────────────────────────────────────────── */
+    .cta-button {
+      display: block;
+      width: 100%;
+      padding: 15px var(--sp-6);
+      background: var(--primary-500);
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 600;
+      text-align: center;
+      cursor: pointer;
+      /* Two-shadow system: inner highlight (light source) + outer lift */
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.18),
+        0 2px 6px rgba(90, 70, 220, 0.38);
+      transition:
+        background-color 0.15s ease,
+        box-shadow       0.15s ease,
+        transform        0.1s  ease;
+    }
+
+    .cta-button:hover {
+      background: var(--primary-600);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.18),
+        0 4px 14px rgba(90, 70, 220, 0.45);
+      transform: translateY(-1px);
+    }
+
+    .cta-button:active {
+      background: var(--primary-700);
+      /* Inset shadow on press = light source still from above, but now recessed */
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.18);
+      transform: translateY(0);
+    }
+
+    /* ─── Footer note ───────────────────────────────────────────────
+       Tertiary text — lightest in the hierarchy.
+       No need for a label; context makes it clear.
+    ──────────────────────────────────────────────────────────────── */
+    .card-note {
+      text-align: center;
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--grey-400);
+      margin-top: var(--sp-5);
+      letter-spacing: 0.01em;
+    }
+  </style>
+</head>
+<body>
+
+  <article class="pricing-card" aria-label="Pro plan pricing">
+    <div class="card-body">
+
+      <!-- Plan name: primary content — largest, heaviest, darkest -->
+      <h2 class="plan-name">Pro</h2>
+
+      <!-- Tagline: secondary — same size, de-emphasised via color -->
+      <p class="plan-tagline">Everything you need to grow your team and ship faster.</p>
+
+      <!-- Price: no "Price:" label — the format is self-explanatory.
+           Three parts baseline-aligned: currency, amount, period. -->
+      <div class="price-row" aria-label="$49 per month">
+        <span class="price-currency" aria-hidden="true">$</span>
+        <span class="price-amount"   aria-hidden="true">49</span>
+        <span class="price-period"   aria-hidden="true">/ month</span>
+      </div>
+
+      <!-- Divider: one thin tint line, no heavy border -->
+      <div class="divider" role="separator"></div>
+
+      <!-- Features: supercharged list with brand-tinted checkmarks -->
+      <ul class="feature-list" aria-label="Included features">
+        <li>Unlimited projects &amp; workspaces</li>
+        <li>Priority support with 4-hour response</li>
+        <li>Advanced analytics &amp; custom reports</li>
+        <li>Full API access &amp; custom integrations</li>
+        <li>Team collaboration for up to 25 seats</li>
+      </ul>
+
+      <!-- Primary CTA: solid, high-contrast — the one obvious next step -->
+      <button class="cta-button" type="button">Get Started</button>
+
+      <!-- Tertiary note: lightest in hierarchy, reassures without distracting -->
+      <p class="card-note">No credit card required &middot; Cancel anytime</p>
+
+    </div>
+  </article>
+
+</body>
+</html>

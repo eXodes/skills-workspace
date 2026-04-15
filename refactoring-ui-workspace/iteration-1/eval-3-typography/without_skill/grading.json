@@ -1,0 +1,27 @@
+{
+  "expectations": [
+    {
+      "text": "Identifies that full-width text is too wide and recommends a maximum line length (around 45-75 characters or ~65ch)",
+      "passed": true,
+      "evidence": "'max-width: 65ch (or roughly 680px)...The readable ideal is 45–75 characters per line (roughly 60ch)'"
+    },
+    {
+      "text": "Identifies that 1.2 line-height is too tight for body text and recommends a higher value (around 1.5-1.6)",
+      "passed": true,
+      "evidence": "'1.2 line-height is appropriate for headings, not body text...Use 1.5 to 1.7 line-height for body text. A value of 1.6 is a solid default'"
+    },
+    {
+      "text": "Explains that line-height should be proportional to line length (wider lines need more line-height)",
+      "passed": false,
+      "evidence": "Response explains the two issues independently but never connects them — never states that wider lines need more line-height. Says 'Line height affects vertical rhythm' and 'Line length affects how easily the eye returns to the next line' but these are treated as separate issues, not proportional factors."
+    },
+    {
+      "text": "Gives specific numeric recommendations (e.g., max-width: 65ch, line-height: 1.5)",
+      "passed": true,
+      "evidence": "CSS blocks: `line-height: 1.6` and `max-width: 65ch` both provided explicitly"
+    }
+  ],
+  "summary": {"passed": 3, "failed": 1, "total": 4, "pass_rate": 0.75},
+  "claims": [],
+  "eval_feedback": {"suggestions": [], "overall": "The proportional relationship assertion is the key discriminator. Without the skill, the model treats line-height and line-length as independent fixes rather than interrelated properties."}
+}

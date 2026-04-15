@@ -1,0 +1,27 @@
+{
+  "eval_id": 15,
+  "eval_name": "form-refactor",
+  "prompt": "I have this login form HTML that looks pretty rough. The colors are garish, the typography is flat, and the helper text is barely readable. Can you refactor the design to make it look polished and professional? Read the file at /Users/zulthaqif/Documents/skills-workspace/refactoring-ui-workspace/iteration-3/eval-15-form-refactor/input/bad-design.html and save the improved version as component.html",
+  "assertions": [
+    {
+      "id": "uses_hsl_colors",
+      "description": "Output uses hsl() color notation instead of raw hex values",
+      "type": "programmatic"
+    },
+    {
+      "id": "muted_text_uses_color_not_opacity",
+      "description": "Helper/muted text uses a lighter color value rather than opacity hack (no 'opacity: 0.' on text elements)",
+      "type": "programmatic"
+    },
+    {
+      "id": "font_weight_hierarchy",
+      "description": "At least 2 distinct font-weight values are used (e.g., label vs. body text vs. button)",
+      "type": "programmatic"
+    },
+    {
+      "id": "input_has_softer_border",
+      "description": "Input borders are no longer '2px solid #000000' — softer/lighter border treatment applied",
+      "type": "programmatic"
+    }
+  ]
+}

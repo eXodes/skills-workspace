@@ -1,0 +1,11 @@
+{
+  "eval_id": 10,
+  "eval_name": "color-system",
+  "prompt": "Create a complete CSS color system using custom properties (CSS variables) for a SaaS dashboard with blue as the primary brand color. Include everything the app would need: primary shades, neutral greys, and semantic colors. Output a single self-contained HTML file that defines the variables and shows swatches.",
+  "assertions": [
+    "All color values use hsl() notation exclusively (not hex or rgb)",
+    "Defines at least 5 distinct shades of the primary blue (light to dark, e.g. 100 through 700)",
+    "Includes a neutral grey scale with at least 4 shades",
+    "Includes semantic colors: at least success/green and danger/red"
+  ]
+}

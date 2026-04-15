@@ -1,0 +1,571 @@
+{
+  "metadata": {
+    "skill_name": "refactoring-ui",
+    "skill_path": "<path/to/skill>",
+    "executor_model": "<model-name>",
+    "analyzer_model": "<model-name>",
+    "timestamp": "2026-04-15T15:54:07Z",
+    "evals_run": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "runs_per_configuration": 3
+  },
+  "runs": [
+    {
+      "eval_id": 1,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Names the visual hierarchy problem explicitly",
+          "passed": true,
+          "evidence": "'The problem is flat visual hierarchy \u2014 every element on your page is competing for attention at the same visual weight'"
+        },
+        {
+          "text": "Mentions at least two of the three hierarchy tools: font size, font weight, color/contrast",
+          "passed": true,
+          "evidence": "'Use all three hierarchy tools together \u2014 font size, font weight, and color'"
+        },
+        {
+          "text": "Discusses different levels of content importance (primary, secondary, tertiary)",
+          "passed": true,
+          "evidence": "Explicitly grades stat values as primary (large, bold, dark) and labels as secondary (small, 12px, muted grey); also distinguishes primary/secondary table columns"
+        },
+        {
+          "text": "Gives specific actionable recommendations with values (e.g., font weights 600-700, grey for secondary text)",
+          "passed": true,
+          "evidence": "Stat value: '32\u201340px, heavy weight (700)'; stat label: '12px, normal weight, muted grey (#6B7280)'; title: '28\u201332px, bold (700)'"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Recommends HSL format with explanation of why",
+          "passed": true,
+          "evidence": "'Switch to HSL...Hex and RGB are machine values with no human-readable structure...HSL maps to how you perceive color' \u2014 leads with HSL, explains why it enables systematic scale-building"
+        },
+        {
+          "text": "Explains a multi-shade scale (e.g., 50 to 900, or 9 shades) with different use cases for light vs dark shades",
+          "passed": true,
+          "evidence": "'Build Your 9-Shade Primary Blue Scale' with CSS custom properties from --blue-50 to --blue-900, each annotated with use case (e.g., 'page-level tinted backgrounds', 'main brand color', 'button hover state')"
+        },
+        {
+          "text": "Mentions saturation needs to be adjusted as lightness changes to prevent washed-out shades",
+          "passed": true,
+          "evidence": "'The Perceptual Lightness Problem \u2014 Don't Ignore It...As you go lighter: increase saturation to compensate. A blue-50 at low saturation looks like a grey fog \u2014 push saturation up toward 96\u2013100%'"
+        },
+        {
+          "text": "Mentions the palette needs more than primary blue: including greys and/or semantic colors (danger, success, warning)",
+          "passed": true,
+          "evidence": "'Three Color Categories You Need: 1. Greys (8\u201310 shades)...2. Primary Color (9 shades)...3. Semantic / Accent Colors: Danger/Error, Warning, Success'"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 3,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Identifies that full-width text is too wide and recommends a maximum line length (around 45-75 characters or ~65ch)",
+          "passed": true,
+          "evidence": "'Line Length Control (Max-Width)...A full-width container...will produce lines well beyond 75 characters...max-width: 65ch is an excellent default...The canonical target is 45\u201375 characters per line'"
+        },
+        {
+          "text": "Identifies that 1.2 line-height is too tight for body text and recommends a higher value (around 1.5-1.6)",
+          "passed": true,
+          "evidence": "'Your 1.2 line-height is the correct value for large display and headline text, not body text...For a normal column width, use line-height: 1.5 or line-height: 1.6'"
+        },
+        {
+          "text": "Explains that line-height should be proportional to line length (wider lines need more line-height)",
+          "passed": true,
+          "evidence": "'Because your container is currently full-width (long lines), you should actually go even higher: 1.7 until you fix the container width. Once you constrain the line length with a max-width, you can dial back to 1.5\u20131.6'"
+        },
+        {
+          "text": "Gives specific numeric recommendations (e.g., max-width: 65ch, line-height: 1.5)",
+          "passed": true,
+          "evidence": "CSS block: `p { max-width: 65ch; line-height: 1.6; }` provided explicitly"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 4,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 3,
+        "failed": 0,
+        "total": 3,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Identifies the issue as ambiguous spacing or unclear proximity between related elements",
+          "passed": true,
+          "evidence": "Section header: 'Ambiguous Spacing \u2014 Significant. When the space between a label and its input is the same as the space between two unrelated form groups, the eye has no visual cue to determine which label belongs to which field'"
+        },
+        {
+          "text": "Explains that related elements (label + input) should be closer to each other than to unrelated elements",
+          "passed": true,
+          "evidence": "'This is the Gestalt principle of proximity: elements should be closer to what they belong to than to what they don't'"
+        },
+        {
+          "text": "Gives specific spacing values for label-to-input (small) vs group-to-group (larger)",
+          "passed": true,
+          "evidence": "Table: 'Label \u2192 its input: 4px\u20138px; Between form groups: 16px\u201324px; Between page sections: 48px\u201396px' with CSS example: `.form-label { margin-bottom: 4px; }`, `.form-group { margin-bottom: 24px; }`"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 5,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Explains that shadow size/softness communicates elevation \u2014 closer elements have larger, softer shadows",
+          "passed": true,
+          "evidence": "'From Refactoring UI: closer = more prominent = larger, softer shadow...Shadows don't just add decoration \u2014 they convey how high an element floats above the page surface'"
+        },
+        {
+          "text": "Justifies why the modal should have a larger/heavier shadow than the tooltip based on elevation",
+          "passed": true,
+          "evidence": "'Modals sit at the top of the z-layer stack...represent the highest-elevation element in most UIs'; 'Tooltips are closer in character to dropdowns and popovers \u2014 small, contextual, lightweight'"
+        },
+        {
+          "text": "Includes specific CSS box-shadow values for at least one element",
+          "passed": true,
+          "evidence": "Modal: `0 20px 25px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.04)`; Tooltip: `0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.06)` \u2014 both provided"
+        },
+        {
+          "text": "Recommends building a reusable shadow scale/system rather than ad-hoc values",
+          "passed": true,
+          "evidence": "'Build a Named Elevation System...define a small set of named levels: --shadow-sm, --shadow-md, --shadow-lg, --shadow-xl, --shadow-2xl' with complete CSS custom properties"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 6,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 3,
+        "failed": 0,
+        "total": 3,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Frames the empty state as an important design opportunity, not just a fallback",
+          "passed": true,
+          "evidence": "'Don't Overlook Empty States \u2014 a blank white area is a missed design opportunity, often the first thing new users see'; also: 'Treat Every Empty State as a Feature: Empty states aren't an afterthought \u2014 they're a product design moment'"
+        },
+        {
+          "text": "Mentions at least two of the three components: acknowledging emptiness, explaining what will appear, providing a call-to-action",
+          "passed": true,
+          "evidence": "All three listed explicitly: '1. Acknowledge that nothing is here yet; 2. Explain what will appear here; 3. Offer a clear call-to-action to create the first item'"
+        },
+        {
+          "text": "Provides copy guidance with examples or principles (avoid terse messages like 'No items found')",
+          "passed": true,
+          "evidence": "Direct contrast example: '\u274c No items found. \u2705 You haven't added anything yet. Create your first one to get started.' \u2014 exactly the principle + negative/positive example format called for"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 7,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 3,
+        "failed": 0,
+        "total": 3,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Identifies the issue as decision fatigue caused by unlimited choices, not a lack of design skill",
+          "passed": true,
+          "evidence": "'The paralysis you're feeling is a systems problem, not a taste problem. When you pick a font size or color from an unlimited pool of possible values, of course you'll second-guess yourself \u2014 the design space is infinite'"
+        },
+        {
+          "text": "Recommends defining design systems upfront (type scale, color palette, spacing scale)",
+          "passed": true,
+          "evidence": "Table: 'Systems to define before you start designing: Font sizes (12,14,16,18,20,24,...), Font weights (400,500,600,700), Spacing/padding (4,8,12,16,...), Border radii, Shadows'"
+        },
+        {
+          "text": "Explains how constrained options make decisions easier \u2014 process of elimination from a small set",
+          "passed": true,
+          "evidence": "'You're not searching infinite space anymore. You're doing binary elimination between 2\u20133 options. This is fast and produces confident decisions' \u2014 exact mechanism described"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.75,
+        "passed": 3,
+        "failed": 1,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Names the visual hierarchy problem explicitly",
+          "passed": true,
+          "evidence": "'What you're describing is a lack of visual hierarchy \u2014 the page has no clear signal telling the user what's important'"
+        },
+        {
+          "text": "Mentions at least two of the three hierarchy tools: font size, font weight, color/contrast",
+          "passed": true,
+          "evidence": "Covers 'Uniform Font Size and Weight' and 'Same Color/Tone for Everything' as two root causes, addressing all three tools"
+        },
+        {
+          "text": "Discusses different levels of content importance (primary, secondary, tertiary)",
+          "passed": true,
+          "evidence": "'Think in Three Levels: Primary (must-see), Secondary (context), Tertiary (background detail)' \u2014 explicitly named"
+        },
+        {
+          "text": "Gives specific actionable recommendations with values (e.g., font weights 600-700, grey for secondary text)",
+          "passed": false,
+          "evidence": "Gives size ranges ('32\u201348px', '24\u201348px') but uses 'bold' rather than specific weight numbers (600/700); colors described as 'muted, lighter gray' and 'very light gray' without hex values. Falls short of the specificity level called for."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.5,
+        "passed": 2,
+        "failed": 2,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Recommends HSL format with explanation of why",
+          "passed": false,
+          "evidence": "HSL appears only under 'Method B: Manual HSL Approach' as a secondary option after hex-based tool recommendations. No explanation of why HSL is superior \u2014 just a mechanical description of the hue/saturation/lightness axes. Primary recommendation is hex-based tools."
+        },
+        {
+          "text": "Explains a multi-shade scale (e.g., 50 to 900, or 9 shades) with different use cases for light vs dark shades",
+          "passed": true,
+          "evidence": "'Build a 9\u201310 Step Scale' with a full table from Blue 50 to Blue 900, each row annotated with a use case (e.g., 'Page backgrounds, tinted sections', 'Primary CTA buttons')"
+        },
+        {
+          "text": "Mentions saturation needs to be adjusted as lightness changes to prevent washed-out shades",
+          "passed": false,
+          "evidence": "Mentions hue rotation ('Slightly shift hue warmer at dark end, cooler at light end') but never addresses saturation adjustment. The perceptual lightness issue is not explained."
+        },
+        {
+          "text": "Mentions the palette needs more than primary blue: including greys and/or semantic colors (danger, success, warning)",
+          "passed": true,
+          "evidence": "'Complementary Colors: Neutrals (gray scale with slight blue tint); Semantic Colors: Success/Green, Warning/Amber, Error/Red'"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 3,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.75,
+        "passed": 3,
+        "failed": 1,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Identifies that full-width text is too wide and recommends a maximum line length (around 45-75 characters or ~65ch)",
+          "passed": true,
+          "evidence": "'max-width: 65ch (or roughly 680px)...The readable ideal is 45\u201375 characters per line (roughly 60ch)'"
+        },
+        {
+          "text": "Identifies that 1.2 line-height is too tight for body text and recommends a higher value (around 1.5-1.6)",
+          "passed": true,
+          "evidence": "'1.2 line-height is appropriate for headings, not body text...Use 1.5 to 1.7 line-height for body text. A value of 1.6 is a solid default'"
+        },
+        {
+          "text": "Explains that line-height should be proportional to line length (wider lines need more line-height)",
+          "passed": false,
+          "evidence": "Response explains the two issues independently but never connects them \u2014 never states that wider lines need more line-height. Says 'Line height affects vertical rhythm' and 'Line length affects how easily the eye returns to the next line' but these are treated as separate issues, not proportional factors."
+        },
+        {
+          "text": "Gives specific numeric recommendations (e.g., max-width: 65ch, line-height: 1.5)",
+          "passed": true,
+          "evidence": "CSS blocks: `line-height: 1.6` and `max-width: 65ch` both provided explicitly"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 4,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 3,
+        "failed": 0,
+        "total": 3,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Identifies the issue as ambiguous spacing or unclear proximity between related elements",
+          "passed": true,
+          "evidence": "'The Core Problem: Proximity. The visual distance between a label and its input should be smaller than the distance between consecutive form groups. If all gaps are equal, the eye can't group them.'"
+        },
+        {
+          "text": "Explains that related elements (label + input) should be closer to each other than to unrelated elements",
+          "passed": true,
+          "evidence": "'Use the law of proximity deliberately...Label\u2192Input: close (4\u20136px gap); larger gap between groups (24\u201332px)'"
+        },
+        {
+          "text": "Gives specific spacing values for label-to-input (small) vs group-to-group (larger)",
+          "passed": true,
+          "evidence": "'Label \u2192 Input gap: 4px\u20138px; Input \u2192 Next label gap: 20px\u201332px' with CSS: `label { margin-bottom: 4px }`, `.form-group { margin-bottom: 24px }`"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 5,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Explains that shadow size/softness communicates elevation \u2014 closer elements have larger, softer shadows",
+          "passed": true,
+          "evidence": "'Objects close to a surface cast short, tight, dark shadows. Objects far from a surface cast long, wide, diffuse shadows.' \u2014 clear physics analogy explaining the relationship"
+        },
+        {
+          "text": "Justifies why the modal should have a larger/heavier shadow than the tooltip based on elevation",
+          "passed": true,
+          "evidence": "'Elevation Hierarchy: Modals represent high elevation...Tooltips are low elevation \u2014 a small label that barely lifts off the surface. Matching shadow values collapses this distinction'"
+        },
+        {
+          "text": "Includes specific CSS box-shadow values for at least one element",
+          "passed": true,
+          "evidence": "Modal: `0 20px 60px rgba(0, 0, 0, 0.30), 0 8px 20px rgba(0, 0, 0, 0.15)`; Tooltip: `0 4px 12px rgba(0, 0, 0, 0.15)` \u2014 both provided"
+        },
+        {
+          "text": "Recommends building a reusable shadow scale/system rather than ad-hoc values",
+          "passed": true,
+          "evidence": "'Use the same shadow system \u2014 not the same shadow value. Define a shadow scale (like shadow-sm, shadow-md, shadow-xl) and assign modals to the highest tier and tooltips to a lower tier'"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 6,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 3,
+        "failed": 0,
+        "total": 3,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Frames the empty state as an important design opportunity, not just a fallback",
+          "passed": true,
+          "evidence": "'A blank white area is a missed opportunity. Empty states are actually prime real estate for guiding users and setting expectations'"
+        },
+        {
+          "text": "Mentions at least two of the three components: acknowledging emptiness, explaining what will appear, providing a call-to-action",
+          "passed": true,
+          "evidence": "'Explain What Goes Here' and 'Provide a Call to Action' are the first two principles; implicitly acknowledges emptiness via 'No projects yet' example headline"
+        },
+        {
+          "text": "Provides copy guidance with examples or principles (avoid terse messages like 'No items found')",
+          "passed": true,
+          "evidence": "'A brief headline like No projects yet paired with a short description (Create a project to start organizing your work) makes the purpose immediately clear' \u2014 provides concrete positive example copy"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 7,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 3,
+        "failed": 0,
+        "total": 3,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Identifies the issue as decision fatigue caused by unlimited choices, not a lack of design skill",
+          "passed": true,
+          "evidence": "'The paralysis comes from treating each choice as a blank canvas. Constraints are liberating, not limiting' \u2014 correctly reframes paralysis as a systems problem"
+        },
+        {
+          "text": "Recommends defining design systems upfront (type scale, color palette, spacing scale)",
+          "passed": true,
+          "evidence": "'Define a system upfront: a fixed type scale (5\u20137 sizes), a limited color palette (~15 colors), and an 8px spacing grid'"
+        },
+        {
+          "text": "Explains how constrained options make decisions easier \u2014 process of elimination from a small set",
+          "passed": true,
+          "evidence": "'Stop making decisions in isolation \u2014 build constraints first'; 'Pick a reasonable default and ship'; the response explains constraints reduce the decision space but doesn't explicitly describe binary elimination"
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {
+        "mean": 1.0,
+        "stddev": 0.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "tokens": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    "without_skill": {
+      "pass_rate": {
+        "mean": 0.8571,
+        "stddev": 0.1967,
+        "min": 0.5,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "tokens": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    "delta": {
+      "pass_rate": "+0.14",
+      "time_seconds": "+0.0",
+      "tokens": "+0"
+    }
+  },
+  "notes": []
+}

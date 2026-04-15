@@ -1,0 +1,32 @@
+{
+  "eval_id": 19,
+  "config": "with_skill",
+  "expectations": [
+    {
+      "text": "Output uses hsl() color notation",
+      "passed": true,
+      "evidence": "PASS: uses_hsl_colors"
+    },
+    {
+      "text": "Card uses box-shadow for elevation",
+      "passed": true,
+      "evidence": "PASS: uses_box_shadow"
+    },
+    {
+      "text": "Muted text uses lighter color, not opacity hack",
+      "passed": true,
+      "evidence": "PASS: muted_text_uses_color_not_opacity"
+    },
+    {
+      "text": "Fewer border declarations than input (input had 8+)",
+      "passed": true,
+      "evidence": "PASS: fewer_border_declarations"
+    }
+  ],
+  "summary": {
+    "pass_rate": 1.0,
+    "passed": 4,
+    "failed": 0,
+    "total": 4
+  }
+}

@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Typography System — Refactoring UI Principles</title>
+  <style>
+    /*
+     * CSS Typography System
+     * Principles: Refactoring UI (Wathan & Schoger)
+     *
+     * Key decisions applied:
+     *  1. Modular type scale (~1.25 ratio) — no intermediate sizes invented
+     *  2. Three hierarchy tools: size + weight + color (not size alone)
+     *  3. Three-tier color palette: primary / secondary / tertiary text
+     *  4. Line-height proportional to text size (tight for headings, relaxed for body)
+     *  5. Negative letter-spacing on large headings for a sleek, condensed look
+     *  6. Wide letter-spacing on all-caps labels for readability
+     *  7. max-width: 65ch on body text to stay in the 45–75 char sweet spot
+     *  8. Left-aligned body text; center only for short display copy
+     *  9. Font: Inter via @import (falls back to system UI stack)
+     */
+
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+    /* ─── Reset ─────────────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ─── Design Tokens ──────────────────────────────────────────────────────── */
+    :root {
+      /* Type scale — modular ~1.25. Only these values are used. No 17px, no 22px. */
+      --size-xs:   12px;  /* captions, labels                   */
+      --size-sm:   14px;  /* secondary body, table text          */
+      --size-base: 16px;  /* body paragraphs                     */
+      --size-lg:   18px;  /* lead / intro paragraph              */
+      --size-xl:   20px;  /* h3 subsection headings              */
+      --size-2xl:  24px;  /* (available; unused in this demo)    */
+      --size-3xl:  30px;  /* h2 section headings                 */
+      --size-5xl:  48px;  /* h1 hero heading                     */
+
+      /* Three-tier text hierarchy (primary → secondary → tertiary) */
+      --text-primary:   #111827;  /* headlines, key content              */
+      --text-secondary: #6B7280;  /* subtitles, dates, metadata          */
+      --text-tertiary:  #9CA3AF;  /* captions, helper text, footnotes    */
+      --text-accent:    #2563EB;  /* links, labels with color            */
+
+      /* Surfaces & borders */
+      --bg-page:    #F9FAFB;
+      --bg-surface: #FFFFFF;
+      --border:     #E5E7EB;
+      --border-accent: #BFDBFE;
+
+      /* Font weights */
+      --weight-regular:  400;
+      --weight-medium:   500;
+      --weight-semibold: 600;
+      --weight-bold:     700;
+    }
+
+    /* ─── Base ───────────────────────────────────────────────────────────────── */
+    html {
+      font-size: var(--size-base);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+                   Helvetica, Arial, sans-serif;
+      color: var(--text-primary);
+      background: var(--bg-page);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ─── Headings ────────────────────────────────────────────────────────────── */
+
+    /* h1 — Hero display text
+       48px · weight 700 · line-height 1.1 · letter-spacing -0.02em
+       Tight line-height because large text doesn't need gaps to scan.
+       Slight negative letter-spacing for the sleek, condensed headline look. */
+    h1 {
+      font-size: var(--size-5xl);
+      font-weight: var(--weight-bold);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+    }
+
+    /* h2 — Section heading
+       30px · weight 600 · line-height 1.2 · letter-spacing -0.01em
+       Semibold instead of bold: size carries more weight here than thickness. */
+    h2 {
+      font-size: var(--size-3xl);
+      font-weight: var(--weight-semibold);
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      color: var(--text-primary);
+    }
+
+    /* h3 — Subsection heading
+       20px · weight 600 · line-height 1.3 · default letter-spacing
+       Close to body size — weight is doing the entire job of differentiation. */
+    h3 {
+      font-size: var(--size-xl);
+      font-weight: var(--weight-semibold);
+      line-height: 1.3;
+      letter-spacing: 0;
+      color: var(--text-primary);
+    }
+
+    /* ─── Body Text ──────────────────────────────────────────────────────────── */
+
+    /* p — Body paragraph
+       16px · weight 400 · line-height 1.65 · max-width 65ch
+       65ch keeps lines in the 45–75 character sweet spot for comfortable reading.
+       1.65 line-height is in the 1.5–1.6 range for normal column widths. */
+    p {
+      font-size: var(--size-base);
+      font-weight: var(--weight-regular);
+      line-height: 1.65;
+      color: var(--text-primary);
+      max-width: 65ch;
+    }
+
+    /* .lead — Introductory / summary paragraph
+       18px and muted secondary color — slightly elevated from body,
+       but de-emphasized relative to the headline it follows. */
+    .lead {
+      font-size: var(--size-lg);
+      font-weight: var(--weight-regular);
+      line-height: 1.6;
+      color: var(--text-secondary);
+      max-width: 60ch;
+    }
+
+    /* ─── Caption & Label ─────────────────────────────────────────────────────── */
+
+    /* .label — All-caps category/section label
+       12px · weight 600 · uppercase · letter-spacing 0.08em
+       All-caps text has uniform height (no ascenders/descenders), making letters
+       harder to distinguish. Increased letter-spacing compensates. */
+    .label {
+      display: block;
+      font-size: var(--size-xs);
+      font-weight: var(--weight-semibold);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-accent);
+    }
+
+    /* .caption — Figure/image caption
+       14px · secondary color — small supporting text under images/tables. */
+    .caption {
+      font-size: var(--size-sm);
+      font-weight: var(--weight-regular);
+      line-height: 1.5;
+      color: var(--text-secondary);
+      max-width: 65ch;
+    }
+
+    /* ─── Layout ─────────────────────────────────────────────────────────────── */
+    body {
+      padding: 80px 24px;
+    }
+
+    .container {
+      max-width: 740px;
+      margin: 0 auto;
+    }
+
+    /* ─── Spacing Rhythm ─────────────────────────────────────────────────────── */
+    /* Spacing between elements follows a deliberate scale (8·12·16·24·32·48·64px).
+       Elements with a close relationship share less space than unrelated ones. */
+    .section {
+      margin-bottom: 0;
+      padding-bottom: 56px;
+    }
+
+    .section + .section {
+      padding-top: 56px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* Heading → first child: close relationship → small gap */
+    h1 + * { margin-top: 20px; }
+    h2 + * { margin-top: 14px; }
+    h3 + * { margin-top: 10px; }
+
+    /* Label → heading: the label annotates the heading, so very tight */
+    .label + h1,
+    .label + h2,
+    .label + h3 { margin-top: 8px; }
+
+    /* Paragraph → next paragraph */
+    p + p { margin-top: 18px; }
+
+    /* Heading after content: needs more space above than below */
+    p + h3 { margin-top: 32px; }
+
+    /* ─── Article Meta ────────────────────────────────────────────────────────── */
+    .article-meta {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px 14px;
+      margin-top: 20px;
+    }
+
+    .article-meta span {
+      font-size: var(--size-sm);
+      color: var(--text-secondary);
+    }
+
+    .article-meta .dot {
+      color: var(--text-tertiary);
+      font-size: var(--size-xs);
+    }
+
+    /* ─── Blockquote ─────────────────────────────────────────────────────────── */
+    /* Accent border technique from Refactoring UI: finishing touches */
+    blockquote {
+      border-left: 3px solid var(--text-accent);
+      padding: 4px 0 4px 24px;
+      margin: 28px 0;
+    }
+
+    blockquote p {
+      font-size: var(--size-lg);
+      line-height: 1.6;
+      color: var(--text-secondary);
+      font-style: italic;
+      max-width: 58ch;
+    }
+
+    /* ─── Image placeholder ──────────────────────────────────────────────────── */
+    .img-placeholder {
+      width: 100%;
+      height: 220px;
+      background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border-accent);
+    }
+
+    .img-placeholder span {
+      font-size: var(--size-sm);
+      color: var(--text-tertiary);
+      letter-spacing: 0.04em;
+    }
+
+    figure {
+      margin-top: 28px;
+    }
+
+    figure .caption {
+      margin-top: 10px;
+    }
+
+    /* ─── Type Scale Reference Table ─────────────────────────────────────────── */
+    .scale-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 24px;
+    }
+
+    .scale-table th {
+      text-align: left;
+      font-size: var(--size-xs);
+      font-weight: var(--weight-semibold);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-secondary);
+      padding: 0 16px 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .scale-table td {
+      padding: 14px 16px 14px 0;
+      border-bottom: 1px solid var(--border);
+      vertical-align: baseline;
+      font-size: var(--size-sm);
+      color: var(--text-secondary);
+    }
+
+    .scale-table td.sample {
+      color: var(--text-primary);
+    }
+
+    /* ─── Annotation strip ────────────────────────────────────────────────────── */
+    /* Used in the "system reference" section to document design decisions inline */
+    .annotation {
+      display: inline-block;
+      font-size: var(--size-xs);
+      color: var(--text-tertiary);
+      letter-spacing: 0.02em;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         SECTION 1 — Article Header: h1 demo
+         Label → h1 → lead paragraph → meta
+         Shows: large display text, three-tier color hierarchy, tight line-height
+    ════════════════════════════════════════════════════════════════════════ -->
+    <section class="section">
+      <span class="label">Design Systems</span>
+      <h1>Typography Makes or&nbsp;Breaks Your Interface</h1>
+      <p class="lead">
+        A well-considered type system isn't about picking a beautiful font. It's
+        about making deliberate decisions at every scale step so that users always
+        know what to read first — and what to ignore.
+      </p>
+      <div class="article-meta">
+        <span>Sarah Chen</span>
+        <span class="dot">·</span>
+        <span>June 12, 2025</span>
+        <span class="dot">·</span>
+        <span>8 min read</span>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         SECTION 2 — h2 + body paragraphs
+         Shows: section heading, 65ch line-length, 1.65 line-height, blockquote accent
+    ════════════════════════════════════════════════════════════════════════ -->
+    <section class="section">
+      <span class="label">Chapter One</span>
+      <h2>Start With a Scale, Not a Font</h2>
+      <p>
+        Most designers reach for a typeface first. That's backwards. Before you pick
+        Inter or Playfair Display, establish the size constraints your type will live
+        within. A scale is a fixed set of font sizes — and the discipline is to use
+        only those sizes, without exception.
+      </p>
+      <p>
+        When you have a scale, every sizing decision becomes a lookup rather than a
+        judgment call. You're not asking "should this be 17px or 18px?" You're asking
+        "is this base or large?" That shift — from open-ended to constrained — is what
+        makes design systems actually work in practice.
+      </p>
+
+      <blockquote>
+        <p>
+          "Every time you size text outside your scale, you're spending design debt
+          you'll eventually have to repay — usually during a visual audit at 2&nbsp;am."
+        </p>
+      </blockquote>
+
+      <p>
+        The constraint also prevents a common failure mode: creeping intermediate sizes.
+        Without a scale, codebases accumulate a dozen sizes differing by a pixel or two,
+        each added because one specific element "just needed a little more presence."
+        The result is visual noise that reads as inconsistency — even if no single
+        choice was wrong.
+      </p>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         SECTION 3 — h2 + h3 subsections + body paragraphs
+         Shows: three-level heading hierarchy, weight-based differentiation at h3
+    ════════════════════════════════════════════════════════════════════════ -->
+    <section class="section">
+      <span class="label">Chapter Two</span>
+      <h2>Hierarchy Needs Three Tools, Not One</h2>
+      <p>
+        Relying on font size alone to create hierarchy forces extreme choices —
+        headlines so large they feel aggressive, body text so small it strains the eye.
+        Size is one lever. The system works only when you use all three.
+      </p>
+
+      <h3>Font Weight</h3>
+      <p>
+        Weight is the most underused tool in UI typography. A 600-weight heading at 20px
+        can feel more prominent than a 400-weight heading at 24px. Use 400–500 for most
+        text and reserve 600–700 for elements that genuinely need to command attention.
+        Avoid weights below 400 in UI — at small sizes they collapse into illegibility.
+      </p>
+
+      <h3>Color and Contrast</h3>
+      <p>
+        A three-tier color system handles most hierarchy needs on its own. Primary text
+        in near-black for headlines and key data. Secondary text in mid-grey for
+        supporting content, dates, and metadata. Tertiary text in light grey for
+        captions and helper copy. The principle is to de-emphasize rather than always
+        trying to amplify.
+      </p>
+
+      <h3>Proportional Line Height</h3>
+      <p>
+        Large headings need tight line height — 1.1 to 1.2. Body text at normal column
+        widths needs 1.5 to 1.65. Wide columns need even more space between lines because
+        the eye has further to travel to find the start of the next one. There is no
+        single correct value; it always scales with context.
+      </p>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         SECTION 4 — Caption / label demo with figure and table
+         Shows: .label, .caption, type scale reference table
+    ════════════════════════════════════════════════════════════════════════ -->
+    <section class="section">
+      <span class="label">Reference</span>
+      <h2>The Type Scale in Use</h2>
+      <p>
+        The complete scale used throughout this article. Each step is a deliberate
+        choice — nothing between them exists.
+      </p>
+
+      <table class="scale-table">
+        <thead>
+          <tr>
+            <th>Token</th>
+            <th>Size</th>
+            <th>Line-height</th>
+            <th>Use</th>
+            <th>Sample</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>xs</td>
+            <td>12px</td>
+            <td>—</td>
+            <td>Labels, captions</td>
+            <td class="sample" style="font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:#2563EB;">Category</td>
+          </tr>
+          <tr>
+            <td>sm</td>
+            <td>14px</td>
+            <td>1.5</td>
+            <td>Secondary body, captions</td>
+            <td class="sample" style="font-size:14px;">Published June 12, 2025</td>
+          </tr>
+          <tr>
+            <td>base</td>
+            <td>16px</td>
+            <td>1.65</td>
+            <td>Body paragraphs</td>
+            <td class="sample" style="font-size:16px;">The body text lives here.</td>
+          </tr>
+          <tr>
+            <td>lg</td>
+            <td>18px</td>
+            <td>1.6</td>
+            <td>Lead / intro paragraph</td>
+            <td class="sample" style="font-size:18px; color:#6B7280;">An introductory sentence.</td>
+          </tr>
+          <tr>
+            <td>xl</td>
+            <td>20px</td>
+            <td>1.3</td>
+            <td>h3 subsection headings</td>
+            <td class="sample" style="font-size:20px; font-weight:600;">Subsection Heading</td>
+          </tr>
+          <tr>
+            <td>3xl</td>
+            <td>30px</td>
+            <td>1.2</td>
+            <td>h2 section headings</td>
+            <td class="sample" style="font-size:30px; font-weight:600; letter-spacing:-0.01em; line-height:1.2;">Section Heading</td>
+          </tr>
+          <tr>
+            <td>5xl</td>
+            <td>48px</td>
+            <td>1.1</td>
+            <td>h1 hero heading</td>
+            <td class="sample" style="font-size:48px; font-weight:700; letter-spacing:-0.02em; line-height:1.1;">Display</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Figure with caption — demonstrates .caption style -->
+      <figure>
+        <div class="img-placeholder">
+          <span>Illustration: typography hierarchy diagram</span>
+        </div>
+        <figcaption>
+          <p class="caption">
+            Fig. 1 — A type scale mapped against use cases. Each step is fixed at authoring
+            time; designers choose from the scale, not from the ruler.
+          </p>
+        </figcaption>
+      </figure>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         SECTION 5 — All styles shown together in a final closing passage
+         Shows: closing body copy, label, caption annotation
+    ════════════════════════════════════════════════════════════════════════ -->
+    <section class="section">
+      <span class="label">Closing</span>
+      <h2>The System Is the Work</h2>
+      <p>
+        A type system is never truly finished. New content surfaces edge cases; new
+        breakpoints reveal that a heading that looked elegant on a 1440px monitor
+        becomes overwhelming on a 375px screen. The scale gives you a foundation —
+        the work is in applying it consistently enough that the system becomes
+        invisible and the content speaks for itself.
+      </p>
+      <p>
+        What separates polished UI from amateur work is rarely the font choice. It's
+        the decision to use 30px instead of 28px because 30 is on the scale and 28 is
+        not. It's the patience to de-emphasize secondary text instead of reaching for
+        another bold override. It's choosing proportional line-height for each context
+        instead of setting everything to 1.5 and calling it done.
+      </p>
+      <p>
+        The constraints are the craft.
+      </p>
+      <p class="annotation" style="margin-top: 24px; display: block; font-size: 12px; color: #9CA3AF;">
+        Typography system built using Refactoring UI principles by Wathan &amp; Schoger.
+        Type scale: 12 · 14 · 16 · 18 · 20 · 24 · 30 · 36 · 48px. Font: Inter.
+      </p>
+    </section>
+
+  </div>
+</body>
+</html>

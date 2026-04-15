@@ -1,0 +1,11 @@
+{
+  "eval_id": 13,
+  "eval_name": "empty-state",
+  "prompt": "Create an empty state UI component in HTML and CSS for a 'Recent Transactions' section where the user has no transactions yet. Include all the elements it needs to be useful and inviting, not just a blank box. Output a single self-contained HTML file with embedded CSS.",
+  "assertions": [
+    "Contains a call-to-action element (button or link) encouraging the user to take action",
+    "The copy is friendly and explanatory — not just a terse message like 'No transactions found'",
+    "Includes a visual element beyond just text (icon placeholder, illustration area, or decorative graphic)",
+    "Uses hsl() color notation for colors"
+  ]
+}

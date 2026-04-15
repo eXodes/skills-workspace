@@ -1,0 +1,27 @@
+{
+  "eval_id": 20,
+  "eval_name": "color-palette-refactor",
+  "prompt": "This UI uses a terrible color palette — fully saturated primary colors like #0000FF, #FF0000, #00FF00. The badge and alert system looks like a traffic light factory. Please refactor the colors to create a cohesive, professional color system. Read the file at /Users/zulthaqif/Documents/skills-workspace/refactoring-ui-workspace/iteration-3/eval-20-color-palette-refactor/input/bad-design.html and save the improved version as component.html",
+  "assertions": [
+    {
+      "id": "uses_hsl_colors",
+      "description": "Output uses hsl() color notation for the color palette",
+      "type": "programmatic"
+    },
+    {
+      "id": "removes_pure_saturated_primaries",
+      "description": "The fully saturated primaries (#0000FF, #FF0000, #00FF00, #FFFF00, #00FFFF) are removed in favor of more refined versions",
+      "type": "programmatic"
+    },
+    {
+      "id": "uses_css_variables",
+      "description": "Colors are defined as CSS custom properties (--variable-name) for a systematic approach",
+      "type": "programmatic"
+    },
+    {
+      "id": "tinted_backgrounds_for_alerts",
+      "description": "Alert backgrounds use light tinted versions of semantic colors (not overly saturated), making text readable",
+      "type": "programmatic"
+    }
+  ]
+}

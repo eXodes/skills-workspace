@@ -1,0 +1,27 @@
+{
+  "expectations": [
+    {
+      "text": "Recommends HSL format with explanation of why",
+      "passed": false,
+      "evidence": "HSL appears only under 'Method B: Manual HSL Approach' as a secondary option after hex-based tool recommendations. No explanation of why HSL is superior — just a mechanical description of the hue/saturation/lightness axes. Primary recommendation is hex-based tools."
+    },
+    {
+      "text": "Explains a multi-shade scale (e.g., 50 to 900, or 9 shades) with different use cases for light vs dark shades",
+      "passed": true,
+      "evidence": "'Build a 9–10 Step Scale' with a full table from Blue 50 to Blue 900, each row annotated with a use case (e.g., 'Page backgrounds, tinted sections', 'Primary CTA buttons')"
+    },
+    {
+      "text": "Mentions saturation needs to be adjusted as lightness changes to prevent washed-out shades",
+      "passed": false,
+      "evidence": "Mentions hue rotation ('Slightly shift hue warmer at dark end, cooler at light end') but never addresses saturation adjustment. The perceptual lightness issue is not explained."
+    },
+    {
+      "text": "Mentions the palette needs more than primary blue: including greys and/or semantic colors (danger, success, warning)",
+      "passed": true,
+      "evidence": "'Complementary Colors: Neutrals (gray scale with slight blue tint); Semantic Colors: Success/Green, Warning/Amber, Error/Red'"
+    }
+  ],
+  "summary": {"passed": 2, "failed": 2, "total": 4, "pass_rate": 0.5},
+  "claims": [],
+  "eval_feedback": {"suggestions": [{"reason": "Consider adding an assertion about 'warm greys for warm brands, cool greys for cool brands' — the with_skill response explicitly teaches this rule which is a meaningful discriminator"}], "overall": "Assertions are working well. Assertions 1 and 3 are good discriminators between generic color knowledge and Refactoring UI methodology."}
+}

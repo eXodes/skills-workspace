@@ -1,0 +1,27 @@
+{
+  "expectations": [
+    {
+      "text": "Explains that shadow size/softness communicates elevation — closer elements have larger, softer shadows",
+      "passed": true,
+      "evidence": "'From Refactoring UI: closer = more prominent = larger, softer shadow...Shadows don't just add decoration — they convey how high an element floats above the page surface'"
+    },
+    {
+      "text": "Justifies why the modal should have a larger/heavier shadow than the tooltip based on elevation",
+      "passed": true,
+      "evidence": "'Modals sit at the top of the z-layer stack...represent the highest-elevation element in most UIs'; 'Tooltips are closer in character to dropdowns and popovers — small, contextual, lightweight'"
+    },
+    {
+      "text": "Includes specific CSS box-shadow values for at least one element",
+      "passed": true,
+      "evidence": "Modal: `0 20px 25px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.04)`; Tooltip: `0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.06)` — both provided"
+    },
+    {
+      "text": "Recommends building a reusable shadow scale/system rather than ad-hoc values",
+      "passed": true,
+      "evidence": "'Build a Named Elevation System...define a small set of named levels: --shadow-sm, --shadow-md, --shadow-lg, --shadow-xl, --shadow-2xl' with complete CSS custom properties"
+    }
+  ],
+  "summary": {"passed": 4, "failed": 0, "total": 4, "pass_rate": 1.0},
+  "claims": [],
+  "eval_feedback": {"suggestions": [], "overall": "All four assertions pass. The two-part shadow (ambient + direct) advice goes beyond the assertions and represents genuine skill-added value."}
+}

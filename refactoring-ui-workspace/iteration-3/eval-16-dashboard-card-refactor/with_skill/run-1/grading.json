@@ -1,0 +1,32 @@
+{
+  "eval_id": 16,
+  "config": "with_skill",
+  "expectations": [
+    {
+      "text": "Output uses hsl() color notation",
+      "passed": true,
+      "evidence": "PASS: uses_hsl_colors"
+    },
+    {
+      "text": "Multi-color rainbow gradient background is removed",
+      "passed": true,
+      "evidence": "PASS: removes_rainbow_gradient"
+    },
+    {
+      "text": "At least 3 distinct font-size values",
+      "passed": true,
+      "evidence": "PASS: font_size_hierarchy"
+    },
+    {
+      "text": "Muted text uses lighter color, not opacity hack",
+      "passed": true,
+      "evidence": "PASS: muted_text_uses_color_not_opacity"
+    }
+  ],
+  "summary": {
+    "pass_rate": 1.0,
+    "passed": 4,
+    "failed": 0,
+    "total": 4
+  }
+}

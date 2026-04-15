@@ -1,0 +1,27 @@
+{
+  "eval_id": 18,
+  "eval_name": "cta-refactor",
+  "prompt": "I have two UI components with button actions and they all look the same — ghost/outline style, no visual hierarchy between primary and secondary actions. The delete button looks as important as the cancel button. Please refactor the design so primary actions stand out properly. Read the file at /Users/zulthaqif/Documents/skills-workspace/refactoring-ui-workspace/iteration-3/eval-18-cta-refactor/input/bad-design.html and save the improved version as component.html",
+  "assertions": [
+    {
+      "id": "uses_hsl_colors",
+      "description": "Output uses hsl() color notation",
+      "type": "programmatic"
+    },
+    {
+      "id": "primary_button_has_filled_background",
+      "description": "At least one button has a solid filled background (not background: white) to act as a clear primary CTA",
+      "type": "programmatic"
+    },
+    {
+      "id": "muted_text_uses_color_not_opacity",
+      "description": "Supporting/descriptive text uses a lighter color, not opacity hack (no 'opacity: 0.' on text)",
+      "type": "programmatic"
+    },
+    {
+      "id": "font_weight_hierarchy",
+      "description": "At least 2 distinct font-weight values used for headings vs body",
+      "type": "programmatic"
+    }
+  ]
+}

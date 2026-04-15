@@ -1,0 +1,22 @@
+{
+  "expectations": [
+    {
+      "text": "Frames the empty state as an important design opportunity, not just a fallback",
+      "passed": true,
+      "evidence": "'A blank white area is a missed opportunity. Empty states are actually prime real estate for guiding users and setting expectations'"
+    },
+    {
+      "text": "Mentions at least two of the three components: acknowledging emptiness, explaining what will appear, providing a call-to-action",
+      "passed": true,
+      "evidence": "'Explain What Goes Here' and 'Provide a Call to Action' are the first two principles; implicitly acknowledges emptiness via 'No projects yet' example headline"
+    },
+    {
+      "text": "Provides copy guidance with examples or principles (avoid terse messages like 'No items found')",
+      "passed": true,
+      "evidence": "'A brief headline like No projects yet paired with a short description (Create a project to start organizing your work) makes the purpose immediately clear' — provides concrete positive example copy"
+    }
+  ],
+  "summary": {"passed": 3, "failed": 0, "total": 3, "pass_rate": 1.0},
+  "claims": [],
+  "eval_feedback": {"suggestions": [{"reason": "The with_skill response gives both negative AND positive copy examples, shows more depth. Consider adding an assertion about explicitly warning against terse copy patterns like 'No items found' to create a discriminating test"}], "overall": "Both responses pass. Empty state design is well-covered by general UX knowledge. Assertions need strengthening."}
+}

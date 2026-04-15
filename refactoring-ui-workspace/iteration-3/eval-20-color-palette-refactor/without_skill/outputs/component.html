@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    :root {
+      /* Core semantic colors — muted, harmonious hues */
+      --primary:        #4361EE;
+      --primary-light:  #EEF2FF;
+      --primary-border: #A5B4FC;
+
+      --success:        #059669;
+      --success-light:  #ECFDF5;
+      --success-border: #6EE7B7;
+
+      --warning:        #D97706;
+      --warning-light:  #FFFBEB;
+      --warning-border: #FCD34D;
+
+      --danger:         #DC2626;
+      --danger-light:   #FEF2F2;
+      --danger-border:  #FCA5A5;
+
+      --info:           #0284C7;
+      --info-light:     #F0F9FF;
+      --info-border:    #7DD3FC;
+
+      /* Neutral text */
+      --text-dark:      #1E293B;
+      --text-muted:     #475569;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, Arial, sans-serif;
+      padding: 24px;
+      background: #F8FAFC;
+      color: var(--text-dark);
+    }
+
+    /* ── Badges ─────────────────────────────────────────── */
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      border-radius: 999px;
+      margin: 4px;
+    }
+
+    .badge-primary {
+      background: var(--primary-light);
+      color: var(--primary);
+      border: 1px solid var(--primary-border);
+    }
+    .badge-success {
+      background: var(--success-light);
+      color: var(--success);
+      border: 1px solid var(--success-border);
+    }
+    .badge-warning {
+      background: var(--warning-light);
+      color: var(--warning);
+      border: 1px solid var(--warning-border);
+    }
+    .badge-danger {
+      background: var(--danger-light);
+      color: var(--danger);
+      border: 1px solid var(--danger-border);
+    }
+    .badge-info {
+      background: var(--info-light);
+      color: var(--info);
+      border: 1px solid var(--info-border);
+    }
+
+    /* ── Alerts ─────────────────────────────────────────── */
+    .section { margin-top: 24px; }
+
+    .alert {
+      padding: 12px 16px;
+      margin: 8px 0;
+      border-left: 4px solid;
+      border-radius: 6px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .alert-primary {
+      background: var(--primary-light);
+      border-color: var(--primary);
+      color: #3730A3;
+    }
+    .alert-success {
+      background: var(--success-light);
+      border-color: var(--success);
+      color: #065F46;
+    }
+    .alert-danger {
+      background: var(--danger-light);
+      border-color: var(--danger);
+      color: #991B1B;
+    }
+
+    /* ── Buttons ─────────────────────────────────────────── */
+    .button-row { margin-top: 24px; display: flex; gap: 8px; flex-wrap: wrap; }
+
+    .btn {
+      padding: 8px 18px;
+      font-size: 14px;
+      font-weight: 500;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: filter 0.15s ease;
+    }
+    .btn:hover { filter: brightness(0.9); }
+
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-success { background: var(--success); color: #fff; }
+    .btn-danger  { background: var(--danger);  color: #fff; }
+  </style>
+</head>
+<body>
+  <div>
+    <span class="badge badge-primary">Primary</span>
+    <span class="badge badge-success">Success</span>
+    <span class="badge badge-warning">Warning</span>
+    <span class="badge badge-danger">Danger</span>
+    <span class="badge badge-info">Info</span>
+  </div>
+  <div class="section">
+    <div class="alert alert-primary">This is a primary alert message for your attention.</div>
+    <div class="alert alert-success">Success! Your changes have been saved.</div>
+    <div class="alert alert-danger">Error: something went terribly wrong in the system.</div>
+  </div>
+  <div class="button-row">
+    <button class="btn btn-primary">Continue</button>
+    <button class="btn btn-success">Confirm</button>
+    <button class="btn btn-danger">Delete</button>
+  </div>
+</body>
+</html>

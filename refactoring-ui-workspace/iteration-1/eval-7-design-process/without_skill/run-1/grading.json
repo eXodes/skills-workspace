@@ -1,0 +1,22 @@
+{
+  "expectations": [
+    {
+      "text": "Identifies the issue as decision fatigue caused by unlimited choices, not a lack of design skill",
+      "passed": true,
+      "evidence": "'The paralysis comes from treating each choice as a blank canvas. Constraints are liberating, not limiting' — correctly reframes paralysis as a systems problem"
+    },
+    {
+      "text": "Recommends defining design systems upfront (type scale, color palette, spacing scale)",
+      "passed": true,
+      "evidence": "'Define a system upfront: a fixed type scale (5–7 sizes), a limited color palette (~15 colors), and an 8px spacing grid'"
+    },
+    {
+      "text": "Explains how constrained options make decisions easier — process of elimination from a small set",
+      "passed": true,
+      "evidence": "'Stop making decisions in isolation — build constraints first'; 'Pick a reasonable default and ship'; the response explains constraints reduce the decision space but doesn't explicitly describe binary elimination"
+    }
+  ],
+  "summary": {"passed": 3, "failed": 0, "total": 3, "pass_rate": 1.0},
+  "claims": [],
+  "eval_feedback": {"suggestions": [{"reason": "The skill adds the grayscale-first approach, feature-first design workflow, and personality framework — none covered by assertions. Adding an assertion about 'start in grayscale before adding color' would be a strong discriminator unique to Refactoring UI methodology"}], "overall": "Both pass. General LLM knowledge handles design process advice well. The most distinctive Refactoring UI advice (grayscale-first, feature-first) is not tested."}
+}

@@ -1,0 +1,30 @@
+{
+  "expectations": [
+    {
+      "text": "Contains a call-to-action element (button or link) encouraging the user to take action",
+      "passed": true,
+      "evidence": "'Make Your First Transaction' button present; also has 'Send Money', 'Request Payment', 'Schedule Payment' action shortcuts"
+    },
+    {
+      "text": "The copy is friendly and explanatory \u2014 not just a terse message like 'No transactions found'",
+      "passed": true,
+      "evidence": "'Once you send, receive, or schedule a payment it will appear here so you can track every move of your money.' \u2014 warm, explanatory copy"
+    },
+    {
+      "text": "Includes a visual element beyond just text (icon placeholder, illustration area, or decorative graphic)",
+      "passed": true,
+      "evidence": "SVG element present: .card-header-icon with SVG content"
+    },
+    {
+      "text": "Uses hsl() color notation for colors",
+      "passed": false,
+      "evidence": "0 hsl() uses; 35 hex values \u2014 all colors in hex format"
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 1,
+    "total": 4,
+    "pass_rate": 0.75
+  }
+}

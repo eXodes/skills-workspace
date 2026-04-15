@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Typography System</title>
+  <style>
+    /* ─── Design Tokens ─────────────────────────────────────────────────── */
+    :root {
+      --font-sans: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+      --font-serif: "Georgia", "Cambria", serif;
+
+      /* Scale — Major Third (1.250) */
+      --text-xs:   0.64rem;   /* 10.24px */
+      --text-sm:   0.8rem;    /* 12.8px  */
+      --text-base: 1rem;      /* 16px    */
+      --text-lg:   1.25rem;   /* 20px    */
+      --text-xl:   1.563rem;  /* 25px    */
+      --text-2xl:  1.953rem;  /* 31.25px */
+      --text-3xl:  2.441rem;  /* 39px    */
+      --text-4xl:  3.052rem;  /* 48.8px  */
+
+      /* Weight */
+      --weight-regular: 400;
+      --weight-medium:  500;
+      --weight-semibold: 600;
+      --weight-bold:    700;
+      --weight-extrabold: 800;
+
+      /* Leading */
+      --leading-tight:  1.2;
+      --leading-snug:   1.375;
+      --leading-normal: 1.5;
+      --leading-relaxed: 1.75;
+
+      /* Tracking */
+      --tracking-tight:  -0.03em;
+      --tracking-normal:  0em;
+      --tracking-wide:    0.06em;
+      --tracking-widest:  0.12em;
+
+      /* Colour palette */
+      --color-ink-900: #111827;
+      --color-ink-700: #374151;
+      --color-ink-500: #6B7280;
+      --color-ink-400: #9CA3AF;
+      --color-accent:  #4F46E5;
+      --color-surface: #FFFFFF;
+      --color-bg:      #F9FAFB;
+      --color-border:  #E5E7EB;
+
+      /* Measure (max line length) */
+      --measure: 68ch;
+    }
+
+    /* ─── Reset ─────────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ─── Base ───────────────────────────────────────────────────────────── */
+    html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+
+    body {
+      font-family: var(--font-sans);
+      font-size: var(--text-base);
+      font-weight: var(--weight-regular);
+      line-height: var(--leading-normal);
+      color: var(--color-ink-700);
+      background-color: var(--color-bg);
+      padding: 4rem 2rem;
+    }
+
+    /* ─── Headings ───────────────────────────────────────────────────────── */
+    h1, h2, h3, h4, h5, h6 {
+      color: var(--color-ink-900);
+      font-weight: var(--weight-bold);
+      line-height: var(--leading-tight);
+      letter-spacing: var(--tracking-tight);
+      max-width: var(--measure);
+    }
+
+    h1 {
+      font-size: var(--text-4xl);
+      font-weight: var(--weight-extrabold);
+      letter-spacing: -0.04em;
+      line-height: 1.08;
+    }
+
+    h2 {
+      font-size: var(--text-3xl);
+      font-weight: var(--weight-bold);
+      letter-spacing: -0.03em;
+    }
+
+    h3 {
+      font-size: var(--text-2xl);
+      font-weight: var(--weight-semibold);
+      letter-spacing: -0.02em;
+    }
+
+    /* ─── Body text ──────────────────────────────────────────────────────── */
+    p {
+      font-size: var(--text-base);
+      line-height: var(--leading-relaxed);
+      color: var(--color-ink-700);
+      max-width: var(--measure);
+    }
+
+    p.lead {
+      font-size: var(--text-lg);
+      line-height: var(--leading-relaxed);
+      color: var(--color-ink-700);
+      font-weight: var(--weight-regular);
+    }
+
+    /* ─── Caption / Label ────────────────────────────────────────────────── */
+    .caption {
+      font-size: var(--text-sm);
+      line-height: var(--leading-normal);
+      color: var(--color-ink-500);
+    }
+
+    .label {
+      display: inline-block;
+      font-size: var(--text-xs);
+      font-weight: var(--weight-semibold);
+      letter-spacing: var(--tracking-widest);
+      text-transform: uppercase;
+      color: var(--color-accent);
+    }
+
+    /* ─── Utility ────────────────────────────────────────────────────────── */
+    .accent { color: var(--color-accent); }
+
+    /* ─── Demo Layout ────────────────────────────────────────────────────── */
+    .page {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .section {
+      margin-bottom: 5rem;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--color-border);
+      margin: 4rem 0;
+    }
+
+    /* Spacing between typographic elements */
+    .prose > * + * { margin-top: 1.5em; }
+    .prose > h2    { margin-top: 3em; }
+    .prose > h3    { margin-top: 2.5em; }
+
+    /* ─── System Specimen Card ───────────────────────────────────────────── */
+    .specimen-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 2rem 2.5rem;
+      margin-bottom: 2rem;
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      align-items: baseline;
+      gap: 1rem 2rem;
+    }
+
+    .specimen-meta {
+      font-size: var(--text-xs);
+      font-weight: var(--weight-semibold);
+      letter-spacing: var(--tracking-wide);
+      text-transform: uppercase;
+      color: var(--color-ink-400);
+      padding-top: 0.2em;
+    }
+
+    .specimen-card h1,
+    .specimen-card h2,
+    .specimen-card h3 { max-width: none; }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- ── System Reference ──────────────────────────────────────────── -->
+    <section class="section">
+      <span class="label">Typography System</span>
+      <h1 style="margin-top: 0.75rem;">
+        Type Scale &amp; Specimen
+      </h1>
+      <p class="lead" style="margin-top: 1.25rem;">
+        A structured set of heading levels, body styles, and supporting labels
+        built on an 8-point grid using the Major Third scale (×1.25). Every
+        size, weight, and tracking value is a deliberate choice — not a default.
+      </p>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ── Heading Specimens ─────────────────────────────────────────── -->
+    <section class="section">
+      <span class="label">Headings</span>
+
+      <div class="specimen-card" style="margin-top: 1.5rem;">
+        <p class="specimen-meta">H1 · 48.8px<br>ExtraBold · −0.04em</p>
+        <h1>The Future of Product Design</h1>
+      </div>
+
+      <div class="specimen-card">
+        <p class="specimen-meta">H2 · 39px<br>Bold · −0.03em</p>
+        <h2>Rethinking the User Journey</h2>
+      </div>
+
+      <div class="specimen-card">
+        <p class="specimen-meta">H3 · 31.25px<br>SemiBold · −0.02em</p>
+        <h3>How Small Details Build Trust</h3>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ── Body Text Specimens ───────────────────────────────────────── -->
+    <section class="section">
+      <span class="label">Body Text</span>
+
+      <div class="specimen-card" style="margin-top: 1.5rem; grid-template-columns: 120px 1fr;">
+        <p class="specimen-meta">Lead · 20px<br>Regular · 1.75</p>
+        <p class="lead">
+          Good typography is invisible. When every size, weight, and spacing
+          decision is intentional, readers absorb the content without noticing
+          the craft behind it.
+        </p>
+      </div>
+
+      <div class="specimen-card">
+        <p class="specimen-meta">Body · 16px<br>Regular · 1.75</p>
+        <p>
+          Consistent vertical rhythm keeps the eye moving naturally down the
+          page. Pair a tight heading leading with a relaxed body leading to
+          create contrast between dense headings and readable prose.
+        </p>
+      </div>
+
+      <div class="specimen-card">
+        <p class="specimen-meta">Caption · 12.8px<br>Regular · 1.5</p>
+        <p class="caption">
+          Figure 3 — Monthly active users across all platforms, Q1–Q4 2024.
+          Data sourced from internal analytics. Numbers exclude trial accounts.
+        </p>
+      </div>
+
+      <div class="specimen-card">
+        <p class="specimen-meta">Label · 10.24px<br>SemiBold · +0.12em</p>
+        <span class="label">Featured Article</span>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ── Realistic Article Demo ────────────────────────────────────── -->
+    <article class="prose section">
+      <span class="label">Live Demo</span>
+
+      <h1>Designing Systems That Scale</h1>
+
+      <p class="lead">
+        The best interfaces feel effortless — yet behind that simplicity lies a
+        carefully considered system of constraints. Here's how a deliberate
+        typography foundation shapes every screen.
+      </p>
+
+      <h2>Start With a Scale, Not a Guess</h2>
+
+      <p>
+        Most design inconsistencies trace back to the same mistake: picking font
+        sizes one at a time, by feel. Instead, define a proportional scale up
+        front — a fixed ratio applied recursively from a base size. The Major
+        Third (1.25) strikes the right balance between visual variety and
+        coherence, giving you seven distinct sizes without the jarring jumps of
+        the Golden Ratio.
+      </p>
+
+      <p>
+        Once the scale is set, resist the temptation to introduce arbitrary
+        sizes. Every deviation forces viewers to parse whether the difference is
+        meaningful. Constraints that look restrictive on paper feel liberating in
+        practice — decisions become faster, and the result looks intentional.
+      </p>
+
+      <h3>Weight and Tracking Work Together</h3>
+
+      <p>
+        Size alone doesn't create hierarchy — weight and letter spacing complete
+        the picture. Large display text benefits from negative tracking that
+        pulls glyphs together, compensating for the optical gap that opens up at
+        high point sizes. Small all-caps labels need wide tracking to remain
+        legible, not narrow. Treat each axis as a lever you can push in either
+        direction.
+      </p>
+
+      <p>
+        A good rule of thumb: increase weight going up the hierarchy, tighten
+        tracking as size grows, and loosen it as size shrinks. This keeps the
+        visual texture consistent even when individual values differ.
+      </p>
+
+      <h2>Colour as a Supporting Role</h2>
+
+      <p>
+        Reach for colour contrast rather than additional weights when you need
+        to de-emphasise text. A secondary ink at 55% opacity reads as subordinate
+        without adding visual noise. Reserve your accent colour for interactive
+        labels, badges, and inline links — not for decoration.
+      </p>
+
+      <p class="caption">
+        Above — An excerpt from the Meridian Design Handbook, Chapter 4:
+        "Building a Scalable Type System." Illustrations omitted for brevity.
+      </p>
+    </article>
+
+  </div>
+</body>
+</html>

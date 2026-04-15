@@ -1,0 +1,11 @@
+{
+  "eval_id": 9,
+  "eval_name": "login-form",
+  "prompt": "Create a login form in HTML and CSS with an email field, a password field, a primary 'Sign In' button, and a 'Forgot your password?' link. Make it clean and easy to use. Output a single self-contained HTML file with embedded CSS.",
+  "assertions": [
+    "Uses hsl() color notation for color values",
+    "Primary button uses font-weight >= 600 for strong visual emphasis",
+    "Label-to-input spacing is visually tighter than the spacing between separate form groups",
+    "Input fields have a visible focus state or border styling"
+  ]
+}

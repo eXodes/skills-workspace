@@ -1,0 +1,11 @@
+{
+  "eval_id": 11,
+  "eval_name": "pricing-card",
+  "prompt": "Design a pricing plan card for a 'Pro' plan at $49/month in HTML and CSS. Include the plan name, price, a short list of 4-5 features, and a 'Get Started' CTA button. Output a single self-contained HTML file with embedded CSS.",
+  "assertions": [
+    "The price/value element has the largest font-size in the card",
+    "Uses at least two distinct font-weight levels to establish hierarchy",
+    "CTA button is visually prominent (strong background color, not just outlined)",
+    "Uses hsl() color notation"
+  ]
+}

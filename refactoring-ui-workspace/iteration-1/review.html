@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eval Review</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js" integrity="sha384-EnyY0/GSHQGSxSgMwaIPzSESbqoOLSexfnSMN2AP+39Ckmn92stwABZynq1JyzdT" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #faf9f5;
+      --surface: #ffffff;
+      --border: #e8e6dc;
+      --text: #141413;
+      --text-muted: #b0aea5;
+      --accent: #d97757;
+      --accent-hover: #c4613f;
+      --green: #788c5d;
+      --green-bg: #eef2e8;
+      --red: #c44;
+      --red-bg: #fceaea;
+      --header-bg: #141413;
+      --header-text: #faf9f5;
+      --radius: 6px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Lora', Georgia, serif;
+      background: var(--bg);
+      color: var(--text);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ---- Header ---- */
+    .header {
+      background: var(--header-bg);
+      color: var(--header-text);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .header h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+    .header .instructions {
+      font-size: 0.8rem;
+      opacity: 0.7;
+      margin-top: 0.25rem;
+    }
+    .header .progress {
+      font-size: 0.875rem;
+      opacity: 0.8;
+      text-align: right;
+    }
+
+    /* ---- Main content ---- */
+    .main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    /* ---- Sections ---- */
+    .section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      flex-shrink: 0;
+    }
+    .section-header {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.75rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+    .section-body {
+      padding: 1rem;
+    }
+
+    /* ---- Config badge ---- */
+    .config-badge {
+      display: inline-block;
+      padding: 0.2rem 0.625rem;
+      border-radius: 9999px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-left: 0.75rem;
+      vertical-align: middle;
+    }
+    .config-badge.config-primary {
+      background: rgba(33, 150, 243, 0.12);
+      color: #1976d2;
+    }
+    .config-badge.config-baseline {
+      background: rgba(255, 193, 7, 0.15);
+      color: #f57f17;
+    }
+
+    /* ---- Prompt ---- */
+    .prompt-text {
+      white-space: pre-wrap;
+      font-size: 0.9375rem;
+      line-height: 1.6;
+    }
+
+    /* ---- Outputs ---- */
+    .output-file {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .output-file + .output-file {
+      margin-top: 1rem;
+    }
+    .output-file-header {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      font-family: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .output-file-header .dl-btn {
+      font-size: 0.7rem;
+      color: var(--accent);
+      text-decoration: none;
+      cursor: pointer;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 500;
+      opacity: 0.8;
+    }
+    .output-file-header .dl-btn:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+    .output-file-content {
+      padding: 0.75rem;
+      overflow-x: auto;
+    }
+    .output-file-content pre {
+      font-size: 0.8125rem;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+    }
+    .output-file-content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+    }
+    .output-file-content iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+    }
+    .output-file-content table {
+      border-collapse: collapse;
+      font-size: 0.8125rem;
+      width: 100%;
+    }
+    .output-file-content table td,
+    .output-file-content table th {
+      border: 1px solid var(--border);
+      padding: 0.375rem 0.5rem;
+      text-align: left;
+    }
+    .output-file-content table th {
+      background: var(--bg);
+      font-weight: 600;
+    }
+    .output-file-content .download-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.875rem;
+      cursor: pointer;
+    }
+    .output-file-content .download-link:hover {
+      background: var(--border);
+    }
+    .empty-state {
+      color: var(--text-muted);
+      font-style: italic;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    /* ---- Feedback ---- */
+    .prev-feedback {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.625rem 0.75rem;
+      margin-top: 0.75rem;
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .prev-feedback-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.25rem;
+      color: var(--text-muted);
+    }
+    .feedback-textarea {
+      width: 100%;
+      min-height: 100px;
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 0.9375rem;
+      line-height: 1.5;
+      resize: vertical;
+      color: var(--text);
+    }
+    .feedback-textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    .feedback-status {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      min-height: 1.1em;
+    }
+
+    /* ---- Grades (collapsible) ---- */
+    .grades-toggle {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+    }
+    .grades-toggle:hover {
+      color: var(--accent);
+    }
+    .grades-toggle .arrow {
+      margin-right: 0.5rem;
+      transition: transform 0.15s;
+      font-size: 0.75rem;
+    }
+    .grades-toggle .arrow.open {
+      transform: rotate(90deg);
+    }
+    .grades-content {
+      display: none;
+      margin-top: 0.75rem;
+    }
+    .grades-content.open {
+      display: block;
+    }
+    .grades-summary {
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .grade-badge {
+      display: inline-block;
+      padding: 0.125rem 0.5rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .grade-pass { background: var(--green-bg); color: var(--green); }
+    .grade-fail { background: var(--red-bg); color: var(--red); }
+    .assertion-list {
+      list-style: none;
+    }
+    .assertion-item {
+      padding: 0.625rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.8125rem;
+    }
+    .assertion-item:last-child { border-bottom: none; }
+    .assertion-status {
+      font-weight: 600;
+      margin-right: 0.5rem;
+    }
+    .assertion-status.pass { color: var(--green); }
+    .assertion-status.fail { color: var(--red); }
+    .assertion-evidence {
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+      padding-left: 1.5rem;
+    }
+
+    /* ---- View tabs ---- */
+    .view-tabs {
+      display: flex;
+      gap: 0;
+      padding: 0 2rem;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .view-tab {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.625rem 1.25rem;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: var(--text-muted);
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s;
+    }
+    .view-tab:hover { color: var(--text); }
+    .view-tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+    .view-panel { display: none; }
+    .view-panel.active { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
+
+    /* ---- Benchmark view ---- */
+    .benchmark-view {
+      padding: 1.5rem 2rem;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .benchmark-table {
+      border-collapse: collapse;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.8125rem;
+      width: 100%;
+      margin-bottom: 1.5rem;
+    }
+    .benchmark-table th, .benchmark-table td {
+      padding: 0.625rem 0.75rem;
+      text-align: left;
+      border: 1px solid var(--border);
+    }
+    .benchmark-table th {
+      font-family: 'Poppins', sans-serif;
+      background: var(--header-bg);
+      color: var(--header-text);
+      font-weight: 500;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .benchmark-table tr:hover { background: var(--bg); }
+    .benchmark-table tr.benchmark-row-with { background: rgba(33, 150, 243, 0.06); }
+    .benchmark-table tr.benchmark-row-without { background: rgba(255, 193, 7, 0.06); }
+    .benchmark-table tr.benchmark-row-with:hover { background: rgba(33, 150, 243, 0.12); }
+    .benchmark-table tr.benchmark-row-without:hover { background: rgba(255, 193, 7, 0.12); }
+    .benchmark-table tr.benchmark-row-avg { font-weight: 600; border-top: 2px solid var(--border); }
+    .benchmark-table tr.benchmark-row-avg.benchmark-row-with { background: rgba(33, 150, 243, 0.12); }
+    .benchmark-table tr.benchmark-row-avg.benchmark-row-without { background: rgba(255, 193, 7, 0.12); }
+    .benchmark-delta-positive { color: var(--green); font-weight: 600; }
+    .benchmark-delta-negative { color: var(--red); font-weight: 600; }
+    .benchmark-notes {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+    }
+    .benchmark-notes h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
+    }
+    .benchmark-notes ul {
+      list-style: disc;
+      padding-left: 1.25rem;
+    }
+    .benchmark-notes li {
+      font-size: 0.8125rem;
+      line-height: 1.6;
+      margin-bottom: 0.375rem;
+    }
+    .benchmark-empty {
+      color: var(--text-muted);
+      font-style: italic;
+      text-align: center;
+      padding: 3rem;
+    }
+
+    /* ---- Navigation ---- */
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+      flex-shrink: 0;
+    }
+    .nav-btn {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.5rem 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text);
+      transition: all 0.15s;
+    }
+    .nav-btn:hover:not(:disabled) {
+      background: var(--bg);
+      border-color: var(--text-muted);
+    }
+    .nav-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+    .done-btn {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.5rem 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.15s;
+    }
+    .done-btn:hover {
+      background: var(--bg);
+      border-color: var(--text-muted);
+    }
+    .done-btn.ready {
+      border: none;
+      background: var(--accent);
+      color: white;
+      font-weight: 600;
+    }
+    .done-btn.ready:hover {
+      background: var(--accent-hover);
+    }
+    /* ---- Done overlay ---- */
+    .done-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+    }
+    .done-overlay.visible {
+      display: flex;
+    }
+    .done-card {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 2rem 3rem;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      max-width: 500px;
+    }
+    .done-card h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .done-card p {
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+    .done-card .btn-row {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+    .done-card button {
+      padding: 0.5rem 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 0.875rem;
+    }
+    .done-card button:hover {
+      background: var(--bg);
+    }
+    /* ---- Toast ---- */
+    .toast {
+      position: fixed;
+      bottom: 5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--header-bg);
+      color: var(--header-text);
+      padding: 0.625rem 1.25rem;
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      z-index: 200;
+    }
+    .toast.visible {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div id="app" style="height:100vh; display:flex; flex-direction:column;">
+    <div class="header">
+      <div>
+        <h1>Eval Review: <span id="skill-name"></span></h1>
+        <div class="instructions">Review each output and leave feedback below. Navigate with arrow keys or buttons. When done, copy feedback and paste into Claude Code.</div>
+      </div>
+      <div class="progress" id="progress"></div>
+    </div>
+
+    <!-- View tabs (only shown when benchmark data exists) -->
+    <div class="view-tabs" id="view-tabs" style="display:none;">
+      <button class="view-tab active" onclick="switchView('outputs')">Outputs</button>
+      <button class="view-tab" onclick="switchView('benchmark')">Benchmark</button>
+    </div>
+
+    <!-- Outputs panel (qualitative review) -->
+    <div class="view-panel active" id="panel-outputs">
+    <div class="main">
+      <!-- Prompt -->
+      <div class="section">
+        <div class="section-header">Prompt <span class="config-badge" id="config-badge" style="display:none;"></span></div>
+        <div class="section-body">
+          <div class="prompt-text" id="prompt-text"></div>
+        </div>
+      </div>
+
+      <!-- Outputs -->
+      <div class="section">
+        <div class="section-header">Output</div>
+        <div class="section-body" id="outputs-body">
+          <div class="empty-state">No output files found</div>
+        </div>
+      </div>
+
+      <!-- Previous Output (collapsible) -->
+      <div class="section" id="prev-outputs-section" style="display:none;">
+        <div class="section-header">
+          <div class="grades-toggle" onclick="togglePrevOutputs()">
+            <span class="arrow" id="prev-outputs-arrow">&#9654;</span>
+            Previous Output
+          </div>
+        </div>
+        <div class="grades-content" id="prev-outputs-content"></div>
+      </div>
+
+      <!-- Grades (collapsible) -->
+      <div class="section" id="grades-section" style="display:none;">
+        <div class="section-header">
+          <div class="grades-toggle" onclick="toggleGrades()">
+            <span class="arrow" id="grades-arrow">&#9654;</span>
+            Formal Grades
+          </div>
+        </div>
+        <div class="grades-content" id="grades-content"></div>
+      </div>
+
+      <!-- Feedback -->
+      <div class="section">
+        <div class="section-header">Your Feedback</div>
+        <div class="section-body">
+          <textarea
+            class="feedback-textarea"
+            id="feedback"
+            placeholder="What do you think of this output? Any issues, suggestions, or things that look great?"
+          ></textarea>
+          <div class="feedback-status" id="feedback-status"></div>
+          <div class="prev-feedback" id="prev-feedback" style="display:none;">
+            <div class="prev-feedback-label">Previous feedback</div>
+            <div id="prev-feedback-text"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav" id="outputs-nav">
+      <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">&#8592; Previous</button>
+      <button class="done-btn" id="done-btn" onclick="showDoneDialog()">Submit All Reviews</button>
+      <button class="nav-btn" id="next-btn" onclick="navigate(1)">Next &#8594;</button>
+    </div>
+    </div><!-- end panel-outputs -->
+
+    <!-- Benchmark panel (quantitative stats) -->
+    <div class="view-panel" id="panel-benchmark">
+      <div class="benchmark-view" id="benchmark-content">
+        <div class="benchmark-empty">No benchmark data available. Run a benchmark to see quantitative results here.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Done overlay -->
+  <div class="done-overlay" id="done-overlay">
+    <div class="done-card">
+      <h2>Review Complete</h2>
+      <p>Your feedback has been saved. Go back to your Claude Code session and tell Claude you're done reviewing.</p>
+      <div class="btn-row">
+        <button onclick="closeDoneDialog()">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ---- Embedded data (injected by generate_review.py) ----
+    const EMBEDDED_DATA = {"skill_name": "refactoring-ui", "runs": [{"id": "eval-1-visual-hierarchy-with_skill", "prompt": "My UI feels flat and uninteresting. Everything looks like it has the same importance. The page has a title, some stats, and a table, but nothing stands out. What's going on?", "eval_id": 1, "outputs": [{"name": "response.md", "type": "text", "content": "# UI Design Review: Flat Visual Hierarchy\n\n**Question:** \"My UI feels flat and uninteresting. Everything looks like it has the same importance. The page has a title, some stats, and a table, but nothing stands out. What's going on?\"\n\n---\n\n## Diagnosis\n\nThe problem is **flat visual hierarchy** \u2014 every element on your page is competing for attention at the same visual weight. When a page title, stat numbers, stat labels, table headers, and table data all render at similar size, weight, and color, the user's eye has no natural path to follow. The result reads as noise, not signal. Nothing \"pops\" because nothing has been deliberately de-emphasized either.\n\nThis is one of the most common UI problems, and it's entirely fixable without changing your layout, colors, or fonts \u2014 just how you apply them.\n\n---\n\n## Flat Hierarchy \u2014 Significant\n\n**Where:** Page title, stat blocks, and table \u2014 all content areas\n\n**Why it matters:** Visual hierarchy is how users instantly understand what's important. Without it, they have to read everything to figure out where to look, which feels exhausting and unpolished.\n\n**Fix:**\n\nUse all three hierarchy tools together \u2014 **font size**, **font weight**, and **color** \u2014 rather than relying on size alone.\n\n### 1. Page Title\nThe title should be your visual anchor. Make it large and heavy:\n- Font size: significantly larger than everything else (e.g. 28\u201332px)\n- Font weight: 700 (bold)\n- Color: your darkest text color (e.g. `#111827` or equivalent near-black)\n\n### 2. Stat Blocks\nStats are where flat hierarchy shows up most painfully. A typical broken pattern looks like this:\n\n```\nTotal Users: 1,284\nMonthly Revenue: $42,000\nActive Sessions: 304\n```\n\nEverything is the same size and weight. Instead, **de-emphasize the labels and hero the values**:\n\n- **Stat value** (e.g. `1,284`, `$42,000`): large font (32\u201340px), heavy weight (700), dark color\n- **Stat label** (e.g. \"Total Users\"): small font (11\u201313px), normal weight (400), muted grey (e.g. `#6B7280`)\n\nThe label is secondary. The number is the content. Let the number dominate, and push the label into the background visually. You don't even need to change layout \u2014 just the text styles.\n\n### 3. Table\nTables are dense by nature, so you need explicit hierarchy within them too:\n\n- **Table header row**: small, all-caps or semi-bold, muted grey \u2014 these are labels, not content\n- **Primary cell data** (e.g. a name, key identifier): normal weight or semi-bold, dark color\n- **Secondary cell data** (e.g. dates, status metadata): lighter color, normal weight\n\nDon't style every cell the same. Decide which column is the \"primary\" one and give it slightly more visual weight than the rest.\n\n---\n\n## Emphasize by De-emphasizing \u2014 Significant\n\n**Where:** Supporting text, labels, and metadata throughout\n\n**Why it matters:** Hierarchy is relative. Your primary content doesn't need to scream \u2014 it just needs to be more prominent than everything around it.\n\n**Fix:**\n\nInstead of trying to make your important content \"pop\" by making it bigger or bolder, try pulling down the visual weight of secondary and tertiary content:\n\n- Make labels and metadata lighter: grey (`#9CA3AF`) instead of near-black\n- Use normal weight (400) for supporting text, reserve 600\u2013700 for emphasis\n- This alone will make your stats and title feel more prominent \u2014 without touching them\n\nThis technique is called **de-emphasis as a hierarchy tool**: the primary content stands out not because you styled it aggressively, but because everything else stepped back.\n\n---\n\n## Labels Are a Last Resort \u2014 Moderate\n\n**Where:** Stat blocks especially\n\n**Why it matters:** Redundant labels add visual clutter and interrupt reading flow.\n\n**Fix:**\n\nCheck each stat on your page: does it actually need a label?\n\n- `$42,000` next to a `$` symbol is clearly revenue \u2014 it may not need \"Monthly Revenue:\" as a prefix\n- A user count like `1,284` with a people icon probably doesn't need \"Total Users:\" if context is obvious\n- In a stats section, the position and grouping often carry enough context\n\nWhen labels are unavoidable, apply the **label-as-secondary** pattern: de-emphasize the label (small, light, muted) and let the value carry the visual weight. Never give a label the same visual prominence as the value it describes.\n\n---\n\n## Quick Summary: What to Change\n\n| Element | Current (assumed) | Target |\n|---|---|---|\n| Page title | Medium-large, normal weight | Large (28\u201332px), bold (700), dark |\n| Stat value | Medium, normal weight | Large (32\u201340px), bold (700), dark |\n| Stat label | Medium, same weight as value | Small (12px), normal weight, muted grey |\n| Table header | Same style as body text | Small, semi-bold or all-caps, muted grey |\n| Table body (primary col) | Same as all other cols | Slightly darker/heavier than secondary cols |\n| Table body (secondary cols) | Same as primary | Lighter color, normal weight |\n\nThese changes don't require a redesign. They're purely typographic \u2014 adjusting font size, weight, and color on existing elements. That's the power of visual hierarchy: it makes a page look \"designed\" without changing anything structural.\n"}], "grading": {"expectations": [{"text": "Names the visual hierarchy problem explicitly", "passed": true, "evidence": "'The problem is flat visual hierarchy \u2014 every element on your page is competing for attention at the same visual weight'"}, {"text": "Mentions at least two of the three hierarchy tools: font size, font weight, color/contrast", "passed": true, "evidence": "'Use all three hierarchy tools together \u2014 font size, font weight, and color'"}, {"text": "Discusses different levels of content importance (primary, secondary, tertiary)", "passed": true, "evidence": "Explicitly grades stat values as primary (large, bold, dark) and labels as secondary (small, 12px, muted grey); also distinguishes primary/secondary table columns"}, {"text": "Gives specific actionable recommendations with values (e.g., font weights 600-700, grey for secondary text)", "passed": true, "evidence": "Stat value: '32\u201340px, heavy weight (700)'; stat label: '12px, normal weight, muted grey (#6B7280)'; title: '28\u201332px, bold (700)'"}], "summary": {"passed": 4, "failed": 0, "total": 4, "pass_rate": 1.0}, "claims": [{"claim": "Hierarchy can be fixed without changing layout", "type": "quality", "verified": true, "evidence": "Response explicitly states 'These changes don't require a redesign. They're purely typographic'"}], "eval_feedback": {"suggestions": [], "overall": "Assertions are solid and discriminating. The fourth assertion effectively distinguishes skill-level specificity from generic advice."}}}, {"id": "eval-1-visual-hierarchy-without_skill", "prompt": "My UI feels flat and uninteresting. Everything looks like it has the same importance. The page has a title, some stats, and a table, but nothing stands out. What's going on?", "eval_id": 1, "outputs": [{"name": "response.md", "type": "text", "content": "# Visual Hierarchy: Why Your UI Feels Flat\n\n## The Problem\n\nWhat you're describing is a **lack of visual hierarchy** \u2014 the page has no clear signal telling the user what's important, what's secondary, and what's just supporting detail. Everything is competing for attention equally, which paradoxically means nothing gets attention.\n\n---\n\n## What Visual Hierarchy Is\n\nVisual hierarchy is the deliberate arrangement and styling of elements so that the eye naturally moves from most important to least important. When done well, a user can glance at a page and instantly know what it's about and where to focus.\n\n---\n\n## Common Reasons a UI Feels Flat\n\n### 1. Uniform Font Size and Weight\nIf your title, stats, and table headers all use similar font sizes or weights, nothing reads as a heading vs. body text. Use dramatic size differences \u2014 a page title might be 32\u201348px while body text is 14\u201316px. Don't be shy about the contrast.\n\n### 2. Same Color/Tone for Everything\nUsing a single neutral color (e.g., all dark gray) for all text means nothing pops. Establish a hierarchy with color:\n- **Primary content** (title, key stats): high contrast, bold or dark\n- **Secondary content** (labels, captions): muted, lighter gray\n- **Tertiary content** (timestamps, helper text): very light gray\n\n### 3. No Emphasis on Key Data\nStats especially suffer from this. If the number `$48,295` is the same size as the label \"Total Revenue,\" the number doesn't feel significant. The number should be much larger, bolder, and more prominent than its label.\n\n### 4. Lack of Spacing and Grouping\nFlat UIs often cram everything together or space everything uniformly. Visual hierarchy also lives in whitespace \u2014 generous spacing above a section title separates it from what came before, making it feel like a headline.\n\n### 5. Overuse of Borders and Dividers\nCompensating for lack of hierarchy with borders everywhere actually makes things worse \u2014 it adds noise without meaning. Use whitespace and alignment instead to separate sections.\n\n### 6. No Accent Color or Visual Anchor\nWithout a single accent color applied deliberately to the most important element on the page, nothing draws the eye first. Even one bold color on a key stat or a primary action button creates an anchor point.\n\n---\n\n## How to Fix It\n\n| Element | What to Do |\n|---|---|\n| **Page Title** | Make it the largest, heaviest text on the page |\n| **Stats** | Numbers should be large (24\u201348px), bold; labels should be small and muted |\n| **Table Headers** | Use uppercase, slightly muted, smaller font \u2014 clearly secondary to data |\n| **Table Data** | Primary column (e.g., name) bold/darker; secondary columns (e.g., date, status) lighter |\n| **Section Spacing** | Add generous top margin before major sections to signal transitions |\n\n---\n\n## Mental Model: Think in Three Levels\n\nDesign every text element as belonging to one of three tiers:\n\n1. **Primary** \u2014 What the user *must* notice (title, key number, CTA)\n2. **Secondary** \u2014 Supporting context (labels, column headers, section names)\n3. **Tertiary** \u2014 Background detail (timestamps, IDs, helper text)\n\nThen make sure each tier looks *noticeably different* from the others. If you can squint at the page and still tell them apart, you're on the right track.\n\n---\n\n## Summary\n\nYour UI feels flat because it treats all information as equally important. Fix it by introducing strong contrasts in **size**, **weight**, **color**, and **spacing** \u2014 deliberately making some things loud and others quiet. Visual hierarchy isn't decoration; it's communication.\n"}], "grading": {"expectations": [{"text": "Names the visual hierarchy problem explicitly", "passed": true, "evidence": "'What you're describing is a lack of visual hierarchy \u2014 the page has no clear signal telling the user what's important'"}, {"text": "Mentions at least two of the three hierarchy tools: font size, font weight, color/contrast", "passed": true, "evidence": "Covers 'Uniform Font Size and Weight' and 'Same Color/Tone for Everything' as two root causes, addressing all three tools"}, {"text": "Discusses different levels of content importance (primary, secondary, tertiary)", "passed": true, "evidence": "'Think in Three Levels: Primary (must-see), Secondary (context), Tertiary (background detail)' \u2014 explicitly named"}, {"text": "Gives specific actionable recommendations with values (e.g., font weights 600-700, grey for secondary text)", "passed": false, "evidence": "Gives size ranges ('32\u201348px', '24\u201348px') but uses 'bold' rather than specific weight numbers (600/700); colors described as 'muted, lighter gray' and 'very light gray' without hex values. Falls short of the specificity level called for."}], "summary": {"passed": 3, "failed": 1, "total": 4, "pass_rate": 0.75}, "claims": [], "eval_feedback": {"suggestions": [], "overall": "Good set. Assertion 4 is the key discriminator between generic and skill-level specificity."}}}, {"id": "eval-2-color-palette-with_skill", "prompt": "I need to build a color palette for a fintech app. I want to use blue as the primary color. How do I build out the full palette with enough shades?", "eval_id": 2, "outputs": [{"name": "response.md", "type": "text", "content": "# Building a Full Color Palette for a Fintech App (Blue as Primary)\n\n**Category:** Color \u2014 palette structure, HSL, 9-shade scale, greys, semantic colors, accessibility\n\n---\n\n## Step 1: Ditch Hex \u2014 Work in HSL\n\nBefore touching a color picker, switch your mental model to **HSL** (Hue, Saturation, Lightness). Hex and RGB are machine values with no human-readable structure \u2014 similar-looking blues look nothing alike in hex. HSL maps to how you perceive color:\n\n| Component | What it controls | Range |\n|-----------|-----------------|-------|\n| Hue | Which color on the wheel | 0\u00b0\u2013360\u00b0 |\n| Saturation | How vivid vs. grey | 0%\u2013100% |\n| Lightness | How light vs. dark | 0%\u2013100% |\n\nIn HSL, building a full blue scale is systematic: keep the hue fixed, vary lightness and saturation. In hex, it's guesswork.\n\nFor a fintech app with a professional, trustworthy feel, a good base hue is around **217\u00b0** \u2014 a clean, medium blue that reads as financial/institutional without being cold.\n\n---\n\n## Step 2: Understand the Three Color Categories You Need\n\nA real UI needs more colors than just \"blue.\" Plan for three categories from the start:\n\n### 1. Greys (8\u201310 shades)\nUsed everywhere \u2014 text, backgrounds, borders, dividers, disabled states. This is your most-used palette. Don't skip it.\n\n### 2. Primary Color (9 shades)\nYour blue. Used for primary actions (CTA buttons), active nav, links, focus rings, progress indicators, and key data highlights.\n\n### 3. Semantic / Accent Colors (5\u20137 shades each)\n- **Danger / Error** \u2014 red (form errors, destructive actions, overdraft warnings)\n- **Warning** \u2014 amber/yellow (alerts, approaching limits)\n- **Success** \u2014 green (transaction confirmed, balance positive)\n- *(Optional)* **Info** \u2014 teal or lighter blue (informational banners)\n\nEach semantic color needs enough shades to cover: background tint, border, icon/text color on both light and dark surfaces.\n\n---\n\n## Step 3: Build Your 9-Shade Primary Blue Scale\n\n**Start by choosing your 500 \u2014 the base brand color.** This is what appears on buttons, active links, and key UI chrome. It should look right at face value: vivid, clearly blue, not too light and not so dark it loses energy. For fintech, `hsl(217, 91%, 55%)` is a solid starting point \u2014 adjust to taste.\n\nThen build outward from 500 in both directions.\n\n```css\n/* Primary Blue \u2014 hue 217\u00b0 */\n--blue-50:  hsl(217, 100%, 97%);   /* page-level tinted backgrounds, hover fill */\n--blue-100: hsl(217,  96%, 92%);   /* section backgrounds, tag fills */\n--blue-200: hsl(217,  93%, 83%);   /* borders on light backgrounds */\n--blue-300: hsl(217,  89%, 72%);   /* disabled states, subtle fills */\n--blue-400: hsl(217,  87%, 63%);   /* placeholder text, subtle icons */\n--blue-500: hsl(217,  91%, 55%);   /* \u2190 main brand color: buttons, links */\n--blue-600: hsl(217,  83%, 45%);   /* button hover state */\n--blue-700: hsl(217,  76%, 35%);   /* button active/pressed state */\n--blue-800: hsl(217,  68%, 25%);   /* dark text on light blue backgrounds */\n--blue-900: hsl(217,  60%, 15%);   /* high-contrast text, dark mode surfaces */\n```\n\n### The Perceptual Lightness Problem \u2014 Don't Ignore It\n\nHSL lightness is **not perceptual**. A blue at 50% lightness looks darker than a yellow at 50% lightness. If you just slide the lightness value and do nothing else, your light shades will look washed out and muddy.\n\n**Fix:**\n- As you go **lighter** (50 \u2192 100 \u2192 200): **increase saturation** to compensate. A blue-50 at low saturation looks like a grey fog \u2014 push saturation up toward 96\u2013100% to keep it reading as genuinely blue.\n- As you go **darker** (500 \u2192 700 \u2192 900): **decrease saturation slightly**. Very dark blues with full saturation can look unnatural. Nudge it down as you go deeper.\n\nThis is what separates a hand-crafted palette from a purely algorithmic one \u2014 and it's the main reason palettes feel flat or alive.\n\n**Optional advanced technique:** Rotate hue slightly as you move through the scale:\n- Light shades \u2192 nudge hue toward 210\u2013215\u00b0 (slightly toward cyan/green, which appears perceptually lighter)\n- Dark shades \u2192 nudge hue toward 220\u2013225\u00b0 (slightly toward indigo/purple, which appears perceptually darker)\n\nThis is subtle but makes each shade feel like a genuine version of the color rather than a diluted or dead version.\n\n---\n\n## Step 4: Build Cool Greys (Not Pure Grey)\n\nSince your brand is blue \u2014 a cool color \u2014 use **cool greys** (slight blue hue). Pure greys at hue 0\u00b0, saturation 0% look clinical and generic. A slight hue makes them feel like part of a coherent system.\n\n```css\n/* Cool Greys \u2014 hue 220\u00b0 */\n--grey-50:  hsl(220, 20%, 98%);   /* page background */\n--grey-100: hsl(220, 16%, 94%);   /* card backgrounds, sidebar */\n--grey-200: hsl(220, 14%, 88%);   /* borders, dividers */\n--grey-300: hsl(220, 12%, 78%);   /* light borders, disabled borders */\n--grey-400: hsl(220, 10%, 65%);   /* placeholder text, disabled icons */\n--grey-500: hsl(220,  9%, 52%);   /* secondary body text */\n--grey-600: hsl(220, 10%, 40%);   /* secondary text (stronger) */\n--grey-700: hsl(220, 12%, 30%);   /* primary body text */\n--grey-800: hsl(220, 14%, 20%);   /* headings */\n--grey-900: hsl(220, 16%, 12%);   /* near-black, high-contrast labels */\n```\n\n> **Rule:** Warm brand = warm greys. Cool brand = cool greys. Your blue fintech app should use cool greys throughout.\n\n---\n\n## Step 5: Build Semantic Color Scales\n\nEach semantic color also needs a 5\u20137 shade scale. You don't necessarily need all 9 \u2014 but you need at minimum: a light background tint (for alert banners), a mid tone (for icons/borders), and a dark tone (for text on light backgrounds).\n\nHere's a complete set for a fintech app:\n\n### Danger / Error \u2014 Red (hue ~4\u00b0)\n```css\n--red-50:  hsl(4, 100%, 97%);   /* error banner background */\n--red-100: hsl(4,  96%, 91%);   /* error input fill */\n--red-200: hsl(4,  90%, 82%);   /* error input border */\n--red-400: hsl(4,  87%, 65%);   /* error icon */\n--red-500: hsl(4,  91%, 55%);   /* primary error color */\n--red-700: hsl(4,  76%, 35%);   /* error text on light background */\n--red-900: hsl(4,  60%, 16%);   /* dark error text */\n```\n\n### Warning \u2014 Amber (hue ~38\u00b0)\n```css\n--amber-50:  hsl(38, 100%, 96%);  /* warning banner background */\n--amber-100: hsl(38,  96%, 89%);\n--amber-200: hsl(38,  90%, 79%);\n--amber-400: hsl(38,  90%, 60%);  /* warning icon */\n--amber-500: hsl(38,  92%, 50%);  /* primary warning color */\n--amber-700: hsl(38,  78%, 35%);  /* warning text on light bg */\n--amber-900: hsl(38,  62%, 18%);\n```\n\n### Success \u2014 Green (hue ~145\u00b0)\n```css\n--green-50:  hsl(145, 80%, 96%);  /* success banner background */\n--green-100: hsl(145, 76%, 88%);\n--green-200: hsl(145, 70%, 76%);\n--green-400: hsl(145, 68%, 52%);  /* success icon */\n--green-500: hsl(145, 72%, 44%);  /* primary success color */\n--green-700: hsl(145, 62%, 30%);  /* success text on light bg */\n--green-900: hsl(145, 50%, 16%);\n```\n\n> **Fintech-specific note:** In financial UIs, red and green carry strong semantic meaning (loss/gain, debit/credit). Ensure your danger red and success green are visually distinct and always paired with icons and text \u2014 never color alone.\n\n---\n\n## Step 6: Accessibility \u2014 Check Your Contrast\n\nWCAG 2.1 minimums for your fintech app:\n\n| Level | Normal text (< 18px) | Large text (\u2265 18px or \u2265 14px bold) |\n|-------|---------------------|-------------------------------------|\n| AA    | 4.5:1               | 3:1                                 |\n| AAA   | 7:1                 | 4.5:1                               |\n\n**Common traps with blue palettes:**\n- White text on `--blue-400` or `--blue-500` \u2014 often **fails AA**. Use `--blue-600` or `--blue-700` for buttons with white text.\n- `--grey-400` text on white \u2014 often fails. Use `--grey-600` or darker for body text.\n- Blue on blue (e.g., a blue link inside a blue banner) \u2014 nearly always fails. Use `--blue-900` text on `--blue-50` backgrounds.\n\n**Quick rule:** For white text on a colored button, use shade 600 or 700, not 500. For colored text on a white background, use shade 700 or 800.\n\nCheck every combination at [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/).\n\n---\n\n## Step 7: Never Use Color Alone\n\nAbout 8% of males have red-green color blindness. In a fintech app where color communicates gain/loss, success/failure, and alerts, this is critical.\n\n**Always pair color with a secondary signal:**\n\n| Use case | Color + what else |\n|----------|-------------------|\n| Transaction failed | Red + \u2715 error icon + \"Payment failed\" text |\n| Transfer confirmed | Green + \u2713 checkmark + \"Sent successfully\" |\n| Balance warning | Amber + \u26a0 icon + \"Low balance\" label |\n| Active nav item | Blue + bold weight or left border indicator |\n| Disabled button | Muted grey + `cursor: not-allowed` |\n| Required field | Red asterisk + \"Required\" label text |\n\nCharts showing portfolio performance must never rely on color alone to differentiate series \u2014 add labels, patterns, or shape markers.\n\n---\n\n## Summary: Your Fintech Palette at a Glance\n\n| Token group | Shades | Primary use |\n|-------------|--------|-------------|\n| `--blue-*`  | 50\u2013900 | CTAs, links, active states, focus rings, key data |\n| `--grey-*`  | 50\u2013900 | Text, backgrounds, borders, dividers |\n| `--red-*`   | 50\u2013900 | Errors, destructive actions, loss indicators |\n| `--amber-*` | 50\u2013900 | Warnings, approaching limits, caution states |\n| `--green-*` | 50\u2013900 | Success, confirmation, gain indicators |\n\n**Build order:**\n1. Pick `--blue-500` (your brand color at face value)\n2. Build 8 more blue shades, adjusting saturation at each step\n3. Build cool greys (same hue as blue, low saturation)\n4. Add red, amber, green with 5\u20137 shades each\n5. Check all foreground/background combinations for contrast\n6. Audit every color usage to ensure a secondary signal exists alongside color\n"}], "grading": {"expectations": [{"text": "Recommends HSL format with explanation of why", "passed": true, "evidence": "'Switch to HSL...Hex and RGB are machine values with no human-readable structure...HSL maps to how you perceive color' \u2014 leads with HSL, explains why it enables systematic scale-building"}, {"text": "Explains a multi-shade scale (e.g., 50 to 900, or 9 shades) with different use cases for light vs dark shades", "passed": true, "evidence": "'Build Your 9-Shade Primary Blue Scale' with CSS custom properties from --blue-50 to --blue-900, each annotated with use case (e.g., 'page-level tinted backgrounds', 'main brand color', 'button hover state')"}, {"text": "Mentions saturation needs to be adjusted as lightness changes to prevent washed-out shades", "passed": true, "evidence": "'The Perceptual Lightness Problem \u2014 Don't Ignore It...As you go lighter: increase saturation to compensate. A blue-50 at low saturation looks like a grey fog \u2014 push saturation up toward 96\u2013100%'"}, {"text": "Mentions the palette needs more than primary blue: including greys and/or semantic colors (danger, success, warning)", "passed": true, "evidence": "'Three Color Categories You Need: 1. Greys (8\u201310 shades)...2. Primary Color (9 shades)...3. Semantic / Accent Colors: Danger/Error, Warning, Success'"}], "summary": {"passed": 4, "failed": 0, "total": 4, "pass_rate": 1.0}, "claims": [{"claim": "Hue rotation technique adds perceptual depth to palette", "type": "quality", "verified": true, "evidence": "Response includes optional advanced hue rotation technique beyond the assertions, showing depth of knowledge"}], "eval_feedback": {"suggestions": [], "overall": "Assertions are well-targeted. The saturation-adjustment assertion is the key discriminator."}}}, {"id": "eval-2-color-palette-without_skill", "prompt": "I need to build a color palette for a fintech app. I want to use blue as the primary color. How do I build out the full palette with enough shades?", "eval_id": 2, "outputs": [{"name": "response.md", "type": "text", "content": "# Building a Blue Color Palette for a Fintech App\n\n## Overview\n\nA well-structured color palette for a fintech app needs to be trustworthy, clear, and functional. Blue is an excellent choice \u2014 it communicates reliability, professionalism, and calm, all of which are critical for financial products.\n\n---\n\n## 1. Start with a Base Blue\n\nPick a single \"true\" blue as your anchor. For fintech, mid-range blues work best \u2014 not too bright (avoids feeling playful), not too dark (avoids feeling heavy).\n\n**Examples of good base blues:**\n- `#2563EB` (Tailwind Blue 600) \u2014 strong, modern\n- `#1D4ED8` (Tailwind Blue 700) \u2014 deeper, more trustworthy\n- `#0EA5E9` (Tailwind Sky 500) \u2014 lighter, techy\n\n---\n\n## 2. Build a 9\u201310 Step Scale\n\nThe most robust approach is to generate a **linear scale from lightest to darkest** \u2014 typically 9 or 10 steps. Label them 50\u2013900 (or 100\u20131000), following conventions like Tailwind or Material Design.\n\n### Example Blue Scale:\n\n| Token     | Hex       | Use Case                                  |\n|-----------|-----------|-------------------------------------------|\n| Blue 50   | `#EFF6FF` | Page backgrounds, tinted sections         |\n| Blue 100  | `#DBEAFE` | Hover backgrounds, subtle highlights      |\n| Blue 200  | `#BFDBFE` | Disabled states, light borders            |\n| Blue 300  | `#93C5FD` | Illustrations, decorative accents         |\n| Blue 400  | `#60A5FA` | Secondary actions, icons                  |\n| Blue 500  | `#3B82F6` | Default interactive elements              |\n| Blue 600  | `#2563EB` | **Primary CTA buttons (default state)**   |\n| Blue 700  | `#1D4ED8` | Button hover/pressed states               |\n| Blue 800  | `#1E40AF` | Text on light backgrounds, headings       |\n| Blue 900  | `#1E3A8A` | Dark mode surfaces, deep emphasis         |\n\n---\n\n## 3. How to Generate the Scale\n\n### Method A: Use a Tool\n- **Tailwind CSS Palette Generator** (https://uicolors.app) \u2014 paste your base hex, get a full scale\n- **Radix UI Colors** \u2014 perceptually uniform scales designed for UI\n- **Huetone** \u2014 adjusts hue/chroma/luminance across steps\n\n### Method B: Manual HSL Approach\nUse HSL (Hue, Saturation, Lightness):\n1. Keep **hue** roughly constant (~215\u2013230\u00b0 for blue)\n2. Keep **saturation** relatively stable (60\u201390%)\n3. Vary **lightness** from ~95% (lightest) to ~15% (darkest) across your steps\n\n> Tip: Slightly shift hue warmer (+5\u00b0) at the dark end and cooler (-5\u00b0) at the light end to avoid muddy or washed-out extremes \u2014 a technique used in Tailwind's palette.\n\n---\n\n## 4. Complementary Colors You'll Need\n\nA fintech palette isn't just blue. Add:\n\n### Neutrals (Most Important)\nGenerate a **gray scale** with a very slight blue tint (cool grays) to harmonize with your blue:\n- `Gray 50` \u2192 `Gray 900`: Used for text, borders, backgrounds, cards\n\n### Semantic Colors\n| Role     | Color  | Example        |\n|----------|--------|----------------|\n| Success  | Green  | `#16A34A`      |\n| Warning  | Amber  | `#D97706`      |\n| Error    | Red    | `#DC2626`      |\n| Info     | Blue   | Reuse Blue 500 |\n\nThese are critical in fintech for showing transaction statuses, alerts, and confirmations.\n\n---\n\n## 5. Assign Roles to Your Shades\n\nDon't just expose raw shades \u2014 give them **semantic roles**:\n\n```\n--color-primary:           Blue 600   /* Main brand color */\n--color-primary-hover:     Blue 700   /* Interactive hover */\n--color-primary-subtle:    Blue 50    /* Tinted backgrounds */\n--color-primary-text:      Blue 800   /* Text on white */\n--color-primary-border:    Blue 200   /* Dividers, outlines */\n```\n\n---\n\n## 6. Accessibility Check\n\nFor fintech, **WCAG AA compliance** (4.5:1 contrast ratio for body text, 3:1 for large text) is non-negotiable:\n\n- Blue 600 on white: \u2705 passes AA for large text\n- Blue 700 on white: \u2705 passes AA for body text\n- White text on Blue 600: \u2705 passes AA\n- **Always verify** with tools like Stark, Colour Contrast Analyser, or browser DevTools\n\n---\n\n## 7. Summary Checklist\n\n- [ ] Chose a base blue anchor\n- [ ] Generated a 9-step scale (50\u2013900)\n- [ ] Built cool-tinted gray neutrals\n- [ ] Added semantic colors (green, red, amber)\n- [ ] Assigned semantic roles/tokens\n- [ ] Verified contrast ratios for accessibility\n- [ ] Tested in context (dark backgrounds, cards, data tables)\n\n---\n\nA proper scale gives you enough range to handle backgrounds, interactive states, text, borders, and illustrations \u2014 without inventing ad-hoc colors that make the UI feel inconsistent.\n"}], "grading": {"expectations": [{"text": "Recommends HSL format with explanation of why", "passed": false, "evidence": "HSL appears only under 'Method B: Manual HSL Approach' as a secondary option after hex-based tool recommendations. No explanation of why HSL is superior \u2014 just a mechanical description of the hue/saturation/lightness axes. Primary recommendation is hex-based tools."}, {"text": "Explains a multi-shade scale (e.g., 50 to 900, or 9 shades) with different use cases for light vs dark shades", "passed": true, "evidence": "'Build a 9\u201310 Step Scale' with a full table from Blue 50 to Blue 900, each row annotated with a use case (e.g., 'Page backgrounds, tinted sections', 'Primary CTA buttons')"}, {"text": "Mentions saturation needs to be adjusted as lightness changes to prevent washed-out shades", "passed": false, "evidence": "Mentions hue rotation ('Slightly shift hue warmer at dark end, cooler at light end') but never addresses saturation adjustment. The perceptual lightness issue is not explained."}, {"text": "Mentions the palette needs more than primary blue: including greys and/or semantic colors (danger, success, warning)", "passed": true, "evidence": "'Complementary Colors: Neutrals (gray scale with slight blue tint); Semantic Colors: Success/Green, Warning/Amber, Error/Red'"}], "summary": {"passed": 2, "failed": 2, "total": 4, "pass_rate": 0.5}, "claims": [], "eval_feedback": {"suggestions": [{"reason": "Consider adding an assertion about 'warm greys for warm brands, cool greys for cool brands' \u2014 the with_skill response explicitly teaches this rule which is a meaningful discriminator"}], "overall": "Assertions are working well. Assertions 1 and 3 are good discriminators between generic color knowledge and Refactoring UI methodology."}}}, {"id": "eval-3-typography-with_skill", "prompt": "My body text feels hard to read. Lines feel too long and too cramped vertically. I'm using 16px font with 1.2 line height in a full-width container. What should I fix?", "eval_id": 3, "outputs": [{"name": "response.md", "type": "text", "content": "# Typography Readability Fix\n\n**Category:** Typography \u2014 Line length, Line-height\n\nYou have two compounding problems here. Both are fixable with small, precise changes.\n\n---\n\n## Line-Height Proportional to Line Length \u2014 **significant**\n\n**Where:** Body text (`p` or equivalent container)\n\n**Why it matters:** Your 1.2 line-height is the correct value for *large display and headline text*, not body text \u2014 it squashes lines together and forces the reader's eye to work hard to separate one line from the next.\n\n**Fix:**\n- For a normal column width (45\u201375 chars), use `line-height: 1.5` or `line-height: 1.6`.\n- Because your container is currently full-width (long lines), you should actually go even higher: **`line-height: 1.7`** until you fix the container width (see below).\n- Once you constrain the line length with a `max-width`, you can dial back to `1.5\u20131.6`.\n\n```css\np {\n  line-height: 1.6; /* after adding max-width below */\n}\n```\n\n---\n\n## Line Length Control (Max-Width) \u2014 **significant**\n\n**Where:** Body text container (full-width layout)\n\n**Why it matters:** A full-width container on any reasonably wide screen will produce lines well beyond 75 characters. The eye loses its place finding the start of the next line, which is exactly the fatigue you're describing.\n\n**Fix:**\n- Add a `max-width` to your paragraph or content container. The canonical target is **45\u201375 characters per line**.\n- In CSS, `ch` units are your best tool: **`max-width: 65ch`** is an excellent default for body text.\n- If you need a pixel fallback on a 16px font, ~640\u2013700px is approximately equivalent.\n\n```css\np {\n  max-width: 65ch;\n  line-height: 1.6;\n}\n```\n\nFor a wider editorial layout, you can go up to `75ch`, but never leave it unconstrained. If you have a multi-column layout, distribute text across columns rather than stretching one column full-width.\n\n---\n\n## Summary of Changes\n\n| Property | Before | After |\n|---|---|---|\n| `font-size` | 16px | 16px \u2705 (already correct for body) |\n| `line-height` | 1.2 | 1.6 |\n| container `max-width` | full-width | `65ch` |\n\nYour font size of 16px is fine \u2014 that's the standard `base` body size and needs no change. The two problems are entirely the line-height and the missing width constraint.\n\n---\n\n## Related Issue Worth Noting\n\n**Line-height is proportional, not fixed.** If you have any headings or large display text in the same layout, make sure *those* stay at 1.0\u20131.2 \u2014 the same value you're currently using for body text. The inverse mistake (applying body line-height to headlines) makes headings look airy and disconnected. Keep the 1.2 for `h1`/`h2`, and use 1.5\u20131.6 exclusively for reading-length body copy.\n"}], "grading": {"expectations": [{"text": "Identifies that full-width text is too wide and recommends a maximum line length (around 45-75 characters or ~65ch)", "passed": true, "evidence": "'Line Length Control (Max-Width)...A full-width container...will produce lines well beyond 75 characters...max-width: 65ch is an excellent default...The canonical target is 45\u201375 characters per line'"}, {"text": "Identifies that 1.2 line-height is too tight for body text and recommends a higher value (around 1.5-1.6)", "passed": true, "evidence": "'Your 1.2 line-height is the correct value for large display and headline text, not body text...For a normal column width, use line-height: 1.5 or line-height: 1.6'"}, {"text": "Explains that line-height should be proportional to line length (wider lines need more line-height)", "passed": true, "evidence": "'Because your container is currently full-width (long lines), you should actually go even higher: 1.7 until you fix the container width. Once you constrain the line length with a max-width, you can dial back to 1.5\u20131.6'"}, {"text": "Gives specific numeric recommendations (e.g., max-width: 65ch, line-height: 1.5)", "passed": true, "evidence": "CSS block: `p { max-width: 65ch; line-height: 1.6; }` provided explicitly"}], "summary": {"passed": 4, "failed": 0, "total": 4, "pass_rate": 1.0}, "claims": [], "eval_feedback": {"suggestions": [], "overall": "Assertions are tight and working well. The proportional relationship assertion is a strong discriminator."}}}, {"id": "eval-3-typography-without_skill", "prompt": "My body text feels hard to read. Lines feel too long and too cramped vertically. I'm using 16px font with 1.2 line height in a full-width container. What should I fix?", "eval_id": 3, "outputs": [{"name": "response.md", "type": "text", "content": "# Typography Fix: Body Text Readability\n\n## The Problems\n\nYour setup \u2014 16px font, 1.2 line-height, full-width container \u2014 has three compounding issues:\n\n### 1. Line Height is Too Tight\n`1.2` line-height is appropriate for headings, not body text. For running prose, the eye needs more vertical breathing room to track from the end of one line back to the start of the next.\n\n**Fix:** Use `1.5` to `1.7` line-height for body text. A value of `1.6` is a solid default.\n\n```css\nbody {\n  line-height: 1.6;\n}\n```\n\n### 2. Line Length is Too Long\nA full-width container can easily produce 100\u2013150+ characters per line depending on screen size. The readable ideal is **45\u201375 characters per line** (roughly 60ch). Long lines force the eye to travel too far horizontally, making it hard to find the next line.\n\n**Fix:** Constrain your text container with `max-width`:\n\n```css\n.content {\n  max-width: 65ch; /* or roughly 680px */\n  margin-inline: auto;\n}\n```\n\nUsing `ch` units is ideal because it scales with the font size.\n\n### 3. Font Size Could Be Larger (Optional but Recommended)\n16px is the minimum acceptable baseline for body text. On larger screens, bumping to `18px` or `20px` significantly improves comfort, especially for longer reading sessions.\n\n```css\nbody {\n  font-size: 18px;\n}\n```\n\n---\n\n## Summary of Fixes\n\n| Property | Current | Recommended |\n|---|---|---|\n| `font-size` | 16px | 18\u201320px |\n| `line-height` | 1.2 | 1.5\u20131.7 |\n| Container width | Full-width | `max-width: 60\u201375ch` |\n\n## Why These Rules Exist\n\n- **Line height** affects vertical rhythm. Too tight and descenders visually collide with ascenders on the next line, making text feel dense.\n- **Line length** (measure) affects how easily the eye returns to the start of the next line. Too wide and readers lose their place; too narrow and the eye jumps too frequently.\n- **Font size** interacts with both \u2014 a larger font naturally shortens the effective line length in character count for any given pixel width.\n\nApplying all three fixes together will make your body text dramatically more comfortable to read.\n"}], "grading": {"expectations": [{"text": "Identifies that full-width text is too wide and recommends a maximum line length (around 45-75 characters or ~65ch)", "passed": true, "evidence": "'max-width: 65ch (or roughly 680px)...The readable ideal is 45\u201375 characters per line (roughly 60ch)'"}, {"text": "Identifies that 1.2 line-height is too tight for body text and recommends a higher value (around 1.5-1.6)", "passed": true, "evidence": "'1.2 line-height is appropriate for headings, not body text...Use 1.5 to 1.7 line-height for body text. A value of 1.6 is a solid default'"}, {"text": "Explains that line-height should be proportional to line length (wider lines need more line-height)", "passed": false, "evidence": "Response explains the two issues independently but never connects them \u2014 never states that wider lines need more line-height. Says 'Line height affects vertical rhythm' and 'Line length affects how easily the eye returns to the next line' but these are treated as separate issues, not proportional factors."}, {"text": "Gives specific numeric recommendations (e.g., max-width: 65ch, line-height: 1.5)", "passed": true, "evidence": "CSS blocks: `line-height: 1.6` and `max-width: 65ch` both provided explicitly"}], "summary": {"passed": 3, "failed": 1, "total": 4, "pass_rate": 0.75}, "claims": [], "eval_feedback": {"suggestions": [], "overall": "The proportional relationship assertion is the key discriminator. Without the skill, the model treats line-height and line-length as independent fixes rather than interrelated properties."}}}, {"id": "eval-4-spacing-with_skill", "prompt": "My page sections feel visually jumbled. I have form fields where it's hard to tell which label goes with which input. How do I fix the spacing?", "eval_id": 4, "outputs": [{"name": "response.md", "type": "text", "content": "# UI Design Advice: Fixing Jumbled Page Sections and Form Spacing\n\n---\n\n## Ambiguous Spacing \u2014 Significant\n\n**Where:** Form fields \u2014 specifically the gap between a label and its input vs. the gap between separate form groups.\n\n**Why it matters:** When the space between a label and its input is the same as the space between two unrelated form groups, the eye has no visual cue to determine which label belongs to which field \u2014 everything blurs into an undifferentiated stack.\n\n**Fix:**\n\nThis is the **Gestalt principle of proximity**, and it has a concrete, mechanical solution: elements should be *closer to what they belong to* than to what they don't.\n\nApply a spacing hierarchy across three distinct levels:\n\n| Relationship | Recommended spacing |\n|---|---|\n| Label \u2192 its input | **4px\u20138px** (very tight) |\n| Between form groups (field A \u2192 field B) | **16px\u201324px** (moderate gap) |\n| Between page sections | **48px\u201396px** (generous) |\n\nRight now your label-to-input gap and your group-to-group gap are probably the same value \u2014 say, `16px` across the board. The fix is not to add more space everywhere. It's to *differentiate* the distances:\n\n1. **Reduce** the label-to-input spacing to `4px` or `8px`. The label and input are a single logical unit; they should feel glued together.\n2. **Increase** the spacing between separate form groups to at least `20px\u201324px`, ideally `24px`. This separation makes each label+input pair feel like its own island.\n3. **Make page sections much larger.** If form groups are at `24px`, sections should jump to `48px`, `64px`, or `96px`. The contrast in scale is what makes the hierarchy legible.\n\nIn CSS/Tailwind terms, this might look like:\n\n```css\n/* Label tight to its input */\n.form-label { margin-bottom: 4px; }  /* was: 16px */\n\n/* Space between each form group */\n.form-group { margin-bottom: 24px; } /* was: 16px */\n\n/* Space between page sections */\n.page-section { margin-bottom: 64px; } /* was: 24px */\n```\n\nOr in Tailwind: `mb-1` for labels, `mb-6` for form groups, `mb-16` or `mb-24` for sections.\n\n---\n\n## Use a Spacing Scale \u2014 Moderate\n\n**Where:** The entire layout.\n\n**Why it matters:** If you're picking spacing values arbitrarily (e.g., `13px`, `17px`, `22px`), even technically correct spacing relationships can still look inconsistent and slightly off.\n\n**Fix:**\n\nCommit to a fixed spacing scale \u2014 base-4 or base-8 works well \u2014 and only pick values from that set: `4, 8, 12, 16, 20, 24, 32, 48, 64, 96px`. This eliminates micro-inconsistencies that make layouts feel \"jumbled\" even when the structure is right. Tailwind's default spacing scale (`p-1 = 4px`, `p-2 = 8px`, etc.) is a pre-built version of exactly this.\n\nThe rule: if two spacing values from your scale look the same at a glance, they're both wrong \u2014 jump to a value that's visibly, unambiguously different.\n\n---\n\n## Summary\n\nThe core fix is mechanical: **shrink label-to-input spacing, grow section spacing.** Your eye reads proximity as grouping. Right now everything is the same distance from everything else, so nothing reads as grouped. Introduce a three-tier spacing hierarchy \u2014 tight (4\u20138px), medium (20\u201324px), generous (48\u201396px) \u2014 and the form structure will become immediately legible without adding any borders, dividers, or background colors.\n"}], "grading": {"expectations": [{"text": "Identifies the issue as ambiguous spacing or unclear proximity between related elements", "passed": true, "evidence": "Section header: 'Ambiguous Spacing \u2014 Significant. When the space between a label and its input is the same as the space between two unrelated form groups, the eye has no visual cue to determine which label belongs to which field'"}, {"text": "Explains that related elements (label + input) should be closer to each other than to unrelated elements", "passed": true, "evidence": "'This is the Gestalt principle of proximity: elements should be closer to what they belong to than to what they don't'"}, {"text": "Gives specific spacing values for label-to-input (small) vs group-to-group (larger)", "passed": true, "evidence": "Table: 'Label \u2192 its input: 4px\u20138px; Between form groups: 16px\u201324px; Between page sections: 48px\u201396px' with CSS example: `.form-label { margin-bottom: 4px; }`, `.form-group { margin-bottom: 24px; }`"}], "summary": {"passed": 3, "failed": 0, "total": 3, "pass_rate": 1.0}, "claims": [], "eval_feedback": {"suggestions": [{"reason": "Consider adding an assertion about spacing scale (base-4 or base-8) \u2014 the skill teaches this as a system, not just the label/input proximity fix"}], "overall": "Solid. All three assertions pass cleanly. The skill's use of the Refactoring UI term 'Ambiguous Spacing' as a named principle is a nice discriminator."}}}, {"id": "eval-4-spacing-without_skill", "prompt": "My page sections feel visually jumbled. I have form fields where it's hard to tell which label goes with which input. How do I fix the spacing?", "eval_id": 4, "outputs": [{"name": "response.md", "type": "text", "content": "# Fixing Form Label-to-Input Spacing\n\n## The Core Problem: Proximity\n\nWhen labels and inputs feel jumbled, it's almost always a **proximity problem**. The visual distance between a label and its input should be *smaller* than the distance between consecutive form groups. If all gaps are equal, the eye can't group them.\n\n## The Fix: Unequal Spacing\n\nUse the **law of proximity** deliberately:\n\n```\n[Label A]        \u2190 close to its input (e.g., 4\u20136px gap)\n[Input A]\n\n                 \u2190 larger gap between groups (e.g., 24\u201332px)\n\n[Label B]        \u2190 close to its input (e.g., 4\u20136px gap)\n[Input B]\n```\n\nThe space *between* groups should be **3\u20135\u00d7 larger** than the space between a label and its own input.\n\n### Recommended values (as a starting point):\n- Label \u2192 Input gap: `4px\u20138px`\n- Input \u2192 Next label gap: `20px\u201332px`\n\n---\n\n## Specific Techniques\n\n### 1. Reduce label-to-input spacing\nSet `margin-bottom` on labels to a small value (e.g., `4px`). This visually \"attaches\" the label to its field.\n\n```css\nlabel {\n  display: block;\n  margin-bottom: 4px;\n}\n```\n\n### 2. Increase spacing between form groups\nWrap each label+input pair in a container and space those containers apart.\n\n```css\n.form-group {\n  margin-bottom: 24px;\n}\n```\n\n### 3. Use consistent alignment\n- **Left-aligned labels above inputs** are the easiest to scan and pair visually \u2014 especially in single-column forms.\n- Avoid inline labels at the same size/weight as surrounding text; they blend in.\n\n### 4. Differentiate label typography\nMake labels visually distinct from input text so the hierarchy is clear:\n- Slightly smaller font size (e.g., `12px\u201313px` vs `16px` for input text)\n- Heavier weight (`500` or `600`)\n- Muted color (e.g., `#6B7280` instead of full black)\n\n---\n\n## Quick Diagnostic Checklist\n\n| Problem | Fix |\n|---|---|\n| Label floats far above input | Reduce `margin-bottom` on label |\n| Groups bleed into each other | Increase `margin-bottom` on `.form-group` |\n| Can't tell label from regular text | Adjust weight, size, or color of labels |\n| Inline labels feel cramped | Switch to stacked (label above input) layout |\n\n---\n\n## Summary\n\nThe single most impactful change: **make the gap between a label and its input smaller than the gap between two separate form groups.** Everything else (typography, color) is secondary to getting the spatial relationships right.\n"}], "grading": {"expectations": [{"text": "Identifies the issue as ambiguous spacing or unclear proximity between related elements", "passed": true, "evidence": "'The Core Problem: Proximity. The visual distance between a label and its input should be smaller than the distance between consecutive form groups. If all gaps are equal, the eye can't group them.'"}, {"text": "Explains that related elements (label + input) should be closer to each other than to unrelated elements", "passed": true, "evidence": "'Use the law of proximity deliberately...Label\u2192Input: close (4\u20136px gap); larger gap between groups (24\u201332px)'"}, {"text": "Gives specific spacing values for label-to-input (small) vs group-to-group (larger)", "passed": true, "evidence": "'Label \u2192 Input gap: 4px\u20138px; Input \u2192 Next label gap: 20px\u201332px' with CSS: `label { margin-bottom: 4px }`, `.form-group { margin-bottom: 24px }`"}], "summary": {"passed": 3, "failed": 0, "total": 3, "pass_rate": 1.0}, "claims": [], "eval_feedback": {"suggestions": [{"reason": "Spacing proximity is well-covered by general LLM knowledge. Consider tightening assertions to require Refactoring UI-specific framing (e.g., 'spacing scale' recommendation) to better differentiate skill vs no-skill responses"}], "overall": "Both with_skill and without_skill pass all assertions \u2014 the spacing proximity principle is well-covered by general design knowledge and may not be a discriminating eval."}}}, {"id": "eval-5-shadows-with_skill", "prompt": "I have a modal dialog and a tooltip in my UI. They both use the same box shadow. What shadow values should I use for each, and why should they be different?", "eval_id": 5, "outputs": [{"name": "response.md", "type": "text", "content": "# Shadow Values for Modal Dialogs vs. Tooltips\n\n## Elevation System Collapse \u2014 Significant\n**Where:** Both the modal dialog and the tooltip  \n**Why it matters:** Using the same box shadow for both elements communicates that they sit at the same perceived height above the page \u2014 but they don't. A modal is one of the highest-elevation elements in any UI; a tooltip is smaller and more ephemeral. Giving them identical shadows flattens your elevation system and removes a key visual cue that tells users *how far from the page* each element is.\n\n---\n\n## The Core Principle: Shadows Communicate Elevation\n\nFrom Refactoring UI: **closer = more prominent = larger, softer shadow.**\n\nShadows don't just add decoration \u2014 they convey how high an element floats above the page surface. A larger, more spread-out shadow implies the element is further from the page (casting a wider shadow). A tighter, smaller shadow implies it's close to the surface.\n\nThis is the same reason real objects cast different shadows depending on how high they are \u2014 hold a book 1cm above a table vs. 30cm above it and the shadows look completely different.\n\n---\n\n## Recommended Shadow Values\n\n### Modal Dialog \u2192 Extra Large Shadow\n\nModals sit at the *top* of the z-layer stack. They block the entire background, demand user attention, and represent the highest-elevation element in most UIs. Use the extra large shadow:\n\n```css\n/* Modal dialog */\nbox-shadow:\n  0 20px 25px rgba(0, 0, 0, 0.1),   /* ambient \u2014 wide, soft */\n  0 10px 10px rgba(0, 0, 0, 0.04);  /* direct \u2014 tighter, closer to object */\n```\n\nFor a full-screen or very large modal, go up to 2xl:\n\n```css\n/* Full-screen modal */\nbox-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);\n```\n\n**Why:** The large vertical offsets (`20px\u201325px`) and wide spread communicate that this element is far above the page surface. The two-layer approach (ambient + direct shadow) adds realism \u2014 real shadows have both a tight direct component and a soft ambient component.\n\n---\n\n### Tooltip \u2192 Medium Shadow\n\nTooltips are closer in character to dropdowns and popovers \u2014 small, contextual, lightweight. They should use a medium shadow:\n\n```css\n/* Tooltip */\nbox-shadow:\n  0 4px 6px rgba(0, 0, 0, 0.07),   /* ambient */\n  0 2px 4px rgba(0, 0, 0, 0.06);   /* direct */\n```\n\n**Why:** The smaller offsets (`4px\u20136px`) signal that the tooltip floats above the page but not by much. A heavy shadow on something small looks incongruous \u2014 the shadow would be larger than the element deserves. The two-part structure still applies, just at a smaller scale.\n\n---\n\n## Why They Must Be Different\n\n| Element | Shadow scale | Reason |\n|---------|-------------|--------|\n| Tooltip | Medium | Small, ephemeral, informational \u2014 sits just above the surface |\n| Modal dialog | Extra Large / 2xl | Demands full attention, blocks the page, highest elevation in the stack |\n\nIf both use the same shadow, your UI loses a layer of communication. When a tooltip appears over a modal (which it sometimes can), the user gets no visual signal about which element is \"closer.\" More broadly, a flat elevation system makes the UI feel less spatially coherent \u2014 elements seem to arbitrarily float rather than occupy logical layers.\n\n---\n\n## Build a Named Elevation System\n\nRather than hardcoding these two values and moving on, treat shadows the same way you'd treat a color palette or spacing scale \u2014 define a small set of named levels and only use those:\n\n```css\n--shadow-sm:  0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);     /* buttons */\n--shadow-md:  0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.06);    /* tooltips, dropdowns */\n--shadow-lg:  0 10px 15px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.05);   /* floating cards */\n--shadow-xl:  0 20px 25px rgba(0,0,0,0.1), 0 10px 10px rgba(0,0,0,0.04); /* modals, drawers */\n--shadow-2xl: 0 25px 50px rgba(0,0,0,0.25);                               /* full-screen overlays */\n```\n\nDecide once, name them, and apply consistently. This makes elevation feel intentional rather than ad hoc.\n\n---\n\n## One Related Issue Worth Noting\n\n**Light source consistency:** If your modal or tooltip uses a directional shadow, make sure the shadow direction matches the rest of your UI. A shadow pointing down-right on a card but straight down on your modal signals that \"light\" comes from two different places \u2014 which feels subtly wrong. Pick a consistent vertical offset direction (most commonly straight down or slightly down-right) and apply it everywhere.\n"}], "grading": {"expectations": [{"text": "Explains that shadow size/softness communicates elevation \u2014 closer elements have larger, softer shadows", "passed": true, "evidence": "'From Refactoring UI: closer = more prominent = larger, softer shadow...Shadows don't just add decoration \u2014 they convey how high an element floats above the page surface'"}, {"text": "Justifies why the modal should have a larger/heavier shadow than the tooltip based on elevation", "passed": true, "evidence": "'Modals sit at the top of the z-layer stack...represent the highest-elevation element in most UIs'; 'Tooltips are closer in character to dropdowns and popovers \u2014 small, contextual, lightweight'"}, {"text": "Includes specific CSS box-shadow values for at least one element", "passed": true, "evidence": "Modal: `0 20px 25px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.04)`; Tooltip: `0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.06)` \u2014 both provided"}, {"text": "Recommends building a reusable shadow scale/system rather than ad-hoc values", "passed": true, "evidence": "'Build a Named Elevation System...define a small set of named levels: --shadow-sm, --shadow-md, --shadow-lg, --shadow-xl, --shadow-2xl' with complete CSS custom properties"}], "summary": {"passed": 4, "failed": 0, "total": 4, "pass_rate": 1.0}, "claims": [], "eval_feedback": {"suggestions": [], "overall": "All four assertions pass. The two-part shadow (ambient + direct) advice goes beyond the assertions and represents genuine skill-added value."}}}, {"id": "eval-5-shadows-without_skill", "prompt": "I have a modal dialog and a tooltip in my UI. They both use the same box shadow. What shadow values should I use for each, and why should they be different?", "eval_id": 5, "outputs": [{"name": "response.md", "type": "text", "content": "# Modal vs. Tooltip Box Shadows \u2014 Why They Should Be Different\n\n## The Core Principle: Shadows Communicate Elevation\n\nIn UI design, box shadows don't just add visual polish \u2014 they simulate depth. The size and diffusion of a shadow tells users how far an element is \"lifted\" off the surface. Using the same shadow for a modal and a tooltip breaks this spatial metaphor, making your UI feel incoherent.\n\n---\n\n## Recommended Shadow Values\n\n### Modal Dialog\n```css\nbox-shadow:\n  0 20px 60px rgba(0, 0, 0, 0.30),\n  0 8px 20px rgba(0, 0, 0, 0.15);\n```\n- **Large vertical offset** (20px): Simulates a light source casting a long shadow from a high elevation\n- **Large blur radius** (60px): Soft, diffuse shadow \u2014 objects far from a surface spread their shadow widely\n- **Higher opacity**: The shadow needs to be readable over a dimmed backdrop and regular page content\n- **Layered shadow**: A second, tighter shadow adds depth realism\n\n### Tooltip\n```css\nbox-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);\n```\n- **Small vertical offset** (4px): Tooltips sit just slightly above the page\n- **Tight blur radius** (12px): A focused shadow for a compact element at low elevation\n- **Low opacity**: Tooltips are ephemeral \u2014 an aggressive shadow would make them feel too heavy\n\n---\n\n## Why They Must Be Different\n\n### 1. Elevation Hierarchy\nModals represent **high elevation** \u2014 they float far above the page and block interaction with everything underneath. Tooltips are **low elevation** \u2014 a small label that barely lifts off the surface. Matching shadow values collapses this distinction and makes the UI spatially confusing.\n\n### 2. Visual Weight Matches Purpose\nA modal demands your attention. It may require you to make a decision before proceeding. Its shadow should reinforce this gravity. A tooltip is transient supplementary information \u2014 a heavy shadow would make it feel as important as the modal, which misrepresents the hierarchy.\n\n### 3. Proportionality\nShadow should scale with the element's size. A large, full-screen-width modal paired with a small tooltip shadow would look like it's barely floating. The same large shadow applied to a small tooltip makes the shadow bigger than the element itself \u2014 visually absurd.\n\n### 4. Backdrop Context\nModals typically render over a semi-transparent scrim/overlay. Without a strong shadow, the modal can visually blend into or feel disconnected from the darkened backdrop. Tooltips have no backdrop \u2014 they appear over live UI \u2014 and a subtle shadow is enough to establish separation without overwhelming nearby content.\n\n### 5. The \"Real World\" Analogy\nThink of a sheet of paper resting on a table (tooltip) vs. a sheet of glass lifted several inches above it (modal). Objects close to a surface cast short, tight, dark shadows. Objects far from a surface cast long, wide, diffuse shadows. Your CSS should mirror this physics.\n\n---\n\n## Summary Table\n\n| Property | Modal | Tooltip | Reason |\n|---|---|---|---|\n| Y-offset | Large (20px+) | Small (2\u20134px) | Elevation height |\n| Blur radius | Large (40\u201380px) | Small (8\u201316px) | Distance from surface |\n| Opacity | Medium-high (25\u201335%) | Low (10\u201320%) | Visual weight & context |\n| Layers | Often 2 shadows | Single shadow | Realism vs. simplicity |\n\n---\n\n## The Takeaway\n\nUse the same shadow system \u2014 not the same shadow value. Define a shadow scale (like `shadow-sm`, `shadow-md`, `shadow-xl`) and assign modals to the highest tier and tooltips to a lower tier. This creates visual consistency while maintaining correct spatial hierarchy throughout your UI.\n"}], "grading": {"expectations": [{"text": "Explains that shadow size/softness communicates elevation \u2014 closer elements have larger, softer shadows", "passed": true, "evidence": "'Objects close to a surface cast short, tight, dark shadows. Objects far from a surface cast long, wide, diffuse shadows.' \u2014 clear physics analogy explaining the relationship"}, {"text": "Justifies why the modal should have a larger/heavier shadow than the tooltip based on elevation", "passed": true, "evidence": "'Elevation Hierarchy: Modals represent high elevation...Tooltips are low elevation \u2014 a small label that barely lifts off the surface. Matching shadow values collapses this distinction'"}, {"text": "Includes specific CSS box-shadow values for at least one element", "passed": true, "evidence": "Modal: `0 20px 60px rgba(0, 0, 0, 0.30), 0 8px 20px rgba(0, 0, 0, 0.15)`; Tooltip: `0 4px 12px rgba(0, 0, 0, 0.15)` \u2014 both provided"}, {"text": "Recommends building a reusable shadow scale/system rather than ad-hoc values", "passed": true, "evidence": "'Use the same shadow system \u2014 not the same shadow value. Define a shadow scale (like shadow-sm, shadow-md, shadow-xl) and assign modals to the highest tier and tooltips to a lower tier'"}], "summary": {"passed": 4, "failed": 0, "total": 4, "pass_rate": 1.0}, "claims": [], "eval_feedback": {"suggestions": [{"reason": "The shadow eval is not discriminating \u2014 general knowledge handles it well. Consider adding an assertion specifically about two-part shadows (ambient + direct) which is Refactoring UI-specific advice the skill provides but generic knowledge does not"}], "overall": "Both with_skill and without_skill pass all assertions. This eval needs stronger Refactoring UI-specific assertions to be discriminating."}}}, {"id": "eval-6-empty-state-with_skill", "prompt": "My app has a section with no content yet \u2014 users haven't added anything. Right now it just shows a blank white area. How should I design this empty state?", "eval_id": 6, "outputs": [{"name": "response.md", "type": "text", "content": "# Empty State Design\n\n## Don't Overlook Empty States \u2014 significant\n**Where:** Any section, list, or content area that has no data yet  \n**Why it matters:** A blank white area is a missed opportunity \u2014 empty states are often the *first* experience a new user has with a feature, and a blank box communicates nothing about what the product does or how to get started.\n\n---\n\n### What's Wrong with a Blank White Area\n\nA blank white area fails on three levels:\n\n1. **It doesn't acknowledge the absence of content.** Users don't know if something is broken, loading, or just empty.\n2. **It doesn't explain what will appear here.** Without context, users can't understand the feature's purpose.\n3. **It doesn't guide the user toward an action.** There's no nudge to create the first item \u2014 so many users simply leave.\n\n---\n\n### The Three Jobs of a Good Empty State\n\nEvery empty state should do these three things:\n\n1. **Acknowledge** that nothing is here yet (don't just show a blank box)\n2. **Explain** what will appear here when the section is populated\n3. **Offer a clear call-to-action** to create the first item\n\n---\n\n### How to Apply This\n\n**Copy first \u2014 get the words right before the visuals:**\n\n- \u274c \"No items found.\"\n- \u2705 \"You haven't added anything yet. Create your first one to get started.\"\n\nFriendly, specific copy transforms a dead end into an invitation.\n\n**Then add a visual element. Pick one:**\n\n- **Illustration** \u2014 a custom or library illustration (e.g., from Undraw) that relates to the content type. Best for prominent empty states in core product areas.\n- **Large icon in a muted color** \u2014 a simple icon representing the content type, displayed large, in a light grey or your brand color at low opacity. Lower effort, still effective.\n- **Emoji** \u2014 works for casual or consumer-facing apps; feels approachable and quick to implement.\n\n**Then add a CTA button:**\n\nPlace a primary action button directly in the empty state \u2014 \"Add Team Member\", \"Create Project\", \"Upload Your First File\". The button should be the same primary button you use elsewhere in the UI; don't invent a new style for it.\n\n**A typical empty state layout:**\n```\n[Illustration or Icon]\n  \"You haven't added any [items] yet.\"\n  \"Create your first [item] to get started.\"\n  [  + Add [Item]  ]   \u2190 primary button\n```\n\nCenter this block vertically and horizontally within the empty area. Give it generous padding so it doesn't feel cramped against the container edges.\n\n---\n\n### Treat Every Empty State as a Feature\n\nEmpty states aren't an afterthought \u2014 they're a product design moment. A well-crafted empty state:\n\n- Reassures users that the product is working correctly\n- Sets expectations for what the feature will do\n- Reduces friction by providing a direct path to the first action\n- Can even communicate your brand personality through tone and illustration style\n\n---\n\n## Related Issues to Check\n\n### Background decoration \u2014 minor\n**Where:** The container holding the empty state  \n**Why it matters:** A pure white box can feel blank even when the empty state copy is in place.  \n**Fix:** Give the empty state section a subtly tinted background \u2014 `hsl(220, 30%, 98%)` instead of pure white \u2014 or a very faint dot-grid pattern at low opacity. This makes the area feel intentional rather than \"nothing loaded.\"\n\n### Fewer borders \u2014 minor\n**Where:** The border you may be using to define the empty area  \n**Why it matters:** A box drawn with a border around empty space can feel sad and clinical.  \n**Fix:** Instead of a hard border to define the section, try a box shadow (`box-shadow: 0 1px 3px rgba(0,0,0,0.08)`) or just extra padding and a background color difference. If you're already using a border, consider making it dashed \u2014 a dashed border is a common convention that communicates \"placeholder / not yet filled\" more intentionally than a solid line.\n"}], "grading": {"expectations": [{"text": "Frames the empty state as an important design opportunity, not just a fallback", "passed": true, "evidence": "'Don't Overlook Empty States \u2014 a blank white area is a missed design opportunity, often the first thing new users see'; also: 'Treat Every Empty State as a Feature: Empty states aren't an afterthought \u2014 they're a product design moment'"}, {"text": "Mentions at least two of the three components: acknowledging emptiness, explaining what will appear, providing a call-to-action", "passed": true, "evidence": "All three listed explicitly: '1. Acknowledge that nothing is here yet; 2. Explain what will appear here; 3. Offer a clear call-to-action to create the first item'"}, {"text": "Provides copy guidance with examples or principles (avoid terse messages like 'No items found')", "passed": true, "evidence": "Direct contrast example: '\u274c No items found. \u2705 You haven't added anything yet. Create your first one to get started.' \u2014 exactly the principle + negative/positive example format called for"}], "summary": {"passed": 3, "failed": 0, "total": 3, "pass_rate": 1.0}, "claims": [], "eval_feedback": {"suggestions": [], "overall": "Solid. All three pass cleanly. The \u274c/\u2705 copy contrast is a strong, memorable teaching moment."}}}, {"id": "eval-6-empty-state-without_skill", "prompt": "My app has a section with no content yet \u2014 users haven't added anything. Right now it just shows a blank white area. How should I design this empty state?", "eval_id": 6, "outputs": [{"name": "response.md", "type": "text", "content": "# Designing Empty States\n\nA blank white area is a missed opportunity. Empty states are actually prime real estate for guiding users and setting expectations.\n\n## Core Principles\n\n### 1. Explain What Goes Here\nShow users what the section is *for*. A brief headline like \"No projects yet\" paired with a short description (\"Create a project to start organizing your work\") makes the purpose immediately clear.\n\n### 2. Provide a Call to Action\nThe empty state should include a direct action button \u2014 the primary thing a user can do to fill this space. Don't make them hunt for it. Place a prominent button like \"Create your first project\" right in the empty state itself.\n\n### 3. Use an Illustration or Icon\nA simple illustration or icon makes the empty state feel intentional rather than broken. It signals \"this is expected\" rather than \"something went wrong.\" Avoid overly complex illustrations \u2014 a clean, relevant graphic is enough.\n\n## Visual Design Tips\n\n- **Don't use full-page white** \u2014 add subtle background contrast or center the empty state content in the column to make it look deliberate.\n- **Keep it compact** \u2014 the empty state shouldn't dominate the screen. Center the message vertically and horizontally in the section, using modest padding.\n- **Use muted/secondary text color** for the description \u2014 it reads as context, not as primary content.\n- **Style the CTA like your primary button** \u2014 consistent with the rest of your UI, not a special one-off style.\n\n## Tone\n\nMatch your app's personality. A playful app can use a friendly illustration and casual copy. A professional tool should be clean and direct. Either way, avoid generic filler text like \"Nothing here yet\" with no guidance.\n\n## Example Structure\n\n```\n[ Illustration / Icon ]\n\n  No items found\n\n  You haven't added anything yet.\n  Get started by creating your first item.\n\n  [ + Add Item ]  \u2190 primary action button\n```\n\n## What to Avoid\n\n- **Blank space with no explanation** \u2014 users may think it's a bug.\n- **Error-like styling** \u2014 empty \u2260 broken.\n- **Too much text** \u2014 keep it scannable.\n- **Hiding the CTA** \u2014 the action to fill the space should be immediately visible.\n\n## Summary\n\nA well-designed empty state = illustration/icon + short headline + brief description + clear CTA. It turns a dead end into a starting point.\n"}], "grading": {"expectations": [{"text": "Frames the empty state as an important design opportunity, not just a fallback", "passed": true, "evidence": "'A blank white area is a missed opportunity. Empty states are actually prime real estate for guiding users and setting expectations'"}, {"text": "Mentions at least two of the three components: acknowledging emptiness, explaining what will appear, providing a call-to-action", "passed": true, "evidence": "'Explain What Goes Here' and 'Provide a Call to Action' are the first two principles; implicitly acknowledges emptiness via 'No projects yet' example headline"}, {"text": "Provides copy guidance with examples or principles (avoid terse messages like 'No items found')", "passed": true, "evidence": "'A brief headline like No projects yet paired with a short description (Create a project to start organizing your work) makes the purpose immediately clear' \u2014 provides concrete positive example copy"}], "summary": {"passed": 3, "failed": 0, "total": 3, "pass_rate": 1.0}, "claims": [], "eval_feedback": {"suggestions": [{"reason": "The with_skill response gives both negative AND positive copy examples, shows more depth. Consider adding an assertion about explicitly warning against terse copy patterns like 'No items found' to create a discriminating test"}], "overall": "Both responses pass. Empty state design is well-covered by general UX knowledge. Assertions need strengthening."}}}, {"id": "eval-7-design-process-with_skill", "prompt": "I'm starting a new app design and feel paralyzed by choices. Every time I pick a color or font size, I second-guess myself. What's the right approach?", "eval_id": 7, "outputs": [{"name": "response.md", "type": "text", "content": "# UI Design Advice: Overcoming Decision Paralysis When Starting a New App\n\n## Design Category: Design Process \u2014 Decision Fatigue\n\nThe paralysis you're feeling is a **systems problem**, not a taste problem. When you pick a font size or color from an unlimited pool of possible values, of course you'll second-guess yourself \u2014 the design space is infinite, and there's no principled way to feel confident. The fix is to stop picking individual values and start building constraints.\n\nHere's the complete approach from Refactoring UI:\n\n---\n\n## 1. Don't Start With Colors or Font Sizes \u2014 Start With a Feature\n\n**The problem with your current approach:** You're trying to make visual polish decisions before you have a design to polish. Colors and type scales are *finishing* decisions. They require something to apply them to.\n\n**What to do instead:** Pick one real, concrete feature of your app \u2014 the main action a user comes to do \u2014 and design *just that*. Not the navigation shell, not the homepage, not the onboarding flow. One feature: a search form, a list view, a card, a modal.\n\nThis matters because an app is a collection of features. You don't have enough context to design global systems (navigation, layout) until you've designed at least one real piece of functionality.\n\n---\n\n## 2. Hold Color Entirely \u2014 Design in Grayscale First\n\n**The principle: Detail Comes Later.**\n\nChoosing colors before you have working structure is premature. Remove the variable entirely: design your first feature in black, white, and shades of grey only.\n\nThis forces you to create visual hierarchy using the tools that actually matter at this stage:\n- **Spacing** \u2014 does the layout breathe correctly?\n- **Size contrast** \u2014 does the heading clearly outrank the body text?\n- **Weight contrast** \u2014 does the primary action stand out?\n\nA grayscale design that works is far more valuable than a colorful design that's visually confused. Color is the easiest thing to add once structure is solid \u2014 and adding it to a well-structured grayscale layout takes minutes.\n\n**Practical technique:** Sketch on paper with a thick Sharpie marker. It's physically impossible to obsess over details at that resolution. Generate 3\u20135 rough layouts quickly, then move to the screen with the one that makes the most structural sense.\n\n---\n\n## 3. Choose a Personality Before You Pick Anything\n\nBefore picking any color, font, or border radius, answer one question: **what personality should this app have?**\n\nThis is the single most important early decision, and it makes every subsequent decision faster. Rough guide from Refactoring UI:\n\n### Font personality:\n- **Serif typefaces** (Georgia, Playfair, etc.) \u2192 elegant, classic, trustworthy \u2014 good for editorial, legal, financial\n- **Rounded sans-serifs** (Nunito, Poppins, etc.) \u2192 playful, friendly, approachable\n- **Neutral sans-serifs** (Inter, DM Sans, etc.) \u2192 clean, modern \u2014 lets other elements carry the personality\n\n### Color personality:\n- **Blue** \u2192 safe, trusted, familiar (widely used in enterprise/productivity)\n- **Gold/Yellow** \u2192 premium, sophisticated\n- **Pink** \u2192 fun, friendly, less formal\n- **Green** \u2192 natural, health-focused, financial\n- **Dark/Black** \u2192 serious, high-end, formal\n\n### Border radius:\n- **No radius** \u2192 formal and serious\n- **Small radius** \u2192 neutral, safe default\n- **Large radius** \u2192 playful, friendly\n\nYou're not making final decisions here. You're **eliminating whole categories of options** so the remaining choices become manageable. Pick one word that describes the target personality (\"trustworthy,\" \"playful,\" \"serious\") and use it to filter.\n\n---\n\n## 4. Stop Picking Values \u2014 Define Systems\n\n**This is the core fix for decision paralysis.**\n\nThe reason you second-guess every font size is that you're choosing from infinite possibilities. 12px? 13px? 14px? 15px? With no system, any of those feels equally right or wrong.\n\nThe solution: **define a constrained set of allowed values once**, then only pick from that set.\n\n### Systems to define before you start designing:\n\n| System | Example scale |\n|---|---|\n| **Font sizes** | 12, 14, 16, 18, 20, 24, 30, 36, 48, 60, 72px |\n| **Font weights** | Regular (400), Medium (500), Semibold (600), Bold (700) |\n| **Spacing/padding** | 4, 8, 12, 16, 20, 24, 32, 40, 48, 64, 80, 96px |\n| **Border radii** | 2, 4, 6, 8, 16, 9999px (pill) |\n| **Shadows** | sm, md, lg, xl (4 levels) |\n\nYou don't need all of these defined on day one. **Introduce each system the first time you make that category of decision**, then never make that low-level decision again \u2014 only choose from your defined values.\n\n### How to use a system to stop second-guessing:\n\n1. Make your best guess \u2014 e.g., \"this heading should be 24px\"\n2. Compare it to the adjacent values in your scale (20px and 30px)\n3. If 24px still looks best, you're done \u2014 move on\n4. If 30px looks better, shift your comparison window: compare 30px vs 36px\n5. Repeat once if needed, then commit\n\nYou're not searching infinite space anymore. You're doing binary elimination between 2\u20133 options. This is fast and produces confident decisions.\n\n---\n\n## 5. Don't Design Too Much Up Front\n\n**The mistake:** Trying to solve every screen, every edge case, every state before building anything.\n\n**What this causes:** You block yourself waiting to figure out \"what if there are no results?\" before you've even built the list view.\n\n**The Refactoring UI approach:**\n1. Design a *simple* version of the next feature\n2. Build it\n3. Hit real complexity \u2192 fix it in the working interface\n4. Iterate until it works\n5. Return to design mode for the next feature\n\nBe a pessimist about scope: design the **smallest useful version** of each feature. A comment form without attachments still ships. A comment form that's blocked waiting to solve file attachments doesn't.\n\n---\n\n## Summary: The Anti-Paralysis Checklist\n\nBefore picking any colors or font sizes:\n\n- [ ] **Pin the personality** \u2014 one word: playful, trustworthy, serious, friendly?\n- [ ] **Choose one feature** to design first, not a full layout\n- [ ] **Design in grayscale** \u2014 no colors until structure is working\n- [ ] **Define your type scale** \u2014 8\u201310 sizes, then only pick from those\n- [ ] **Define your spacing scale** \u2014 a base-4 or base-8 scale works well\n- [ ] **Work in cycles** \u2014 design \u2192 build \u2192 iterate, don't design everything up front\n\nThe second-guessing you feel isn't a sign that you lack taste. It's a sign you're making unconstrained decisions. Constraints are what make confident decisions possible.\n"}], "grading": {"expectations": [{"text": "Identifies the issue as decision fatigue caused by unlimited choices, not a lack of design skill", "passed": true, "evidence": "'The paralysis you're feeling is a systems problem, not a taste problem. When you pick a font size or color from an unlimited pool of possible values, of course you'll second-guess yourself \u2014 the design space is infinite'"}, {"text": "Recommends defining design systems upfront (type scale, color palette, spacing scale)", "passed": true, "evidence": "Table: 'Systems to define before you start designing: Font sizes (12,14,16,18,20,24,...), Font weights (400,500,600,700), Spacing/padding (4,8,12,16,...), Border radii, Shadows'"}, {"text": "Explains how constrained options make decisions easier \u2014 process of elimination from a small set", "passed": true, "evidence": "'You're not searching infinite space anymore. You're doing binary elimination between 2\u20133 options. This is fast and produces confident decisions' \u2014 exact mechanism described"}], "summary": {"passed": 3, "failed": 0, "total": 3, "pass_rate": 1.0}, "claims": [], "eval_feedback": {"suggestions": [], "overall": "All three pass. The skill adds unique value: the grayscale-first principle, personality framework, and feature-first approach \u2014 none are covered by the assertions but represent genuine skill differentiation."}}}, {"id": "eval-7-design-process-without_skill", "prompt": "I'm starting a new app design and feel paralyzed by choices. Every time I pick a color or font size, I second-guess myself. What's the right approach?", "eval_id": 7, "outputs": [{"name": "response.md", "type": "text", "content": "# Overcoming Design Paralysis: A Practical Approach\n\n## The Core Problem\n\nDecision paralysis in design usually stems from treating each decision as if it exists in isolation \u2014 picking a color or font size without a system to anchor it to. The fix isn't more research or more options; it's building constraints early so every subsequent decision becomes easier.\n\n---\n\n## 1. Don't Start with Visual Details\n\nThe most common mistake is jumping straight into colors and typography before nailing down the structure and content of the interface. Start with:\n\n- **Functionality first**: What does this screen need to *do*? Sketch it in rough wireframes or even plain text.\n- **Content hierarchy**: What's the most important thing a user needs to see or do here?\n- **Layout and spacing**: Where do things live relative to each other?\n\nOnce structure is established, visual decisions have context and feel far less arbitrary.\n\n---\n\n## 2. Build a Constrained System Upfront\n\nInstead of picking values one at a time, define a small, purposeful system before you start designing:\n\n### Typography Scale\nDon't pick font sizes ad hoc. Define a scale of 5\u20137 sizes (e.g., 12, 14, 16, 20, 24, 32, 48px) and only use those. This eliminates the question \"should this be 15px or 16px?\" \u2014 the answer is always 16px, because that's on the scale.\n\n### Color Palette\nDefine a limited palette:\n- **1 primary/brand color** with a few shades (light, mid, dark)\n- **Neutral grays** (5\u20139 shades from near-white to near-black)\n- **1\u20132 semantic colors** (green for success, red for error, yellow for warning)\n\nLimit yourself to these colors. Most decisions resolve themselves when you only have a few valid options.\n\n### Spacing Scale\nPick a base unit (4px or 8px) and only use multiples of it: 4, 8, 12, 16, 24, 32, 48, 64, 96px. Spacing decisions become automatic.\n\n---\n\n## 3. Use Defaults and Establish Opinions Early\n\nAnalysis paralysis often comes from treating everything as equally important. Instead:\n\n- **Pick a default**: Start with a neutral font like Inter or Geist, a blue primary color, and standard spacing. You can refine later. A reasonable default is infinitely better than no decision.\n- **Ship something, then adjust**: The first version doesn't have to be perfect. It has to exist. Visual design improves dramatically once you can see it rendered, not just imagined.\n- **Anchor to real content**: Design with actual text and data, not placeholder \"Lorem Ipsum.\" Real content reveals whether your decisions work or not.\n\n---\n\n## 4. Reduce Your Options Deliberately\n\nThe paradox of choice is real in design. Instead of browsing every option:\n\n- **Limit your font choices**: Pick one typeface for the whole UI and learn to vary weight and size instead.\n- **Avoid the \"just one more option\" trap**: When you find yourself looking at a 40th font or a fifth shade of blue, stop. Commit.\n- **Use a reference**: Pick one app or design system you like and use it as a constraint \u2014 \"I'll use this spacing system\" or \"my palette will follow this approach.\" Copying structure (not aesthetics) is a powerful shortcut.\n\n---\n\n## 5. Separate Aesthetic Decisions from Functional Ones\n\nSome decisions are functional (is this text readable? is this button obvious?) and some are purely aesthetic (is this shade of blue exactly right?). Solve functional problems first \u2014 they have more objectively correct answers. Leave aesthetic refinement for after the interface works well.\n\n---\n\n## 6. Accept That Good Design is Iterative\n\nNo design is finished in the first pass. The goal of v1 is not \"perfect\" \u2014 it's \"working and improvable.\" Every well-designed app you admire was revised dozens or hundreds of times. Second-guessing yourself is healthy when it leads to iteration, not when it prevents shipping.\n\n---\n\n## Summary\n\n| Problem | Solution |\n|---|---|\n| Paralyzed by color choices | Define a palette of ~15 colors upfront; only use those |\n| Paralyzed by font sizes | Use a fixed type scale of 5\u20137 sizes |\n| Paralyzed by spacing | Use a base-8 spacing system |\n| Unsure what to design first | Start with layout and content; add color last |\n| Second-guessing every choice | Pick a reasonable default, ship, and iterate |\n\nThe right approach isn't to make perfect decisions \u2014 it's to make *fewer, more constrained* decisions. A system liberates you from having to think about the same question twice.\n"}], "grading": {"expectations": [{"text": "Identifies the issue as decision fatigue caused by unlimited choices, not a lack of design skill", "passed": true, "evidence": "'The paralysis comes from treating each choice as a blank canvas. Constraints are liberating, not limiting' \u2014 correctly reframes paralysis as a systems problem"}, {"text": "Recommends defining design systems upfront (type scale, color palette, spacing scale)", "passed": true, "evidence": "'Define a system upfront: a fixed type scale (5\u20137 sizes), a limited color palette (~15 colors), and an 8px spacing grid'"}, {"text": "Explains how constrained options make decisions easier \u2014 process of elimination from a small set", "passed": true, "evidence": "'Stop making decisions in isolation \u2014 build constraints first'; 'Pick a reasonable default and ship'; the response explains constraints reduce the decision space but doesn't explicitly describe binary elimination"}], "summary": {"passed": 3, "failed": 0, "total": 3, "pass_rate": 1.0}, "claims": [], "eval_feedback": {"suggestions": [{"reason": "The skill adds the grayscale-first approach, feature-first design workflow, and personality framework \u2014 none covered by assertions. Adding an assertion about 'start in grayscale before adding color' would be a strong discriminator unique to Refactoring UI methodology"}], "overall": "Both pass. General LLM knowledge handles design process advice well. The most distinctive Refactoring UI advice (grayscale-first, feature-first) is not tested."}}}], "previous_feedback": {}, "previous_outputs": {}, "benchmark": {"metadata": {"skill_name": "refactoring-ui", "skill_path": "<path/to/skill>", "executor_model": "<model-name>", "analyzer_model": "<model-name>", "timestamp": "2026-04-15T15:54:07Z", "evals_run": [1, 2, 3, 4, 5, 6, 7], "runs_per_configuration": 3}, "runs": [{"eval_id": 1, "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 4, "failed": 0, "total": 4, "time_seconds": 0.0, "tokens": 0, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Names the visual hierarchy problem explicitly", "passed": true, "evidence": "'The problem is flat visual hierarchy \u2014 every element on your page is competing for attention at the same visual weight'"}, {"text": "Mentions at least two of the three hierarchy tools: font size, font weight, color/contrast", "passed": true, "evidence": "'Use all three hierarchy tools together \u2014 font size, font weight, and color'"}, {"text": "Discusses different levels of content importance (primary, secondary, tertiary)", "passed": true, "evidence": "Explicitly grades stat values as primary (large, bold, dark) and labels as secondary (small, 12px, muted grey); also distinguishes primary/secondary table columns"}, {"text": "Gives specific actionable recommendations with values (e.g., font weights 600-700, grey for secondary text)", "passed": true, "evidence": "Stat value: '32\u201340px, heavy weight (700)'; stat label: '12px, normal weight, muted grey (#6B7280)'; title: '28\u201332px, bold (700)'"}], "notes": []}, {"eval_id": 2, "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 4, "failed": 0, "total": 4, "time_seconds": 0.0, "tokens": 0, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Recommends HSL format with explanation of why", "passed": true, "evidence": "'Switch to HSL...Hex and RGB are machine values with no human-readable structure...HSL maps to how you perceive color' \u2014 leads with HSL, explains why it enables systematic scale-building"}, {"text": "Explains a multi-shade scale (e.g., 50 to 900, or 9 shades) with different use cases for light vs dark shades", "passed": true, "evidence": "'Build Your 9-Shade Primary Blue Scale' with CSS custom properties from --blue-50 to --blue-900, each annotated with use case (e.g., 'page-level tinted backgrounds', 'main brand color', 'button hover state')"}, {"text": "Mentions saturation needs to be adjusted as lightness changes to prevent washed-out shades", "passed": true, "evidence": "'The Perceptual Lightness Problem \u2014 Don't Ignore It...As you go lighter: increase saturation to compensate. A blue-50 at low saturation looks like a grey fog \u2014 push saturation up toward 96\u2013100%'"}, {"text": "Mentions the palette needs more than primary blue: including greys and/or semantic colors (danger, success, warning)", "passed": true, "evidence": "'Three Color Categories You Need: 1. Greys (8\u201310 shades)...2. Primary Color (9 shades)...3. Semantic / Accent Colors: Danger/Error, Warning, Success'"}], "notes": []}, {"eval_id": 3, "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 4, "failed": 0, "total": 4, "time_seconds": 0.0, "tokens": 0, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Identifies that full-width text is too wide and recommends a maximum line length (around 45-75 characters or ~65ch)", "passed": true, "evidence": "'Line Length Control (Max-Width)...A full-width container...will produce lines well beyond 75 characters...max-width: 65ch is an excellent default...The canonical target is 45\u201375 characters per line'"}, {"text": "Identifies that 1.2 line-height is too tight for body text and recommends a higher value (around 1.5-1.6)", "passed": true, "evidence": "'Your 1.2 line-height is the correct value for large display and headline text, not body text...For a normal column width, use line-height: 1.5 or line-height: 1.6'"}, {"text": "Explains that line-height should be proportional to line length (wider lines need more line-height)", "passed": true, "evidence": "'Because your container is currently full-width (long lines), you should actually go even higher: 1.7 until you fix the container width. Once you constrain the line length with a max-width, you can dial back to 1.5\u20131.6'"}, {"text": "Gives specific numeric recommendations (e.g., max-width: 65ch, line-height: 1.5)", "passed": true, "evidence": "CSS block: `p { max-width: 65ch; line-height: 1.6; }` provided explicitly"}], "notes": []}, {"eval_id": 4, "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 3, "failed": 0, "total": 3, "time_seconds": 0.0, "tokens": 0, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Identifies the issue as ambiguous spacing or unclear proximity between related elements", "passed": true, "evidence": "Section header: 'Ambiguous Spacing \u2014 Significant. When the space between a label and its input is the same as the space between two unrelated form groups, the eye has no visual cue to determine which label belongs to which field'"}, {"text": "Explains that related elements (label + input) should be closer to each other than to unrelated elements", "passed": true, "evidence": "'This is the Gestalt principle of proximity: elements should be closer to what they belong to than to what they don't'"}, {"text": "Gives specific spacing values for label-to-input (small) vs group-to-group (larger)", "passed": true, "evidence": "Table: 'Label \u2192 its input: 4px\u20138px; Between form groups: 16px\u201324px; Between page sections: 48px\u201396px' with CSS example: `.form-label { margin-bottom: 4px; }`, `.form-group { margin-bottom: 24px; }`"}], "notes": []}, {"eval_id": 5, "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 4, "failed": 0, "total": 4, "time_seconds": 0.0, "tokens": 0, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Explains that shadow size/softness communicates elevation \u2014 closer elements have larger, softer shadows", "passed": true, "evidence": "'From Refactoring UI: closer = more prominent = larger, softer shadow...Shadows don't just add decoration \u2014 they convey how high an element floats above the page surface'"}, {"text": "Justifies why the modal should have a larger/heavier shadow than the tooltip based on elevation", "passed": true, "evidence": "'Modals sit at the top of the z-layer stack...represent the highest-elevation element in most UIs'; 'Tooltips are closer in character to dropdowns and popovers \u2014 small, contextual, lightweight'"}, {"text": "Includes specific CSS box-shadow values for at least one element", "passed": true, "evidence": "Modal: `0 20px 25px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.04)`; Tooltip: `0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.06)` \u2014 both provided"}, {"text": "Recommends building a reusable shadow scale/system rather than ad-hoc values", "passed": true, "evidence": "'Build a Named Elevation System...define a small set of named levels: --shadow-sm, --shadow-md, --shadow-lg, --shadow-xl, --shadow-2xl' with complete CSS custom properties"}], "notes": []}, {"eval_id": 6, "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 3, "failed": 0, "total": 3, "time_seconds": 0.0, "tokens": 0, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Frames the empty state as an important design opportunity, not just a fallback", "passed": true, "evidence": "'Don't Overlook Empty States \u2014 a blank white area is a missed design opportunity, often the first thing new users see'; also: 'Treat Every Empty State as a Feature: Empty states aren't an afterthought \u2014 they're a product design moment'"}, {"text": "Mentions at least two of the three components: acknowledging emptiness, explaining what will appear, providing a call-to-action", "passed": true, "evidence": "All three listed explicitly: '1. Acknowledge that nothing is here yet; 2. Explain what will appear here; 3. Offer a clear call-to-action to create the first item'"}, {"text": "Provides copy guidance with examples or principles (avoid terse messages like 'No items found')", "passed": true, "evidence": "Direct contrast example: '\u274c No items found. \u2705 You haven't added anything yet. Create your first one to get started.' \u2014 exactly the principle + negative/positive example format called for"}], "notes": []}, {"eval_id": 7, "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 3, "failed": 0, "total": 3, "time_seconds": 0.0, "tokens": 0, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Identifies the issue as decision fatigue caused by unlimited choices, not a lack of design skill", "passed": true, "evidence": "'The paralysis you're feeling is a systems problem, not a taste problem. When you pick a font size or color from an unlimited pool of possible values, of course you'll second-guess yourself \u2014 the design space is infinite'"}, {"text": "Recommends defining design systems upfront (type scale, color palette, spacing scale)", "passed": true, "evidence": "Table: 'Systems to define before you start designing: Font sizes (12,14,16,18,20,24,...), Font weights (400,500,600,700), Spacing/padding (4,8,12,16,...), Border radii, Shadows'"}, {"text": "Explains how constrained options make decisions easier \u2014 process of elimination from a small set", "passed": true, "evidence": "'You're not searching infinite space anymore. You're doing binary elimination between 2\u20133 options. This is fast and produces confident decisions' \u2014 exact mechanism described"}], "notes": []}, {"eval_id": 1, "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 0.75, "passed": 3, "failed": 1, "total": 4, "time_seconds": 0.0, "tokens": 0, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Names the visual hierarchy problem explicitly", "passed": true, "evidence": "'What you're describing is a lack of visual hierarchy \u2014 the page has no clear signal telling the user what's important'"}, {"text": "Mentions at least two of the three hierarchy tools: font size, font weight, color/contrast", "passed": true, "evidence": "Covers 'Uniform Font Size and Weight' and 'Same Color/Tone for Everything' as two root causes, addressing all three tools"}, {"text": "Discusses different levels of content importance (primary, secondary, tertiary)", "passed": true, "evidence": "'Think in Three Levels: Primary (must-see), Secondary (context), Tertiary (background detail)' \u2014 explicitly named"}, {"text": "Gives specific actionable recommendations with values (e.g., font weights 600-700, grey for secondary text)", "passed": false, "evidence": "Gives size ranges ('32\u201348px', '24\u201348px') but uses 'bold' rather than specific weight numbers (600/700); colors described as 'muted, lighter gray' and 'very light gray' without hex values. Falls short of the specificity level called for."}], "notes": []}, {"eval_id": 2, "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 0.5, "passed": 2, "failed": 2, "total": 4, "time_seconds": 0.0, "tokens": 0, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Recommends HSL format with explanation of why", "passed": false, "evidence": "HSL appears only under 'Method B: Manual HSL Approach' as a secondary option after hex-based tool recommendations. No explanation of why HSL is superior \u2014 just a mechanical description of the hue/saturation/lightness axes. Primary recommendation is hex-based tools."}, {"text": "Explains a multi-shade scale (e.g., 50 to 900, or 9 shades) with different use cases for light vs dark shades", "passed": true, "evidence": "'Build a 9\u201310 Step Scale' with a full table from Blue 50 to Blue 900, each row annotated with a use case (e.g., 'Page backgrounds, tinted sections', 'Primary CTA buttons')"}, {"text": "Mentions saturation needs to be adjusted as lightness changes to prevent washed-out shades", "passed": false, "evidence": "Mentions hue rotation ('Slightly shift hue warmer at dark end, cooler at light end') but never addresses saturation adjustment. The perceptual lightness issue is not explained."}, {"text": "Mentions the palette needs more than primary blue: including greys and/or semantic colors (danger, success, warning)", "passed": true, "evidence": "'Complementary Colors: Neutrals (gray scale with slight blue tint); Semantic Colors: Success/Green, Warning/Amber, Error/Red'"}], "notes": []}, {"eval_id": 3, "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 0.75, "passed": 3, "failed": 1, "total": 4, "time_seconds": 0.0, "tokens": 0, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Identifies that full-width text is too wide and recommends a maximum line length (around 45-75 characters or ~65ch)", "passed": true, "evidence": "'max-width: 65ch (or roughly 680px)...The readable ideal is 45\u201375 characters per line (roughly 60ch)'"}, {"text": "Identifies that 1.2 line-height is too tight for body text and recommends a higher value (around 1.5-1.6)", "passed": true, "evidence": "'1.2 line-height is appropriate for headings, not body text...Use 1.5 to 1.7 line-height for body text. A value of 1.6 is a solid default'"}, {"text": "Explains that line-height should be proportional to line length (wider lines need more line-height)", "passed": false, "evidence": "Response explains the two issues independently but never connects them \u2014 never states that wider lines need more line-height. Says 'Line height affects vertical rhythm' and 'Line length affects how easily the eye returns to the next line' but these are treated as separate issues, not proportional factors."}, {"text": "Gives specific numeric recommendations (e.g., max-width: 65ch, line-height: 1.5)", "passed": true, "evidence": "CSS blocks: `line-height: 1.6` and `max-width: 65ch` both provided explicitly"}], "notes": []}, {"eval_id": 4, "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 3, "failed": 0, "total": 3, "time_seconds": 0.0, "tokens": 0, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Identifies the issue as ambiguous spacing or unclear proximity between related elements", "passed": true, "evidence": "'The Core Problem: Proximity. The visual distance between a label and its input should be smaller than the distance between consecutive form groups. If all gaps are equal, the eye can't group them.'"}, {"text": "Explains that related elements (label + input) should be closer to each other than to unrelated elements", "passed": true, "evidence": "'Use the law of proximity deliberately...Label\u2192Input: close (4\u20136px gap); larger gap between groups (24\u201332px)'"}, {"text": "Gives specific spacing values for label-to-input (small) vs group-to-group (larger)", "passed": true, "evidence": "'Label \u2192 Input gap: 4px\u20138px; Input \u2192 Next label gap: 20px\u201332px' with CSS: `label { margin-bottom: 4px }`, `.form-group { margin-bottom: 24px }`"}], "notes": []}, {"eval_id": 5, "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 4, "failed": 0, "total": 4, "time_seconds": 0.0, "tokens": 0, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Explains that shadow size/softness communicates elevation \u2014 closer elements have larger, softer shadows", "passed": true, "evidence": "'Objects close to a surface cast short, tight, dark shadows. Objects far from a surface cast long, wide, diffuse shadows.' \u2014 clear physics analogy explaining the relationship"}, {"text": "Justifies why the modal should have a larger/heavier shadow than the tooltip based on elevation", "passed": true, "evidence": "'Elevation Hierarchy: Modals represent high elevation...Tooltips are low elevation \u2014 a small label that barely lifts off the surface. Matching shadow values collapses this distinction'"}, {"text": "Includes specific CSS box-shadow values for at least one element", "passed": true, "evidence": "Modal: `0 20px 60px rgba(0, 0, 0, 0.30), 0 8px 20px rgba(0, 0, 0, 0.15)`; Tooltip: `0 4px 12px rgba(0, 0, 0, 0.15)` \u2014 both provided"}, {"text": "Recommends building a reusable shadow scale/system rather than ad-hoc values", "passed": true, "evidence": "'Use the same shadow system \u2014 not the same shadow value. Define a shadow scale (like shadow-sm, shadow-md, shadow-xl) and assign modals to the highest tier and tooltips to a lower tier'"}], "notes": []}, {"eval_id": 6, "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 3, "failed": 0, "total": 3, "time_seconds": 0.0, "tokens": 0, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Frames the empty state as an important design opportunity, not just a fallback", "passed": true, "evidence": "'A blank white area is a missed opportunity. Empty states are actually prime real estate for guiding users and setting expectations'"}, {"text": "Mentions at least two of the three components: acknowledging emptiness, explaining what will appear, providing a call-to-action", "passed": true, "evidence": "'Explain What Goes Here' and 'Provide a Call to Action' are the first two principles; implicitly acknowledges emptiness via 'No projects yet' example headline"}, {"text": "Provides copy guidance with examples or principles (avoid terse messages like 'No items found')", "passed": true, "evidence": "'A brief headline like No projects yet paired with a short description (Create a project to start organizing your work) makes the purpose immediately clear' \u2014 provides concrete positive example copy"}], "notes": []}, {"eval_id": 7, "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 3, "failed": 0, "total": 3, "time_seconds": 0.0, "tokens": 0, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Identifies the issue as decision fatigue caused by unlimited choices, not a lack of design skill", "passed": true, "evidence": "'The paralysis comes from treating each choice as a blank canvas. Constraints are liberating, not limiting' \u2014 correctly reframes paralysis as a systems problem"}, {"text": "Recommends defining design systems upfront (type scale, color palette, spacing scale)", "passed": true, "evidence": "'Define a system upfront: a fixed type scale (5\u20137 sizes), a limited color palette (~15 colors), and an 8px spacing grid'"}, {"text": "Explains how constrained options make decisions easier \u2014 process of elimination from a small set", "passed": true, "evidence": "'Stop making decisions in isolation \u2014 build constraints first'; 'Pick a reasonable default and ship'; the response explains constraints reduce the decision space but doesn't explicitly describe binary elimination"}], "notes": []}], "run_summary": {"with_skill": {"pass_rate": {"mean": 1.0, "stddev": 0.0, "min": 1.0, "max": 1.0}, "time_seconds": {"mean": 0.0, "stddev": 0.0, "min": 0.0, "max": 0.0}, "tokens": {"mean": 0.0, "stddev": 0.0, "min": 0, "max": 0}}, "without_skill": {"pass_rate": {"mean": 0.8571, "stddev": 0.1967, "min": 0.5, "max": 1.0}, "time_seconds": {"mean": 0.0, "stddev": 0.0, "min": 0.0, "max": 0.0}, "tokens": {"mean": 0.0, "stddev": 0.0, "min": 0, "max": 0}}, "delta": {"pass_rate": "+0.14", "time_seconds": "+0.0", "tokens": "+0"}}, "notes": []}};
+
+    // ---- State ----
+    let feedbackMap = {};  // run_id -> feedback text
+    let currentIndex = 0;
+    let visitedRuns = new Set();
+
+    // ---- Init ----
+    async function init() {
+      // Load saved feedback from server — but only if this isn't a fresh
+      // iteration (indicated by previous_feedback being present). When
+      // previous feedback exists, the feedback.json on disk is stale from
+      // the prior iteration and should not pre-fill the textareas.
+      const hasPrevious = Object.keys(EMBEDDED_DATA.previous_feedback || {}).length > 0
+        || Object.keys(EMBEDDED_DATA.previous_outputs || {}).length > 0;
+      if (!hasPrevious) {
+        try {
+          const resp = await fetch("/api/feedback");
+          const data = await resp.json();
+          if (data.reviews) {
+            for (const r of data.reviews) feedbackMap[r.run_id] = r.feedback;
+          }
+        } catch { /* first run, no feedback yet */ }
+      }
+
+      document.getElementById("skill-name").textContent = EMBEDDED_DATA.skill_name;
+      showRun(0);
+
+      // Wire up feedback auto-save
+      const textarea = document.getElementById("feedback");
+      let saveTimeout = null;
+      textarea.addEventListener("input", () => {
+        clearTimeout(saveTimeout);
+        document.getElementById("feedback-status").textContent = "";
+        saveTimeout = setTimeout(() => saveCurrentFeedback(), 800);
+      });
+    }
+
+    // ---- Navigation ----
+    function navigate(delta) {
+      const newIndex = currentIndex + delta;
+      if (newIndex >= 0 && newIndex < EMBEDDED_DATA.runs.length) {
+        saveCurrentFeedback();
+        showRun(newIndex);
+      }
+    }
+
+    function updateNavButtons() {
+      document.getElementById("prev-btn").disabled = currentIndex === 0;
+      document.getElementById("next-btn").disabled =
+        currentIndex === EMBEDDED_DATA.runs.length - 1;
+    }
+
+    // ---- Show a run ----
+    function showRun(index) {
+      currentIndex = index;
+      const run = EMBEDDED_DATA.runs[index];
+
+      // Progress
+      document.getElementById("progress").textContent =
+        `${index + 1} of ${EMBEDDED_DATA.runs.length}`;
+
+      // Prompt
+      document.getElementById("prompt-text").textContent = run.prompt;
+
+      // Config badge
+      const badge = document.getElementById("config-badge");
+      const configMatch = run.id.match(/(with_skill|without_skill|new_skill|old_skill)/);
+      if (configMatch) {
+        const config = configMatch[1];
+        const isBaseline = config === "without_skill" || config === "old_skill";
+        badge.textContent = config.replace(/_/g, " ");
+        badge.className = "config-badge " + (isBaseline ? "config-baseline" : "config-primary");
+        badge.style.display = "inline-block";
+      } else {
+        badge.style.display = "none";
+      }
+
+      // Outputs
+      renderOutputs(run);
+
+      // Previous outputs
+      renderPrevOutputs(run);
+
+      // Grades
+      renderGrades(run);
+
+      // Previous feedback
+      const prevFb = (EMBEDDED_DATA.previous_feedback || {})[run.id];
+      const prevEl = document.getElementById("prev-feedback");
+      if (prevFb) {
+        document.getElementById("prev-feedback-text").textContent = prevFb;
+        prevEl.style.display = "block";
+      } else {
+        prevEl.style.display = "none";
+      }
+
+      // Feedback
+      document.getElementById("feedback").value = feedbackMap[run.id] || "";
+      document.getElementById("feedback-status").textContent = "";
+
+      updateNavButtons();
+
+      // Track visited runs and promote done button when all visited
+      visitedRuns.add(index);
+      const doneBtn = document.getElementById("done-btn");
+      if (visitedRuns.size >= EMBEDDED_DATA.runs.length) {
+        doneBtn.classList.add("ready");
+      }
+
+      // Scroll main content to top
+      document.querySelector(".main").scrollTop = 0;
+    }
+
+    // ---- Render outputs ----
+    function renderOutputs(run) {
+      const container = document.getElementById("outputs-body");
+      container.innerHTML = "";
+
+      const outputs = run.outputs || [];
+      if (outputs.length === 0) {
+        container.innerHTML = '<div class="empty-state">No output files</div>';
+        return;
+      }
+
+      for (const file of outputs) {
+        const fileDiv = document.createElement("div");
+        fileDiv.className = "output-file";
+
+        // Always show file header with download link
+        const header = document.createElement("div");
+        header.className = "output-file-header";
+        const nameSpan = document.createElement("span");
+        nameSpan.textContent = file.name;
+        header.appendChild(nameSpan);
+        const dlBtn = document.createElement("a");
+        dlBtn.className = "dl-btn";
+        dlBtn.textContent = "Download";
+        dlBtn.download = file.name;
+        dlBtn.href = getDownloadUri(file);
+        header.appendChild(dlBtn);
+        fileDiv.appendChild(header);
+
+        const content = document.createElement("div");
+        content.className = "output-file-content";
+
+        if (file.type === "text") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          content.appendChild(pre);
+        } else if (file.type === "image") {
+          const img = document.createElement("img");
+          img.src = file.data_uri;
+          img.alt = file.name;
+          content.appendChild(img);
+        } else if (file.type === "pdf") {
+          const iframe = document.createElement("iframe");
+          iframe.src = file.data_uri;
+          content.appendChild(iframe);
+        } else if (file.type === "xlsx") {
+          renderXlsx(content, file.data_b64);
+        } else if (file.type === "binary") {
+          const a = document.createElement("a");
+          a.className = "download-link";
+          a.href = file.data_uri;
+          a.download = file.name;
+          a.textContent = "Download " + file.name;
+          content.appendChild(a);
+        } else if (file.type === "error") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          pre.style.color = "var(--red)";
+          content.appendChild(pre);
+        }
+
+        fileDiv.appendChild(content);
+        container.appendChild(fileDiv);
+      }
+    }
+
+    // ---- XLSX rendering via SheetJS ----
+    function renderXlsx(container, b64Data) {
+      try {
+        const raw = Uint8Array.from(atob(b64Data), c => c.charCodeAt(0));
+        const wb = XLSX.read(raw, { type: "array" });
+
+        for (let i = 0; i < wb.SheetNames.length; i++) {
+          const sheetName = wb.SheetNames[i];
+          const ws = wb.Sheets[sheetName];
+
+          if (wb.SheetNames.length > 1) {
+            const sheetLabel = document.createElement("div");
+            sheetLabel.style.cssText =
+              "font-weight:600; font-size:0.8rem; color:#b0aea5; margin-top:0.5rem; margin-bottom:0.25rem;";
+            sheetLabel.textContent = "Sheet: " + sheetName;
+            container.appendChild(sheetLabel);
+          }
+
+          const htmlStr = XLSX.utils.sheet_to_html(ws, { editable: false });
+          const wrapper = document.createElement("div");
+          wrapper.innerHTML = htmlStr;
+          container.appendChild(wrapper);
+        }
+      } catch (err) {
+        container.textContent = "Error rendering spreadsheet: " + err.message;
+      }
+    }
+
+    // ---- Grades ----
+    function renderGrades(run) {
+      const section = document.getElementById("grades-section");
+      const content = document.getElementById("grades-content");
+
+      if (!run.grading) {
+        section.style.display = "none";
+        return;
+      }
+
+      const grading = run.grading;
+      section.style.display = "block";
+      // Reset to collapsed
+      content.classList.remove("open");
+      document.getElementById("grades-arrow").classList.remove("open");
+
+      const summary = grading.summary || {};
+      const expectations = grading.expectations || [];
+
+      let html = '<div style="padding: 1rem;">';
+
+      // Summary line
+      const passRate = summary.pass_rate != null
+        ? Math.round(summary.pass_rate * 100) + "%"
+        : "?";
+      const badgeClass = summary.pass_rate >= 0.8 ? "grade-pass" : summary.pass_rate >= 0.5 ? "" : "grade-fail";
+      html += '<div class="grades-summary">';
+      html += '<span class="grade-badge ' + badgeClass + '">' + passRate + '</span>';
+      html += '<span>' + (summary.passed || 0) + ' passed, ' + (summary.failed || 0) + ' failed of ' + (summary.total || 0) + '</span>';
+      html += '</div>';
+
+      // Assertions list
+      html += '<ul class="assertion-list">';
+      for (const exp of expectations) {
+        const statusClass = exp.passed ? "pass" : "fail";
+        const statusIcon = exp.passed ? "\u2713" : "\u2717";
+        html += '<li class="assertion-item">';
+        html += '<span class="assertion-status ' + statusClass + '">' + statusIcon + '</span>';
+        html += '<span>' + escapeHtml(exp.text) + '</span>';
+        if (exp.evidence) {
+          html += '<div class="assertion-evidence">' + escapeHtml(exp.evidence) + '</div>';
+        }
+        html += '</li>';
+      }
+      html += '</ul>';
+
+      html += '</div>';
+      content.innerHTML = html;
+    }
+
+    function toggleGrades() {
+      const content = document.getElementById("grades-content");
+      const arrow = document.getElementById("grades-arrow");
+      content.classList.toggle("open");
+      arrow.classList.toggle("open");
+    }
+
+    // ---- Previous outputs (collapsible) ----
+    function renderPrevOutputs(run) {
+      const section = document.getElementById("prev-outputs-section");
+      const content = document.getElementById("prev-outputs-content");
+      const prevOutputs = (EMBEDDED_DATA.previous_outputs || {})[run.id];
+
+      if (!prevOutputs || prevOutputs.length === 0) {
+        section.style.display = "none";
+        return;
+      }
+
+      section.style.display = "block";
+      // Reset to collapsed
+      content.classList.remove("open");
+      document.getElementById("prev-outputs-arrow").classList.remove("open");
+
+      // Render the files into the content area
+      content.innerHTML = "";
+      const wrapper = document.createElement("div");
+      wrapper.style.padding = "1rem";
+
+      for (const file of prevOutputs) {
+        const fileDiv = document.createElement("div");
+        fileDiv.className = "output-file";
+
+        const header = document.createElement("div");
+        header.className = "output-file-header";
+        const nameSpan = document.createElement("span");
+        nameSpan.textContent = file.name;
+        header.appendChild(nameSpan);
+        const dlBtn = document.createElement("a");
+        dlBtn.className = "dl-btn";
+        dlBtn.textContent = "Download";
+        dlBtn.download = file.name;
+        dlBtn.href = getDownloadUri(file);
+        header.appendChild(dlBtn);
+        fileDiv.appendChild(header);
+
+        const fc = document.createElement("div");
+        fc.className = "output-file-content";
+
+        if (file.type === "text") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          fc.appendChild(pre);
+        } else if (file.type === "image") {
+          const img = document.createElement("img");
+          img.src = file.data_uri;
+          img.alt = file.name;
+          fc.appendChild(img);
+        } else if (file.type === "pdf") {
+          const iframe = document.createElement("iframe");
+          iframe.src = file.data_uri;
+          fc.appendChild(iframe);
+        } else if (file.type === "xlsx") {
+          renderXlsx(fc, file.data_b64);
+        } else if (file.type === "binary") {
+          const a = document.createElement("a");
+          a.className = "download-link";
+          a.href = file.data_uri;
+          a.download = file.name;
+          a.textContent = "Download " + file.name;
+          fc.appendChild(a);
+        }
+
+        fileDiv.appendChild(fc);
+        wrapper.appendChild(fileDiv);
+      }
+
+      content.appendChild(wrapper);
+    }
+
+    function togglePrevOutputs() {
+      const content = document.getElementById("prev-outputs-content");
+      const arrow = document.getElementById("prev-outputs-arrow");
+      content.classList.toggle("open");
+      arrow.classList.toggle("open");
+    }
+
+    // ---- Feedback (saved to server -> feedback.json) ----
+    function saveCurrentFeedback() {
+      const run = EMBEDDED_DATA.runs[currentIndex];
+      const text = document.getElementById("feedback").value;
+
+      if (text.trim() === "") {
+        delete feedbackMap[run.id];
+      } else {
+        feedbackMap[run.id] = text;
+      }
+
+      // Build reviews array from map
+      const reviews = [];
+      for (const [run_id, feedback] of Object.entries(feedbackMap)) {
+        if (feedback.trim()) {
+          reviews.push({ run_id, feedback, timestamp: new Date().toISOString() });
+        }
+      }
+
+      fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reviews, status: "in_progress" }),
+      }).then(() => {
+        document.getElementById("feedback-status").textContent = "Saved";
+      }).catch(() => {
+        // Static mode or server unavailable — no-op on auto-save,
+        // feedback will be downloaded on final submit
+        document.getElementById("feedback-status").textContent = "Will download on submit";
+      });
+    }
+
+    // ---- Done ----
+    function showDoneDialog() {
+      // Save current textarea to feedbackMap (but don't POST yet)
+      const run = EMBEDDED_DATA.runs[currentIndex];
+      const text = document.getElementById("feedback").value;
+      if (text.trim() === "") {
+        delete feedbackMap[run.id];
+      } else {
+        feedbackMap[run.id] = text;
+      }
+
+      // POST once with status: complete — include ALL runs so the model
+      // can distinguish "no feedback" (looks good) from "not reviewed"
+      const reviews = [];
+      const ts = new Date().toISOString();
+      for (const r of EMBEDDED_DATA.runs) {
+        reviews.push({ run_id: r.id, feedback: feedbackMap[r.id] || "", timestamp: ts });
+      }
+      const payload = JSON.stringify({ reviews, status: "complete" }, null, 2);
+      fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: payload,
+      }).then(() => {
+        document.getElementById("done-overlay").classList.add("visible");
+      }).catch(() => {
+        // Server not available (static mode) — download as file
+        const blob = new Blob([payload], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "feedback.json";
+        a.click();
+        URL.revokeObjectURL(url);
+        document.getElementById("done-overlay").classList.add("visible");
+      });
+    }
+
+    function closeDoneDialog() {
+      // Reset status back to in_progress
+      saveCurrentFeedback();
+      document.getElementById("done-overlay").classList.remove("visible");
+    }
+
+    // ---- Toast ----
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.classList.add("visible");
+      setTimeout(() => toast.classList.remove("visible"), 2000);
+    }
+
+    // ---- Keyboard nav ----
+    document.addEventListener("keydown", (e) => {
+      // Don't capture when typing in textarea
+      if (e.target.tagName === "TEXTAREA") return;
+
+      if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+        e.preventDefault();
+        navigate(-1);
+      } else if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+        e.preventDefault();
+        navigate(1);
+      }
+    });
+
+    // ---- Util ----
+    function getDownloadUri(file) {
+      if (file.data_uri) return file.data_uri;
+      if (file.data_b64) return "data:application/octet-stream;base64," + file.data_b64;
+      if (file.type === "text") return "data:text/plain;charset=utf-8," + encodeURIComponent(file.content);
+      return "#";
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement("div");
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // ---- View switching ----
+    function switchView(view) {
+      document.querySelectorAll(".view-tab").forEach(t => t.classList.remove("active"));
+      document.querySelectorAll(".view-panel").forEach(p => p.classList.remove("active"));
+      document.querySelector(`[onclick="switchView('${view}')"]`).classList.add("active");
+      document.getElementById("panel-" + view).classList.add("active");
+    }
+
+    // ---- Benchmark rendering ----
+    function renderBenchmark() {
+      const data = EMBEDDED_DATA.benchmark;
+      if (!data) return;
+
+      // Show the tabs
+      document.getElementById("view-tabs").style.display = "flex";
+
+      const container = document.getElementById("benchmark-content");
+      const summary = data.run_summary || {};
+      const metadata = data.metadata || {};
+      const notes = data.notes || [];
+
+      let html = "";
+
+      // Header
+      html += "<h2 style='font-family: Poppins, sans-serif; margin-bottom: 0.5rem;'>Benchmark Results</h2>";
+      html += "<p style='color: var(--text-muted); font-size: 0.875rem; margin-bottom: 1.25rem;'>";
+      if (metadata.skill_name) html += "<strong>" + escapeHtml(metadata.skill_name) + "</strong> &mdash; ";
+      if (metadata.timestamp) html += metadata.timestamp + " &mdash; ";
+      if (metadata.evals_run) html += "Evals: " + metadata.evals_run.join(", ") + " &mdash; ";
+      html += (metadata.runs_per_configuration || "?") + " runs per configuration";
+      html += "</p>";
+
+      // Summary table
+      html += '<table class="benchmark-table">';
+
+      function fmtStat(stat, pct) {
+        if (!stat) return "—";
+        const suffix = pct ? "%" : "";
+        const m = pct ? (stat.mean * 100).toFixed(0) : stat.mean.toFixed(1);
+        const s = pct ? (stat.stddev * 100).toFixed(0) : stat.stddev.toFixed(1);
+        return m + suffix + " ± " + s + suffix;
+      }
+
+      function deltaClass(val) {
+        if (!val) return "";
+        const n = parseFloat(val);
+        if (n > 0) return "benchmark-delta-positive";
+        if (n < 0) return "benchmark-delta-negative";
+        return "";
+      }
+
+      // Discover config names dynamically (everything except "delta")
+      const configs = Object.keys(summary).filter(k => k !== "delta");
+      const configA = configs[0] || "config_a";
+      const configB = configs[1] || "config_b";
+      const labelA = configA.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+      const labelB = configB.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+      const a = summary[configA] || {};
+      const b = summary[configB] || {};
+      const delta = summary.delta || {};
+
+      html += "<thead><tr><th>Metric</th><th>" + escapeHtml(labelA) + "</th><th>" + escapeHtml(labelB) + "</th><th>Delta</th></tr></thead>";
+      html += "<tbody>";
+
+      html += "<tr><td><strong>Pass Rate</strong></td>";
+      html += "<td>" + fmtStat(a.pass_rate, true) + "</td>";
+      html += "<td>" + fmtStat(b.pass_rate, true) + "</td>";
+      html += '<td class="' + deltaClass(delta.pass_rate) + '">' + (delta.pass_rate || "—") + "</td></tr>";
+
+      // Time (only show row if data exists)
+      if (a.time_seconds || b.time_seconds) {
+        html += "<tr><td><strong>Time (s)</strong></td>";
+        html += "<td>" + fmtStat(a.time_seconds, false) + "</td>";
+        html += "<td>" + fmtStat(b.time_seconds, false) + "</td>";
+        html += '<td class="' + deltaClass(delta.time_seconds) + '">' + (delta.time_seconds ? delta.time_seconds + "s" : "—") + "</td></tr>";
+      }
+
+      // Tokens (only show row if data exists)
+      if (a.tokens || b.tokens) {
+        html += "<tr><td><strong>Tokens</strong></td>";
+        html += "<td>" + fmtStat(a.tokens, false) + "</td>";
+        html += "<td>" + fmtStat(b.tokens, false) + "</td>";
+        html += '<td class="' + deltaClass(delta.tokens) + '">' + (delta.tokens || "—") + "</td></tr>";
+      }
+
+      html += "</tbody></table>";
+
+      // Per-eval breakdown (if runs data available)
+      const runs = data.runs || [];
+      if (runs.length > 0) {
+        const evalIds = [...new Set(runs.map(r => r.eval_id))].sort((a, b) => a - b);
+
+        html += "<h3 style='font-family: Poppins, sans-serif; margin-bottom: 0.75rem;'>Per-Eval Breakdown</h3>";
+
+        const hasTime = runs.some(r => r.result && r.result.time_seconds != null);
+        const hasErrors = runs.some(r => r.result && r.result.errors > 0);
+
+        for (const evalId of evalIds) {
+          const evalRuns = runs.filter(r => r.eval_id === evalId);
+          const evalName = evalRuns[0] && evalRuns[0].eval_name ? evalRuns[0].eval_name : "Eval " + evalId;
+
+          html += "<h4 style='font-family: Poppins, sans-serif; margin: 1rem 0 0.5rem; color: var(--text);'>" + escapeHtml(evalName) + "</h4>";
+          html += '<table class="benchmark-table">';
+          html += "<thead><tr><th>Config</th><th>Run</th><th>Pass Rate</th>";
+          if (hasTime) html += "<th>Time (s)</th>";
+          if (hasErrors) html += "<th>Crashes During Execution</th>";
+          html += "</tr></thead>";
+          html += "<tbody>";
+
+          // Group by config and render with average rows
+          const configGroups = [...new Set(evalRuns.map(r => r.configuration))];
+          for (let ci = 0; ci < configGroups.length; ci++) {
+            const config = configGroups[ci];
+            const configRuns = evalRuns.filter(r => r.configuration === config);
+            if (configRuns.length === 0) continue;
+
+            const rowClass = ci === 0 ? "benchmark-row-with" : "benchmark-row-without";
+            const configLabel = config.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+
+            for (const run of configRuns) {
+              const r = run.result || {};
+              const prClass = r.pass_rate >= 0.8 ? "benchmark-delta-positive" : r.pass_rate < 0.5 ? "benchmark-delta-negative" : "";
+              html += '<tr class="' + rowClass + '">';
+              html += "<td>" + configLabel + "</td>";
+              html += "<td>" + run.run_number + "</td>";
+              html += '<td class="' + prClass + '">' + ((r.pass_rate || 0) * 100).toFixed(0) + "% (" + (r.passed || 0) + "/" + (r.total || 0) + ")</td>";
+              if (hasTime) html += "<td>" + (r.time_seconds != null ? r.time_seconds.toFixed(1) : "—") + "</td>";
+              if (hasErrors) html += "<td>" + (r.errors || 0) + "</td>";
+              html += "</tr>";
+            }
+
+            // Average row
+            const rates = configRuns.map(r => (r.result || {}).pass_rate || 0);
+            const avgRate = rates.reduce((a, b) => a + b, 0) / rates.length;
+            const avgPrClass = avgRate >= 0.8 ? "benchmark-delta-positive" : avgRate < 0.5 ? "benchmark-delta-negative" : "";
+            html += '<tr class="benchmark-row-avg ' + rowClass + '">';
+            html += "<td>" + configLabel + "</td>";
+            html += "<td>Avg</td>";
+            html += '<td class="' + avgPrClass + '">' + (avgRate * 100).toFixed(0) + "%</td>";
+            if (hasTime) {
+              const times = configRuns.map(r => (r.result || {}).time_seconds).filter(t => t != null);
+              html += "<td>" + (times.length ? (times.reduce((a, b) => a + b, 0) / times.length).toFixed(1) : "—") + "</td>";
+            }
+            if (hasErrors) html += "<td></td>";
+            html += "</tr>";
+          }
+          html += "</tbody></table>";
+
+          // Per-assertion detail for this eval
+          const runsWithExpectations = {};
+          for (const config of configGroups) {
+            runsWithExpectations[config] = evalRuns.filter(r => r.configuration === config && r.expectations && r.expectations.length > 0);
+          }
+          const hasAnyExpectations = Object.values(runsWithExpectations).some(runs => runs.length > 0);
+          if (hasAnyExpectations) {
+            // Collect all unique assertion texts across all configs
+            const allAssertions = [];
+            const seen = new Set();
+            for (const config of configGroups) {
+              for (const run of runsWithExpectations[config]) {
+                for (const exp of (run.expectations || [])) {
+                  if (!seen.has(exp.text)) {
+                    seen.add(exp.text);
+                    allAssertions.push(exp.text);
+                  }
+                }
+              }
+            }
+
+            html += '<table class="benchmark-table" style="margin-top: 0.5rem;">';
+            html += "<thead><tr><th>Assertion</th>";
+            for (const config of configGroups) {
+              const label = config.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+              html += "<th>" + escapeHtml(label) + "</th>";
+            }
+            html += "</tr></thead><tbody>";
+
+            for (const assertionText of allAssertions) {
+              html += "<tr><td>" + escapeHtml(assertionText) + "</td>";
+
+              for (const config of configGroups) {
+                html += "<td>";
+                for (const run of runsWithExpectations[config]) {
+                  const exp = (run.expectations || []).find(e => e.text === assertionText);
+                  if (exp) {
+                    const cls = exp.passed ? "benchmark-delta-positive" : "benchmark-delta-negative";
+                    const icon = exp.passed ? "\u2713" : "\u2717";
+                    html += '<span class="' + cls + '" title="Run ' + run.run_number + ': ' + escapeHtml(exp.evidence || "") + '">' + icon + "</span> ";
+                  } else {
+                    html += "— ";
+                  }
+                }
+                html += "</td>";
+              }
+              html += "</tr>";
+            }
+            html += "</tbody></table>";
+          }
+        }
+      }
+
+      // Notes
+      if (notes.length > 0) {
+        html += '<div class="benchmark-notes">';
+        html += "<h3>Analysis Notes</h3>";
+        html += "<ul>";
+        for (const note of notes) {
+          html += "<li>" + escapeHtml(note) + "</li>";
+        }
+        html += "</ul></div>";
+      }
+
+      container.innerHTML = html;
+    }
+
+    // ---- Start ----
+    init();
+    renderBenchmark();
+  </script>
+</body>
+</html>

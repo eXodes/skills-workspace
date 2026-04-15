@@ -1,0 +1,32 @@
+{
+  "eval_id": 18,
+  "config": "with_skill",
+  "expectations": [
+    {
+      "text": "Output uses hsl() color notation",
+      "passed": true,
+      "evidence": "PASS: uses_hsl_colors"
+    },
+    {
+      "text": "At least one button has solid filled background (not white)",
+      "passed": true,
+      "evidence": "PASS: primary_button_has_filled_background"
+    },
+    {
+      "text": "Supporting text uses lighter color, not opacity hack",
+      "passed": true,
+      "evidence": "PASS: muted_text_uses_color_not_opacity"
+    },
+    {
+      "text": "At least 2 distinct font-weight values",
+      "passed": true,
+      "evidence": "PASS: font_weight_hierarchy"
+    }
+  ],
+  "summary": {
+    "pass_rate": 1.0,
+    "passed": 4,
+    "failed": 0,
+    "total": 4
+  }
+}

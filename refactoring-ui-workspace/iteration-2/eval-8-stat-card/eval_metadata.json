@@ -1,0 +1,11 @@
+{
+  "eval_id": 8,
+  "eval_name": "stat-card",
+  "prompt": "Build a dashboard stat card component in HTML and CSS. It should display a key metric label (like 'Monthly Revenue'), the numeric value ($12,450), and a percentage change indicator (+8.2%). Make it polished and professional. Output a single self-contained HTML file with embedded CSS.",
+  "assertions": [
+    "Uses hsl() color notation for CSS color values",
+    "Applies at least two distinct font-weight values (heavier for value, lighter for label)",
+    "The metric value uses a visibly larger font-size than the label text",
+    "Secondary text (label, metadata) uses a muted/lighter color distinct from primary value"
+  ]
+}

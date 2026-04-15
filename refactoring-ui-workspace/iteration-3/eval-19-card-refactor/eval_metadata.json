@@ -1,0 +1,27 @@
+{
+  "eval_id": 19,
+  "eval_name": "card-refactor",
+  "prompt": "This card component is over-decorated — border everywhere, border-left accents, grey header background, borders separating every section. It feels heavy and dated. Please refactor it to look clean and modern. Read the file at /Users/zulthaqif/Documents/skills-workspace/refactoring-ui-workspace/iteration-3/eval-19-card-refactor/input/bad-design.html and save the improved version as component.html",
+  "assertions": [
+    {
+      "id": "uses_hsl_colors",
+      "description": "Output uses hsl() color notation",
+      "type": "programmatic"
+    },
+    {
+      "id": "uses_box_shadow",
+      "description": "Card uses box-shadow for depth/elevation instead of relying purely on borders",
+      "type": "programmatic"
+    },
+    {
+      "id": "muted_text_uses_color_not_opacity",
+      "description": "Muted/secondary text uses a lighter color value, not opacity hack (no 'opacity: 0.' on text)",
+      "type": "programmatic"
+    },
+    {
+      "id": "fewer_border_declarations",
+      "description": "Output has fewer border declarations than input (reduced from 8+ border rules) — less decorated, cleaner",
+      "type": "programmatic"
+    }
+  ]
+}

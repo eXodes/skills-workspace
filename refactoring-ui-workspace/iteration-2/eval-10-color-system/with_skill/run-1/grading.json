@@ -1,0 +1,30 @@
+{
+  "expectations": [
+    {
+      "text": "All color values use hsl() notation exclusively (not hex or rgb)",
+      "passed": true,
+      "evidence": "101 hsl() uses; only 2 hex values in entire file (non-color usage in markup)"
+    },
+    {
+      "text": "Defines at least 5 distinct shades of the primary blue (light to dark)",
+      "passed": true,
+      "evidence": "35 primary/blue CSS custom properties defined \u2014 full 9+ shade scale from 50 to 950"
+    },
+    {
+      "text": "Includes a neutral grey scale with at least 4 shades",
+      "passed": true,
+      "evidence": "Grey scale present with named variables; grey/neutral CSS variables found throughout"
+    },
+    {
+      "text": "Includes semantic colors for at least success (green) and danger/error (red)",
+      "passed": true,
+      "evidence": "Semantic color section present with success, danger/error hsl() values defined"
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "pass_rate": 1.0
+  }
+}

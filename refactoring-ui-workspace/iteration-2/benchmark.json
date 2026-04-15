@@ -1,0 +1,601 @@
+{
+  "metadata": {
+    "skill_name": "refactoring-ui",
+    "skill_path": "<path/to/skill>",
+    "executor_model": "<model-name>",
+    "analyzer_model": "<model-name>",
+    "timestamp": "2026-04-15T17:01:42Z",
+    "evals_run": [
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14
+    ],
+    "runs_per_configuration": 3
+  },
+  "runs": [
+    {
+      "eval_id": 10,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "All color values use hsl() notation exclusively (not hex or rgb)",
+          "passed": true,
+          "evidence": "101 hsl() uses; only 2 hex values in entire file (non-color usage in markup)"
+        },
+        {
+          "text": "Defines at least 5 distinct shades of the primary blue (light to dark)",
+          "passed": true,
+          "evidence": "35 primary/blue CSS custom properties defined \u2014 full 9+ shade scale from 50 to 950"
+        },
+        {
+          "text": "Includes a neutral grey scale with at least 4 shades",
+          "passed": true,
+          "evidence": "Grey scale present with named variables; grey/neutral CSS variables found throughout"
+        },
+        {
+          "text": "Includes semantic colors for at least success (green) and danger/error (red)",
+          "passed": true,
+          "evidence": "Semantic color section present with success, danger/error hsl() values defined"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 11,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "The price/value element has the largest font-size in the card",
+          "passed": true,
+          "evidence": ".price-amount { font-size: 56px } \u2014 largest in the card; plan name is 30px, items are 15px"
+        },
+        {
+          "text": "Uses at least two distinct font-weight levels to establish hierarchy",
+          "passed": true,
+          "evidence": "Font-weights 400, 600, 700 \u2014 three distinct levels used across name, price, features, CTA"
+        },
+        {
+          "text": "CTA button is visually prominent (strong background color, not just outlined)",
+          "passed": true,
+          "evidence": "CTA button has solid hsl() background color \u2014 not an outline-only style"
+        },
+        {
+          "text": "Uses hsl() color notation",
+          "passed": true,
+          "evidence": "13 hsl() color values used throughout; only 2 hex values in file"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 12,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Body text has line-height of 1.5 or greater",
+          "passed": true,
+          "evidence": "body/paragraph uses line-height: var(--leading-relaxed) = 1.65, well above 1.5"
+        },
+        {
+          "text": "Defines at least 4 distinct font-size values across the type scale",
+          "passed": true,
+          "evidence": "7 distinct font-size values defined (22px, 13px, 11px, 36px, 12px, etc.)"
+        },
+        {
+          "text": "Body text container has a max-width to constrain line length",
+          "passed": true,
+          "evidence": "max-width applied to prose/body container, preventing overly long lines"
+        },
+        {
+          "text": "Uses at least 3 distinct font-weight values across heading levels and body",
+          "passed": true,
+          "evidence": "--weight-regular(400), --weight-medium(500), --weight-semibold(600), --weight-bold(700) \u2014 4 distinct weights"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 13,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Contains a call-to-action element (button or link) encouraging the user to take action",
+          "passed": true,
+          "evidence": "Two CTAs: 'Add Transaction' button and 'Connect Bank Account' button"
+        },
+        {
+          "text": "The copy is friendly and explanatory \u2014 not just a terse message like 'No transactions found'",
+          "passed": true,
+          "evidence": "'Your payments, transfers, and purchases will show up here. Add one manually or connect your bank to import automatically.' \u2014 explains what will appear and provides next steps"
+        },
+        {
+          "text": "Includes a visual element beyond just text (icon placeholder, illustration area, or decorative graphic)",
+          "passed": true,
+          "evidence": "SVG icon present in empty state area; decorative visual element in the component"
+        },
+        {
+          "text": "Uses hsl() color notation for colors",
+          "passed": true,
+          "evidence": "18 hsl() uses; 0 hex values \u2014 fully HSL-based color palette"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 14,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Uses box-shadow for card elevation/depth",
+          "passed": true,
+          "evidence": "box-shadow property present in card CSS"
+        },
+        {
+          "text": "Post title has higher visual weight than the excerpt (larger font-size or heavier font-weight)",
+          "passed": true,
+          "evidence": "5 distinct font-sizes used; title uses larger size/heavier weight than excerpt body text"
+        },
+        {
+          "text": "Author/metadata uses a visually muted color (lighter than body text) for secondary hierarchy",
+          "passed": true,
+          "evidence": "grey scale CSS variables present; author/metadata section uses a lighter hsl() color than main content"
+        },
+        {
+          "text": "Uses hsl() color notation",
+          "passed": true,
+          "evidence": "19 hsl() uses; 0 hex values \u2014 fully HSL-based"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 8,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Uses hsl() color notation for CSS color values",
+          "passed": true,
+          "evidence": "23 hsl() uses found; only 1 hex value in file (used in icon/SVG fill, not layout color)"
+        },
+        {
+          "text": "Applies at least two distinct font-weight values (heavier for value, lighter for label)",
+          "passed": true,
+          "evidence": "font-weight: 600 and 700 both present \u2014 metric value uses 700, label/secondary uses 600"
+        },
+        {
+          "text": "The metric value uses a visibly larger font-size than the label text",
+          "passed": true,
+          "evidence": "Metric value: 36px, label: 13px \u2014 clear size hierarchy"
+        },
+        {
+          "text": "Secondary text (label, metadata) uses a muted/lighter color distinct from primary value",
+          "passed": true,
+          "evidence": "Has distinct grey-scale colors for labels; grey scale variables present throughout"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 9,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Uses hsl() color notation for color values",
+          "passed": true,
+          "evidence": "13 hsl() uses; only 3 hex values in file"
+        },
+        {
+          "text": "Primary button uses font-weight >= 600 for strong visual emphasis",
+          "passed": true,
+          "evidence": "Font-weight values 400, 500, 600, 700 all present; button uses 600+ per CSS"
+        },
+        {
+          "text": "Label-to-input spacing is visually tighter than the spacing between separate form groups",
+          "passed": true,
+          "evidence": "CSS comment explicitly states 'tight label\u2192input spacing (4px), wider group\u2192group spacing (20px)'; .form-group uses gap: var(--space-1) \u2248 4px while .form uses gap: var(--space-5) \u2248 20px"
+        },
+        {
+          "text": "Input fields have a visible focus state or border styling",
+          "passed": true,
+          "evidence": "Inputs have explicit :focus state styling with box-shadow and border color change per CSS"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 10,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.75,
+        "passed": 3,
+        "failed": 1,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "All color values use hsl() notation exclusively (not hex or rgb)",
+          "passed": false,
+          "evidence": "0 hsl() uses; 134 hex color values \u2014 uses Tailwind-style hex palette (e.g. --color-primary-500: #3b82f6)"
+        },
+        {
+          "text": "Defines at least 5 distinct shades of the primary blue (light to dark)",
+          "passed": true,
+          "evidence": "--color-primary-50 through --color-primary-950: 11 shades defined (using hex)"
+        },
+        {
+          "text": "Includes a neutral grey scale with at least 4 shades",
+          "passed": true,
+          "evidence": "--color-neutral-50 through --color-neutral-800: 8+ shades of neutral grey defined"
+        },
+        {
+          "text": "Includes semantic colors for at least success (green) and danger/error (red)",
+          "passed": true,
+          "evidence": "Semantic color section with success, warning, error/danger variables present"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 11,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.75,
+        "passed": 3,
+        "failed": 1,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "The price/value element has the largest font-size in the card",
+          "passed": true,
+          "evidence": ".amount { font-size: 52px } \u2014 largest element; other text 11px-26px range"
+        },
+        {
+          "text": "Uses at least two distinct font-weight levels to establish hierarchy",
+          "passed": true,
+          "evidence": "Font-weights 500, 700, 800, 900 \u2014 strong hierarchy, though heavier side of the scale"
+        },
+        {
+          "text": "CTA button is visually prominent (strong background color, not just outlined)",
+          "passed": true,
+          "evidence": ".cta-button { background: linear-gradient(135deg, #6366f1, #8b5cf6) } \u2014 solid gradient background"
+        },
+        {
+          "text": "Uses hsl() color notation",
+          "passed": false,
+          "evidence": "0 hsl() uses; 23 hex values \u2014 all colors in hex"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 12,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Body text has line-height of 1.5 or greater",
+          "passed": true,
+          "evidence": "body uses line-height: var(--leading-normal) where --leading-normal: 1.5; body line-height resolves to 1.5"
+        },
+        {
+          "text": "Defines at least 4 distinct font-size values across the type scale",
+          "passed": true,
+          "evidence": "8 font-size variables defined via CSS custom properties: --text-xs through --text-4xl"
+        },
+        {
+          "text": "Body text container has a max-width to constrain line length",
+          "passed": true,
+          "evidence": "max-width constraint applied to the main text container"
+        },
+        {
+          "text": "Uses at least 3 distinct font-weight values across heading levels and body",
+          "passed": true,
+          "evidence": "5 weight variables: --weight-regular(400), --weight-medium(500), --weight-semibold(600), --weight-bold(700), --weight-extrabold(800)"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 13,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.75,
+        "passed": 3,
+        "failed": 1,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Contains a call-to-action element (button or link) encouraging the user to take action",
+          "passed": true,
+          "evidence": "'Make Your First Transaction' button present; also has 'Send Money', 'Request Payment', 'Schedule Payment' action shortcuts"
+        },
+        {
+          "text": "The copy is friendly and explanatory \u2014 not just a terse message like 'No transactions found'",
+          "passed": true,
+          "evidence": "'Once you send, receive, or schedule a payment it will appear here so you can track every move of your money.' \u2014 warm, explanatory copy"
+        },
+        {
+          "text": "Includes a visual element beyond just text (icon placeholder, illustration area, or decorative graphic)",
+          "passed": true,
+          "evidence": "SVG element present: .card-header-icon with SVG content"
+        },
+        {
+          "text": "Uses hsl() color notation for colors",
+          "passed": false,
+          "evidence": "0 hsl() uses; 35 hex values \u2014 all colors in hex format"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 14,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.75,
+        "passed": 3,
+        "failed": 1,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Uses box-shadow for card elevation/depth",
+          "passed": true,
+          "evidence": "box-shadow property found in card CSS"
+        },
+        {
+          "text": "Post title has higher visual weight than the excerpt (larger font-size or heavier font-weight)",
+          "passed": true,
+          "evidence": "Font-weights 600 and 700 present; 4 distinct font-sizes; title is visually heavier than excerpt"
+        },
+        {
+          "text": "Author/metadata uses a visually muted color (lighter than body text) for secondary hierarchy",
+          "passed": true,
+          "evidence": ".card__author-date { color: #94a3b8 } \u2014 light grey-blue muted color for date vs #1e293b for main content"
+        },
+        {
+          "text": "Uses hsl() color notation",
+          "passed": false,
+          "evidence": "0 hsl() uses; 17 hex values \u2014 all colors in hex"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 8,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.75,
+        "passed": 3,
+        "failed": 1,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Uses hsl() color notation for CSS color values",
+          "passed": false,
+          "evidence": "0 hsl() uses; 29 hex color values \u2014 baseline defaults to hex (#94a3b8, #0f172a, etc.)"
+        },
+        {
+          "text": "Applies at least two distinct font-weight values (heavier for value, lighter for label)",
+          "passed": true,
+          "evidence": "Three font-weight values: 500, 600, 700 \u2014 good hierarchy present"
+        },
+        {
+          "text": "The metric value uses a visibly larger font-size than the label text",
+          "passed": true,
+          "evidence": "6 distinct font sizes used; metric number is the largest element per visual inspection"
+        },
+        {
+          "text": "Secondary text (label, metadata) uses a muted/lighter color distinct from primary value",
+          "passed": true,
+          "evidence": "card-label uses color: #94a3b8 (light grey-blue) vs primary value color: #0f172a (near-black)"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 9,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.75,
+        "passed": 3,
+        "failed": 1,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Uses hsl() color notation for color values",
+          "passed": false,
+          "evidence": "0 hsl() uses; 21 hex values \u2014 no HSL notation used"
+        },
+        {
+          "text": "Primary button uses font-weight >= 600 for strong visual emphasis",
+          "passed": true,
+          "evidence": "Font-weight 600 and 700 present in CSS; button has strong visual weight"
+        },
+        {
+          "text": "Label-to-input spacing is visually tighter than the spacing between separate form groups",
+          "passed": true,
+          "evidence": "label has margin-bottom: 6px (tight), .form-group has margin-bottom: 20px (wide) \u2014 proximity principle applied"
+        },
+        {
+          "text": "Input fields have a visible focus state or border styling",
+          "passed": true,
+          "evidence": "Inputs have padding: 10px 14px and CSS transitions/hover states indicating styled inputs with borders"
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {
+        "mean": 1.0,
+        "stddev": 0.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "tokens": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    "without_skill": {
+      "pass_rate": {
+        "mean": 0.7857,
+        "stddev": 0.0945,
+        "min": 0.75,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "tokens": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    "delta": {
+      "pass_rate": "+0.21",
+      "time_seconds": "+0.0",
+      "tokens": "+0"
+    }
+  },
+  "notes": []
+}

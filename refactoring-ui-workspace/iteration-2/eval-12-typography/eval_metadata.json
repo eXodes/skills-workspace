@@ -1,0 +1,11 @@
+{
+  "eval_id": 12,
+  "eval_name": "typography",
+  "prompt": "Build a CSS typography system for a web app and demonstrate it with HTML showing h1 through h3 headings, body paragraphs, and a caption/label style. Use realistic sample copy. Output a single self-contained HTML file with embedded CSS.",
+  "assertions": [
+    "Body text has line-height of 1.5 or greater",
+    "Defines at least 4 distinct font-size values across the type scale",
+    "Body text container has a max-width to constrain line length (not full viewport width)",
+    "Uses at least 3 distinct font-weight values across heading levels and body"
+  ]
+}

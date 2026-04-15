@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: Arial; margin: 0; background: white; }
+    nav { background: white; border-bottom: 3px solid black; padding: 0; }
+    .nav-inner { display: flex; align-items: center; }
+    .nav-logo { font-size: 14px; font-weight: 400; padding: 10px 14px; border-right: 2px solid black; color: #000000; }
+    .nav-list { list-style: none; margin: 0; padding: 0; display: flex; }
+    .nav-item a { display: block; padding: 10px 14px; font-size: 14px; color: #000000; text-decoration: none; border-right: 1px solid black; font-weight: 400; }
+    .nav-item.active a { color: #0000FF; }
+    .nav-item a:hover { background: #eeeeee; }
+    .nav-item.cta a { border: 2px solid black; color: black; margin: 6px 8px; padding: 4px 10px; }
+
+    /* Page content preview */
+    .page { padding: 20px; }
+    h1 { font-size: 14px; font-weight: 400; }
+    p { font-size: 14px; color: #000000; opacity: 0.5; }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <div class="nav-logo">MyApp</div>
+      <ul class="nav-list">
+        <li class="nav-item active"><a href="#">Dashboard</a></li>
+        <li class="nav-item"><a href="#">Projects</a></li>
+        <li class="nav-item"><a href="#">Team</a></li>
+        <li class="nav-item"><a href="#">Analytics</a></li>
+        <li class="nav-item"><a href="#">Settings</a></li>
+        <li class="nav-item cta"><a href="#">Upgrade</a></li>
+      </ul>
+    </div>
+  </nav>
+  <div class="page">
+    <h1>Dashboard</h1>
+    <p>Welcome back. Here's what's happening with your projects today.</p>
+  </div>
+</body>
+</html>

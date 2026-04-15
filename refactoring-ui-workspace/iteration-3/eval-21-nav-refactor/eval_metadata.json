@@ -1,0 +1,27 @@
+{
+  "eval_id": 21,
+  "eval_name": "nav-refactor",
+  "prompt": "This navigation bar looks terrible — thick black border at the bottom, every nav item looks identical with the same font-weight, and the active page is only distinguished by a blue color change. The logo has no personality. Please refactor it to look like a modern app navigation. Read the file at /Users/zulthaqif/Documents/skills-workspace/refactoring-ui-workspace/iteration-3/eval-21-nav-refactor/input/bad-design.html and save the improved version as component.html",
+  "assertions": [
+    {
+      "id": "uses_hsl_colors",
+      "description": "Output uses hsl() color notation",
+      "type": "programmatic"
+    },
+    {
+      "id": "logo_has_visual_weight",
+      "description": "Logo/brand name has stronger visual presence — font-weight ≥ 600 or font-size larger than nav items",
+      "type": "programmatic"
+    },
+    {
+      "id": "active_state_font_weight",
+      "description": "Active nav item has a font-weight that differs from inactive items (e.g., 600 vs 400) for non-color hierarchy",
+      "type": "programmatic"
+    },
+    {
+      "id": "removes_heavy_bottom_border",
+      "description": "The '3px solid black' bottom border is removed or replaced with a subtle separator (1px, lighter color, or shadow)",
+      "type": "programmatic"
+    }
+  ]
+}

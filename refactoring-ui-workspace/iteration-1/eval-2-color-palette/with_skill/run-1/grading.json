@@ -1,0 +1,29 @@
+{
+  "expectations": [
+    {
+      "text": "Recommends HSL format with explanation of why",
+      "passed": true,
+      "evidence": "'Switch to HSL...Hex and RGB are machine values with no human-readable structure...HSL maps to how you perceive color' — leads with HSL, explains why it enables systematic scale-building"
+    },
+    {
+      "text": "Explains a multi-shade scale (e.g., 50 to 900, or 9 shades) with different use cases for light vs dark shades",
+      "passed": true,
+      "evidence": "'Build Your 9-Shade Primary Blue Scale' with CSS custom properties from --blue-50 to --blue-900, each annotated with use case (e.g., 'page-level tinted backgrounds', 'main brand color', 'button hover state')"
+    },
+    {
+      "text": "Mentions saturation needs to be adjusted as lightness changes to prevent washed-out shades",
+      "passed": true,
+      "evidence": "'The Perceptual Lightness Problem — Don't Ignore It...As you go lighter: increase saturation to compensate. A blue-50 at low saturation looks like a grey fog — push saturation up toward 96–100%'"
+    },
+    {
+      "text": "Mentions the palette needs more than primary blue: including greys and/or semantic colors (danger, success, warning)",
+      "passed": true,
+      "evidence": "'Three Color Categories You Need: 1. Greys (8–10 shades)...2. Primary Color (9 shades)...3. Semantic / Accent Colors: Danger/Error, Warning, Success'"
+    }
+  ],
+  "summary": {"passed": 4, "failed": 0, "total": 4, "pass_rate": 1.0},
+  "claims": [
+    {"claim": "Hue rotation technique adds perceptual depth to palette", "type": "quality", "verified": true, "evidence": "Response includes optional advanced hue rotation technique beyond the assertions, showing depth of knowledge"}
+  ],
+  "eval_feedback": {"suggestions": [], "overall": "Assertions are well-targeted. The saturation-adjustment assertion is the key discriminator."}
+}

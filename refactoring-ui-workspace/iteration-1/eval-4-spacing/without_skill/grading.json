@@ -1,0 +1,22 @@
+{
+  "expectations": [
+    {
+      "text": "Identifies the issue as ambiguous spacing or unclear proximity between related elements",
+      "passed": true,
+      "evidence": "'The Core Problem: Proximity. The visual distance between a label and its input should be smaller than the distance between consecutive form groups. If all gaps are equal, the eye can't group them.'"
+    },
+    {
+      "text": "Explains that related elements (label + input) should be closer to each other than to unrelated elements",
+      "passed": true,
+      "evidence": "'Use the law of proximity deliberately...Label→Input: close (4–6px gap); larger gap between groups (24–32px)'"
+    },
+    {
+      "text": "Gives specific spacing values for label-to-input (small) vs group-to-group (larger)",
+      "passed": true,
+      "evidence": "'Label → Input gap: 4px–8px; Input → Next label gap: 20px–32px' with CSS: `label { margin-bottom: 4px }`, `.form-group { margin-bottom: 24px }`"
+    }
+  ],
+  "summary": {"passed": 3, "failed": 0, "total": 3, "pass_rate": 1.0},
+  "claims": [],
+  "eval_feedback": {"suggestions": [{"reason": "Spacing proximity is well-covered by general LLM knowledge. Consider tightening assertions to require Refactoring UI-specific framing (e.g., 'spacing scale' recommendation) to better differentiate skill vs no-skill responses"}], "overall": "Both with_skill and without_skill pass all assertions — the spacing proximity principle is well-covered by general design knowledge and may not be a discriminating eval."}
+}

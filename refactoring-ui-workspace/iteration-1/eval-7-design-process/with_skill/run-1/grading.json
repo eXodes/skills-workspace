@@ -1,0 +1,22 @@
+{
+  "expectations": [
+    {
+      "text": "Identifies the issue as decision fatigue caused by unlimited choices, not a lack of design skill",
+      "passed": true,
+      "evidence": "'The paralysis you're feeling is a systems problem, not a taste problem. When you pick a font size or color from an unlimited pool of possible values, of course you'll second-guess yourself — the design space is infinite'"
+    },
+    {
+      "text": "Recommends defining design systems upfront (type scale, color palette, spacing scale)",
+      "passed": true,
+      "evidence": "Table: 'Systems to define before you start designing: Font sizes (12,14,16,18,20,24,...), Font weights (400,500,600,700), Spacing/padding (4,8,12,16,...), Border radii, Shadows'"
+    },
+    {
+      "text": "Explains how constrained options make decisions easier — process of elimination from a small set",
+      "passed": true,
+      "evidence": "'You're not searching infinite space anymore. You're doing binary elimination between 2–3 options. This is fast and produces confident decisions' — exact mechanism described"
+    }
+  ],
+  "summary": {"passed": 3, "failed": 0, "total": 3, "pass_rate": 1.0},
+  "claims": [],
+  "eval_feedback": {"suggestions": [], "overall": "All three pass. The skill adds unique value: the grayscale-first principle, personality framework, and feature-first approach — none are covered by the assertions but represent genuine skill differentiation."}
+}

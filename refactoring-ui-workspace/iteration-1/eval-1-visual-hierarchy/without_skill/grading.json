@@ -1,0 +1,27 @@
+{
+  "expectations": [
+    {
+      "text": "Names the visual hierarchy problem explicitly",
+      "passed": true,
+      "evidence": "'What you're describing is a lack of visual hierarchy — the page has no clear signal telling the user what's important'"
+    },
+    {
+      "text": "Mentions at least two of the three hierarchy tools: font size, font weight, color/contrast",
+      "passed": true,
+      "evidence": "Covers 'Uniform Font Size and Weight' and 'Same Color/Tone for Everything' as two root causes, addressing all three tools"
+    },
+    {
+      "text": "Discusses different levels of content importance (primary, secondary, tertiary)",
+      "passed": true,
+      "evidence": "'Think in Three Levels: Primary (must-see), Secondary (context), Tertiary (background detail)' — explicitly named"
+    },
+    {
+      "text": "Gives specific actionable recommendations with values (e.g., font weights 600-700, grey for secondary text)",
+      "passed": false,
+      "evidence": "Gives size ranges ('32–48px', '24–48px') but uses 'bold' rather than specific weight numbers (600/700); colors described as 'muted, lighter gray' and 'very light gray' without hex values. Falls short of the specificity level called for."
+    }
+  ],
+  "summary": {"passed": 3, "failed": 1, "total": 4, "pass_rate": 0.75},
+  "claims": [],
+  "eval_feedback": {"suggestions": [], "overall": "Good set. Assertion 4 is the key discriminator between generic and skill-level specificity."}
+}

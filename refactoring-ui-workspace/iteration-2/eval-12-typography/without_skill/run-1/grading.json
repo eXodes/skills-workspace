@@ -1,0 +1,30 @@
+{
+  "expectations": [
+    {
+      "text": "Body text has line-height of 1.5 or greater",
+      "passed": true,
+      "evidence": "body uses line-height: var(--leading-normal) where --leading-normal: 1.5; body line-height resolves to 1.5"
+    },
+    {
+      "text": "Defines at least 4 distinct font-size values across the type scale",
+      "passed": true,
+      "evidence": "8 font-size variables defined via CSS custom properties: --text-xs through --text-4xl"
+    },
+    {
+      "text": "Body text container has a max-width to constrain line length",
+      "passed": true,
+      "evidence": "max-width constraint applied to the main text container"
+    },
+    {
+      "text": "Uses at least 3 distinct font-weight values across heading levels and body",
+      "passed": true,
+      "evidence": "5 weight variables: --weight-regular(400), --weight-medium(500), --weight-semibold(600), --weight-bold(700), --weight-extrabold(800)"
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "pass_rate": 1.0
+  }
+}

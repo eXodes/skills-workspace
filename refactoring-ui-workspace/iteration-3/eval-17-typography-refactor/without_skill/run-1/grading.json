@@ -1,0 +1,32 @@
+{
+  "eval_id": 17,
+  "config": "without_skill",
+  "expectations": [
+    {
+      "text": "Output uses hsl() color notation",
+      "passed": false,
+      "evidence": "FAIL: uses_hsl_colors"
+    },
+    {
+      "text": "Body text has line-height of at least 1.5",
+      "passed": true,
+      "evidence": "PASS: proper_line_height"
+    },
+    {
+      "text": "At least 3 distinct font-size values for heading/body hierarchy",
+      "passed": true,
+      "evidence": "PASS: font_size_hierarchy"
+    },
+    {
+      "text": "Article has max-width constraint \u226465ch or \u2264720px",
+      "passed": true,
+      "evidence": "PASS: max_width_reading_constraint"
+    }
+  ],
+  "summary": {
+    "pass_rate": 0.75,
+    "passed": 3,
+    "failed": 1,
+    "total": 4
+  }
+}

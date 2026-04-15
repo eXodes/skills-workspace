@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recent Transactions — Empty State</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ─────────────────────────────────────────────
+       COLOR PALETTE — defined in HSL, used everywhere.
+       Cool greys (hue 220) suit a financial product.
+       ───────────────────────────────────────────── */
+    :root {
+      /* Cool grey scale (hue 220 — modern, financial) */
+      --grey-50:  hsl(220, 20%, 97%);
+      --grey-100: hsl(220, 15%, 93%);
+      --grey-200: hsl(220, 13%, 88%);
+      --grey-300: hsl(220, 11%, 78%);
+      --grey-400: hsl(220, 9%,  62%);
+      --grey-500: hsl(220, 9%,  46%);
+      --grey-600: hsl(220, 10%, 35%);
+      --grey-700: hsl(220, 12%, 22%);
+      --grey-800: hsl(220, 14%, 15%);
+      --grey-900: hsl(220, 16%, 9%);
+
+      /* Primary blue (hue 217 — trustworthy, financial) */
+      --blue-50:  hsl(217, 91%, 95%);
+      --blue-100: hsl(217, 86%, 90%);
+      --blue-200: hsl(217, 80%, 82%);
+      --blue-400: hsl(217, 74%, 62%);
+      --blue-500: hsl(217, 91%, 60%);
+      --blue-600: hsl(217, 75%, 50%);
+      --blue-700: hsl(217, 74%, 40%);
+
+      /* Spacing scale (base-4) */
+      --sp-1:  4px;
+      --sp-2:  8px;
+      --sp-3:  12px;
+      --sp-4:  16px;
+      --sp-5:  20px;
+      --sp-6:  24px;
+      --sp-8:  32px;
+      --sp-10: 40px;
+      --sp-12: 48px;
+      --sp-16: 64px;
+
+      /* Type scale */
+      --text-xs:   12px;
+      --text-sm:   14px;
+      --text-base: 16px;
+      --text-2xl:  24px;
+    }
+
+    /* ─────────────────────────────────────────────
+       BASE
+       ───────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: var(--text-base);
+      /* Slightly tinted background — not pure white, more polished */
+      background: var(--grey-50);
+      color: var(--grey-900);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--sp-8);
+    }
+
+    /* ─────────────────────────────────────────────
+       CARD
+       Box shadow instead of border (fewer-borders principle).
+       Accent top border = brand color present without being heavy.
+       ───────────────────────────────────────────── */
+    .card {
+      background: white;
+      border-radius: 12px;
+      border-top: 4px solid var(--blue-500);
+      box-shadow:
+        0 1px 3px hsla(220, 30%, 10%, 0.06),
+        0 6px 20px hsla(220, 30%, 10%, 0.07);
+      width: 100%;
+      max-width: 540px;
+      overflow: hidden;
+    }
+
+    /* ─────────────────────────────────────────────
+       CARD HEADER
+       Section title + badge — clear visual hierarchy:
+       title is primary, "0 records" badge is tertiary.
+       ───────────────────────────────────────────── */
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--sp-5) var(--sp-8);
+      border-bottom: 1px solid var(--grey-100);
+    }
+
+    .card-header__title {
+      font-size: var(--text-base);
+      font-weight: 600;
+      color: var(--grey-900);
+      letter-spacing: -0.01em;
+    }
+
+    .card-header__badge {
+      font-size: var(--text-xs);
+      font-weight: 500;
+      color: var(--grey-400);
+      background: var(--grey-100);
+      padding: 3px 10px;
+      border-radius: 99px;
+      /* Letter-spacing for all-caps small text */
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* ─────────────────────────────────────────────
+       EMPTY STATE BODY
+       ───────────────────────────────────────────── */
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      /* Generous interior padding — breathing room signals confidence */
+      padding: var(--sp-16) var(--sp-12) var(--sp-12);
+    }
+
+    /* Icon in a tinted circle — large, muted (40–50% opacity to reduce
+       visual weight while keeping it decorative, per hierarchy principle) */
+    .empty-state__icon-wrap {
+      width: 72px;
+      height: 72px;
+      background: var(--blue-50);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: var(--sp-8);
+      /* Subtle ring for soft depth */
+      box-shadow: 0 0 0 8px hsl(217, 91%, 97%);
+    }
+
+    .empty-state__icon {
+      color: var(--blue-500);
+      opacity: 0.5;
+    }
+
+    /* Primary headline — dark, bold, tight tracking on large text */
+    .empty-state__title {
+      font-size: var(--text-2xl);
+      font-weight: 700;
+      color: var(--grey-900);
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: var(--sp-3);
+    }
+
+    /* Secondary description — grey (lower contrast = de-emphasized).
+       max-width targets ~45–60 chars per line for readability. */
+    .empty-state__description {
+      font-size: var(--text-base);
+      font-weight: 400;
+      color: var(--grey-500);
+      line-height: 1.6;
+      max-width: 40ch;
+      margin-bottom: var(--sp-10);
+    }
+
+    /* ─────────────────────────────────────────────
+       ACTIONS
+       Primary CTA (solid) + secondary (outline).
+       Visual weight communicates importance hierarchy.
+       ───────────────────────────────────────────── */
+    .empty-state__actions {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: var(--sp-3);
+      width: 100%;
+      max-width: 272px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--sp-2);
+      padding: 10px var(--sp-6);
+      font-family: inherit;
+      font-size: var(--text-sm);
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    }
+
+    /* Primary — solid, high-contrast */
+    .btn--primary {
+      background: var(--blue-600);
+      color: white;
+      border: none;
+    }
+    .btn--primary:hover { background: var(--blue-700); }
+
+    /* Secondary — outline style, lower visual weight */
+    .btn--secondary {
+      background: transparent;
+      color: var(--grey-600);
+      border: 1.5px solid var(--grey-200);
+      font-weight: 500;
+    }
+    .btn--secondary:hover {
+      border-color: var(--grey-300);
+      color: var(--grey-800);
+    }
+
+    /* ─────────────────────────────────────────────
+       CARD FOOTER
+       Tertiary text — lightest hierarchy level.
+       Tinted grey background (different bg = separation
+       without needing a heavy border).
+       ───────────────────────────────────────────── */
+    .card-footer {
+      padding: var(--sp-4) var(--sp-8);
+      background: var(--grey-50);
+      border-top: 1px solid var(--grey-100);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: var(--sp-1);
+    }
+
+    .card-footer__text {
+      font-size: var(--text-xs);
+      color: var(--grey-400);
+      line-height: 1.4;
+    }
+
+    .card-footer__link {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      color: var(--blue-600);
+      text-decoration: none;
+    }
+    .card-footer__link:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+
+    <!-- ── Header: section label + record count badge ── -->
+    <div class="card-header">
+      <span class="card-header__title">Recent Transactions</span>
+      <span class="card-header__badge">0 records</span>
+    </div>
+
+    <!-- ── Empty state body ── -->
+    <div class="empty-state">
+
+      <!-- Receipt icon in soft blue circle -->
+      <div class="empty-state__icon-wrap" aria-hidden="true">
+        <svg class="empty-state__icon" width="34" height="34" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="1.75"
+             stroke-linecap="round" stroke-linejoin="round">
+          <!-- Receipt outline with serrated bottom edge -->
+          <path d="M4 2v18l2-1.2 2 1.2 2-1.2 2 1.2 2-1.2 2 1.2V2L16 3.2 14 2l-2 1.2L10 2 8 3.2 6 2z"/>
+          <!-- Transaction line items inside receipt -->
+          <line x1="8" y1="9"  x2="16" y2="9"/>
+          <line x1="8" y1="13" x2="14" y2="13"/>
+          <line x1="8" y1="17" x2="11" y2="17"/>
+        </svg>
+      </div>
+
+      <!-- Primary headline — tells user exactly what's missing -->
+      <h2 class="empty-state__title">No transactions yet</h2>
+
+      <!-- Secondary description — explains what will appear and invites action -->
+      <p class="empty-state__description">
+        Your payments, transfers, and purchases will show up here. Add one manually or connect your bank to import automatically.
+      </p>
+
+      <!-- Actions: primary first, secondary second -->
+      <div class="empty-state__actions">
+        <a href="#" class="btn btn--primary">
+          <!-- Plus icon -->
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none"
+               stroke="currentColor" stroke-width="2.25" stroke-linecap="round"
+               aria-hidden="true">
+            <line x1="7.5" y1="2" x2="7.5" y2="13"/>
+            <line x1="2"   y1="7.5" x2="13" y2="7.5"/>
+          </svg>
+          Add Transaction
+        </a>
+
+        <a href="#" class="btn btn--secondary">
+          <!-- Link / connect icon -->
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round"
+               stroke-linejoin="round" aria-hidden="true">
+            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+          </svg>
+          Connect Bank Account
+        </a>
+      </div>
+
+    </div>
+
+    <!-- ── Footer: tertiary help text ── -->
+    <div class="card-footer">
+      <span class="card-footer__text">Supports CSV, OFX, and 10,000+ banks —</span>
+      <a href="#" class="card-footer__link">View import guide →</a>
+    </div>
+
+  </div>
+
+</body>
+</html>

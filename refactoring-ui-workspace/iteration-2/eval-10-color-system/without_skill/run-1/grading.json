@@ -1,0 +1,30 @@
+{
+  "expectations": [
+    {
+      "text": "All color values use hsl() notation exclusively (not hex or rgb)",
+      "passed": false,
+      "evidence": "0 hsl() uses; 134 hex color values \u2014 uses Tailwind-style hex palette (e.g. --color-primary-500: #3b82f6)"
+    },
+    {
+      "text": "Defines at least 5 distinct shades of the primary blue (light to dark)",
+      "passed": true,
+      "evidence": "--color-primary-50 through --color-primary-950: 11 shades defined (using hex)"
+    },
+    {
+      "text": "Includes a neutral grey scale with at least 4 shades",
+      "passed": true,
+      "evidence": "--color-neutral-50 through --color-neutral-800: 8+ shades of neutral grey defined"
+    },
+    {
+      "text": "Includes semantic colors for at least success (green) and danger/error (red)",
+      "passed": true,
+      "evidence": "Semantic color section with success, warning, error/danger variables present"
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 1,
+    "total": 4,
+    "pass_rate": 0.75
+  }
+}

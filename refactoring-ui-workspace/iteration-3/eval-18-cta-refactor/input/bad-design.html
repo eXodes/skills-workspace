@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: Arial; padding: 20px; background: white; }
+    .btn { border: 1px solid #cccccc; background: white; color: #333333; padding: 8px 16px; font-size: 14px; cursor: pointer; font-weight: 400; }
+    .btn-primary { border: 1px solid #333333; background: white; color: #333333; padding: 8px 16px; font-size: 14px; cursor: pointer; font-weight: 400; }
+    .btn-danger { border: 1px solid #FF0000; background: white; color: #FF0000; padding: 8px 16px; font-size: 14px; cursor: pointer; font-weight: 400; }
+    .actions { display: flex; gap: 8px; margin-top: 12px; }
+    .card { border: 1px solid #cccccc; padding: 20px; max-width: 400px; }
+    h2 { font-size: 16px; font-weight: 400; margin: 0 0 8px; color: #000000; }
+    p { font-size: 14px; color: #000000; opacity: 0.6; margin: 0; }
+
+    /* Second example: onboarding actions */
+    .onboarding { border: 1px solid #cccccc; padding: 20px; max-width: 400px; margin-top: 20px; }
+    .onboarding h2 { font-size: 16px; font-weight: 400; margin: 0 0 8px; }
+    .onboarding p { font-size: 14px; opacity: 0.6; margin: 0 0 12px; }
+    .onboarding .btn-cta { border: 1px solid #0000FF; background: white; color: #0000FF; padding: 8px 16px; font-size: 14px; cursor: pointer; font-weight: 400; }
+    .onboarding .btn-skip { border: 1px solid #cccccc; background: white; color: #333333; padding: 8px 16px; font-size: 14px; cursor: pointer; font-weight: 400; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Delete your account</h2>
+    <p>This will permanently delete all your data and cannot be undone.</p>
+    <div class="actions">
+      <button class="btn-danger">Delete Account</button>
+      <button class="btn-primary">Save Changes</button>
+      <button class="btn">Cancel</button>
+    </div>
+  </div>
+
+  <div class="onboarding">
+    <h2>Complete your profile</h2>
+    <p>Add a photo and bio to help teammates recognize you.</p>
+    <div class="actions">
+      <button class="onboarding btn-cta">Add Profile Info</button>
+      <button class="onboarding btn-skip">Skip for now</button>
+    </div>
+  </div>
+</body>
+</html>

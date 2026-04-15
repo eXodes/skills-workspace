@@ -1,0 +1,29 @@
+{
+  "expectations": [
+    {
+      "text": "Names the visual hierarchy problem explicitly",
+      "passed": true,
+      "evidence": "'The problem is flat visual hierarchy — every element on your page is competing for attention at the same visual weight'"
+    },
+    {
+      "text": "Mentions at least two of the three hierarchy tools: font size, font weight, color/contrast",
+      "passed": true,
+      "evidence": "'Use all three hierarchy tools together — font size, font weight, and color'"
+    },
+    {
+      "text": "Discusses different levels of content importance (primary, secondary, tertiary)",
+      "passed": true,
+      "evidence": "Explicitly grades stat values as primary (large, bold, dark) and labels as secondary (small, 12px, muted grey); also distinguishes primary/secondary table columns"
+    },
+    {
+      "text": "Gives specific actionable recommendations with values (e.g., font weights 600-700, grey for secondary text)",
+      "passed": true,
+      "evidence": "Stat value: '32–40px, heavy weight (700)'; stat label: '12px, normal weight, muted grey (#6B7280)'; title: '28–32px, bold (700)'"
+    }
+  ],
+  "summary": {"passed": 4, "failed": 0, "total": 4, "pass_rate": 1.0},
+  "claims": [
+    {"claim": "Hierarchy can be fixed without changing layout", "type": "quality", "verified": true, "evidence": "Response explicitly states 'These changes don't require a redesign. They're purely typographic'"}
+  ],
+  "eval_feedback": {"suggestions": [], "overall": "Assertions are solid and discriminating. The fourth assertion effectively distinguishes skill-level specificity from generic advice."}
+}

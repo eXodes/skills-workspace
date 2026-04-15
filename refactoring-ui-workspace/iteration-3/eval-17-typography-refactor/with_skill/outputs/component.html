@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* ── Design tokens (HSL palette) ── */
+    :root {
+      --text-primary:   hsl(220, 25%, 10%);   /* headings */
+      --text-secondary: hsl(220, 15%, 22%);   /* sub-headings */
+      --text-body:      hsl(220, 10%, 32%);   /* body copy */
+      --text-meta:      hsl(220, 9%, 50%);    /* author / date */
+      --text-tag:       hsl(220, 30%, 40%);   /* tag label */
+      --bg-tag:         hsl(220, 70%, 96%);   /* tag background */
+      --border-tag:     hsl(220, 40%, 85%);   /* tag border */
+      --bg-page:        hsl(0, 0%, 100%);
+    }
+
+    /* ── Type scale (modular ~1.25×) ── */
+    /* xs=12  sm=14  base=16  lg=18  xl=20  2xl=24  3xl=30  4xl=36 */
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 16px;           /* base */
+      color: var(--text-body);
+      line-height: 1.6;          /* comfortable body reading */
+      background: var(--bg-page);
+      margin: 0;
+      padding: 48px 24px;
+    }
+
+    article {
+      max-width: 65ch;           /* ≤65ch reading constraint */
+      margin: 0 auto;
+    }
+
+    /* ── Heading hierarchy ── */
+    h1 {
+      font-size: 36px;           /* 4xl — page title */
+      font-weight: 800;
+      color: var(--text-primary);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin: 0 0 12px;
+    }
+
+    h2 {
+      font-size: 24px;           /* 2xl — section heading */
+      font-weight: 700;
+      color: var(--text-secondary);
+      line-height: 1.3;
+      margin: 40px 0 12px;
+    }
+
+    h3 {
+      font-size: 18px;           /* lg — sub-section heading */
+      font-weight: 600;
+      color: var(--text-secondary);
+      line-height: 1.4;
+      margin: 28px 0 8px;
+    }
+
+    /* ── Body text ── */
+    p {
+      font-size: 16px;           /* base */
+      color: var(--text-body);
+      line-height: 1.7;          /* wide body column needs generous leading */
+      margin: 0 0 16px;
+    }
+
+    /* ── Metadata (author / date) ── */
+    .meta {
+      font-size: 14px;           /* sm */
+      color: var(--text-meta);
+      line-height: 1.5;
+      margin: 0 0 32px;
+    }
+
+    /* ── Tags ── */
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 32px;
+    }
+
+    .tag {
+      font-size: 12px;           /* xs */
+      font-weight: 500;
+      color: var(--text-tag);
+      background: var(--bg-tag);
+      border: 1px solid var(--border-tag);
+      border-radius: 4px;
+      padding: 3px 10px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+  <article>
+    <h1>How to Design Better Interfaces</h1>
+    <div class="meta">By John Smith &nbsp;·&nbsp; April 15, 2026</div>
+
+    <h2>Introduction</h2>
+    <p>Good design is invisible. When a user interface works well, people don't notice it — they just accomplish their goals without friction. This article explores the core principles that separate mediocre interfaces from great ones.</p>
+
+    <h3>Visual Hierarchy</h3>
+    <p>The most important thing you can do to improve any design is to establish a clear visual hierarchy. Not everything on the page deserves equal attention. Some things are more important than others, and your design should reflect that.</p>
+
+    <h3>White Space</h3>
+    <p>White space is not wasted space. It gives elements room to breathe and makes content easier to scan. Resist the urge to fill every pixel.</p>
+
+    <div class="tags">
+      <span class="tag">design</span>
+      <span class="tag">ui</span>
+      <span class="tag">ux</span>
+    </div>
+  </article>
+</body>
+</html>

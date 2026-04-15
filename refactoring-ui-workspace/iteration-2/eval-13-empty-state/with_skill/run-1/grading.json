@@ -1,0 +1,30 @@
+{
+  "expectations": [
+    {
+      "text": "Contains a call-to-action element (button or link) encouraging the user to take action",
+      "passed": true,
+      "evidence": "Two CTAs: 'Add Transaction' button and 'Connect Bank Account' button"
+    },
+    {
+      "text": "The copy is friendly and explanatory \u2014 not just a terse message like 'No transactions found'",
+      "passed": true,
+      "evidence": "'Your payments, transfers, and purchases will show up here. Add one manually or connect your bank to import automatically.' \u2014 explains what will appear and provides next steps"
+    },
+    {
+      "text": "Includes a visual element beyond just text (icon placeholder, illustration area, or decorative graphic)",
+      "passed": true,
+      "evidence": "SVG icon present in empty state area; decorative visual element in the component"
+    },
+    {
+      "text": "Uses hsl() color notation for colors",
+      "passed": true,
+      "evidence": "18 hsl() uses; 0 hex values \u2014 fully HSL-based color palette"
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "pass_rate": 1.0
+  }
+}

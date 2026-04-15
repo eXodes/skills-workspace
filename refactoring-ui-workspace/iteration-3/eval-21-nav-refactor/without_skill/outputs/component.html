@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+      background: #f8f9fa;
+    }
+
+    nav {
+      background: white;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+      padding: 0 24px;
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      height: 58px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Logo: colored rounded icon + bold text */
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-right: 36px;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+
+    .nav-logo-icon {
+      width: 30px;
+      height: 30px;
+      background: #4f46e5;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .nav-logo-text {
+      font-size: 16px;
+      font-weight: 700;
+      color: #111827;
+      letter-spacing: -0.3px;
+    }
+
+    /* Nav list */
+    .nav-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      flex: 1;
+      gap: 2px;
+    }
+
+    .nav-item a {
+      display: block;
+      padding: 6px 12px;
+      font-size: 14px;
+      color: #6b7280;
+      text-decoration: none;
+      font-weight: 500;
+      border-radius: 6px;
+      transition: color 0.15s ease, background 0.15s ease;
+    }
+
+    .nav-item a:hover {
+      background: #f3f4f6;
+      color: #111827;
+    }
+
+    /* Active: tinted pill + brand color + heavier weight */
+    .nav-item.active a {
+      color: #4f46e5;
+      font-weight: 600;
+      background: #eef2ff;
+    }
+
+    /* CTA button pushed to right edge */
+    .nav-item.cta {
+      margin-left: auto;
+    }
+
+    .nav-item.cta a {
+      background: #4f46e5;
+      color: white;
+      padding: 7px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 14px;
+      transition: background 0.15s ease, transform 0.1s ease;
+    }
+
+    .nav-item.cta a:hover {
+      background: #4338ca;
+      color: white;
+      transform: translateY(-1px);
+    }
+
+    /* Page content */
+    .page {
+      padding: 48px 24px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 26px;
+      font-weight: 700;
+      color: #111827;
+      margin: 0 0 8px;
+      letter-spacing: -0.4px;
+    }
+
+    p {
+      font-size: 15px;
+      color: #6b7280;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a class="nav-logo" href="#">
+        <span class="nav-logo-icon">M</span>
+        <span class="nav-logo-text">MyApp</span>
+      </a>
+      <ul class="nav-list">
+        <li class="nav-item active"><a href="#">Dashboard</a></li>
+        <li class="nav-item"><a href="#">Projects</a></li>
+        <li class="nav-item"><a href="#">Team</a></li>
+        <li class="nav-item"><a href="#">Analytics</a></li>
+        <li class="nav-item"><a href="#">Settings</a></li>
+        <li class="nav-item cta"><a href="#">Upgrade</a></li>
+      </ul>
+    </div>
+  </nav>
+  <div class="page">
+    <h1>Dashboard</h1>
+    <p>Welcome back. Here's what's happening with your projects today.</p>
+  </div>
+</body>
+</html>

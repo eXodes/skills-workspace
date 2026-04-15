@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* ── Color tokens (HSL — not hex/opacity) ── */
+    :root {
+      /* Primary blue — 9-shade scale */
+      --blue-50:  hsl(221, 83%, 96%);
+      --blue-500: hsl(221, 83%, 53%);
+      --blue-600: hsl(221, 83%, 44%);
+
+      /* Danger red */
+      --red-50:  hsl(0, 72%, 96%);
+      --red-500: hsl(0, 72%, 51%);
+      --red-600: hsl(0, 64%, 42%);
+
+      /* Cool greys (slight blue hue — cohesive with blue primary) */
+      --grey-50:  hsl(220, 14%, 96%);
+      --grey-100: hsl(220, 13%, 91%);
+      --grey-400: hsl(220, 9%, 65%);
+      --grey-500: hsl(220, 9%, 46%);
+      --grey-700: hsl(220, 9%, 35%);
+      --grey-900: hsl(220, 9%, 15%);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      padding: 32px;
+      background: var(--grey-50);
+      color: var(--grey-900);
+    }
+
+    /* ── Card ── */
+    .card {
+      border: 1px solid var(--grey-100);
+      border-radius: 8px;
+      padding: 24px;
+      max-width: 400px;
+      background: white;
+      /* Two-layer shadow: ambient + direct */
+      box-shadow:
+        0 1px 3px hsla(220, 9%, 15%, 0.08),
+        0 1px 2px hsla(220, 9%, 15%, 0.04);
+    }
+
+    .card + .card { margin-top: 20px; }
+
+    .card h2 {
+      font-size: 16px;
+      font-weight: 600;           /* weight hierarchy: heading stands out */
+      margin: 0 0 6px;
+      color: var(--grey-900);
+    }
+
+    .card p {
+      font-size: 14px;
+      color: var(--grey-500);     /* actual color — not opacity — for muted text */
+      margin: 0 0 20px;
+      line-height: 1.5;
+    }
+
+    /* ── Action row ── */
+    .actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    /* ── Button base ── */
+    .btn {
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 500;
+      border-radius: 6px;
+      cursor: pointer;
+      border: none;
+      line-height: 1.25;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    /*
+     * PRIMARY — solid filled, high contrast
+     * The single most important action; instantly draws the eye
+     */
+    .btn-primary {
+      background: var(--blue-500);
+      color: white;
+    }
+    .btn-primary:hover { background: var(--blue-600); }
+
+    /*
+     * DANGER SECONDARY — outline red
+     * Destructive but NOT the primary action here; present but de-emphasized
+     * so it doesn't compete visually with Save Changes
+     */
+    .btn-danger {
+      background: transparent;
+      color: var(--red-500);
+      border: 1px solid var(--red-500);
+      padding: 7px 16px; /* compensate for border */
+    }
+    .btn-danger:hover { background: var(--red-50); }
+
+    /*
+     * TERTIARY — link-style, no border
+     * Lowest visual weight; obvious it's an escape hatch, not a call to action
+     */
+    .btn-tertiary {
+      background: transparent;
+      color: var(--grey-500);
+      padding: 8px 10px;
+    }
+    .btn-tertiary:hover { color: var(--grey-700); }
+  </style>
+</head>
+<body>
+
+  <!--
+    Card 1 — Account settings with destructive option
+    Hierarchy: Save Changes (primary) > Delete Account (danger-secondary) > Cancel (tertiary)
+    "Destructive doesn't automatically mean visually prominent" — Refactoring UI
+  -->
+  <div class="card">
+    <h2>Delete your account</h2>
+    <p>This will permanently delete all your data and cannot be undone.</p>
+    <div class="actions">
+      <button class="btn btn-primary">Save Changes</button>
+      <button class="btn btn-danger">Delete Account</button>
+      <button class="btn btn-tertiary">Cancel</button>
+    </div>
+  </div>
+
+  <!--
+    Card 2 — Onboarding CTA
+    Hierarchy: Add Profile Info (primary) >> Skip for now (tertiary)
+    "Skip" is link-style — present but clearly not the recommended path
+  -->
+  <div class="card">
+    <h2>Complete your profile</h2>
+    <p>Add a photo and bio to help teammates recognize you.</p>
+    <div class="actions">
+      <button class="btn btn-primary">Add Profile Info</button>
+      <button class="btn btn-tertiary">Skip for now</button>
+    </div>
+  </div>
+
+</body>
+</html>

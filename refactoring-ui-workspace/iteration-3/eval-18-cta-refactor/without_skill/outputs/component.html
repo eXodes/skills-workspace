@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: Arial; padding: 20px; background: white; }
+
+    .card { border: 1px solid #e0e0e0; padding: 20px; max-width: 400px; border-radius: 6px; }
+    .card h2 { font-size: 16px; font-weight: 600; margin: 0 0 8px; color: #111111; }
+    .card p { font-size: 14px; color: #555555; margin: 0; }
+
+    .actions { display: flex; gap: 8px; margin-top: 16px; align-items: center; }
+
+    /* Primary action — solid, high contrast */
+    .btn-primary {
+      border: none;
+      background: #1a56db;
+      color: #ffffff;
+      padding: 8px 18px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    .btn-primary:hover { background: #1447c0; }
+
+    /* Destructive action — solid red, clearly dangerous */
+    .btn-danger {
+      border: none;
+      background: #e02424;
+      color: #ffffff;
+      padding: 8px 18px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    .btn-danger:hover { background: #c41d1d; }
+
+    /* Cancel / secondary — ghost, recedes visually */
+    .btn-ghost {
+      border: 1px solid #d1d5db;
+      background: white;
+      color: #6b7280;
+      padding: 8px 18px;
+      font-size: 14px;
+      font-weight: 400;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    .btn-ghost:hover { background: #f9fafb; }
+
+    /* Onboarding card */
+    .onboarding { border: 1px solid #e0e0e0; padding: 20px; max-width: 400px; margin-top: 20px; border-radius: 6px; }
+    .onboarding h2 { font-size: 16px; font-weight: 600; margin: 0 0 8px; color: #111111; }
+    .onboarding p { font-size: 14px; color: #555555; margin: 0 0 16px; }
+
+    /* Primary CTA — solid, prominent */
+    .btn-cta {
+      border: none;
+      background: #1a56db;
+      color: #ffffff;
+      padding: 8px 18px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    .btn-cta:hover { background: #1447c0; }
+
+    /* Skip — plain text link, minimal presence */
+    .btn-skip {
+      border: none;
+      background: none;
+      color: #9ca3af;
+      padding: 8px 10px;
+      font-size: 14px;
+      font-weight: 400;
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .btn-skip:hover { color: #6b7280; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Delete your account</h2>
+    <p>This will permanently delete all your data and cannot be undone.</p>
+    <div class="actions">
+      <button class="btn-primary">Save Changes</button>
+      <button class="btn-danger">Delete Account</button>
+      <button class="btn-ghost">Cancel</button>
+    </div>
+  </div>
+
+  <div class="onboarding">
+    <h2>Complete your profile</h2>
+    <p>Add a photo and bio to help teammates recognize you.</p>
+    <div class="actions">
+      <button class="btn-cta">Add Profile Info</button>
+      <button class="btn-skip">Skip for now</button>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,27 @@
+{
+  "eval_id": 17,
+  "eval_name": "typography-refactor",
+  "prompt": "This article/blog post component has terrible typography — everything is the same 14px size, font-weight 400, and line-height 1.0. It's completely flat and hard to read. Please refactor the CSS to make the typography look great. Read the file at /Users/zulthaqif/Documents/skills-workspace/refactoring-ui-workspace/iteration-3/eval-17-typography-refactor/input/bad-design.html and save the improved version as component.html",
+  "assertions": [
+    {
+      "id": "uses_hsl_colors",
+      "description": "Output uses hsl() color notation",
+      "type": "programmatic"
+    },
+    {
+      "id": "proper_line_height",
+      "description": "Body text has line-height of at least 1.5",
+      "type": "programmatic"
+    },
+    {
+      "id": "font_size_hierarchy",
+      "description": "At least 3 distinct font-size values establishing heading/subheading/body hierarchy",
+      "type": "programmatic"
+    },
+    {
+      "id": "max_width_reading_constraint",
+      "description": "Article has a max-width constraint (≤65ch or ≤720px) to prevent overly long reading lines",
+      "type": "programmatic"
+    }
+  ]
+}

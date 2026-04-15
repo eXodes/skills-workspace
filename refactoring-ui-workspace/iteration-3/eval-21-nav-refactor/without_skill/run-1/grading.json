@@ -1,0 +1,32 @@
+{
+  "eval_id": 21,
+  "config": "without_skill",
+  "expectations": [
+    {
+      "text": "Output uses hsl() color notation",
+      "passed": false,
+      "evidence": "FAIL: uses_hsl_colors"
+    },
+    {
+      "text": "Logo has font-weight \u2265600 or larger font-size",
+      "passed": true,
+      "evidence": "PASS: logo_has_visual_weight"
+    },
+    {
+      "text": "Active nav item has different font-weight from inactive",
+      "passed": true,
+      "evidence": "PASS: active_state_font_weight"
+    },
+    {
+      "text": "Heavy '3px solid black' bottom border is removed",
+      "passed": true,
+      "evidence": "PASS: removes_heavy_bottom_border"
+    }
+  ],
+  "summary": {
+    "pass_rate": 0.75,
+    "passed": 3,
+    "failed": 1,
+    "total": 4
+  }
+}

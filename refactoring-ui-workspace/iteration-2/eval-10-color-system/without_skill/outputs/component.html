@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SaaS Dashboard — CSS Color System</title>
+  <style>
+    /* ─── CSS Custom Properties ─────────────────────────────────────────────── */
+    :root {
+      /* Primary — Blue */
+      --color-primary-50:  #eff6ff;
+      --color-primary-100: #dbeafe;
+      --color-primary-200: #bfdbfe;
+      --color-primary-300: #93c5fd;
+      --color-primary-400: #60a5fa;
+      --color-primary-500: #3b82f6;
+      --color-primary-600: #2563eb;
+      --color-primary-700: #1d4ed8;
+      --color-primary-800: #1e40af;
+      --color-primary-900: #1e3a8a;
+      --color-primary-950: #172554;
+
+      /* Neutral — Grey */
+      --color-neutral-50:  #f9fafb;
+      --color-neutral-100: #f3f4f6;
+      --color-neutral-200: #e5e7eb;
+      --color-neutral-300: #d1d5db;
+      --color-neutral-400: #9ca3af;
+      --color-neutral-500: #6b7280;
+      --color-neutral-600: #4b5563;
+      --color-neutral-700: #374151;
+      --color-neutral-800: #1f2937;
+      --color-neutral-900: #111827;
+      --color-neutral-950: #030712;
+
+      /* Semantic — Success (Green) */
+      --color-success-50:  #f0fdf4;
+      --color-success-100: #dcfce7;
+      --color-success-200: #bbf7d0;
+      --color-success-300: #86efac;
+      --color-success-400: #4ade80;
+      --color-success-500: #22c55e;
+      --color-success-600: #16a34a;
+      --color-success-700: #15803d;
+      --color-success-800: #166534;
+      --color-success-900: #14532d;
+
+      /* Semantic — Warning (Amber) */
+      --color-warning-50:  #fffbeb;
+      --color-warning-100: #fef3c7;
+      --color-warning-200: #fde68a;
+      --color-warning-300: #fcd34d;
+      --color-warning-400: #fbbf24;
+      --color-warning-500: #f59e0b;
+      --color-warning-600: #d97706;
+      --color-warning-700: #b45309;
+      --color-warning-800: #92400e;
+      --color-warning-900: #78350f;
+
+      /* Semantic — Danger (Red) */
+      --color-danger-50:  #fff1f2;
+      --color-danger-100: #ffe4e6;
+      --color-danger-200: #fecdd3;
+      --color-danger-300: #fda4af;
+      --color-danger-400: #fb7185;
+      --color-danger-500: #f43f5e;
+      --color-danger-600: #e11d48;
+      --color-danger-700: #be123c;
+      --color-danger-800: #9f1239;
+      --color-danger-900: #881337;
+
+      /* Semantic — Info (Cyan) */
+      --color-info-50:  #ecfeff;
+      --color-info-100: #cffafe;
+      --color-info-200: #a5f3fc;
+      --color-info-300: #67e8f9;
+      --color-info-400: #22d3ee;
+      --color-info-500: #06b6d4;
+      --color-info-600: #0891b2;
+      --color-info-700: #0e7490;
+      --color-info-800: #155e75;
+      --color-info-900: #164e63;
+
+      /* Alias tokens (semantic UI usage) */
+      --color-bg-page:        var(--color-neutral-50);
+      --color-bg-surface:     #ffffff;
+      --color-bg-subtle:      var(--color-neutral-100);
+      --color-bg-muted:       var(--color-neutral-200);
+
+      --color-text-default:   var(--color-neutral-900);
+      --color-text-secondary: var(--color-neutral-500);
+      --color-text-disabled:  var(--color-neutral-300);
+      --color-text-inverse:   #ffffff;
+      --color-text-brand:     var(--color-primary-600);
+      --color-text-success:   var(--color-success-700);
+      --color-text-warning:   var(--color-warning-700);
+      --color-text-danger:    var(--color-danger-700);
+      --color-text-info:      var(--color-info-700);
+
+      --color-border-default: var(--color-neutral-200);
+      --color-border-strong:  var(--color-neutral-300);
+      --color-border-brand:   var(--color-primary-500);
+      --color-border-success: var(--color-success-400);
+      --color-border-warning: var(--color-warning-400);
+      --color-border-danger:  var(--color-danger-400);
+      --color-border-info:    var(--color-info-400);
+
+      --color-action-primary:         var(--color-primary-600);
+      --color-action-primary-hover:   var(--color-primary-700);
+      --color-action-primary-active:  var(--color-primary-800);
+      --color-action-secondary:       var(--color-neutral-100);
+      --color-action-secondary-hover: var(--color-neutral-200);
+      --color-action-destructive:     var(--color-danger-600);
+    }
+
+    /* ─── Base ───────────────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+      background: var(--color-bg-page);
+      color: var(--color-text-default);
+      padding: 2.5rem;
+      line-height: 1.5;
+    }
+
+    /* ─── Page header ────────────────────────────────────────────────────────── */
+    .page-header {
+      margin-bottom: 3rem;
+      border-bottom: 1px solid var(--color-border-default);
+      padding-bottom: 1.5rem;
+    }
+    .page-header h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--color-text-default);
+      letter-spacing: -0.02em;
+    }
+    .page-header p {
+      margin-top: .4rem;
+      font-size: .9375rem;
+      color: var(--color-text-secondary);
+    }
+    .badge {
+      display: inline-block;
+      margin-top: .6rem;
+      padding: .2rem .6rem;
+      border-radius: 9999px;
+      font-size: .75rem;
+      font-weight: 600;
+      background: var(--color-primary-100);
+      color: var(--color-primary-700);
+    }
+
+    /* ─── Section ────────────────────────────────────────────────────────────── */
+    .section { margin-bottom: 3rem; }
+    .section-title {
+      font-size: 1.0625rem;
+      font-weight: 600;
+      color: var(--color-text-default);
+      margin-bottom: 1rem;
+    }
+    .section-desc {
+      font-size: .875rem;
+      color: var(--color-text-secondary);
+      margin-bottom: 1.25rem;
+    }
+
+    /* ─── Swatch row ─────────────────────────────────────────────────────────── */
+    .swatch-row {
+      display: flex;
+      gap: .375rem;
+      flex-wrap: wrap;
+    }
+
+    .swatch {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .4rem;
+      min-width: 72px;
+    }
+    .swatch-block {
+      width: 72px;
+      height: 48px;
+      border-radius: 8px;
+      border: 1px solid rgba(0,0,0,.08);
+      transition: transform .15s;
+    }
+    .swatch-block:hover { transform: scale(1.07); }
+    .swatch-label {
+      font-size: .6875rem;
+      font-weight: 600;
+      color: var(--color-text-secondary);
+      letter-spacing: .02em;
+    }
+    .swatch-hex {
+      font-size: .625rem;
+      color: var(--color-text-disabled);
+      font-family: "SF Mono", "Fira Mono", monospace;
+    }
+
+    /* ─── Primary palette ───────────────────────────────────────────────────── */
+    .sw-p-50   { background: var(--color-primary-50); }
+    .sw-p-100  { background: var(--color-primary-100); }
+    .sw-p-200  { background: var(--color-primary-200); }
+    .sw-p-300  { background: var(--color-primary-300); }
+    .sw-p-400  { background: var(--color-primary-400); }
+    .sw-p-500  { background: var(--color-primary-500); }
+    .sw-p-600  { background: var(--color-primary-600); }
+    .sw-p-700  { background: var(--color-primary-700); }
+    .sw-p-800  { background: var(--color-primary-800); }
+    .sw-p-900  { background: var(--color-primary-900); }
+    .sw-p-950  { background: var(--color-primary-950); }
+
+    /* ─── Neutral palette ───────────────────────────────────────────────────── */
+    .sw-n-50   { background: var(--color-neutral-50); }
+    .sw-n-100  { background: var(--color-neutral-100); }
+    .sw-n-200  { background: var(--color-neutral-200); }
+    .sw-n-300  { background: var(--color-neutral-300); }
+    .sw-n-400  { background: var(--color-neutral-400); }
+    .sw-n-500  { background: var(--color-neutral-500); }
+    .sw-n-600  { background: var(--color-neutral-600); }
+    .sw-n-700  { background: var(--color-neutral-700); }
+    .sw-n-800  { background: var(--color-neutral-800); }
+    .sw-n-900  { background: var(--color-neutral-900); }
+    .sw-n-950  { background: var(--color-neutral-950); }
+
+    /* ─── Semantic palettes ──────────────────────────────────────────────────── */
+    .sw-s-50   { background: var(--color-success-50); }
+    .sw-s-100  { background: var(--color-success-100); }
+    .sw-s-200  { background: var(--color-success-200); }
+    .sw-s-300  { background: var(--color-success-300); }
+    .sw-s-400  { background: var(--color-success-400); }
+    .sw-s-500  { background: var(--color-success-500); }
+    .sw-s-600  { background: var(--color-success-600); }
+    .sw-s-700  { background: var(--color-success-700); }
+    .sw-s-800  { background: var(--color-success-800); }
+    .sw-s-900  { background: var(--color-success-900); }
+
+    .sw-w-50   { background: var(--color-warning-50); }
+    .sw-w-100  { background: var(--color-warning-100); }
+    .sw-w-200  { background: var(--color-warning-200); }
+    .sw-w-300  { background: var(--color-warning-300); }
+    .sw-w-400  { background: var(--color-warning-400); }
+    .sw-w-500  { background: var(--color-warning-500); }
+    .sw-w-600  { background: var(--color-warning-600); }
+    .sw-w-700  { background: var(--color-warning-700); }
+    .sw-w-800  { background: var(--color-warning-800); }
+    .sw-w-900  { background: var(--color-warning-900); }
+
+    .sw-d-50   { background: var(--color-danger-50); }
+    .sw-d-100  { background: var(--color-danger-100); }
+    .sw-d-200  { background: var(--color-danger-200); }
+    .sw-d-300  { background: var(--color-danger-300); }
+    .sw-d-400  { background: var(--color-danger-400); }
+    .sw-d-500  { background: var(--color-danger-500); }
+    .sw-d-600  { background: var(--color-danger-600); }
+    .sw-d-700  { background: var(--color-danger-700); }
+    .sw-d-800  { background: var(--color-danger-800); }
+    .sw-d-900  { background: var(--color-danger-900); }
+
+    .sw-i-50   { background: var(--color-info-50); }
+    .sw-i-100  { background: var(--color-info-100); }
+    .sw-i-200  { background: var(--color-info-200); }
+    .sw-i-300  { background: var(--color-info-300); }
+    .sw-i-400  { background: var(--color-info-400); }
+    .sw-i-500  { background: var(--color-info-500); }
+    .sw-i-600  { background: var(--color-info-600); }
+    .sw-i-700  { background: var(--color-info-700); }
+    .sw-i-800  { background: var(--color-info-800); }
+    .sw-i-900  { background: var(--color-info-900); }
+
+    /* ─── Alias token grid ───────────────────────────────────────────────────── */
+    .alias-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: .75rem;
+    }
+    .alias-card {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      padding: .75rem;
+      border-radius: 10px;
+      border: 1px solid var(--color-border-default);
+      background: var(--color-bg-surface);
+    }
+    .alias-swatch {
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+      flex-shrink: 0;
+      border: 1px solid rgba(0,0,0,.08);
+    }
+    .alias-info { min-width: 0; }
+    .alias-name {
+      font-size: .75rem;
+      font-weight: 600;
+      color: var(--color-text-default);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-family: "SF Mono", "Fira Mono", monospace;
+    }
+    .alias-desc {
+      font-size: .6875rem;
+      color: var(--color-text-secondary);
+      margin-top: .1rem;
+    }
+
+    /* alias block colours */
+    .ab-bg-page        { background: var(--color-bg-page); }
+    .ab-bg-surface     { background: var(--color-bg-surface); }
+    .ab-bg-subtle      { background: var(--color-bg-subtle); }
+    .ab-bg-muted       { background: var(--color-bg-muted); }
+    .ab-text-default   { background: var(--color-text-default); }
+    .ab-text-secondary { background: var(--color-text-secondary); }
+    .ab-text-disabled  { background: var(--color-text-disabled); }
+    .ab-text-inverse   { background: var(--color-text-inverse); }
+    .ab-text-brand     { background: var(--color-text-brand); }
+    .ab-text-success   { background: var(--color-text-success); }
+    .ab-text-warning   { background: var(--color-text-warning); }
+    .ab-text-danger    { background: var(--color-text-danger); }
+    .ab-text-info      { background: var(--color-text-info); }
+    .ab-border-default { background: var(--color-border-default); }
+    .ab-border-strong  { background: var(--color-border-strong); }
+    .ab-border-brand   { background: var(--color-border-brand); }
+    .ab-border-success { background: var(--color-border-success); }
+    .ab-border-warning { background: var(--color-border-warning); }
+    .ab-border-danger  { background: var(--color-border-danger); }
+    .ab-border-info    { background: var(--color-border-info); }
+    .ab-action-primary         { background: var(--color-action-primary); }
+    .ab-action-primary-hover   { background: var(--color-action-primary-hover); }
+    .ab-action-primary-active  { background: var(--color-action-primary-active); }
+    .ab-action-secondary       { background: var(--color-action-secondary); }
+    .ab-action-secondary-hover { background: var(--color-action-secondary-hover); }
+    .ab-action-destructive     { background: var(--color-action-destructive); }
+
+    /* ─── Usage preview ──────────────────────────────────────────────────────── */
+    .preview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+    .card {
+      background: var(--color-bg-surface);
+      border: 1px solid var(--color-border-default);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .card-header {
+      padding: .75rem 1rem;
+      font-size: .8125rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+    .card-body { padding: .75rem 1rem 1rem; }
+    .card-body p { font-size: .875rem; }
+
+    .card--brand   .card-header { background: var(--color-primary-600);  color: #fff; }
+    .card--success .card-header { background: var(--color-success-600);  color: #fff; }
+    .card--warning .card-header { background: var(--color-warning-500);  color: #fff; }
+    .card--danger  .card-header { background: var(--color-danger-600);   color: #fff; }
+    .card--info    .card-header { background: var(--color-info-600);     color: #fff; }
+    .card--neutral .card-header { background: var(--color-neutral-700);  color: #fff; }
+
+    .card--brand   .card-body { background: var(--color-primary-50);  color: var(--color-primary-900); }
+    .card--success .card-body { background: var(--color-success-50);  color: var(--color-success-900); }
+    .card--warning .card-body { background: var(--color-warning-50);  color: var(--color-warning-900); }
+    .card--danger  .card-body { background: var(--color-danger-50);   color: var(--color-danger-900); }
+    .card--info    .card-body { background: var(--color-info-50);     color: var(--color-info-900); }
+    .card--neutral .card-body { background: var(--color-neutral-100); color: var(--color-neutral-800); }
+
+    .btn-row { display: flex; gap: .5rem; flex-wrap: wrap; margin-top: .75rem; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      padding: .4rem .9rem;
+      border-radius: 6px;
+      font-size: .8125rem;
+      font-weight: 600;
+      border: 1.5px solid transparent;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn-primary {
+      background: var(--color-action-primary);
+      color: #fff;
+      border-color: var(--color-action-primary);
+    }
+    .btn-primary:hover { background: var(--color-action-primary-hover); }
+    .btn-secondary {
+      background: var(--color-action-secondary);
+      color: var(--color-text-default);
+      border-color: var(--color-border-strong);
+    }
+    .btn-secondary:hover { background: var(--color-action-secondary-hover); }
+    .btn-danger {
+      background: var(--color-action-destructive);
+      color: #fff;
+      border-color: var(--color-action-destructive);
+    }
+
+    .badge-row { display: flex; gap: .5rem; flex-wrap: wrap; margin-top: .75rem; }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: .2rem .55rem;
+      border-radius: 9999px;
+      font-size: .6875rem;
+      font-weight: 600;
+      border: 1px solid transparent;
+    }
+    .status-badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      margin-right: .35rem;
+    }
+    .badge-success  { background: var(--color-success-100);  color: var(--color-success-800);  border-color: var(--color-success-300); }
+    .badge-success::before  { background: var(--color-success-500); }
+    .badge-warning  { background: var(--color-warning-100);  color: var(--color-warning-800);  border-color: var(--color-warning-300); }
+    .badge-warning::before  { background: var(--color-warning-500); }
+    .badge-danger   { background: var(--color-danger-100);   color: var(--color-danger-800);   border-color: var(--color-danger-300); }
+    .badge-danger::before   { background: var(--color-danger-500); }
+    .badge-info     { background: var(--color-info-100);     color: var(--color-info-800);     border-color: var(--color-info-300); }
+    .badge-info::before     { background: var(--color-info-500); }
+    .badge-neutral  { background: var(--color-neutral-100);  color: var(--color-neutral-700);  border-color: var(--color-neutral-300); }
+    .badge-neutral::before  { background: var(--color-neutral-400); }
+  </style>
+</head>
+<body>
+
+  <header class="page-header">
+    <h1>SaaS Dashboard — CSS Color System</h1>
+    <p>A complete set of CSS custom properties covering primary, neutral, and semantic palettes plus alias tokens.</p>
+    <span class="badge">CSS Custom Properties</span>
+  </header>
+
+  <!-- ── 1. Primary ──────────────────────────────────────────────────────── -->
+  <section class="section">
+    <h2 class="section-title">Primary — Blue</h2>
+    <p class="section-desc">Brand color scale used for CTAs, links, focus rings, and active states.</p>
+    <div class="swatch-row">
+      <div class="swatch"><div class="swatch-block sw-p-50"></div>  <span class="swatch-label">50</span>  <span class="swatch-hex">#eff6ff</span></div>
+      <div class="swatch"><div class="swatch-block sw-p-100"></div> <span class="swatch-label">100</span> <span class="swatch-hex">#dbeafe</span></div>
+      <div class="swatch"><div class="swatch-block sw-p-200"></div> <span class="swatch-label">200</span> <span class="swatch-hex">#bfdbfe</span></div>
+      <div class="swatch"><div class="swatch-block sw-p-300"></div> <span class="swatch-label">300</span> <span class="swatch-hex">#93c5fd</span></div>
+      <div class="swatch"><div class="swatch-block sw-p-400"></div> <span class="swatch-label">400</span> <span class="swatch-hex">#60a5fa</span></div>
+      <div class="swatch"><div class="swatch-block sw-p-500"></div> <span class="swatch-label">500</span> <span class="swatch-hex">#3b82f6</span></div>
+      <div class="swatch"><div class="swatch-block sw-p-600"></div> <span class="swatch-label">600</span> <span class="swatch-hex">#2563eb</span></div>
+      <div class="swatch"><div class="swatch-block sw-p-700"></div> <span class="swatch-label">700</span> <span class="swatch-hex">#1d4ed8</span></div>
+      <div class="swatch"><div class="swatch-block sw-p-800"></div> <span class="swatch-label">800</span> <span class="swatch-hex">#1e40af</span></div>
+      <div class="swatch"><div class="swatch-block sw-p-900"></div> <span class="swatch-label">900</span> <span class="swatch-hex">#1e3a8a</span></div>
+      <div class="swatch"><div class="swatch-block sw-p-950"></div> <span class="swatch-label">950</span> <span class="swatch-hex">#172554</span></div>
+    </div>
+  </section>
+
+  <!-- ── 2. Neutral ─────────────────────────────────────────────────────── -->
+  <section class="section">
+    <h2 class="section-title">Neutral — Grey</h2>
+    <p class="section-desc">Used for text, backgrounds, borders, dividers, and disabled states.</p>
+    <div class="swatch-row">
+      <div class="swatch"><div class="swatch-block sw-n-50"></div>  <span class="swatch-label">50</span>  <span class="swatch-hex">#f9fafb</span></div>
+      <div class="swatch"><div class="swatch-block sw-n-100"></div> <span class="swatch-label">100</span> <span class="swatch-hex">#f3f4f6</span></div>
+      <div class="swatch"><div class="swatch-block sw-n-200"></div> <span class="swatch-label">200</span> <span class="swatch-hex">#e5e7eb</span></div>
+      <div class="swatch"><div class="swatch-block sw-n-300"></div> <span class="swatch-label">300</span> <span class="swatch-hex">#d1d5db</span></div>
+      <div class="swatch"><div class="swatch-block sw-n-400"></div> <span class="swatch-label">400</span> <span class="swatch-hex">#9ca3af</span></div>
+      <div class="swatch"><div class="swatch-block sw-n-500"></div> <span class="swatch-label">500</span> <span class="swatch-hex">#6b7280</span></div>
+      <div class="swatch"><div class="swatch-block sw-n-600"></div> <span class="swatch-label">600</span> <span class="swatch-hex">#4b5563</span></div>
+      <div class="swatch"><div class="swatch-block sw-n-700"></div> <span class="swatch-label">700</span> <span class="swatch-hex">#374151</span></div>
+      <div class="swatch"><div class="swatch-block sw-n-800"></div> <span class="swatch-label">800</span> <span class="swatch-hex">#1f2937</span></div>
+      <div class="swatch"><div class="swatch-block sw-n-900"></div> <span class="swatch-label">900</span> <span class="swatch-hex">#111827</span></div>
+      <div class="swatch"><div class="swatch-block sw-n-950"></div> <span class="swatch-label">950</span> <span class="swatch-hex">#030712</span></div>
+    </div>
+  </section>
+
+  <!-- ── 3. Success ─────────────────────────────────────────────────────── -->
+  <section class="section">
+    <h2 class="section-title">Semantic — Success (Green)</h2>
+    <p class="section-desc">Positive states, confirmations, healthy metrics.</p>
+    <div class="swatch-row">
+      <div class="swatch"><div class="swatch-block sw-s-50"></div>  <span class="swatch-label">50</span>  <span class="swatch-hex">#f0fdf4</span></div>
+      <div class="swatch"><div class="swatch-block sw-s-100"></div> <span class="swatch-label">100</span> <span class="swatch-hex">#dcfce7</span></div>
+      <div class="swatch"><div class="swatch-block sw-s-200"></div> <span class="swatch-label">200</span> <span class="swatch-hex">#bbf7d0</span></div>
+      <div class="swatch"><div class="swatch-block sw-s-300"></div> <span class="swatch-label">300</span> <span class="swatch-hex">#86efac</span></div>
+      <div class="swatch"><div class="swatch-block sw-s-400"></div> <span class="swatch-label">400</span> <span class="swatch-hex">#4ade80</span></div>
+      <div class="swatch"><div class="swatch-block sw-s-500"></div> <span class="swatch-label">500</span> <span class="swatch-hex">#22c55e</span></div>
+      <div class="swatch"><div class="swatch-block sw-s-600"></div> <span class="swatch-label">600</span> <span class="swatch-hex">#16a34a</span></div>
+      <div class="swatch"><div class="swatch-block sw-s-700"></div> <span class="swatch-label">700</span> <span class="swatch-hex">#15803d</span></div>
+      <div class="swatch"><div class="swatch-block sw-s-800"></div> <span class="swatch-label">800</span> <span class="swatch-hex">#166534</span></div>
+      <div class="swatch"><div class="swatch-block sw-s-900"></div> <span class="swatch-label">900</span> <span class="swatch-hex">#14532d</span></div>
+    </div>
+  </section>
+
+  <!-- ── 4. Warning ─────────────────────────────────────────────────────── -->
+  <section class="section">
+    <h2 class="section-title">Semantic — Warning (Amber)</h2>
+    <p class="section-desc">Caution states, pending actions, degraded metrics.</p>
+    <div class="swatch-row">
+      <div class="swatch"><div class="swatch-block sw-w-50"></div>  <span class="swatch-label">50</span>  <span class="swatch-hex">#fffbeb</span></div>
+      <div class="swatch"><div class="swatch-block sw-w-100"></div> <span class="swatch-label">100</span> <span class="swatch-hex">#fef3c7</span></div>
+      <div class="swatch"><div class="swatch-block sw-w-200"></div> <span class="swatch-label">200</span> <span class="swatch-hex">#fde68a</span></div>
+      <div class="swatch"><div class="swatch-block sw-w-300"></div> <span class="swatch-label">300</span> <span class="swatch-hex">#fcd34d</span></div>
+      <div class="swatch"><div class="swatch-block sw-w-400"></div> <span class="swatch-label">400</span> <span class="swatch-hex">#fbbf24</span></div>
+      <div class="swatch"><div class="swatch-block sw-w-500"></div> <span class="swatch-label">500</span> <span class="swatch-hex">#f59e0b</span></div>
+      <div class="swatch"><div class="swatch-block sw-w-600"></div> <span class="swatch-label">600</span> <span class="swatch-hex">#d97706</span></div>
+      <div class="swatch"><div class="swatch-block sw-w-700"></div> <span class="swatch-label">700</span> <span class="swatch-hex">#b45309</span></div>
+      <div class="swatch"><div class="swatch-block sw-w-800"></div> <span class="swatch-label">800</span> <span class="swatch-hex">#92400e</span></div>
+      <div class="swatch"><div class="swatch-block sw-w-900"></div> <span class="swatch-label">900</span> <span class="swatch-hex">#78350f</span></div>
+    </div>
+  </section>
+
+  <!-- ── 5. Danger ──────────────────────────────────────────────────────── -->
+  <section class="section">
+    <h2 class="section-title">Semantic — Danger (Rose)</h2>
+    <p class="section-desc">Errors, destructive actions, critical alerts.</p>
+    <div class="swatch-row">
+      <div class="swatch"><div class="swatch-block sw-d-50"></div>  <span class="swatch-label">50</span>  <span class="swatch-hex">#fff1f2</span></div>
+      <div class="swatch"><div class="swatch-block sw-d-100"></div> <span class="swatch-label">100</span> <span class="swatch-hex">#ffe4e6</span></div>
+      <div class="swatch"><div class="swatch-block sw-d-200"></div> <span class="swatch-label">200</span> <span class="swatch-hex">#fecdd3</span></div>
+      <div class="swatch"><div class="swatch-block sw-d-300"></div> <span class="swatch-label">300</span> <span class="swatch-hex">#fda4af</span></div>
+      <div class="swatch"><div class="swatch-block sw-d-400"></div> <span class="swatch-label">400</span> <span class="swatch-hex">#fb7185</span></div>
+      <div class="swatch"><div class="swatch-block sw-d-500"></div> <span class="swatch-label">500</span> <span class="swatch-hex">#f43f5e</span></div>
+      <div class="swatch"><div class="swatch-block sw-d-600"></div> <span class="swatch-label">600</span> <span class="swatch-hex">#e11d48</span></div>
+      <div class="swatch"><div class="swatch-block sw-d-700"></div> <span class="swatch-label">700</span> <span class="swatch-hex">#be123c</span></div>
+      <div class="swatch"><div class="swatch-block sw-d-800"></div> <span class="swatch-label">800</span> <span class="swatch-hex">#9f1239</span></div>
+      <div class="swatch"><div class="swatch-block sw-d-900"></div> <span class="swatch-label">900</span> <span class="swatch-hex">#881337</span></div>
+    </div>
+  </section>
+
+  <!-- ── 6. Info ────────────────────────────────────────────────────────── -->
+  <section class="section">
+    <h2 class="section-title">Semantic — Info (Cyan)</h2>
+    <p class="section-desc">Informational notices, help text, system messages.</p>
+    <div class="swatch-row">
+      <div class="swatch"><div class="swatch-block sw-i-50"></div>  <span class="swatch-label">50</span>  <span class="swatch-hex">#ecfeff</span></div>
+      <div class="swatch"><div class="swatch-block sw-i-100"></div> <span class="swatch-label">100</span> <span class="swatch-hex">#cffafe</span></div>
+      <div class="swatch"><div class="swatch-block sw-i-200"></div> <span class="swatch-label">200</span> <span class="swatch-hex">#a5f3fc</span></div>
+      <div class="swatch"><div class="swatch-block sw-i-300"></div> <span class="swatch-label">300</span> <span class="swatch-hex">#67e8f9</span></div>
+      <div class="swatch"><div class="swatch-block sw-i-400"></div> <span class="swatch-label">400</span> <span class="swatch-hex">#22d3ee</span></div>
+      <div class="swatch"><div class="swatch-block sw-i-500"></div> <span class="swatch-label">500</span> <span class="swatch-hex">#06b6d4</span></div>
+      <div class="swatch"><div class="swatch-block sw-i-600"></div> <span class="swatch-label">600</span> <span class="swatch-hex">#0891b2</span></div>
+      <div class="swatch"><div class="swatch-block sw-i-700"></div> <span class="swatch-label">700</span> <span class="swatch-hex">#0e7490</span></div>
+      <div class="swatch"><div class="swatch-block sw-i-800"></div> <span class="swatch-label">800</span> <span class="swatch-hex">#155e75</span></div>
+      <div class="swatch"><div class="swatch-block sw-i-900"></div> <span class="swatch-label">900</span> <span class="swatch-hex">#164e63</span></div>
+    </div>
+  </section>
+
+  <!-- ── 7. Alias tokens ────────────────────────────────────────────────── -->
+  <section class="section">
+    <h2 class="section-title">Alias Tokens</h2>
+    <p class="section-desc">Purpose-driven tokens that map palette values to UI roles — use these in component code.</p>
+    <div class="alias-grid">
+      <!-- Backgrounds -->
+      <div class="alias-card"><div class="alias-swatch ab-bg-page"></div>        <div class="alias-info"><div class="alias-name">--color-bg-page</div>        <div class="alias-desc">Page background</div></div></div>
+      <div class="alias-card"><div class="alias-swatch ab-bg-surface"></div>     <div class="alias-info"><div class="alias-name">--color-bg-surface</div>     <div class="alias-desc">Cards, panels</div></div></div>
+      <div class="alias-card"><div class="alias-swatch ab-bg-subtle"></div>      <div class="alias-info"><div class="alias-name">--color-bg-subtle</div>      <div class="alias-desc">Subtle fills</div></div></div>
+      <div class="alias-card"><div class="alias-swatch ab-bg-muted"></div>       <div class="alias-info"><div class="alias-name">--color-bg-muted</div>       <div class="alias-desc">Muted fills, inputs</div></div></div>
+      <!-- Text -->
+      <div class="alias-card"><div class="alias-swatch ab-text-default"></div>   <div class="alias-info"><div class="alias-name">--color-text-default</div>   <div class="alias-desc">Body text</div></div></div>
+      <div class="alias-card"><div class="alias-swatch ab-text-secondary"></div> <div class="alias-info"><div class="alias-name">--color-text-secondary</div> <div class="alias-desc">Supporting text</div></div></div>
+      <div class="alias-card"><div class="alias-swatch ab-text-disabled"></div>  <div class="alias-info"><div class="alias-name">--color-text-disabled</div>  <div class="alias-desc">Disabled text</div></div></div>
+      <div class="alias-card"><div class="alias-swatch ab-text-inverse"></div>   <div class="alias-info"><div class="alias-name">--color-text-inverse</div>   <div class="alias-desc">Text on dark bg</div></div></div>
+      <div class="alias-card"><div class="alias-swatch ab-text-brand"></div>     <div class="alias-info"><div class="alias-name">--color-text-brand</div>     <div class="alias-desc">Links, brand text</div></div></div>
+      <div class="alias-card"><div class="alias-swatch ab-text-success"></div>   <div class="alias-info"><div class="alias-name">--color-text-success</div>   <div class="alias-desc">Success text</div></div></div>
+      <div class="alias-card"><div class="alias-swatch ab-text-warning"></div>   <div class="alias-info"><div class="alias-name">--color-text-warning</div>   <div class="alias-desc">Warning text</div></div></div>
+      <div class="alias-card"><div class="alias-swatch ab-text-danger"></div>    <div class="alias-info"><div class="alias-name">--color-text-danger</div>    <div class="alias-desc">Error text</div></div></div>
+      <div class="alias-card"><div class="alias-swatch ab-text-info"></div>      <div class="alias-info"><div class="alias-name">--color-text-info</div>      <div class="alias-desc">Info text</div></div></div>
+      <!-- Borders -->
+      <div class="alias-card"><div class="alias-swatch ab-border-default"></div> <div class="alias-info"><div class="alias-name">--color-border-default</div> <div class="alias-desc">Default dividers</div></div></div>
+      <div class="alias-card"><div class="alias-swatch ab-border-strong"></div>  <div class="alias-info"><div class="alias-name">--color-border-strong</div>  <div class="alias-desc">Stronger borders</div></div></div>
+      <div class="alias-card"><div class="alias-swatch ab-border-brand"></div>   <div class="alias-info"><div class="alias-name">--color-border-brand</div>   <div class="alias-desc">Focus rings, brand</div></div></div>
+      <div class="alias-card"><div class="alias-swatch ab-border-success"></div> <div class="alias-info"><div class="alias-name">--color-border-success</div> <div class="alias-desc">Success borders</div></div></div>
+      <div class="alias-card"><div class="alias-swatch ab-border-warning"></div> <div class="alias-info"><div class="alias-name">--color-border-warning</div> <div class="alias-desc">Warning borders</div></div></div>
+      <div class="alias-card"><div class="alias-swatch ab-border-danger"></div>  <div class="alias-info"><div class="alias-name">--color-border-danger</div>  <div class="alias-desc">Error borders</div></div></div>
+      <div class="alias-card"><div class="alias-swatch ab-border-info"></div>    <div class="alias-info"><div class="alias-name">--color-border-info</div>    <div class="alias-desc">Info borders</div></div></div>
+      <!-- Actions -->
+      <div class="alias-card"><div class="alias-swatch ab-action-primary"></div>         <div class="alias-info"><div class="alias-name">--color-action-primary</div>         <div class="alias-desc">Primary button</div></div></div>
+      <div class="alias-card"><div class="alias-swatch ab-action-primary-hover"></div>   <div class="alias-info"><div class="alias-name">--color-action-primary-hover</div>   <div class="alias-desc">Primary hover</div></div></div>
+      <div class="alias-card"><div class="alias-swatch ab-action-primary-active"></div>  <div class="alias-info"><div class="alias-name">--color-action-primary-active</div>  <div class="alias-desc">Primary active</div></div></div>
+      <div class="alias-card"><div class="alias-swatch ab-action-secondary"></div>       <div class="alias-info"><div class="alias-name">--color-action-secondary</div>       <div class="alias-desc">Secondary button</div></div></div>
+      <div class="alias-card"><div class="alias-swatch ab-action-secondary-hover"></div> <div class="alias-info"><div class="alias-name">--color-action-secondary-hover</div> <div class="alias-desc">Secondary hover</div></div></div>
+      <div class="alias-card"><div class="alias-swatch ab-action-destructive"></div>     <div class="alias-info"><div class="alias-name">--color-action-destructive</div>     <div class="alias-desc">Destructive button</div></div></div>
+    </div>
+  </section>
+
+  <!-- ── 8. Usage preview ───────────────────────────────────────────────── -->
+  <section class="section">
+    <h2 class="section-title">Usage Preview</h2>
+    <p class="section-desc">How alias tokens compose into real dashboard UI elements.</p>
+
+    <div class="preview-grid">
+      <div class="card card--brand">
+        <div class="card-header">Brand / Primary</div>
+        <div class="card-body">
+          <p>Primary brand card — used for upgrade prompts, onboarding CTAs, and feature highlights.</p>
+          <div class="btn-row">
+            <a class="btn btn-primary" href="#">Get Started</a>
+            <a class="btn btn-secondary" href="#">Learn More</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card--success">
+        <div class="card-header">Success</div>
+        <div class="card-body">
+          <p>Payment processed. Subscription is active.</p>
+          <div class="badge-row">
+            <span class="status-badge badge-success">Active</span>
+            <span class="status-badge badge-success">Paid</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card--warning">
+        <div class="card-header">Warning</div>
+        <div class="card-body">
+          <p>Your trial expires in 3 days. Upgrade to keep access.</p>
+          <div class="badge-row">
+            <span class="status-badge badge-warning">Trial</span>
+            <span class="status-badge badge-warning">Expiring</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card--danger">
+        <div class="card-header">Danger / Error</div>
+        <div class="card-body">
+          <p>Payment failed. Please update your billing details.</p>
+          <div class="btn-row">
+            <a class="btn btn-danger" href="#">Fix Now</a>
+          </div>
+          <div class="badge-row">
+            <span class="status-badge badge-danger">Failed</span>
+            <span class="status-badge badge-danger">Overdue</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card--info">
+        <div class="card-header">Info</div>
+        <div class="card-body">
+          <p>Scheduled maintenance on Sunday 02:00–04:00 UTC.</p>
+          <div class="badge-row">
+            <span class="status-badge badge-info">Scheduled</span>
+            <span class="status-badge badge-info">Notice</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card--neutral">
+        <div class="card-header">Neutral</div>
+        <div class="card-body">
+          <p>This record is archived and read-only.</p>
+          <div class="badge-row">
+            <span class="status-badge badge-neutral">Archived</span>
+            <span class="status-badge badge-neutral">Read-only</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>

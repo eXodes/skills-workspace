@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: Arial; margin: 0; padding: 20px; background: #f0f0f0; }
+    .form-container { background: white; border: 2px solid black; padding: 15px; width: 300px; }
+    h1 { font-size: 14px; color: #000000; font-weight: 400; }
+    label { font-size: 14px; color: #000000; display: block; margin-top: 8px; }
+    input { border: 2px solid #000000; width: 100%; font-size: 14px; padding: 3px; box-sizing: border-box; }
+    .error { color: #FF0000; font-size: 14px; }
+    button { background: #0000FF; color: white; border: none; padding: 5px 10px; font-size: 14px; width: 100%; margin-top: 10px; }
+    .helper { color: #000000; opacity: 0.4; font-size: 14px; }
+    a { color: #0000FF; }
+    .footer { font-size: 14px; margin-top: 8px; }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h1>Login to your account</h1>
+    <label>Email</label>
+    <input type="email" placeholder="you@example.com">
+    <span class="error">Email is required</span>
+    <label>Password</label>
+    <input type="password" placeholder="••••••••">
+    <span class="helper">Must be at least 8 characters</span>
+    <button>Login</button>
+    <div class="footer"><a href="#">Forgot password?</a></div>
+    <div class="helper footer">Don't have an account? <a href="#">Sign up</a></div>
+  </div>
+</body>
+</html>

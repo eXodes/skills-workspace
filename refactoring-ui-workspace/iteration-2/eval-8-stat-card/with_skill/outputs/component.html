@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — Analytics Overview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ─── Design Tokens (HSL palette, spacing scale, shadows) ─────────────── */
+    :root {
+      /* Cool greys — slight blue hue for modern/technical feel */
+      --grey-50:  hsl(220, 20%, 98%);
+      --grey-100: hsl(220, 20%, 96%);
+      --grey-200: hsl(220, 14%, 90%);
+      --grey-400: hsl(220, 9%,  60%);
+      --grey-500: hsl(220, 9%,  46%);
+      --grey-700: hsl(220, 13%, 26%);
+      --grey-900: hsl(220, 26%, 14%);
+
+      /* Primary blue */
+      --blue-50:  hsl(217, 100%, 97%);
+      --blue-500: hsl(217, 91%, 60%);
+      --blue-600: hsl(217, 91%, 50%);
+
+      /* Success green */
+      --green-50:  hsl(142, 77%, 95%);
+      --green-700: hsl(142, 65%, 28%);
+
+      /* Danger red */
+      --red-50:  hsl(0, 86%, 97%);
+      --red-700: hsl(0, 65%, 40%);
+
+      /* Amber */
+      --amber-50:  hsl(38, 100%, 95%);
+      --amber-600: hsl(32, 95%, 44%);
+
+      /* Purple */
+      --purple-50:  hsl(262, 100%, 97%);
+      --purple-600: hsl(262, 72%, 50%);
+
+      /* Spacing scale (base-4) */
+      --s-1:  4px;
+      --s-2:  8px;
+      --s-3:  12px;
+      --s-4:  16px;
+      --s-5:  20px;
+      --s-6:  24px;
+      --s-8:  32px;
+      --s-10: 40px;
+      --s-12: 48px;
+      --s-16: 64px;
+
+      /* Two-part shadows (ambient + direct) */
+      --shadow-xs: 0 1px 2px rgba(0,0,0,0.05);
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 8px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    /* ─── Reset ─────────────────────────────────────────────────────────────── */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* ─── Page base ──────────────────────────────────────────────────────────── */
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      /* Slightly tinted off-white — warmer than pure grey, colder than white */
+      background-color: hsl(220, 25%, 95%);
+      color: var(--grey-900);
+      min-height: 100vh;
+      padding: var(--s-12) var(--s-6);
+    }
+
+    /* ─── Page wrapper ───────────────────────────────────────────────────────── */
+    .dashboard {
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+
+    /* ─── Section header ─────────────────────────────────────────────────────── */
+    .section-header {
+      margin-bottom: var(--s-8);
+    }
+
+    .section-header__title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--grey-900);
+      letter-spacing: -0.015em;
+      line-height: 1.2;
+    }
+
+    .section-header__subtitle {
+      font-size: 13px;
+      color: var(--grey-500);
+      margin-top: var(--s-1);
+    }
+
+    /* ─── Grid ───────────────────────────────────────────────────────────────── */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: var(--s-5);
+    }
+
+    /* ─── Stat Card ──────────────────────────────────────────────────────────── */
+    .stat-card {
+      background: #ffffff;
+      border-radius: 12px;
+      /* Generous internal padding — breathing room makes it feel confident */
+      padding: var(--s-6);
+      /* Two-part shadow: creates realistic depth without heavy-handedness */
+      box-shadow: var(--shadow-sm);
+      /* Accent border: brand color presence without flooding the card */
+      border-top: 4px solid var(--blue-500);
+      transition: box-shadow 0.18s ease, transform 0.18s ease;
+    }
+
+    .stat-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    /* Color variants — only the accent border and icon background change */
+    .stat-card--green  { border-top-color: hsl(142, 65%, 42%); }
+    .stat-card--amber  { border-top-color: hsl(38, 90%, 50%);  }
+    .stat-card--purple { border-top-color: hsl(262, 72%, 58%); }
+
+    /* ─── Card header row (label + icon) ─────────────────────────────────────── */
+    .stat-card__header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      /* Tight spacing between label row and value — they belong together */
+      margin-bottom: var(--s-4);
+    }
+
+    /* Label: all-caps with letter-spacing, muted color — clearly secondary */
+    .stat-card__label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;   /* Required for all-caps readability */
+      color: var(--grey-500);
+      line-height: 1.4;
+      padding-top: 2px;         /* optical alignment with icon */
+    }
+
+    /* Icon container — tinted background, no heavy border */
+    .stat-card__icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 9px;
+      background: var(--blue-50);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .stat-card--green  .stat-card__icon { background: var(--green-50); }
+    .stat-card--amber  .stat-card__icon { background: var(--amber-50); }
+    .stat-card--purple .stat-card__icon { background: var(--purple-50); }
+
+    .stat-card__icon svg {
+      width: 18px;
+      height: 18px;
+      color: var(--blue-600);
+      /* Slightly reduced opacity — icon is decorative, not content */
+      opacity: 0.85;
+    }
+
+    .stat-card--green  .stat-card__icon svg { color: hsl(142, 65%, 35%); }
+    .stat-card--amber  .stat-card__icon svg { color: var(--amber-600);   }
+    .stat-card--purple .stat-card__icon svg { color: var(--purple-600);  }
+
+    /* ─── Primary value — THE content. Everything else supports this. ─────────── */
+    .stat-card__value {
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--grey-900);
+      letter-spacing: -0.02em;  /* Tight letter-spacing on large headings = sleek */
+      line-height: 1.1;
+    }
+
+    /* ─── Footer row (badge + period text) ───────────────────────────────────── */
+    .stat-card__footer {
+      display: flex;
+      align-items: center;         /* Baseline-adjacent alignment for short text */
+      gap: var(--s-2);
+      margin-top: var(--s-3);
+    }
+
+    /* Change badge — color + arrow icon (never color alone) */
+    .stat-card__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      padding: 3px var(--s-2);
+      border-radius: 100px;       /* pill shape */
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .stat-card__badge--up {
+      background: var(--green-50);
+      color: var(--green-700);
+    }
+
+    .stat-card__badge--down {
+      background: var(--red-50);
+      color: var(--red-700);
+    }
+
+    .stat-card__badge svg {
+      width: 11px;
+      height: 11px;
+    }
+
+    /* Period text — tertiary, very muted */
+    .stat-card__period {
+      font-size: 13px;
+      color: var(--grey-400);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="dashboard">
+
+    <header class="section-header">
+      <h1 class="section-header__title">Analytics Overview</h1>
+      <p class="section-header__subtitle">April 2025 &middot; Compared to previous month</p>
+    </header>
+
+    <div class="stat-grid">
+
+      <!-- ── Monthly Revenue ── -->
+      <div class="stat-card">
+        <div class="stat-card__header">
+          <span class="stat-card__label">Monthly Revenue</span>
+          <div class="stat-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="1" x2="12" y2="23"/>
+              <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+            </svg>
+          </div>
+        </div>
+        <div class="stat-card__value">$12,450</div>
+        <div class="stat-card__footer">
+          <span class="stat-card__badge stat-card__badge--up" aria-label="Up 8.2 percent">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="18 15 12 9 6 15"/>
+            </svg>
+            +8.2%
+          </span>
+          <span class="stat-card__period">from last month</span>
+        </div>
+      </div>
+
+      <!-- ── Active Users ── -->
+      <div class="stat-card stat-card--green">
+        <div class="stat-card__header">
+          <span class="stat-card__label">Active Users</span>
+          <div class="stat-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 00-3-3.87"/>
+              <path d="M16 3.13a4 4 0 010 7.75"/>
+            </svg>
+          </div>
+        </div>
+        <div class="stat-card__value">3,247</div>
+        <div class="stat-card__footer">
+          <span class="stat-card__badge stat-card__badge--up" aria-label="Up 12.5 percent">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="18 15 12 9 6 15"/>
+            </svg>
+            +12.5%
+          </span>
+          <span class="stat-card__period">from last month</span>
+        </div>
+      </div>
+
+      <!-- ── Conversion Rate ── -->
+      <div class="stat-card stat-card--amber">
+        <div class="stat-card__header">
+          <span class="stat-card__label">Conversion Rate</span>
+          <div class="stat-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+            </svg>
+          </div>
+        </div>
+        <div class="stat-card__value">3.6%</div>
+        <div class="stat-card__footer">
+          <span class="stat-card__badge stat-card__badge--down" aria-label="Down 1.4 percent">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+            &minus;1.4%
+          </span>
+          <span class="stat-card__period">from last month</span>
+        </div>
+      </div>
+
+      <!-- ── Avg. Order Value ── -->
+      <div class="stat-card stat-card--purple">
+        <div class="stat-card__header">
+          <span class="stat-card__label">Avg. Order Value</span>
+          <div class="stat-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="9" cy="21" r="1"/>
+              <circle cx="20" cy="21" r="1"/>
+              <path d="M1 1h4l2.68 13.39a2 2 0 001.97 1.61h9.72a2 2 0 001.97-1.61L23 6H6"/>
+            </svg>
+          </div>
+        </div>
+        <div class="stat-card__value">$48.20</div>
+        <div class="stat-card__footer">
+          <span class="stat-card__badge stat-card__badge--up" aria-label="Up 3.1 percent">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="18 15 12 9 6 15"/>
+            </svg>
+            +3.1%
+          </span>
+          <span class="stat-card__period">from last month</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>

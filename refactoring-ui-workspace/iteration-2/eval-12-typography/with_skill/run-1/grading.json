@@ -1,0 +1,30 @@
+{
+  "expectations": [
+    {
+      "text": "Body text has line-height of 1.5 or greater",
+      "passed": true,
+      "evidence": "body/paragraph uses line-height: var(--leading-relaxed) = 1.65, well above 1.5"
+    },
+    {
+      "text": "Defines at least 4 distinct font-size values across the type scale",
+      "passed": true,
+      "evidence": "7 distinct font-size values defined (22px, 13px, 11px, 36px, 12px, etc.)"
+    },
+    {
+      "text": "Body text container has a max-width to constrain line length",
+      "passed": true,
+      "evidence": "max-width applied to prose/body container, preventing overly long lines"
+    },
+    {
+      "text": "Uses at least 3 distinct font-weight values across heading levels and body",
+      "passed": true,
+      "evidence": "--weight-regular(400), --weight-medium(500), --weight-semibold(600), --weight-bold(700) \u2014 4 distinct weights"
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "pass_rate": 1.0
+  }
+}

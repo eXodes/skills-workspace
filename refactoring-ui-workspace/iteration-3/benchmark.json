@@ -1,0 +1,601 @@
+{
+  "metadata": {
+    "skill_name": "refactoring-ui",
+    "skill_path": "<path/to/skill>",
+    "executor_model": "<model-name>",
+    "analyzer_model": "<model-name>",
+    "timestamp": "2026-04-15T17:40:20Z",
+    "evals_run": [
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21
+    ],
+    "runs_per_configuration": 3
+  },
+  "runs": [
+    {
+      "eval_id": 15,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output uses hsl() color notation instead of raw hex values",
+          "passed": true,
+          "evidence": "PASS: uses_hsl_colors"
+        },
+        {
+          "text": "Helper/muted text uses lighter color, not opacity hack (no 'opacity: 0.' on text)",
+          "passed": true,
+          "evidence": "PASS: muted_text_uses_color_not_opacity"
+        },
+        {
+          "text": "At least 2 distinct font-weight values",
+          "passed": true,
+          "evidence": "PASS: font_weight_hierarchy"
+        },
+        {
+          "text": "Input borders are no longer '2px solid #000000'",
+          "passed": true,
+          "evidence": "PASS: input_has_softer_border"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 16,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output uses hsl() color notation",
+          "passed": true,
+          "evidence": "PASS: uses_hsl_colors"
+        },
+        {
+          "text": "Multi-color rainbow gradient background is removed",
+          "passed": true,
+          "evidence": "PASS: removes_rainbow_gradient"
+        },
+        {
+          "text": "At least 3 distinct font-size values",
+          "passed": true,
+          "evidence": "PASS: font_size_hierarchy"
+        },
+        {
+          "text": "Muted text uses lighter color, not opacity hack",
+          "passed": true,
+          "evidence": "PASS: muted_text_uses_color_not_opacity"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 17,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output uses hsl() color notation",
+          "passed": true,
+          "evidence": "PASS: uses_hsl_colors"
+        },
+        {
+          "text": "Body text has line-height of at least 1.5",
+          "passed": true,
+          "evidence": "PASS: proper_line_height"
+        },
+        {
+          "text": "At least 3 distinct font-size values for heading/body hierarchy",
+          "passed": true,
+          "evidence": "PASS: font_size_hierarchy"
+        },
+        {
+          "text": "Article has max-width constraint \u226465ch or \u2264720px",
+          "passed": true,
+          "evidence": "PASS: max_width_reading_constraint"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 18,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output uses hsl() color notation",
+          "passed": true,
+          "evidence": "PASS: uses_hsl_colors"
+        },
+        {
+          "text": "At least one button has solid filled background (not white)",
+          "passed": true,
+          "evidence": "PASS: primary_button_has_filled_background"
+        },
+        {
+          "text": "Supporting text uses lighter color, not opacity hack",
+          "passed": true,
+          "evidence": "PASS: muted_text_uses_color_not_opacity"
+        },
+        {
+          "text": "At least 2 distinct font-weight values",
+          "passed": true,
+          "evidence": "PASS: font_weight_hierarchy"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 19,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output uses hsl() color notation",
+          "passed": true,
+          "evidence": "PASS: uses_hsl_colors"
+        },
+        {
+          "text": "Card uses box-shadow for elevation",
+          "passed": true,
+          "evidence": "PASS: uses_box_shadow"
+        },
+        {
+          "text": "Muted text uses lighter color, not opacity hack",
+          "passed": true,
+          "evidence": "PASS: muted_text_uses_color_not_opacity"
+        },
+        {
+          "text": "Fewer border declarations than input (input had 8+)",
+          "passed": true,
+          "evidence": "PASS: fewer_border_declarations"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 20,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output uses hsl() color notation",
+          "passed": true,
+          "evidence": "PASS: uses_hsl_colors"
+        },
+        {
+          "text": "Pure saturated primaries (#0000FF, #FF0000, #00FF00 etc.) removed",
+          "passed": true,
+          "evidence": "PASS: removes_pure_saturated_primaries"
+        },
+        {
+          "text": "Colors defined as CSS custom properties",
+          "passed": true,
+          "evidence": "PASS: uses_css_variables"
+        },
+        {
+          "text": "Alert backgrounds exist and are not fully saturated (uses tinted/light backgrounds)",
+          "passed": true,
+          "evidence": "PASS: tinted_backgrounds_for_alerts"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 21,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output uses hsl() color notation",
+          "passed": true,
+          "evidence": "PASS: uses_hsl_colors"
+        },
+        {
+          "text": "Logo has font-weight \u2265600 or larger font-size",
+          "passed": true,
+          "evidence": "PASS: logo_has_visual_weight"
+        },
+        {
+          "text": "Active nav item has different font-weight from inactive",
+          "passed": true,
+          "evidence": "PASS: active_state_font_weight"
+        },
+        {
+          "text": "Heavy '3px solid black' bottom border is removed",
+          "passed": true,
+          "evidence": "PASS: removes_heavy_bottom_border \u2014 '3px solid black' only appears in a CSS comment explaining what was replaced; actual CSS uses subtle 1px shadow-border"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 15,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.75,
+        "passed": 3,
+        "failed": 1,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output uses hsl() color notation instead of raw hex values",
+          "passed": false,
+          "evidence": "FAIL: uses_hsl_colors"
+        },
+        {
+          "text": "Helper/muted text uses lighter color, not opacity hack (no 'opacity: 0.' on text)",
+          "passed": true,
+          "evidence": "PASS: muted_text_uses_color_not_opacity"
+        },
+        {
+          "text": "At least 2 distinct font-weight values",
+          "passed": true,
+          "evidence": "PASS: font_weight_hierarchy"
+        },
+        {
+          "text": "Input borders are no longer '2px solid #000000'",
+          "passed": true,
+          "evidence": "PASS: input_has_softer_border"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 16,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.75,
+        "passed": 3,
+        "failed": 1,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output uses hsl() color notation",
+          "passed": false,
+          "evidence": "FAIL: uses_hsl_colors"
+        },
+        {
+          "text": "Multi-color rainbow gradient background is removed",
+          "passed": true,
+          "evidence": "PASS: removes_rainbow_gradient"
+        },
+        {
+          "text": "At least 3 distinct font-size values",
+          "passed": true,
+          "evidence": "PASS: font_size_hierarchy"
+        },
+        {
+          "text": "Muted text uses lighter color, not opacity hack",
+          "passed": true,
+          "evidence": "PASS: muted_text_uses_color_not_opacity"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 17,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.75,
+        "passed": 3,
+        "failed": 1,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output uses hsl() color notation",
+          "passed": false,
+          "evidence": "FAIL: uses_hsl_colors"
+        },
+        {
+          "text": "Body text has line-height of at least 1.5",
+          "passed": true,
+          "evidence": "PASS: proper_line_height"
+        },
+        {
+          "text": "At least 3 distinct font-size values for heading/body hierarchy",
+          "passed": true,
+          "evidence": "PASS: font_size_hierarchy"
+        },
+        {
+          "text": "Article has max-width constraint \u226465ch or \u2264720px",
+          "passed": true,
+          "evidence": "PASS: max_width_reading_constraint"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 18,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.75,
+        "passed": 3,
+        "failed": 1,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output uses hsl() color notation",
+          "passed": false,
+          "evidence": "FAIL: uses_hsl_colors"
+        },
+        {
+          "text": "At least one button has solid filled background (not white)",
+          "passed": true,
+          "evidence": "PASS: primary_button_has_filled_background"
+        },
+        {
+          "text": "Supporting text uses lighter color, not opacity hack",
+          "passed": true,
+          "evidence": "PASS: muted_text_uses_color_not_opacity"
+        },
+        {
+          "text": "At least 2 distinct font-weight values",
+          "passed": true,
+          "evidence": "PASS: font_weight_hierarchy"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 19,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.75,
+        "passed": 3,
+        "failed": 1,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output uses hsl() color notation",
+          "passed": false,
+          "evidence": "FAIL: uses_hsl_colors"
+        },
+        {
+          "text": "Card uses box-shadow for elevation",
+          "passed": true,
+          "evidence": "PASS: uses_box_shadow"
+        },
+        {
+          "text": "Muted text uses lighter color, not opacity hack",
+          "passed": true,
+          "evidence": "PASS: muted_text_uses_color_not_opacity"
+        },
+        {
+          "text": "Fewer border declarations than input (input had 8+)",
+          "passed": true,
+          "evidence": "PASS: fewer_border_declarations"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 20,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.75,
+        "passed": 3,
+        "failed": 1,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output uses hsl() color notation",
+          "passed": false,
+          "evidence": "FAIL: uses_hsl_colors"
+        },
+        {
+          "text": "Pure saturated primaries (#0000FF, #FF0000, #00FF00 etc.) removed",
+          "passed": true,
+          "evidence": "PASS: removes_pure_saturated_primaries"
+        },
+        {
+          "text": "Colors defined as CSS custom properties",
+          "passed": true,
+          "evidence": "PASS: uses_css_variables"
+        },
+        {
+          "text": "Alert backgrounds exist and are not fully saturated (uses tinted/light backgrounds)",
+          "passed": true,
+          "evidence": "PASS: tinted_backgrounds_for_alerts \u2014 agent used --primary-light: #EEF2FF, --success-light: #ECFDF5, --danger-light: #FEF2F2 as tinted alert backgrounds (light, readable, appropriately desaturated)"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 21,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.75,
+        "passed": 3,
+        "failed": 1,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output uses hsl() color notation",
+          "passed": false,
+          "evidence": "FAIL: uses_hsl_colors"
+        },
+        {
+          "text": "Logo has font-weight \u2265600 or larger font-size",
+          "passed": true,
+          "evidence": "PASS: logo_has_visual_weight"
+        },
+        {
+          "text": "Active nav item has different font-weight from inactive",
+          "passed": true,
+          "evidence": "PASS: active_state_font_weight"
+        },
+        {
+          "text": "Heavy '3px solid black' bottom border is removed",
+          "passed": true,
+          "evidence": "PASS: removes_heavy_bottom_border"
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {
+        "mean": 1.0,
+        "stddev": 0.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "tokens": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    "without_skill": {
+      "pass_rate": {
+        "mean": 0.75,
+        "stddev": 0.0,
+        "min": 0.75,
+        "max": 0.75
+      },
+      "time_seconds": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "tokens": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    "delta": {
+      "pass_rate": "+0.25",
+      "time_seconds": "+0.0",
+      "tokens": "+0"
+    }
+  },
+  "notes": []
+}

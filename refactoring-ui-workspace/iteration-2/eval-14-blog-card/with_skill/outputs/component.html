@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog Post Card</title>
+  <style>
+    /* ── Reset ──────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── Color tokens (HSL — Refactoring UI principle) ──────── */
+    :root {
+      /* Primary: indigo */
+      --primary-50:  hsl(241, 80%, 96%);
+      --primary-500: hsl(241, 82%, 62%);
+      --primary-600: hsl(241, 82%, 55%);
+      --primary-700: hsl(241, 82%, 44%);
+
+      /* Cool greys (slight blue hue — matches cool primary) */
+      --grey-50:  hsl(220, 20%, 98%);
+      --grey-100: hsl(220, 17%, 93%);
+      --grey-200: hsl(220, 14%, 87%);
+      --grey-300: hsl(220, 12%, 74%);
+      --grey-400: hsl(220, 10%, 60%);
+      --grey-500: hsl(220, 9%,  46%);
+      --grey-700: hsl(220, 13%, 28%);
+      --grey-800: hsl(220, 15%, 18%);
+      --grey-900: hsl(220, 18%, 11%);
+    }
+
+    /* ── Base ────────────────────────────────────────────────── */
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      /* Slightly tinted background — not pure white (finishing touches) */
+      background: hsl(220, 25%, 95%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /* Generous page padding — start with more space than needed */
+      padding: 64px 24px;
+    }
+
+    /* ── Card ────────────────────────────────────────────────── */
+    .card {
+      background: white;
+      border-radius: 14px;
+      overflow: hidden;
+      width: 100%;
+      max-width: 380px;
+      /* Two-part shadow: ambient + direct (depth & imagery reference) */
+      box-shadow:
+        0 4px 6px rgba(0, 0, 0, 0.07),
+        0 1px 3px rgba(0, 0, 0, 0.06);
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    .card:hover {
+      box-shadow:
+        0 10px 15px rgba(0, 0, 0, 0.10),
+        0 4px 6px  rgba(0, 0, 0, 0.05);
+      transform: translateY(-3px);
+    }
+
+    /* ── Featured image area ─────────────────────────────────── */
+    .card__image-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background: var(--grey-100);
+    }
+
+    .card__image {
+      width: 100%;
+      height: 100%;
+      /* object-fit: cover — never distort user images (depth & imagery) */
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Gradient placeholder shown when no real image is provided */
+    .card__image-placeholder {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        135deg,
+        hsl(241, 75%, 84%) 0%,
+        hsl(260, 65%, 76%) 100%
+      );
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card__image-placeholder svg {
+      /* Reduce icon opacity so it reads as secondary decoration */
+      opacity: 0.35;
+      width: 52px;
+      height: 52px;
+      color: hsl(241, 82%, 35%);
+    }
+
+    /* ── Card body ───────────────────────────────────────────── */
+    .card__body {
+      /* Generous internal padding (layout-spacing: 16–32px for cards) */
+      padding: 24px;
+    }
+
+    /* ── Category tag ────────────────────────────────────────── */
+    /* No "Category:" label — the format makes the context obvious */
+    .card__tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      /* All-caps needs letter-spacing to aid legibility (typography ref) */
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--primary-600);
+      background: var(--primary-50);
+      padding: 3px 9px;
+      border-radius: 4px;
+      margin-bottom: 12px;
+    }
+
+    /* ── Title ───────────────────────────────────────────────── */
+    /* Primary hierarchy: largest, heaviest, darkest (visual-hierarchy ref) */
+    .card__title {
+      font-size: 18px;          /* xl on type scale */
+      font-weight: 700;
+      line-height: 1.35;        /* tighter line-height for large text */
+      color: var(--grey-900);   /* darkest grey — primary content */
+      letter-spacing: -0.01em;  /* slight tightening on large headings */
+      margin-bottom: 10px;
+    }
+
+    /* ── Excerpt ─────────────────────────────────────────────── */
+    /* Secondary hierarchy: normal weight, muted grey (de-emphasize, not just shrink) */
+    .card__excerpt {
+      font-size: 14px;          /* sm on type scale */
+      font-weight: 400;
+      line-height: 1.65;        /* generous for body readability */
+      color: var(--grey-500);   /* muted — clearly secondary */
+      margin-bottom: 20px;
+      max-width: 60ch;          /* keep line length readable (typography ref) */
+    }
+
+    /* ── Footer: author + read more ──────────────────────────── */
+    .card__footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      /* Prefer spacing + subtle separator over heavy borders (fewer-borders) */
+      padding-top: 16px;
+      border-top: 1px solid var(--grey-100);
+      gap: 12px;
+    }
+
+    /* ── Author ──────────────────────────────────────────────── */
+    /* No "Author:" label — avatar + name is self-explanatory in context */
+    .author {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0; /* allow flex shrink */
+    }
+
+    .author__avatar {
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(
+        135deg,
+        hsl(241, 75%, 68%),
+        hsl(262, 60%, 62%)
+      );
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: white;
+      /* Subtle ring prevents avatar from bleeding into light backgrounds */
+      box-shadow: 0 0 0 2px white, 0 0 0 3px var(--grey-200);
+    }
+
+    .author__info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    /* Author name: secondary hierarchy — normal weight, medium-dark */
+    .author__name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--grey-800);
+      line-height: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Date: tertiary hierarchy — small, lightest grey */
+    .author__date {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--grey-400);   /* lighter grey — tertiary content */
+      line-height: 1;
+    }
+
+    /* ── Read More link ──────────────────────────────────────── */
+    /* Heavy weight instead of colored underline (typography ref — links in UI) */
+    .read-more {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--primary-600);
+      text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: color 0.15s ease;
+    }
+
+    .read-more:hover {
+      color: var(--primary-700);
+    }
+
+    .read-more:hover .read-more__arrow {
+      transform: translateX(3px);
+    }
+
+    .read-more__arrow {
+      width: 14px;
+      height: 14px;
+      transition: transform 0.15s ease;
+    }
+  </style>
+</head>
+<body>
+
+  <article class="card">
+
+    <!-- Featured image area -->
+    <div class="card__image-wrap">
+      <!--
+        To use a real image, replace the placeholder div below with:
+        <img class="card__image" src="your-image.jpg" alt="Post featured image" />
+      -->
+      <div class="card__image-placeholder" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm1 2v10h14V7H5zm2 8 3-3 2 2 3-4 4 5H7z"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Card body -->
+    <div class="card__body">
+
+      <!-- Category tag — no label, format implies content -->
+      <span class="card__tag">Design</span>
+
+      <!-- Title: primary hierarchy — dark, bold, largest -->
+      <h2 class="card__title">
+        The subtle art of building visual hierarchy that actually works
+      </h2>
+
+      <!-- Excerpt: secondary hierarchy — muted, normal weight -->
+      <p class="card__excerpt">
+        Most interfaces fail not because of bad styling, but because everything
+        competes for attention at the same visual weight. Here's how to fix that
+        with three simple tools.
+      </p>
+
+      <footer class="card__footer">
+
+        <!-- Author: avatar placeholder + name + date — no labels needed -->
+        <div class="author">
+          <div class="author__avatar" aria-hidden="true">AS</div>
+          <div class="author__info">
+            <span class="author__name">Amara Singh</span>
+            <span class="author__date">Jun 12, 2025</span>
+          </div>
+        </div>
+
+        <!-- Read More: weighted link with arrow icon, not blue underline -->
+        <a href="#" class="read-more" aria-label="Read the full article">
+          Read More
+          <svg class="read-more__arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10z" clip-rule="evenodd"/>
+          </svg>
+        </a>
+
+      </footer>
+    </div>
+
+  </article>
+
+</body>
+</html>

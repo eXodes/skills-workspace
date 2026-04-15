@@ -1,0 +1,30 @@
+{
+  "expectations": [
+    {
+      "text": "The price/value element has the largest font-size in the card",
+      "passed": true,
+      "evidence": ".price-amount { font-size: 56px } \u2014 largest in the card; plan name is 30px, items are 15px"
+    },
+    {
+      "text": "Uses at least two distinct font-weight levels to establish hierarchy",
+      "passed": true,
+      "evidence": "Font-weights 400, 600, 700 \u2014 three distinct levels used across name, price, features, CTA"
+    },
+    {
+      "text": "CTA button is visually prominent (strong background color, not just outlined)",
+      "passed": true,
+      "evidence": "CTA button has solid hsl() background color \u2014 not an outline-only style"
+    },
+    {
+      "text": "Uses hsl() color notation",
+      "passed": true,
+      "evidence": "13 hsl() color values used throughout; only 2 hex values in file"
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "pass_rate": 1.0
+  }
+}

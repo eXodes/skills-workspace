@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: Arial; padding: 20px; background: #f0f0f0; }
+    .card { background: white; border: 2px solid #cccccc; padding: 0; width: 320px; }
+    .card-header { border-bottom: 2px solid #cccccc; padding: 12px; background: #eeeeee; }
+    .card-header h2 { font-size: 14px; color: #000000; font-weight: 400; margin: 0; border-left: 4px solid #FF0000; padding-left: 8px; }
+    .card-body { padding: 12px; border-bottom: 1px solid #cccccc; }
+    .card-body p { font-size: 14px; color: #000000; opacity: 0.5; border-left: 1px solid #cccccc; padding-left: 8px; margin: 0; }
+    .card-meta { padding: 12px; border-bottom: 1px solid #eeeeee; border-top: 1px solid #cccccc; }
+    .card-meta span { font-size: 14px; color: #000000; border: 1px solid #999999; padding: 2px 6px; margin-right: 4px; }
+    .card-footer { padding: 12px; background: #f9f9f9; border-top: 1px solid #dddddd; }
+    .card-footer button { border: 1px solid #cccccc; background: white; color: #333333; padding: 6px 12px; font-size: 14px; width: 100%; cursor: pointer; }
+    .card-author { padding: 8px 12px; border-bottom: 1px solid #cccccc; border-top: 1px solid #eeeeee; display: flex; align-items: center; gap: 8px; }
+    .avatar { width: 24px; height: 24px; background: #cccccc; border: 1px solid #999999; border-radius: 0; }
+    .author-name { font-size: 14px; color: #000000; opacity: 0.6; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="card-header"><h2>Project Update</h2></div>
+    <div class="card-body">
+      <p>The migration is complete. All services are running normally and performance metrics are within expected ranges. Monitoring will continue for the next 48 hours.</p>
+    </div>
+    <div class="card-author">
+      <div class="avatar"></div>
+      <span class="author-name">Sarah Chen · 2 hours ago</span>
+    </div>
+    <div class="card-meta">
+      <span>infrastructure</span><span>ops</span>
+    </div>
+    <div class="card-footer"><button>View Details</button></div>
+  </div>
+</body>
+</html>

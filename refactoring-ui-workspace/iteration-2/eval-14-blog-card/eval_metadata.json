@@ -1,0 +1,11 @@
+{
+  "eval_id": 14,
+  "eval_name": "blog-card",
+  "prompt": "Design a blog post card component in HTML and CSS. It should include a featured image area, the post title, a short excerpt, an author name with avatar placeholder, and a 'Read More' link. Output a single self-contained HTML file with embedded CSS.",
+  "assertions": [
+    "Uses box-shadow for card elevation/depth",
+    "Post title has higher visual weight than the excerpt (larger font-size or heavier font-weight)",
+    "Author/metadata uses a visually muted color (lighter than body text) for secondary hierarchy",
+    "Uses hsl() color notation"
+  ]
+}

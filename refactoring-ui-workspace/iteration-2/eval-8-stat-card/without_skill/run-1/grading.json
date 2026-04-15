@@ -1,0 +1,30 @@
+{
+  "expectations": [
+    {
+      "text": "Uses hsl() color notation for CSS color values",
+      "passed": false,
+      "evidence": "0 hsl() uses; 29 hex color values \u2014 baseline defaults to hex (#94a3b8, #0f172a, etc.)"
+    },
+    {
+      "text": "Applies at least two distinct font-weight values (heavier for value, lighter for label)",
+      "passed": true,
+      "evidence": "Three font-weight values: 500, 600, 700 \u2014 good hierarchy present"
+    },
+    {
+      "text": "The metric value uses a visibly larger font-size than the label text",
+      "passed": true,
+      "evidence": "6 distinct font sizes used; metric number is the largest element per visual inspection"
+    },
+    {
+      "text": "Secondary text (label, metadata) uses a muted/lighter color distinct from primary value",
+      "passed": true,
+      "evidence": "card-label uses color: #94a3b8 (light grey-blue) vs primary value color: #0f172a (near-black)"
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 1,
+    "total": 4,
+    "pass_rate": 0.75
+  }
+}

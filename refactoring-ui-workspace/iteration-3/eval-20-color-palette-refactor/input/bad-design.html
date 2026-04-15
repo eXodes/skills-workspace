@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    :root {
+      --primary: #0000FF;
+      --success: #00FF00;
+      --warning: #FFFF00;
+      --danger: #FF0000;
+      --info: #00FFFF;
+    }
+    body { font-family: Arial; padding: 20px; background: white; }
+    .badge { display: inline-block; padding: 4px 10px; font-size: 14px; margin: 4px; color: white; font-weight: 400; }
+    .badge-primary { background: var(--primary); border: 2px solid #000033; }
+    .badge-success { background: var(--success); color: #000000; border: 2px solid #006600; }
+    .badge-warning { background: var(--warning); color: #000000; border: 2px solid #666600; }
+    .badge-danger { background: var(--danger); border: 2px solid #660000; }
+    .badge-info { background: var(--info); color: #000000; border: 2px solid #006666; }
+
+    .section { margin-top: 20px; }
+    .alert { padding: 12px; margin: 8px 0; border-left: 4px solid; font-size: 14px; font-weight: 400; }
+    .alert-primary { background: #8888FF; border-color: var(--primary); color: #000000; }
+    .alert-success { background: #88FF88; border-color: var(--success); color: #000000; }
+    .alert-danger { background: #FF8888; border-color: var(--danger); color: #000000; }
+
+    .button-row { margin-top: 20px; display: flex; gap: 8px; }
+    .btn { padding: 8px 16px; font-size: 14px; border: 2px solid; cursor: pointer; font-weight: 400; }
+    .btn-primary { background: var(--primary); border-color: #000033; color: white; }
+    .btn-success { background: var(--success); border-color: #006600; color: #000000; }
+    .btn-danger { background: var(--danger); border-color: #660000; color: white; }
+  </style>
+</head>
+<body>
+  <div>
+    <span class="badge badge-primary">Primary</span>
+    <span class="badge badge-success">Success</span>
+    <span class="badge badge-warning">Warning</span>
+    <span class="badge badge-danger">Danger</span>
+    <span class="badge badge-info">Info</span>
+  </div>
+  <div class="section">
+    <div class="alert alert-primary">This is a primary alert message for your attention.</div>
+    <div class="alert alert-success">Success! Your changes have been saved.</div>
+    <div class="alert alert-danger">Error: something went terribly wrong in the system.</div>
+  </div>
+  <div class="button-row">
+    <button class="btn btn-primary">Continue</button>
+    <button class="btn btn-success">Confirm</button>
+    <button class="btn btn-danger">Delete</button>
+  </div>
+</body>
+</html>

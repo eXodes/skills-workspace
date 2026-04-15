@@ -1,0 +1,30 @@
+{
+  "expectations": [
+    {
+      "text": "Uses box-shadow for card elevation/depth",
+      "passed": true,
+      "evidence": "box-shadow property found in card CSS"
+    },
+    {
+      "text": "Post title has higher visual weight than the excerpt (larger font-size or heavier font-weight)",
+      "passed": true,
+      "evidence": "Font-weights 600 and 700 present; 4 distinct font-sizes; title is visually heavier than excerpt"
+    },
+    {
+      "text": "Author/metadata uses a visually muted color (lighter than body text) for secondary hierarchy",
+      "passed": true,
+      "evidence": ".card__author-date { color: #94a3b8 } \u2014 light grey-blue muted color for date vs #1e293b for main content"
+    },
+    {
+      "text": "Uses hsl() color notation",
+      "passed": false,
+      "evidence": "0 hsl() uses; 17 hex values \u2014 all colors in hex"
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 1,
+    "total": 4,
+    "pass_rate": 0.75
+  }
+}

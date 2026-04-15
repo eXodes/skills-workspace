@@ -1,0 +1,74 @@
+[
+  {
+    "query": "My UI looks flat and everything has the same visual weight. How do I create hierarchy?",
+    "should_trigger": true
+  },
+  {
+    "query": "How do I build a color palette for my design system?",
+    "should_trigger": true
+  },
+  {
+    "query": "What's the right line height for body text?",
+    "should_trigger": true
+  },
+  {
+    "query": "My spacing looks inconsistent and labels don't clearly belong to their inputs. How do I fix this?",
+    "should_trigger": true
+  },
+  {
+    "query": "What box shadow should I use for a modal dialog versus a dropdown?",
+    "should_trigger": true
+  },
+  {
+    "query": "My design looks boring and plain. How do I add some visual interest without making it too busy?",
+    "should_trigger": true
+  },
+  {
+    "query": "How do I design an empty state screen?",
+    "should_trigger": true
+  },
+  {
+    "query": "I have white text on a blue button and I'm not sure if the contrast is good enough. How do I check?",
+    "should_trigger": true
+  },
+  {
+    "query": "What fonts should I use for a professional SaaS product?",
+    "should_trigger": true
+  },
+  {
+    "query": "How do I make a type scale for my UI?",
+    "should_trigger": true
+  },
+  {
+    "query": "I have a bug where my React component isn't re-rendering when the state changes.",
+    "should_trigger": false
+  },
+  {
+    "query": "How do I implement JWT authentication in my Node.js API?",
+    "should_trigger": false
+  },
+  {
+    "query": "My code has too many responsibilities in one class. How do I refactor it?",
+    "should_trigger": false
+  },
+  {
+    "query": "What's the difference between useMemo and useCallback in React?",
+    "should_trigger": false
+  },
+  {
+    "query": "How do I add a CSS transition animation to my dropdown menu?",
+    "should_trigger": false
+  },
+  {
+    "query": "My PostgreSQL query is running slowly. How do I optimize it?",
+    "should_trigger": false
+  },
+  {
+    "query": "How do I set up a CI/CD pipeline with GitHub Actions?",
+    "should_trigger": false
+  },
+  {
+    "query": "What design pattern should I use to handle multiple payment providers in my backend?",
+    "should_trigger": false
+  }
+]

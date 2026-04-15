@@ -1,0 +1,22 @@
+{
+  "expectations": [
+    {
+      "text": "Identifies the issue as ambiguous spacing or unclear proximity between related elements",
+      "passed": true,
+      "evidence": "Section header: 'Ambiguous Spacing — Significant. When the space between a label and its input is the same as the space between two unrelated form groups, the eye has no visual cue to determine which label belongs to which field'"
+    },
+    {
+      "text": "Explains that related elements (label + input) should be closer to each other than to unrelated elements",
+      "passed": true,
+      "evidence": "'This is the Gestalt principle of proximity: elements should be closer to what they belong to than to what they don't'"
+    },
+    {
+      "text": "Gives specific spacing values for label-to-input (small) vs group-to-group (larger)",
+      "passed": true,
+      "evidence": "Table: 'Label → its input: 4px–8px; Between form groups: 16px–24px; Between page sections: 48px–96px' with CSS example: `.form-label { margin-bottom: 4px; }`, `.form-group { margin-bottom: 24px; }`"
+    }
+  ],
+  "summary": {"passed": 3, "failed": 0, "total": 3, "pass_rate": 1.0},
+  "claims": [],
+  "eval_feedback": {"suggestions": [{"reason": "Consider adding an assertion about spacing scale (base-4 or base-8) — the skill teaches this as a system, not just the label/input proximity fix"}], "overall": "Solid. All three assertions pass cleanly. The skill's use of the Refactoring UI term 'Ambiguous Spacing' as a named principle is a nice discriminator."}
+}

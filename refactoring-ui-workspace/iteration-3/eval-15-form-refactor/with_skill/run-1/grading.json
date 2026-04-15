@@ -1,0 +1,32 @@
+{
+  "eval_id": 15,
+  "config": "with_skill",
+  "expectations": [
+    {
+      "text": "Output uses hsl() color notation instead of raw hex values",
+      "passed": true,
+      "evidence": "PASS: uses_hsl_colors"
+    },
+    {
+      "text": "Helper/muted text uses lighter color, not opacity hack (no 'opacity: 0.' on text)",
+      "passed": true,
+      "evidence": "PASS: muted_text_uses_color_not_opacity"
+    },
+    {
+      "text": "At least 2 distinct font-weight values",
+      "passed": true,
+      "evidence": "PASS: font_weight_hierarchy"
+    },
+    {
+      "text": "Input borders are no longer '2px solid #000000'",
+      "passed": true,
+      "evidence": "PASS: input_has_softer_border"
+    }
+  ],
+  "summary": {
+    "pass_rate": 1.0,
+    "passed": 4,
+    "failed": 0,
+    "total": 4
+  }
+}

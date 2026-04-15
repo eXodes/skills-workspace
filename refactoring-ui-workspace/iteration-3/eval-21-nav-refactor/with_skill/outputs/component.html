@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+
+    :root {
+      --primary-50:  hsl(217, 91%, 97%);
+      --primary-500: hsl(217, 91%, 55%);
+      --primary-600: hsl(217, 91%, 45%);
+      --primary-700: hsl(217, 91%, 35%);
+      --grey-200: hsl(220, 14%, 90%);
+      --grey-400: hsl(220, 10%, 65%);
+      --grey-500: hsl(220, 9%, 46%);
+      --grey-900: hsl(220, 15%, 18%);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+      background: hsl(220, 30%, 98%);
+    }
+
+    /* Replaced 3px solid black with a subtle 1px shadow-border — fewer borders principle */
+    nav {
+      background: white;
+      box-shadow: 0 1px 0 var(--grey-200);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 56px;
+    }
+
+    /* Logo: strong visual weight via font-weight 800, brand color, larger size */
+    .nav-logo {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--primary-700);
+      letter-spacing: -0.5px;
+      margin-right: 32px;
+      text-decoration: none;
+    }
+
+    .nav-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: stretch;
+      height: 100%;
+      flex: 1;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: stretch;
+    }
+
+    /* Inactive items: muted grey — de-emphasized so active stands out */
+    .nav-item a {
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      font-size: 14px;
+      color: var(--grey-500);
+      text-decoration: none;
+      font-weight: 500;
+      position: relative;
+      transition: color 0.15s ease;
+    }
+
+    .nav-item a:hover {
+      color: var(--grey-900);
+    }
+
+    /* Active: color + font-weight 600 + accent bottom border — never color alone */
+    .nav-item.active a {
+      color: var(--primary-500);
+      font-weight: 600;
+    }
+
+    .nav-item.active a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 14px;
+      right: 14px;
+      height: 2px;
+      background: var(--primary-500);
+      border-radius: 2px 2px 0 0;
+    }
+
+    .nav-spacer {
+      flex: 1;
+    }
+
+    /* CTA: solid filled button — primary action gets highest visual weight */
+    .nav-item.cta {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-item.cta a {
+      background: var(--primary-500);
+      color: white;
+      border-radius: 6px;
+      padding: 7px 16px;
+      font-weight: 600;
+      font-size: 14px;
+      align-self: center;
+      transition: background 0.15s ease;
+    }
+
+    .nav-item.cta a:hover {
+      background: var(--primary-600);
+      color: white;
+    }
+
+    .nav-item.cta a::after {
+      display: none;
+    }
+
+    /* Page content */
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--grey-900);
+      margin: 0 0 8px;
+    }
+
+    p {
+      font-size: 15px;
+      color: var(--grey-500);
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a class="nav-logo" href="#">MyApp</a>
+      <ul class="nav-list">
+        <li class="nav-item active"><a href="#">Dashboard</a></li>
+        <li class="nav-item"><a href="#">Projects</a></li>
+        <li class="nav-item"><a href="#">Team</a></li>
+        <li class="nav-item"><a href="#">Analytics</a></li>
+        <li class="nav-item"><a href="#">Settings</a></li>
+        <li class="nav-spacer"></li>
+        <li class="nav-item cta"><a href="#">Upgrade</a></li>
+      </ul>
+    </div>
+  </nav>
+  <div class="page">
+    <h1>Dashboard</h1>
+    <p>Welcome back. Here's what's happening with your projects today.</p>
+  </div>
+</body>
+</html>

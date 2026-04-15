@@ -1,0 +1,22 @@
+{
+  "expectations": [
+    {
+      "text": "Frames the empty state as an important design opportunity, not just a fallback",
+      "passed": true,
+      "evidence": "'Don't Overlook Empty States — a blank white area is a missed design opportunity, often the first thing new users see'; also: 'Treat Every Empty State as a Feature: Empty states aren't an afterthought — they're a product design moment'"
+    },
+    {
+      "text": "Mentions at least two of the three components: acknowledging emptiness, explaining what will appear, providing a call-to-action",
+      "passed": true,
+      "evidence": "All three listed explicitly: '1. Acknowledge that nothing is here yet; 2. Explain what will appear here; 3. Offer a clear call-to-action to create the first item'"
+    },
+    {
+      "text": "Provides copy guidance with examples or principles (avoid terse messages like 'No items found')",
+      "passed": true,
+      "evidence": "Direct contrast example: '❌ No items found. ✅ You haven't added anything yet. Create your first one to get started.' — exactly the principle + negative/positive example format called for"
+    }
+  ],
+  "summary": {"passed": 3, "failed": 0, "total": 3, "pass_rate": 1.0},
+  "claims": [],
+  "eval_feedback": {"suggestions": [], "overall": "Solid. All three pass cleanly. The ❌/✅ copy contrast is a strong, memorable teaching moment."}
+}

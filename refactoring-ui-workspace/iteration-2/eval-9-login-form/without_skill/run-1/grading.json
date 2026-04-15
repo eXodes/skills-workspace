@@ -1,0 +1,30 @@
+{
+  "expectations": [
+    {
+      "text": "Uses hsl() color notation for color values",
+      "passed": false,
+      "evidence": "0 hsl() uses; 21 hex values \u2014 no HSL notation used"
+    },
+    {
+      "text": "Primary button uses font-weight >= 600 for strong visual emphasis",
+      "passed": true,
+      "evidence": "Font-weight 600 and 700 present in CSS; button has strong visual weight"
+    },
+    {
+      "text": "Label-to-input spacing is visually tighter than the spacing between separate form groups",
+      "passed": true,
+      "evidence": "label has margin-bottom: 6px (tight), .form-group has margin-bottom: 20px (wide) \u2014 proximity principle applied"
+    },
+    {
+      "text": "Input fields have a visible focus state or border styling",
+      "passed": true,
+      "evidence": "Inputs have padding: 10px 14px and CSS transitions/hover states indicating styled inputs with borders"
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 1,
+    "total": 4,
+    "pass_rate": 0.75
+  }
+}

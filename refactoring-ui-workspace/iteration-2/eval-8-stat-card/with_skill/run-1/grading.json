@@ -1,0 +1,30 @@
+{
+  "expectations": [
+    {
+      "text": "Uses hsl() color notation for CSS color values",
+      "passed": true,
+      "evidence": "23 hsl() uses found; only 1 hex value in file (used in icon/SVG fill, not layout color)"
+    },
+    {
+      "text": "Applies at least two distinct font-weight values (heavier for value, lighter for label)",
+      "passed": true,
+      "evidence": "font-weight: 600 and 700 both present \u2014 metric value uses 700, label/secondary uses 600"
+    },
+    {
+      "text": "The metric value uses a visibly larger font-size than the label text",
+      "passed": true,
+      "evidence": "Metric value: 36px, label: 13px \u2014 clear size hierarchy"
+    },
+    {
+      "text": "Secondary text (label, metadata) uses a muted/lighter color distinct from primary value",
+      "passed": true,
+      "evidence": "Has distinct grey-scale colors for labels; grey scale variables present throughout"
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "pass_rate": 1.0
+  }
+}

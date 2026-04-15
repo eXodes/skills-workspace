@@ -1,0 +1,561 @@
+[
+  {
+    "id": 1,
+    "prompt": "My UI feels flat and uninteresting. Everything looks like it has the same importance. The page has a title, some stats, and a table, but nothing stands out. What's going on?",
+    "expected_output": "The response should identify the problem as a visual hierarchy issue, explain that font size alone is insufficient, and recommend using a combination of font weight, color (dark/grey/light-grey), and size to create primary/secondary/tertiary content levels. Should name specific principles from Refactoring UI: 'size isn't everything', visual weight tools. Should give concrete, actionable advice.",
+    "files": [],
+    "assertions": [
+      {
+        "id": "names-hierarchy-problem",
+        "description": "Names the visual hierarchy problem",
+        "check": "The response explicitly identifies the issue as a visual hierarchy problem, not just generic 'it looks flat'"
+      },
+      {
+        "id": "three-hierarchy-tools",
+        "description": "Mentions the three tools for hierarchy",
+        "check": "The response mentions at least two of the three hierarchy tools: font size, font weight, and color/contrast"
+      },
+      {
+        "id": "primary-secondary-tertiary",
+        "description": "Explains content levels",
+        "check": "The response discusses different levels of content importance (primary, secondary, tertiary) and how to visually distinguish them"
+      },
+      {
+        "id": "concrete-advice",
+        "description": "Gives actionable advice",
+        "check": "The response gives specific, actionable recommendations (e.g., specific font weights like 600-700, or specific color approaches like grey for secondary text) rather than only vague suggestions"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "prompt": "I need to build a color palette for a fintech app. I want to use blue as the primary color. How do I build out the full palette with enough shades?",
+    "expected_output": "The response should recommend HSL over hex for building palettes, explain the 9-shade scale (50-900), explain how to choose the base color and work outward, warn about the perceptual lightness problem (need to adjust saturation as lightness changes), and mention the need for neutral greys (warm vs cool) and semantic colors (danger/success/warning). Should be concrete with specific HSL guidance.",
+    "files": [],
+    "assertions": [
+      {
+        "id": "recommends-hsl",
+        "description": "Recommends HSL format",
+        "check": "The response recommends using HSL (not hex or RGB) for defining the palette, with an explanation of why"
+      },
+      {
+        "id": "shade-scale-structure",
+        "description": "Explains shade scale structure",
+        "check": "The response explains a multi-shade scale (e.g., 50 to 900, or 9 shades) and mentions different use cases for light vs dark shades"
+      },
+      {
+        "id": "saturation-adjustment",
+        "description": "Mentions saturation adjustment",
+        "check": "The response mentions that saturation needs to be adjusted as lightness changes to prevent shades from looking washed out or muddy"
+      },
+      {
+        "id": "mentions-greys-and-semantic",
+        "description": "Mentions grey and semantic colors",
+        "check": "The response mentions that the palette needs more than just the primary blue \u2014 including greys and/or semantic colors (danger, success, warning)"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "prompt": "My body text feels hard to read. Lines feel too long and too cramped vertically. I'm using 16px font with 1.2 line height in a full-width container. What should I fix?",
+    "expected_output": "The response should identify two issues: line length (too wide, recommend 45-75 chars / max-width: 65ch) and line height (1.2 is too tight for body text at normal line lengths, recommend 1.5-1.6). Should explain that line-height is proportional to line length \u2014 wider lines need more line height. Should give concrete CSS values.",
+    "files": [],
+    "assertions": [
+      {
+        "id": "identifies-line-length-issue",
+        "description": "Identifies line length as a problem",
+        "check": "The response identifies that full-width text is too wide and recommends a maximum line length (around 45-75 characters or ~65ch)"
+      },
+      {
+        "id": "identifies-line-height-issue",
+        "description": "Identifies line-height as too tight",
+        "check": "The response identifies that 1.2 line-height is too tight for body text and recommends a higher value (around 1.5-1.6)"
+      },
+      {
+        "id": "explains-proportional-relationship",
+        "description": "Explains line-height and line-length relationship",
+        "check": "The response explains that line-height should be proportional to line length (wider lines need more line-height)"
+      },
+      {
+        "id": "gives-concrete-values",
+        "description": "Gives concrete CSS values",
+        "check": "The response gives specific numeric recommendations (e.g., max-width: 65ch, line-height: 1.5)"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "prompt": "My page sections feel visually jumbled. I have form fields where it's hard to tell which label goes with which input. How do I fix the spacing?",
+    "expected_output": "The response should identify the issue as ambiguous spacing \u2014 the gap between a label and its input should be smaller than the gap between separate form groups. Should reference the principle of proximity (related elements closer together) and recommend establishing a spacing system. Should give concrete guidance: tight spacing (4-8px) between label and input, larger spacing (16-24px) between form groups.",
+    "files": [],
+    "assertions": [
+      {
+        "id": "names-ambiguous-spacing",
+        "description": "Names the ambiguous spacing problem",
+        "check": "The response identifies the issue as ambiguous spacing or unclear proximity between related elements"
+      },
+      {
+        "id": "proximity-principle",
+        "description": "Explains proximity principle",
+        "check": "The response explains that related elements (label + input) should be closer to each other than to unrelated elements (other form groups)"
+      },
+      {
+        "id": "concrete-spacing-values",
+        "description": "Gives specific spacing values",
+        "check": "The response gives specific spacing values for label-to-input (small, e.g., 4-8px) vs group-to-group (larger, e.g., 16-24px)"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "prompt": "I have a modal dialog and a tooltip in my UI. They both use the same box shadow. What shadow values should I use for each, and why should they be different?",
+    "expected_output": "The response should explain the concept of an elevation system \u2014 shadows communicate how close an element is to the user. Larger, softer shadows = closer = more elevated. A modal should have a large shadow (high blur, significant spread) while a tooltip should have a medium shadow. Should recommend building a named shadow scale (sm/md/lg/xl) and give concrete CSS examples.",
+    "files": [],
+    "assertions": [
+      {
+        "id": "elevation-concept",
+        "description": "Explains shadows as elevation communication",
+        "check": "The response explains that shadow size/softness communicates elevation \u2014 closer elements have larger, softer shadows"
+      },
+      {
+        "id": "different-shadows-justified",
+        "description": "Justifies why modal and tooltip should differ",
+        "check": "The response explains why the modal should have a larger/heavier shadow than the tooltip based on their relative elevation/prominence"
+      },
+      {
+        "id": "concrete-shadow-values",
+        "description": "Provides concrete CSS shadow values",
+        "check": "The response includes specific CSS box-shadow values or examples for at least one of the two elements"
+      },
+      {
+        "id": "recommends-shadow-scale",
+        "description": "Recommends a shadow scale system",
+        "check": "The response recommends building a reusable shadow scale/system rather than ad-hoc values per component"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "prompt": "My app has a section with no content yet \u2014 users haven't added anything. Right now it just shows a blank white area. How should I design this empty state?",
+    "expected_output": "The response should treat empty states as a feature, not an afterthought. Should recommend: acknowledging the emptiness with friendly copy, explaining what will appear, providing a clear call-to-action. May suggest an illustration, icon, or visual element. Should warn against a plain blank box. May give copy examples contrasting bad ('No items') vs good (friendly explanation + CTA).",
+    "files": [],
+    "assertions": [
+      {
+        "id": "treats-as-feature",
+        "description": "Treats empty state as a design feature",
+        "check": "The response frames the empty state as an important design opportunity, not just a fallback to handle"
+      },
+      {
+        "id": "three-components",
+        "description": "Covers the three key empty state components",
+        "check": "The response mentions at least two of the three components: acknowledging emptiness, explaining what will appear, and providing a call-to-action"
+      },
+      {
+        "id": "copy-guidance",
+        "description": "Provides copy guidance",
+        "check": "The response gives guidance on the copy/text for the empty state, either with examples or principles (avoid terse messages like 'No items found')"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "prompt": "I'm starting a new app design and feel paralyzed by choices. Every time I pick a color or font size, I second-guess myself. What's the right approach?",
+    "expected_output": "The response should recommend defining systems upfront to reduce decision fatigue. Should mention: defining a type scale (not picking font sizes ad hoc), building a color palette with predefined shades, establishing a spacing scale. Should explain the process-of-elimination approach for system-based decisions. May also recommend starting with grayscale and adding color later.",
+    "files": [],
+    "assertions": [
+      {
+        "id": "names-decision-fatigue",
+        "description": "Names the decision fatigue problem",
+        "check": "The response identifies the issue as decision fatigue caused by unlimited choices, not a lack of design skill"
+      },
+      {
+        "id": "recommends-systems",
+        "description": "Recommends defining systems in advance",
+        "check": "The response recommends defining design systems upfront (type scale, color palette, spacing scale) before starting to design"
+      },
+      {
+        "id": "elimination-approach",
+        "description": "Explains the elimination approach",
+        "check": "The response explains how constrained options make decisions easier \u2014 process of elimination from a small set rather than choosing from unlimited values"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "prompt": "Build a dashboard stat card component in HTML and CSS. It should display a key metric label (like 'Monthly Revenue'), the numeric value ($12,450), and a percentage change indicator (+8.2%). Make it polished and professional. Output a single self-contained HTML file with embedded CSS.",
+    "expected_output": "A self-contained HTML file with a stat card. Should use HSL colors, font-weight hierarchy (heavier for value, lighter for label), larger font-size for the value, and muted secondary text for labels/metadata.",
+    "files": [],
+    "assertions": [
+      {
+        "id": "uses-hsl",
+        "description": "Uses HSL color notation",
+        "check": "The HTML/CSS uses hsl() color notation for color values rather than hex or rgb"
+      },
+      {
+        "id": "font-weight-hierarchy",
+        "description": "Applies font-weight hierarchy",
+        "check": "At least two distinct font-weight values are used \u2014 heavier weight for the primary metric value, lighter for the label"
+      },
+      {
+        "id": "size-hierarchy",
+        "description": "Metric value is visually larger than label",
+        "check": "The numeric metric value uses a larger font-size than the label text"
+      },
+      {
+        "id": "muted-secondary",
+        "description": "Secondary text is visually muted",
+        "check": "The label or secondary text uses a noticeably lighter/muted color than the primary metric value"
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "prompt": "Create a login form in HTML and CSS with an email field, a password field, a primary 'Sign In' button, and a 'Forgot your password?' link. Make it clean and easy to use. Output a single self-contained HTML file with embedded CSS.",
+    "expected_output": "A clean login form with proper proximity spacing (label closer to its input than to other groups), a prominent CTA button, HSL colors, and a visible focus state.",
+    "files": [],
+    "assertions": [
+      {
+        "id": "uses-hsl",
+        "description": "Uses HSL color notation",
+        "check": "The CSS uses hsl() notation for color values"
+      },
+      {
+        "id": "button-weight",
+        "description": "Primary button has strong visual weight",
+        "check": "The Sign In button uses font-weight 600 or higher, establishing it as the primary action"
+      },
+      {
+        "id": "proximity-spacing",
+        "description": "Label-input spacing tighter than group spacing",
+        "check": "The spacing between a label and its input is smaller than the spacing between separate form groups (proximity principle)"
+      },
+      {
+        "id": "input-styling",
+        "description": "Inputs have clear visual treatment",
+        "check": "Input fields have visible border or background styling that distinguishes them from the form background"
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "prompt": "Create a complete CSS color system using custom properties (CSS variables) for a SaaS dashboard with blue as the primary brand color. Include everything the app would need: primary shades, neutral greys, and semantic colors. Output a single self-contained HTML file that defines the variables and shows swatches.",
+    "expected_output": "CSS custom properties using HSL notation with a full primary blue scale (5+ shades), a neutral grey scale (4+ shades), and semantic colors (success, danger, warning). All colors in hsl() format.",
+    "files": [],
+    "assertions": [
+      {
+        "id": "all-hsl",
+        "description": "All colors use HSL notation",
+        "check": "All color variable values use hsl() notation \u2014 not hex or rgb"
+      },
+      {
+        "id": "primary-scale",
+        "description": "5+ shades of primary color",
+        "check": "At least 5 distinct shades of the primary blue are defined (from light to dark)"
+      },
+      {
+        "id": "grey-scale",
+        "description": "Neutral grey scale present",
+        "check": "A grey/neutral scale with at least 4 shades is defined"
+      },
+      {
+        "id": "semantic-colors",
+        "description": "Semantic colors included",
+        "check": "Includes semantic colors for at least success (green) and danger/error (red)"
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "prompt": "Design a pricing plan card for a 'Pro' plan at $49/month in HTML and CSS. Include the plan name, price, a short list of 4-5 features, and a 'Get Started' CTA button. Output a single self-contained HTML file with embedded CSS.",
+    "expected_output": "A pricing card where the price is the most visually dominant element. Should use font-weight hierarchy, a prominent CTA button, and HSL colors.",
+    "files": [],
+    "assertions": [
+      {
+        "id": "price-dominance",
+        "description": "Price is visually dominant",
+        "check": "The price element ($49) has the largest font-size in the card"
+      },
+      {
+        "id": "weight-hierarchy",
+        "description": "Font-weight hierarchy present",
+        "check": "At least two distinct font-weight values are used to establish visual hierarchy"
+      },
+      {
+        "id": "prominent-cta",
+        "description": "CTA button is visually prominent",
+        "check": "The Get Started button has a solid, high-contrast background color \u2014 not just an outline"
+      },
+      {
+        "id": "uses-hsl",
+        "description": "Uses HSL color notation",
+        "check": "The CSS uses hsl() color notation"
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "prompt": "Build a CSS typography system for a web app and demonstrate it with HTML showing h1 through h3 headings, body paragraphs, and a caption/label style. Use realistic sample copy. Output a single self-contained HTML file with embedded CSS.",
+    "expected_output": "A type scale with 4+ font sizes, line-height >= 1.5 for body text, max-width on text container for readable line length, and 3+ font-weight values.",
+    "files": [],
+    "assertions": [
+      {
+        "id": "body-line-height",
+        "description": "Body line-height >= 1.5",
+        "check": "The body or paragraph text has a line-height of 1.5 or greater"
+      },
+      {
+        "id": "four-size-scale",
+        "description": "At least 4 font-size values",
+        "check": "The CSS defines at least 4 distinct font-size values across the type scale"
+      },
+      {
+        "id": "max-width-constraint",
+        "description": "Text container has max-width",
+        "check": "Body text is constrained with a max-width to prevent overly long lines"
+      },
+      {
+        "id": "weight-variety",
+        "description": "Multiple font-weight values",
+        "check": "At least 3 different font-weight values appear across the type scale"
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "prompt": "Create an empty state UI component in HTML and CSS for a 'Recent Transactions' section where the user has no transactions yet. Include all the elements it needs to be useful and inviting, not just a blank box. Output a single self-contained HTML file with embedded CSS.",
+    "expected_output": "An empty state with: a visual element (icon/illustration area), friendly explanatory copy (not just 'No transactions'), and a call-to-action button/link.",
+    "files": [],
+    "assertions": [
+      {
+        "id": "cta-present",
+        "description": "Call-to-action element present",
+        "check": "Contains a button or link element as a primary call-to-action"
+      },
+      {
+        "id": "friendly-copy",
+        "description": "Copy is friendly and explanatory",
+        "check": "The text is more than a terse error message \u2014 it explains what will appear and encourages action"
+      },
+      {
+        "id": "visual-element",
+        "description": "Visual element beyond text",
+        "check": "Includes a visual element: icon, illustration, SVG, or decorative graphic area"
+      },
+      {
+        "id": "uses-hsl",
+        "description": "Uses HSL color notation",
+        "check": "The CSS uses hsl() notation for color values"
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "prompt": "Design a blog post card component in HTML and CSS. It should include a featured image area, the post title, a short excerpt, an author name with avatar placeholder, and a 'Read More' link. Output a single self-contained HTML file with embedded CSS.",
+    "expected_output": "A blog card with box-shadow elevation, title visually heavier than excerpt, author/metadata in muted secondary color, and HSL color values.",
+    "files": [],
+    "assertions": [
+      {
+        "id": "box-shadow",
+        "description": "Card uses box-shadow for elevation",
+        "check": "The card uses box-shadow CSS property to create a sense of elevation"
+      },
+      {
+        "id": "title-weight",
+        "description": "Title is heavier than excerpt",
+        "check": "The post title has a larger font-size or heavier font-weight than the excerpt text"
+      },
+      {
+        "id": "muted-metadata",
+        "description": "Author/metadata in muted color",
+        "check": "The author name or post metadata uses a lighter/muted color compared to the main body text"
+      },
+      {
+        "id": "uses-hsl",
+        "description": "Uses HSL color notation",
+        "check": "The CSS uses hsl() notation for color values"
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "prompt": "I have this login form HTML that looks pretty rough. The colors are garish, the typography is flat, and the helper text is barely readable. Can you refactor the design to make it look polished and professional? Read the file at /Users/zulthaqif/Documents/skills-workspace/refactoring-ui-workspace/iteration-3/eval-15-form-refactor/input/bad-design.html and save the improved version as component.html",
+    "expected_output": "An improved login form HTML/CSS that uses HSL colors, proper font-weight hierarchy, muted text via color (not opacity), and lighter border treatment on inputs.",
+    "files": [
+      "/Users/zulthaqif/Documents/skills-workspace/refactoring-ui-workspace/iteration-3/eval-15-form-refactor/input/bad-design.html"
+    ],
+    "assertions": [
+      {
+        "id": "uses_hsl_colors",
+        "description": "Output uses hsl() color notation instead of raw hex values"
+      },
+      {
+        "id": "muted_text_uses_color_not_opacity",
+        "description": "Helper/muted text uses a lighter color value rather than opacity hack"
+      },
+      {
+        "id": "font_weight_hierarchy",
+        "description": "At least 2 distinct font-weight values are used"
+      },
+      {
+        "id": "input_has_softer_border",
+        "description": "Input borders are no longer '2px solid #000000' \u2014 softer treatment applied"
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "prompt": "This stat card design is a mess \u2014 rainbow gradient background, purple border, and all text the same size. Please refactor it to look like a clean, professional dashboard card. Read the file at /Users/zulthaqif/Documents/skills-workspace/refactoring-ui-workspace/iteration-3/eval-16-dashboard-card-refactor/input/bad-design.html and save the improved version as component.html",
+    "expected_output": "A clean stat card with HSL colors, no rainbow gradient, clear font-size hierarchy for value/title/meta, and muted text via color not opacity.",
+    "files": [
+      "/Users/zulthaqif/Documents/skills-workspace/refactoring-ui-workspace/iteration-3/eval-16-dashboard-card-refactor/input/bad-design.html"
+    ],
+    "assertions": [
+      {
+        "id": "uses_hsl_colors",
+        "description": "Output uses hsl() color notation"
+      },
+      {
+        "id": "removes_rainbow_gradient",
+        "description": "The multi-color rainbow gradient background is removed"
+      },
+      {
+        "id": "font_size_hierarchy",
+        "description": "At least 3 distinct font-size values for card hierarchy"
+      },
+      {
+        "id": "muted_text_uses_color_not_opacity",
+        "description": "Muted/secondary text uses a lighter color, not opacity hack"
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "prompt": "This article/blog post component has terrible typography \u2014 everything is the same 14px size, font-weight 400, and line-height 1.0. It's completely flat and hard to read. Please refactor the CSS to make the typography look great. Read the file at /Users/zulthaqif/Documents/skills-workspace/refactoring-ui-workspace/iteration-3/eval-17-typography-refactor/input/bad-design.html and save the improved version as component.html",
+    "expected_output": "An article component with HSL colors, line-height \u22651.5, at least 3 distinct font sizes for heading hierarchy, and a max-width reading constraint.",
+    "files": [
+      "/Users/zulthaqif/Documents/skills-workspace/refactoring-ui-workspace/iteration-3/eval-17-typography-refactor/input/bad-design.html"
+    ],
+    "assertions": [
+      {
+        "id": "uses_hsl_colors",
+        "description": "Output uses hsl() color notation"
+      },
+      {
+        "id": "proper_line_height",
+        "description": "Body text has line-height of at least 1.5"
+      },
+      {
+        "id": "font_size_hierarchy",
+        "description": "At least 3 distinct font-size values for heading/subheading/body hierarchy"
+      },
+      {
+        "id": "max_width_reading_constraint",
+        "description": "Article has a max-width constraint (\u226465ch or \u2264720px) for readable line lengths"
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "prompt": "I have two UI components with button actions and they all look the same \u2014 ghost/outline style, no visual hierarchy between primary and secondary actions. The delete button looks as important as the cancel button. Please refactor the design so primary actions stand out properly. Read the file at /Users/zulthaqif/Documents/skills-workspace/refactoring-ui-workspace/iteration-3/eval-18-cta-refactor/input/bad-design.html and save the improved version as component.html",
+    "expected_output": "Refactored components with HSL colors, solid filled primary buttons, clear visual hierarchy between actions, and muted text via color not opacity.",
+    "files": [
+      "/Users/zulthaqif/Documents/skills-workspace/refactoring-ui-workspace/iteration-3/eval-18-cta-refactor/input/bad-design.html"
+    ],
+    "assertions": [
+      {
+        "id": "uses_hsl_colors",
+        "description": "Output uses hsl() color notation"
+      },
+      {
+        "id": "primary_button_has_filled_background",
+        "description": "At least one button has a solid filled background as a clear primary CTA"
+      },
+      {
+        "id": "muted_text_uses_color_not_opacity",
+        "description": "Supporting text uses a lighter color, not opacity hack"
+      },
+      {
+        "id": "font_weight_hierarchy",
+        "description": "At least 2 distinct font-weight values for headings vs body"
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "prompt": "This card component is over-decorated \u2014 border everywhere, border-left accents, grey header background, borders separating every section. It feels heavy and dated. Please refactor it to look clean and modern. Read the file at /Users/zulthaqif/Documents/skills-workspace/refactoring-ui-workspace/iteration-3/eval-19-card-refactor/input/bad-design.html and save the improved version as component.html",
+    "expected_output": "A clean card with HSL colors, box-shadow for elevation, muted text via lighter color (not opacity), and fewer border declarations.",
+    "files": [
+      "/Users/zulthaqif/Documents/skills-workspace/refactoring-ui-workspace/iteration-3/eval-19-card-refactor/input/bad-design.html"
+    ],
+    "assertions": [
+      {
+        "id": "uses_hsl_colors",
+        "description": "Output uses hsl() color notation"
+      },
+      {
+        "id": "uses_box_shadow",
+        "description": "Card uses box-shadow for elevation instead of relying purely on borders"
+      },
+      {
+        "id": "muted_text_uses_color_not_opacity",
+        "description": "Muted text uses a lighter color, not opacity hack"
+      },
+      {
+        "id": "fewer_border_declarations",
+        "description": "Output has fewer border declarations than input (reduced from 8+)"
+      }
+    ]
+  },
+  {
+    "id": 20,
+    "prompt": "This UI uses a terrible color palette \u2014 fully saturated primary colors like #0000FF, #FF0000, #00FF00. The badge and alert system looks like a traffic light factory. Please refactor the colors to create a cohesive, professional color system. Read the file at /Users/zulthaqif/Documents/skills-workspace/refactoring-ui-workspace/iteration-3/eval-20-color-palette-refactor/input/bad-design.html and save the improved version as component.html",
+    "expected_output": "A refined color system using HSL notation, CSS variables, removed pure saturated primaries, and tinted alert backgrounds.",
+    "files": [
+      "/Users/zulthaqif/Documents/skills-workspace/refactoring-ui-workspace/iteration-3/eval-20-color-palette-refactor/input/bad-design.html"
+    ],
+    "assertions": [
+      {
+        "id": "uses_hsl_colors",
+        "description": "Output uses hsl() color notation"
+      },
+      {
+        "id": "removes_pure_saturated_primaries",
+        "description": "Pure saturated primaries (#0000FF, #FF0000, #00FF00, #FFFF00, #00FFFF) are replaced"
+      },
+      {
+        "id": "uses_css_variables",
+        "description": "Colors are defined as CSS custom properties (--variable-name)"
+      },
+      {
+        "id": "tinted_backgrounds_for_alerts",
+        "description": "Alert backgrounds use light tinted versions of semantic colors"
+      }
+    ]
+  },
+  {
+    "id": 21,
+    "prompt": "This navigation bar looks terrible \u2014 thick black border at the bottom, every nav item looks identical with the same font-weight, and the active page is only distinguished by a blue color change. The logo has no personality. Please refactor it to look like a modern app navigation. Read the file at /Users/zulthaqif/Documents/skills-workspace/refactoring-ui-workspace/iteration-3/eval-21-nav-refactor/input/bad-design.html and save the improved version as component.html",
+    "expected_output": "A modern navigation with HSL colors, strong logo visual weight, active state font-weight distinction, and removed heavy black border.",
+    "files": [
+      "/Users/zulthaqif/Documents/skills-workspace/refactoring-ui-workspace/iteration-3/eval-21-nav-refactor/input/bad-design.html"
+    ],
+    "assertions": [
+      {
+        "id": "uses_hsl_colors",
+        "description": "Output uses hsl() color notation"
+      },
+      {
+        "id": "logo_has_visual_weight",
+        "description": "Logo/brand has stronger visual presence \u2014 font-weight \u2265600 or larger font-size"
+      },
+      {
+        "id": "active_state_font_weight",
+        "description": "Active nav item has a different font-weight from inactive items"
+      },
+      {
+        "id": "removes_heavy_bottom_border",
+        "description": "The '3px solid black' bottom border is replaced with a subtle separator"
+      }
+    ]
+  }
+]

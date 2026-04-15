@@ -1,0 +1,27 @@
+{
+  "expectations": [
+    {
+      "text": "Identifies that full-width text is too wide and recommends a maximum line length (around 45-75 characters or ~65ch)",
+      "passed": true,
+      "evidence": "'Line Length Control (Max-Width)...A full-width container...will produce lines well beyond 75 characters...max-width: 65ch is an excellent default...The canonical target is 45–75 characters per line'"
+    },
+    {
+      "text": "Identifies that 1.2 line-height is too tight for body text and recommends a higher value (around 1.5-1.6)",
+      "passed": true,
+      "evidence": "'Your 1.2 line-height is the correct value for large display and headline text, not body text...For a normal column width, use line-height: 1.5 or line-height: 1.6'"
+    },
+    {
+      "text": "Explains that line-height should be proportional to line length (wider lines need more line-height)",
+      "passed": true,
+      "evidence": "'Because your container is currently full-width (long lines), you should actually go even higher: 1.7 until you fix the container width. Once you constrain the line length with a max-width, you can dial back to 1.5–1.6'"
+    },
+    {
+      "text": "Gives specific numeric recommendations (e.g., max-width: 65ch, line-height: 1.5)",
+      "passed": true,
+      "evidence": "CSS block: `p { max-width: 65ch; line-height: 1.6; }` provided explicitly"
+    }
+  ],
+  "summary": {"passed": 4, "failed": 0, "total": 4, "pass_rate": 1.0},
+  "claims": [],
+  "eval_feedback": {"suggestions": [], "overall": "Assertions are tight and working well. The proportional relationship assertion is a strong discriminator."}
+}
