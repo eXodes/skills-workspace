@@ -54,7 +54,15 @@ The body contains the agent instructions: workflow steps, vocabulary, reference 
 
 ## Installing a skill
 
-Copy the skill directory to your local skills folder:
+Install any skill from this repository using the `skills` CLI:
+
+```bash
+npx skills add eXodes/skills-workspace
+```
+
+This installs all skills from this repo and makes them available to your AI agent.
+
+To install a specific skill by name, you can also copy the skill directory manually:
 
 ```bash
 cp -r <skill-name> ~/.agents/skills/
