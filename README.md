@@ -4,7 +4,7 @@ A repository for building and evaluating **agent skills** — reusable prompt mo
 
 ## What is a skill?
 
-A skill is a `SKILL.md` file (with optional supporting reference files) that an agent loads to gain focused, deep knowledge about a topic. Skills tell the agent *when to activate*, *how to reason*, and *what reference material to consult*.
+A skill is a `SKILL.md` file (with optional supporting reference files) that an agent loads to gain focused, deep knowledge about a topic. Skills tell the agent _when to activate_, _how to reason_, and _what reference material to consult_.
 
 Skills are installed at `~/.agents/skills/<skill-name>/` and packaged as `.skill` zip archives for distribution.
 
@@ -52,24 +52,43 @@ The body contains the agent instructions: workflow steps, vocabulary, reference 
 4. **Iterate** — refine the skill instructions based on benchmark failures
 5. **Package** — zip the skill directory into a `.skill` archive for distribution
 
-## Installing a skill
+## Installing skills
 
-Install any skill from this repository using the `skills` CLI:
+Install skills from this repository using the `npx skills` CLI.
+
+### Install skills from this repository
 
 ```bash
 npx skills add eXodes/skills-workspace
 ```
 
-This installs all skills from this repo and makes them available to your AI agent.
+This installs all available skills and makes them available to your AI agent.
 
-To install a specific skill by name, you can also copy the skill directory manually:
+### Install specific skills
+
+| Skill                | Purpose                                                                                                   | Install                                                      |
+| -------------------- | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| **refactoring-guru** | Expert advice on code quality, design patterns, and refactoring using the Refactoring Guru knowledge base | `npx skills add eXodes/skills-workspace -s refactoring-guru` |
+| **refactoring-ui**   | Expert advice on UI and visual design using the Refactoring UI knowledge base                             | `npx skills add eXodes/skills-workspace -s refactoring-ui`   |
+
+### List available skills before installing
+
+To see what skills are available in the repository:
+
+```bash
+npx skills add eXodes/skills-workspace -l
+```
+
+### Manual installation
+
+If you prefer to install skills manually, you can copy the skill directory:
 
 ```bash
 cp -r <skill-name> ~/.agents/skills/
 ```
 
-Or install from the packaged archive:
+Or install from the packaged archive in the workspace directory:
 
 ```bash
-unzip <skill-name>.skill -d ~/.agents/skills/<skill-name>/
+unzip <skill-name>-workspace/<skill-name>.skill -d ~/.agents/skills/<skill-name>/
 ```
