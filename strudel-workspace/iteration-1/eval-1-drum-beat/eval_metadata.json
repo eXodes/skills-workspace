@@ -1,0 +1,27 @@
+{
+  "eval_id": 1,
+  "eval_name": "eval-1-drum-beat",
+  "prompt": "How do I make a basic drum beat in Strudel with a kick, snare, and hi-hats?",
+  "assertions": [
+    {
+      "id": "uses-s-function",
+      "description": "Uses the s() or sound() function for drum sounds",
+      "check": "Response includes s(\"...\") or sound(\"...\") with drum abbreviations"
+    },
+    {
+      "id": "uses-bd-sd-hh",
+      "description": "Uses standard drum abbreviations bd, sd, hh",
+      "check": "Response mentions or uses bd (kick), sd (snare), and hh (hi-hat)"
+    },
+    {
+      "id": "shows-parallel-pattern",
+      "description": "Shows how to play parallel patterns with comma",
+      "check": "Response demonstrates the comma separator for parallel patterns"
+    },
+    {
+      "id": "runnable-code",
+      "description": "Provides runnable code example",
+      "check": "Response contains a working Strudel code snippet in a code block"
+    }
+  ]
+}

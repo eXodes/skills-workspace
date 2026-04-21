@@ -1,0 +1,40 @@
+The `(3,8)` notation in Strudel is **Euclidean rhythm** syntax. Euclidean rhythms use Bjorklund's algorithm to distribute N beats as evenly as possible across M time slots.
+
+**Syntax:** `(beats, segments, offset)`
+
+- **beats** — how many events to place (3 in your example)
+- **segments** — total number of time slots in the cycle (8 in your example)
+- **offset** — optional rotation of the pattern (default: 0)
+
+So `s("bd(3,8)")` places 3 kick drum hits spread as evenly as possible across 8 steps. It is equivalent to:
+
+```javascript
+s("bd ~ ~ bd ~ ~ bd ~")
+```
+
+**Examples:**
+
+```javascript
+s("bd(3,8)")      // 3 kicks in 8 steps
+s("bd(5,8)")      // 5 kicks in 8 steps — a denser pattern
+s("hh(7,8)")      // 7 hi-hats in 8 steps — nearly every step
+s("bd(3,8,2)")    // same 3-in-8 pattern, rotated by 2 steps (offset = 2)
+s("bd(3,8,0)")    // explicit offset 0, same as (3,8)
+```
+
+**The offset parameter:**
+
+The third number rotates where the pattern starts in the cycle, producing different syncopations from the same rhythm density:
+
+```javascript
+s("bd(3,8,0), hh cp")   // default position
+s("bd(3,8,3)")           // rotated version — different feel, same density
+```
+
+**Combining Euclidean patterns:**
+
+```javascript
+s("bd(3,8), hh(7,8), sd(2,8,4)")
+```
+
+Many traditional African and Cuban rhythms can be expressed as Euclidean patterns — for example, the clave is close to `(3,8)`.

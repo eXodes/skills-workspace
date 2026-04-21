@@ -1,0 +1,55 @@
+Strudel has built-in oscillator waveforms you can select with `s()`. Here's how to build a classic synth bass:
+
+## Available waveforms
+
+- `sawtooth` (or `saw`) — bright, buzzy; the classic synth bass choice
+- `square` — hollow, reedy
+- `triangle` — soft, mellow (default when no `s()` is specified)
+- `sine` — pure, smooth tone
+
+## Basic approach: note() + s()
+
+```javascript
+note("c2").s("sawtooth")          // sawtooth wave at C2
+note("c2 eb2 g2").s("square")     // square wave across a phrase
+```
+
+## Shape with filters and envelopes
+
+- `.lpf(freq)` — low-pass filter; rolls off high frequencies for warmth
+- `.lpenv(N)` — filter envelope amount (how much the filter opens on each note attack)
+- `.attack()`, `.decay()`, `.sustain()`, `.release()` — amplitude envelope
+- `.room(N)` — reverb amount
+
+## Classic synth bass example
+
+```javascript
+note("<c2 eb2 g2 f2>*4")
+  .s("sawtooth")
+  .lpf(sine.range(200, 1200).slow(8))
+  .lpenv(4)
+  .attack(0.01)
+  .decay(0.2)
+  .sustain(0.5)
+  .release(0.1)
+  .room(0.2)
+```
+
+`lpf(sine.range(200, 1200).slow(8))` creates a slow filter sweep using a sine LFO — the filter opens and closes over 8 cycles, giving that classic evolving bass tone. `.lpenv(4)` adds filter punch on each note attack.
+
+## Simpler starting points
+
+```javascript
+// Punchy bass
+note("c2*4").s("sawtooth").lpf(400).lpenv(4).attack(0.01).decay(0.2).sustain(0.5).release(0.1)
+
+// Mellow bass
+note("c2 g1 f2 g2").s("triangle").lpf(600).room(0.1)
+```
+
+## FM synthesis for extra character
+
+```javascript
+note("c2 eb2 g2").s("sine").fm(4).fmh(1.5)
+// .fm(N) — FM depth/amount; .fmh(N) — harmonicity (decimals = metallic timbre)
+```

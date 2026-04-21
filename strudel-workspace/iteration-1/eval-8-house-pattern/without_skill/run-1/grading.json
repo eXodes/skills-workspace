@@ -1,0 +1,37 @@
+{
+  "eval_id": 8,
+  "eval_name": "eval-8-house-pattern",
+  "expectations": [
+    {
+      "text": "Uses $: prefix for simultaneous patterns",
+      "passed": true,
+      "evidence": "Three $: blocks are used for drums, bassline, and melody respectively"
+    },
+    {
+      "text": "Includes drum pattern with bd and other elements",
+      "passed": true,
+      "evidence": "s(\"bd*4, [~ sd]*2, hh*8\") — kick, snare, and hi-hat are all present"
+    },
+    {
+      "text": "Includes bass element (low note pattern)",
+      "passed": true,
+      "evidence": "note(\"c2 c2 eb2 g2\").s(\"bass\") and note(\"c2 c2 eb2 g2\").s(\"sawtooth\") provide basslines at octave 2"
+    },
+    {
+      "text": "Includes four-on-the-floor or house characteristics",
+      "passed": true,
+      "evidence": "\"bd*4\" is used and explicitly described as \"four-on-the-floor kick drum — the hallmark of house music\""
+    },
+    {
+      "text": "Uses at least one audio effect",
+      "passed": true,
+      "evidence": ".lpf(400), .lpf(800), .room(0.3), .delay(0.25), .gain(0.8) are all used"
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "pass_rate": 1.0
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "eval_id": 7,
+  "eval_name": "eval-7-custom-samples",
+  "expectations": [
+    {
+      "text": "Demonstrates the samples() function",
+      "passed": true,
+      "evidence": "samples('github:yourusername/yourrepo') and samples({kick: ..., snare: ...}) are demonstrated"
+    },
+    {
+      "text": "Shows github: shortcut syntax",
+      "passed": true,
+      "evidence": "\"samples('github:yourusername/yourrepo')\" is shown with the github: prefix shortcut"
+    },
+    {
+      "text": "Mentions strudel.json requirement",
+      "passed": false,
+      "evidence": "Response says \"often you'll need a JSON configuration file at the root\" but never names the file strudel.json specifically"
+    },
+    {
+      "text": "Shows s() usage after loading samples",
+      "passed": true,
+      "evidence": "\"s(\\\"kick snare kick snare\\\")\" and \"s(\\\"kick snare, hihat*8\\\")\" are shown after samples() calls"
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 1,
+    "total": 4,
+    "pass_rate": 0.75
+  }
+}

@@ -1,0 +1,32 @@
+In Strudel mini-notation, `*` and `!` both repeat events but work fundamentally differently:
+
+## `*` — Speed Up (Multiply)
+
+`note("c*3")` plays `c` three times within the same time slot that one `c` would normally occupy. Each repetition is shorter/faster — the total duration stays the same, but the note plays 3× faster.
+
+```javascript
+note("c*3")              // c plays 3 times, each is 1/3 the duration
+s("hh*8")                // 8 hi-hats per cycle, each very short
+note("[e5 b4 d5 c5]*2")  // the whole group plays twice, sped up
+```
+
+## `!` — Replicate (Same Speed)
+
+`note("c!3")` adds three `c` slots at normal speed — exactly like writing `c c c`. Each event keeps its full original duration.
+
+```javascript
+note("c!3")                          // c c c — three full-length events
+note("c!3 e")                        // c c c e — four equal-length events
+note("<[g3,b3,e4]!2 [a3,c3,e4]>")   // first chord plays twice at normal speed before switching
+```
+
+## Side-by-side comparison
+
+```javascript
+note("c*3")   // → 3 notes squeezed into 1 c-slot (shorter, faster notes)
+note("c!3")   // → 3 full-length c events (same tempo, just more of them)
+```
+
+**Key rule**: `*` divides the slot (makes each event faster); `!` duplicates without changing speed (adds more equal-length slots).
+
+Decimal multipliers work with `*` too: `note("c*2.5")` plays c at 2.5× speed within its slot.

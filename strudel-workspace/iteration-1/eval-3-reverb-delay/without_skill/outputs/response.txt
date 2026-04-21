@@ -1,0 +1,29 @@
+Strudel is based on Tidal Cycles and uses a chainable function API. Based on general knowledge:
+
+## Reverb
+
+Use `.room()` to add reverb. The value is typically 0–1 (dry to wet):
+
+```javascript
+note("c e g b").s("piano").room(0.5)
+```
+
+A higher value gives more reverb.
+
+## Delay
+
+Use `.delay()` to add delay. The value controls the delay amount (roughly 0–1):
+
+```javascript
+note("c e g b").s("piano").delay(0.4)
+```
+
+There may be additional parameters for delay time and feedback — possibly `.delaytime()` or `.dt()` — though I'm not certain of the exact names.
+
+## Both together
+
+```javascript
+note("c e g b").s("piano").room(0.5).delay(0.3)
+```
+
+I'd recommend checking the [Strudel documentation](https://strudel.cc/learn/) for the complete list of parameters and shorthand options, as my knowledge of Strudel's specific API is limited.

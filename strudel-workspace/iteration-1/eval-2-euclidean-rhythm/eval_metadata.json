@@ -1,0 +1,27 @@
+{
+  "eval_id": 2,
+  "eval_name": "eval-2-euclidean-rhythm",
+  "prompt": "What does `(3,8)` mean in Strudel? I saw it in a pattern like `s(\"bd(3,8)\")`",
+  "assertions": [
+    {
+      "id": "explains-euclidean",
+      "description": "Explains the beats and segments parameters",
+      "check": "Response explains beats and segments/steps parameters of Euclidean notation"
+    },
+    {
+      "id": "mentions-algorithm",
+      "description": "Mentions Euclidean rhythm or distributing-evenly concept",
+      "check": "Response mentions Euclidean rhythm or the distributing-evenly concept"
+    },
+    {
+      "id": "mentions-offset",
+      "description": "Mentions the optional third offset parameter",
+      "check": "Response mentions the optional third offset parameter (e.g., (3,8,2))"
+    },
+    {
+      "id": "shows-example",
+      "description": "Provides a code example with Euclidean notation",
+      "check": "Response provides at least one code example with Euclidean notation"
+    }
+  ]
+}

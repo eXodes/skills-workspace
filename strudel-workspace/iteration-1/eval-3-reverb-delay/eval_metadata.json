@@ -1,0 +1,27 @@
+{
+  "eval_id": 3,
+  "eval_name": "eval-3-reverb-delay",
+  "prompt": "I want to add reverb and delay to my pattern in Strudel. How do I do that?\n\n```javascript\nnote(\"c e g b\").s(\"piano\")\n```",
+  "assertions": [
+    {
+      "id": "shows-room",
+      "description": "Response shows .room() with an example value",
+      "check": "Response includes .room() with an example value"
+    },
+    {
+      "id": "shows-delay",
+      "description": "Response shows .delay() with an example value",
+      "check": "Response includes .delay() with an example value"
+    },
+    {
+      "id": "explains-parameters",
+      "description": "Response explains what the room or delay value controls",
+      "check": "Response explains what the room or delay value controls (e.g., amount, 0-1)"
+    },
+    {
+      "id": "working-example",
+      "description": "Response contains a code example using note(\"c e g b\").s(\"piano\") with room and/or delay chained",
+      "check": "Response contains a code example using note(\"c e g b\").s(\"piano\") with room and/or delay chained"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+In Strudel (which is based on TidalCycles), `*` and `!` are mini-notation operators for repetition, but they differ in how time is handled:
+
+**`*` — Speed multiplier**
+`note("c*3")` plays `c` three times, but compressed into the same time window as a single `c`. The notes play faster — it's like looping at higher speed within the same duration slot.
+
+**`!` — Replication**
+`note("c!3")` is shorthand for `c c c` — three separate events each at normal speed. You're adding copies, not speeding up.
+
+**The difference:**
+- `*` makes events faster (same duration slot, more events packed in)
+- `!` adds more events at the same speed (each copy has full duration)
+
+```javascript
+note("c*3")  // c repeated 3x fast — fits in 1 c-slot
+note("c!3")  // c c c — three normal-speed events
+```
+
+Think of `*` as a loop pedal set to 3× speed, and `!` as copy-paste at normal tempo.

@@ -1,0 +1,40 @@
+Use `n()` with `.scale()` — this maps numbers to scale degrees and guarantees every note stays in key.
+
+## How it works
+
+Numbers in `n()` are **scale degrees**: `0` = root, `1` = 2nd degree, `2` = 3rd degree, etc. Any integer you use — positive, negative, or large — will stay within the scale, with octave shifts applied automatically.
+
+## C minor example
+
+```javascript
+n("0 2 4 6").scale("C:minor")
+```
+
+With an instrument:
+
+```javascript
+n("0 2 4 6").scale("C:minor").s("piano")
+```
+
+## Any number stays in key
+
+```javascript
+n("0 4 7 12 -1 14").scale("C:minor").s("piano")
+```
+
+`12` goes up an octave, `-1` goes below the root — all still C minor. You never have to think about which notes are in key.
+
+## More expressive patterns
+
+```javascript
+n("0 2 4 <[6,8] [7,9]>").scale("C:minor").s("piano")
+```
+
+The `<...>` alternates between chord voicings each cycle.
+
+## `n()` vs `note()`
+
+- `note("c eb g")` — you specify exact note names; staying in key is your responsibility
+- `n("0 2 4").scale("C:minor")` — Strudel maps everything to the scale for you
+
+Stick with `n()` + `.scale()` when you want guaranteed in-key playback regardless of what numbers you use.

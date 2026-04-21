@@ -1,0 +1,25 @@
+The `(3,8)` syntax in Strudel comes from **Euclidean rhythms** — a concept in algorithmic music where you distribute a number of beats as evenly as possible across a total number of time steps.
+
+**What the numbers mean:**
+- First number (`3`) = number of beats/hits to place
+- Second number (`8`) = total number of steps in the sequence
+
+So `s("bd(3,8)")` means: place 3 bass drum hits distributed as evenly as possible across 8 steps. The algorithm figures out the most even spacing automatically.
+
+**Code examples:**
+
+```javascript
+s("bd(3,8)")   // 3 bass drum hits over 8 steps
+s("hh(5,8)")   // 5 hi-hat hits over 8 steps
+s("sd(2,8)")   // 2 snare hits over 8 steps
+```
+
+You can combine multiple Euclidean patterns with a comma:
+
+```javascript
+s("bd(3,8), hh(5,8)")
+```
+
+Euclidean rhythms appear in many world music traditions — the 3-in-8 pattern is found in various African and Latin rhythms.
+
+Note: There may be additional parameters such as an offset or rotation value (a third number), but I would recommend checking the official Strudel documentation at https://strudel.cc/ to confirm the exact syntax before using it.

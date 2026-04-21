@@ -1,0 +1,27 @@
+{
+  "eval_id": 6,
+  "eval_name": "eval-6-synth-bass",
+  "expectations": [
+    {
+      "text": "Mentions sawtooth, square, triangle, or sine waveforms",
+      "passed": true,
+      "evidence": "note(\"c2\").s(\"sawtooth\") ... note(\"c2\").s(\"sine\") ... note(\"c2\").s(\"square\") ... note(\"c2\").s(\"triangle\")"
+    },
+    {
+      "text": "Shows note() combined with s()",
+      "passed": true,
+      "evidence": "note(\"c2\").s(\"sawtooth\")   // sawtooth wave — bright, classic synth bass"
+    },
+    {
+      "text": "Includes .lpf() or other filter",
+      "passed": true,
+      "evidence": "Chain `.lpf()` for a low-pass filter to warm up the bass: note(\"c2 e2 g2\").s(\"sawtooth\").lpf(500)"
+    },
+    {
+      "text": "Contains a complete runnable synth bass code snippet",
+      "passed": true,
+      "evidence": "note(\"c2*4\").s(\"sawtooth\").lpf(600).attack(0.05).release(0.2) — a complete multi-chained snippet"
+    }
+  ],
+  "summary": {"passed": 4, "failed": 0, "total": 4, "pass_rate": 1.0}
+}

@@ -1,0 +1,37 @@
+{
+  "eval_id": 8,
+  "eval_name": "eval-8-house-pattern",
+  "expectations": [
+    {
+      "text": "Uses $: prefix for simultaneous patterns",
+      "passed": true,
+      "evidence": "Three separate $: blocks are used: one for drums, one for bassline, one for melody"
+    },
+    {
+      "text": "Includes drum pattern with bd and other elements",
+      "passed": true,
+      "evidence": "s(\"bd*4, [~ cp]*2, [~ hh]*4\").bank(\"RolandTR909\") — kick, clap, and hi-hat all present"
+    },
+    {
+      "text": "Includes bass element (low note pattern)",
+      "passed": true,
+      "evidence": "note(\"<c2 eb2>*4\").s(\"sawtooth\") provides a synthesised bassline at octave 2"
+    },
+    {
+      "text": "Includes four-on-the-floor or house characteristics",
+      "passed": true,
+      "evidence": "\"bd*4\" — four-on-the-floor kick — is used, and setcpm(128/4) sets 128 BPM house tempo"
+    },
+    {
+      "text": "Uses at least one audio effect",
+      "passed": true,
+      "evidence": ".lpf(sine.range(200, 1200).slow(8)), .room(0.2), .room(0.3), .delay(0.125) are all used"
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "pass_rate": 1.0
+  }
+}

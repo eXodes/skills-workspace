@@ -1,0 +1,41 @@
+Here's a full house music pattern in Strudel with drums, bassline, and melody:
+
+```javascript
+setcpm(128/4)  // 128 BPM, each cycle = 1 bar
+
+// Drums — four-on-the-floor kick, claps on 2 & 4, hi-hats
+$: s("bd*4, [~ cp]*2, [~ hh]*4").bank("RolandTR909")
+
+// Synth bassline with filter sweep
+$: note("<c2 eb2>*4")
+   .s("sawtooth")
+   .lpf(sine.range(200, 1200).slow(8))
+   .lpenv(4)
+   .attack(0.01).decay(0.1).sustain(0.5)
+   .room(0.2)
+
+// Melodic chord stabs
+$: n("<0 7 3 5>*4")
+   .scale("C:minor")
+   .s("piano")
+   .room(0.3)
+   .delay(0.125)
+```
+
+**How it works:**
+
+- `setcpm(128/4)` — sets tempo to 128 BPM with 4 beats per cycle
+- `$:` — runs each pattern simultaneously (like tracks in a DAW)
+- **Drums**: `bd*4` = four-on-the-floor kick; `[~ cp]*2` = clap on beats 2 & 4; `[~ hh]*4` = off-beat hi-hats. `.bank("RolandTR909")` gives that classic house drum sound
+- **Bassline**: `sawtooth` oscillator with `lpf` (low-pass filter) sweeping via a slow sine wave — that pumping filter movement is very house
+- **Melody**: Four chord positions cycling through C minor scale with slight delay reverb
+
+**To mute a track while tweaking**, prefix with `_$:`:
+```javascript
+_$: note("<c2 eb2>*4").s("sawtooth")  // muted
+```
+
+**Variations to try:**
+- Add `.gain(sine.range(0.6, 1).fast(4))` to the hi-hats for a sidechain-style pump
+- Change `"<c2 eb2>"` to `"<c2 eb2 g2 bb2>"` for a walking bassline
+- Try `.s("supersaw")` on the melody for a more uplifting trance-house feel

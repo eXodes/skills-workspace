@@ -1,0 +1,27 @@
+{
+  "eval_id": 4,
+  "eval_name": "eval-4-scale-notes",
+  "prompt": "How do I use a scale in Strudel so all my notes sound good together? I want to play in C minor.",
+  "assertions": [
+    {
+      "id": "uses-n-and-scale",
+      "description": "Response demonstrates n() combined with .scale(\"C:minor\") or similar",
+      "check": "Response demonstrates n() combined with .scale(\"C:minor\") or similar"
+    },
+    {
+      "id": "explains-degrees",
+      "description": "Response explains that n() numbers are scale degrees where 0 is the root",
+      "check": "Response explains that n() numbers are scale degrees where 0 is the root"
+    },
+    {
+      "id": "c-minor-example",
+      "description": "Response contains .scale(\"C:minor\") or equivalent",
+      "check": "Response contains .scale(\"C:minor\") or equivalent"
+    },
+    {
+      "id": "mentions-any-number-works",
+      "description": "Response indicates that any integer can be used and it will stay in scale",
+      "check": "Response indicates that any integer can be used and it will stay in scale"
+    }
+  ]
+}

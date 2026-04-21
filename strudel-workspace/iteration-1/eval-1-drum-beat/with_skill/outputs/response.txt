@@ -1,0 +1,38 @@
+To make a basic drum beat in Strudel, use the `s()` function with these standard drum abbreviations:
+
+- `bd` — Bass drum (kick)
+- `sd` — Snare drum
+- `hh` — Closed hi-hat
+
+**Basic parallel drum pattern:**
+
+Use a comma inside the pattern string to play multiple parts simultaneously:
+
+```javascript
+s("bd*4, [~ sd]*2, hh*8")
+```
+
+This plays:
+- `bd*4` — kick drum 4 times per cycle (every quarter note)
+- `[~ sd]*2` — snare on beats 2 and 4 (rest + snare, repeated twice)
+- `hh*8` — hi-hat 8 times per cycle (eighth notes)
+
+**Simpler starter:**
+
+```javascript
+s("bd sd bd sd, hh*8")
+```
+
+**Using `stack()` to layer parts:**
+
+```javascript
+stack(
+  s("bd ~ bd ~"),
+  s("~ sd ~ sd"),
+  s("hh*8")
+)
+```
+
+`stack()` plays all patterns simultaneously. It is equivalent to the comma approach but lets you add different effects to each layer independently.
+
+Other useful kit sounds: `oh` (open hi-hat), `cp` (clap), `rim` (rimshot), `cr` (crash), `rd` (ride).

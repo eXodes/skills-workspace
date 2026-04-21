@@ -1,0 +1,32 @@
+{
+  "eval_id": 3,
+  "eval_name": "eval-3-reverb-delay",
+  "expectations": [
+    {
+      "text": "Response includes .room() with an example value",
+      "passed": true,
+      "evidence": "note(\"c e g b\").s(\"piano\").room(0.5) — .room() shown with value 0.5"
+    },
+    {
+      "text": "Response includes .delay() with an example value",
+      "passed": true,
+      "evidence": "note(\"c e g b\").s(\"piano\").delay(0.4) — .delay() shown with value 0.4"
+    },
+    {
+      "text": "Response explains what the room or delay value controls (e.g., amount, 0-1)",
+      "passed": true,
+      "evidence": "'The value is typically 0–1 (dry to wet)' for room, 'The value controls the delay amount (roughly 0–1)' for delay"
+    },
+    {
+      "text": "Response contains a code example using note(\"c e g b\").s(\"piano\") with room and/or delay chained",
+      "passed": true,
+      "evidence": "note(\"c e g b\").s(\"piano\").room(0.5).delay(0.3)"
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "pass_rate": 1.0
+  }
+}

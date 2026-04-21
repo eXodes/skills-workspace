@@ -1,0 +1,27 @@
+{
+  "eval_id": 6,
+  "eval_name": "eval-6-synth-bass",
+  "prompt": "I want to make a synthesizer sound in Strudel — something like a classic synth bass. How do I use the built-in synths?",
+  "assertions": [
+    {
+      "id": "mentions-waveforms",
+      "description": "Lists available waveforms",
+      "check": "Response mentions sawtooth, square, triangle, or sine as available waveforms"
+    },
+    {
+      "id": "shows-note-with-s",
+      "description": "Shows note() combined with s()",
+      "check": "Response shows note(\"...\").s(\"sawtooth\") or similar combination"
+    },
+    {
+      "id": "shows-filter",
+      "description": "Shows filter usage",
+      "check": "Response includes .lpf() or other filter to shape the synth sound"
+    },
+    {
+      "id": "working-bass-example",
+      "description": "Provides a complete bass example",
+      "check": "Response contains a complete runnable synth bass code snippet"
+    }
+  ]
+}

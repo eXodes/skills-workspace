@@ -1,0 +1,60 @@
+To load your own samples from GitHub in Strudel, use the `samples()` function with the GitHub shortcut syntax:
+
+```javascript
+// Load samples from a GitHub repository (uses main branch by default)
+samples('github:tidalcycles/dirt-samples')
+
+// Or specify a branch explicitly
+samples('github:user/repo/branch')
+
+// Then use the loaded samples with s()
+s("mysound1 mysound2")
+```
+
+**Important:** Your GitHub repository must contain a `strudel.json` file at the root. This file maps sample names to file paths. Without it, Strudel won't know where to find your audio files.
+
+**strudel.json format:**
+```json
+{
+  "_base": "https://base-url/",
+  "kick": "drums/kick.wav",
+  "snare": ["drums/snare1.wav", "drums/snare2.wav"]
+}
+```
+
+The `_base` key sets the root URL for all relative paths. Array values give you multiple variations (selectable with `:0`, `:1`, etc.).
+
+---
+
+**Alternative loading methods:**
+
+**1. From URLs directly (no strudel.json needed):**
+```javascript
+samples({
+  bassdrum: 'bd/BT0AADA.wav',
+  hihat: 'hh27/000_hh27closedhh.wav',
+}, 'https://raw.githubusercontent.com/tidalcycles/Dirt-Samples/master/')
+
+s("bassdrum, hihat*16")
+```
+
+**2. From disk (browser only):**
+Use the REPL's sounds panel → import-sounds → "import sounds folder". This lets you load local files from your computer without hosting them anywhere.
+
+**3. Shabda (streams from Freesound.org):**
+```javascript
+samples('shabda:bass:4,hihat:4')
+s("bass hihat*8")
+```
+This queries freesound.org on-the-fly — no need to host files yourself.
+
+---
+
+**Full working example with GitHub samples:**
+```javascript
+samples('github:tidalcycles/dirt-samples')
+
+$: s("bd sd bd sd, hh*16")
+```
+
+The `samples()` call loads asynchronously — place it at the top and Strudel will queue the pattern until sounds are ready.

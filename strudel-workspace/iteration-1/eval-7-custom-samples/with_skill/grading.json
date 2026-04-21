@@ -1,0 +1,32 @@
+{
+  "eval_id": 7,
+  "eval_name": "eval-7-custom-samples",
+  "expectations": [
+    {
+      "text": "Demonstrates the samples() function",
+      "passed": true,
+      "evidence": "samples('github:tidalcycles/dirt-samples') and samples('github:user/repo/branch') are shown, as well as samples({...}, 'https://...') form"
+    },
+    {
+      "text": "Shows github: shortcut syntax",
+      "passed": true,
+      "evidence": "samples('github:tidalcycles/dirt-samples') and samples('github:user/repo/branch') are explicitly shown with the github: prefix"
+    },
+    {
+      "text": "Mentions strudel.json requirement",
+      "passed": true,
+      "evidence": "\"Important: Your GitHub repository must contain a strudel.json file at the root.\" with full format example shown"
+    },
+    {
+      "text": "Shows s() usage after loading samples",
+      "passed": true,
+      "evidence": "\"s(\\\"mysound1 mysound2\\\")\" and \"s(\\\"bd sd bd sd, hh*16\\\")\" are shown after samples() calls"
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "pass_rate": 1.0
+  }
+}

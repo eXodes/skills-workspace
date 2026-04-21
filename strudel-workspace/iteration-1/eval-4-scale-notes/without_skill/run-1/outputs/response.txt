@@ -1,0 +1,25 @@
+Strudel (based on Tidal Cycles) has built-in scale support. Here's what I know from general knowledge:
+
+## Using `.scale()`
+
+Use `n()` with `.scale()` to keep notes in a key:
+
+```javascript
+n("0 1 2 3 4").scale("C:minor")
+```
+
+The numbers in `n()` represent positions (degrees) in the scale. In C minor, `0` maps to C (the root), and higher numbers map to subsequent degrees of the scale.
+
+## With an instrument
+
+```javascript
+n("0 2 4").scale("C:minor").s("piano")
+```
+
+## Notes
+
+- The format `"C:minor"` is the standard pattern for naming scales in Strudel (Root:type)
+- `0` is likely the root note
+- I'm not fully certain how large numbers or negative numbers behave — they may wrap around octaves, but I'd verify in the docs
+
+Check the [Strudel docs](https://strudel.cc/learn/) for the full list of available scales and how degree numbers wrap across octaves.

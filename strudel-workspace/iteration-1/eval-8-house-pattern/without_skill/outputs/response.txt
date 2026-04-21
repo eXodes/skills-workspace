@@ -1,0 +1,45 @@
+Sure! Strudel is a browser-based live coding environment for music, inspired by TidalCycles. Here's a house music pattern with drums, bassline, and melody:
+
+```javascript
+// Set tempo to 128 BPM (common house tempo)
+setcpm(128/4)
+
+// Drums - classic four-on-the-floor house pattern
+$: s("bd*4, [~ sd]*2, hh*8")
+
+// Bassline - deep synth bass
+$: note("c2 c2 eb2 g2").s("bass").lpf(400)
+
+// Melody - simple chord progression
+$: note("c4 e4 g4 a4").s("piano").slow(2)
+```
+
+**Breakdown:**
+
+- `setcpm(128/4)` sets the tempo. House music is typically 120–130 BPM.
+- `$:` runs multiple patterns at the same time (like separate tracks).
+- `bd*4` gives you a four-on-the-floor kick drum — the hallmark of house music.
+- `[~ sd]*2` places a snare on beats 2 and 4.
+- `hh*8` adds rapid hi-hats for that driving house rhythm.
+- The bassline uses a low-pass filter (`.lpf(400)`) to keep it deep and warm.
+- The melody cycles through a simple C major chord.
+
+**Adding effects for a more polished house sound:**
+
+```javascript
+$: s("bd*4, [~ sd]*2, hh*8")
+
+$: note("c2 c2 eb2 g2")
+   .s("sawtooth")
+   .lpf(800)
+   .room(0.3)
+   .gain(0.8)
+
+$: note("c4 e4 g4 bb4")
+   .s("piano")
+   .delay(0.25)
+   .room(0.4)
+   .slow(2)
+```
+
+This should give you a solid foundation for a house track. You can experiment with different scales, note patterns, and effects to develop your own sound!

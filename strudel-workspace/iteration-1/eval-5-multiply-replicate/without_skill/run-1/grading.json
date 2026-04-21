@@ -1,0 +1,27 @@
+{
+  "eval_id": 5,
+  "eval_name": "eval-5-multiply-replicate",
+  "expectations": [
+    {
+      "text": "Explains the * operator (multiply/speed up)",
+      "passed": true,
+      "evidence": "plays `c` three times, but compressed into the same time window as a single `c`. The notes play faster — it's like looping at higher speed within the same duration slot."
+    },
+    {
+      "text": "Explains the ! operator (replicate at normal speed)",
+      "passed": true,
+      "evidence": "shorthand for `c c c` — three separate events each at normal speed. You're adding copies, not speeding up."
+    },
+    {
+      "text": "Makes clear that * is faster while ! keeps same tempo",
+      "passed": true,
+      "evidence": "`*` makes events faster (same duration slot, more events packed in) ... `!` adds more events at the same speed (each copy has full duration)"
+    },
+    {
+      "text": "Includes code examples showing both * and ! usage",
+      "passed": true,
+      "evidence": "note(\"c*3\")  // c repeated 3x fast — fits in 1 c-slot ... note(\"c!3\")  // c c c — three normal-speed events"
+    }
+  ],
+  "summary": {"passed": 4, "failed": 0, "total": 4, "pass_rate": 1.0}
+}

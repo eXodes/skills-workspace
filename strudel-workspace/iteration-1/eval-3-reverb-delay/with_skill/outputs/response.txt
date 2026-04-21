@@ -1,0 +1,50 @@
+Add reverb with `.room()` and delay with `.delay()` — both chain directly onto your pattern.
+
+## Reverb: `.room(N)`
+
+`.room(N)` sets reverb level from 0 (dry) to 1 (fully wet):
+
+```javascript
+note("c e g b").s("piano").room(0.8)
+```
+
+Optionally control the room size (0–10) with `.rsize()` or using the colon shorthand:
+
+```javascript
+note("c e g b").s("piano").room(0.9).rsize(4)
+// or equivalently:
+note("c e g b").s("piano").room("0.9:4")
+```
+
+## Delay: `.delay(N)`
+
+`.delay(N)` sets delay wet level (0–1). Control timing with `.delaytime()` and echo decay with `.delayfeedback()` (keep < 1 to avoid infinite feedback):
+
+```javascript
+note("c e g b").s("piano").delay(0.6).delaytime(0.25).delayfeedback(0.5)
+```
+
+Shorthand `"level:time:feedback"`:
+
+```javascript
+note("c e g b").s("piano").delay("0.65:0.25:0.5")
+```
+
+## Combined
+
+```javascript
+note("c e g b").s("piano").room(0.8).delay(0.5).delaytime(0.25).delayfeedback(0.4)
+```
+
+## Orbits
+
+Reverb and delay are per-orbit effects. By default all patterns share orbit 1. Use `.orbit(N)` to give a pattern its own independent effect chain:
+
+```javascript
+// Piano with heavy reverb on orbit 1
+note("c e g b").s("piano").room(0.8).orbit(1)
+// Bass with delay on orbit 2
+note("c2 g2").s("sawtooth").delay(0.5).delaytime(0.5).orbit(2)
+```
+
+This way changing reverb on the piano won't affect the bass.

@@ -1,0 +1,27 @@
+{
+  "eval_id": 6,
+  "eval_name": "eval-6-synth-bass",
+  "expectations": [
+    {
+      "text": "Mentions sawtooth, square, triangle, or sine waveforms",
+      "passed": true,
+      "evidence": "sawtooth (or saw) — bright, buzzy; the classic synth bass choice ... square — hollow, reedy ... triangle — soft, mellow ... sine — pure, smooth tone"
+    },
+    {
+      "text": "Shows note() combined with s()",
+      "passed": true,
+      "evidence": "note(\"c2\").s(\"sawtooth\")  // sawtooth wave at C2 ... note(\"c2 eb2 g2\").s(\"square\")"
+    },
+    {
+      "text": "Includes .lpf() or other filter",
+      "passed": true,
+      "evidence": ".lpf(freq) — low-pass filter; rolls off high frequencies for warmth ... .lpf(sine.range(200, 1200).slow(8))"
+    },
+    {
+      "text": "Contains a complete runnable synth bass code snippet",
+      "passed": true,
+      "evidence": "note(\"<c2 eb2 g2 f2>*4\").s(\"sawtooth\").lpf(sine.range(200, 1200).slow(8)).lpenv(4).attack(0.01).decay(0.2).sustain(0.5).release(0.1).room(0.2)"
+    }
+  ],
+  "summary": {"passed": 4, "failed": 0, "total": 4, "pass_rate": 1.0}
+}

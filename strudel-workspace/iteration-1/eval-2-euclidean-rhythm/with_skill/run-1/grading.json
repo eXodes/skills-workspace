@@ -1,0 +1,32 @@
+{
+  "eval_id": 2,
+  "eval_name": "eval-2-euclidean-rhythm",
+  "expectations": [
+    {
+      "text": "Explains beats and segments parameters of Euclidean notation",
+      "passed": true,
+      "evidence": "\"beats \u2014 how many events to place (3 in your example)\" and \"segments \u2014 total number of time slots in the cycle (8 in your example)\""
+    },
+    {
+      "text": "Mentions Euclidean rhythm or distributing-evenly concept",
+      "passed": true,
+      "evidence": "\"Euclidean rhythms use Bjorklund's algorithm to distribute N beats as evenly as possible across M time slots\""
+    },
+    {
+      "text": "Mentions the optional third offset parameter",
+      "passed": true,
+      "evidence": "\"offset \u2014 optional rotation of the pattern (default: 0)\" with examples s(\"bd(3,8,2)\") and s(\"bd(3,8,0)\")"
+    },
+    {
+      "text": "Provides at least one code example with Euclidean notation",
+      "passed": true,
+      "evidence": "Multiple examples: s(\"bd(3,8)\"), s(\"bd(5,8)\"), s(\"hh(7,8)\"), s(\"bd(3,8,2)\"), etc."
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "pass_rate": 1.0
+  }
+}

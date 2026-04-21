@@ -1,0 +1,36 @@
+Strudel has built-in synthesizer waveforms you can use to create synth sounds. Here's how to work with them:
+
+## Selecting a waveform with s()
+
+Use the `s()` function to choose your oscillator type:
+
+```javascript
+note("c2").s("sawtooth")   // sawtooth wave — bright, classic synth bass
+note("c2").s("sine")       // pure sine wave
+note("c2").s("square")     // square wave — hollow sound
+note("c2").s("triangle")   // triangle wave — softer
+```
+
+## Shaping the sound
+
+Chain `.lpf()` for a low-pass filter to warm up the bass:
+
+```javascript
+note("c2 e2 g2").s("sawtooth").lpf(500)
+```
+
+Add an envelope with `.attack()` and `.release()` (and optionally `.decay()`, `.sustain()`):
+
+## Synth bass example
+
+```javascript
+note("c2*4")
+  .s("sawtooth")
+  .lpf(600)
+  .attack(0.05)
+  .release(0.2)
+```
+
+Sawtooth waves with a low-pass filter are the go-to for classic synth bass. Lower the `.lpf()` value for a darker sound, raise it for brighter. Try `square` for a more hollow tone.
+
+I'd recommend checking the Strudel documentation for the complete list of available synth names and parameter ranges, as some specifics of the API may vary.

@@ -1,0 +1,27 @@
+{
+  "eval_id": 5,
+  "eval_name": "eval-5-multiply-replicate",
+  "prompt": "What's the difference between `*` and `!` in Strudel mini-notation? Like `note(\"c*3\")` vs `note(\"c!3\")`?",
+  "assertions": [
+    {
+      "id": "explains-multiply",
+      "description": "Explains the * operator",
+      "check": "Response explains that * plays the event N times faster (within the same duration slot)"
+    },
+    {
+      "id": "explains-replicate",
+      "description": "Explains the ! operator",
+      "check": "Response explains that ! adds N identical events at normal speed (same duration each)"
+    },
+    {
+      "id": "clear-distinction",
+      "description": "Distinguishes the two operators clearly",
+      "check": "Response makes clear that * is faster while ! keeps the same tempo"
+    },
+    {
+      "id": "code-examples",
+      "description": "Includes runnable code examples",
+      "check": "Response includes code examples showing both * and ! usage"
+    }
+  ]
+}

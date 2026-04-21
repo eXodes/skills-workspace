@@ -1,0 +1,234 @@
+{
+  "skill_name": "strudel",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "How do I make a basic drum beat in Strudel with a kick, snare, and hi-hats?",
+      "expected_output": "Should provide working Strudel code using `s()` with drum abbreviations (bd, sd, hh), demonstrate sequences and parallel patterns with commas, and optionally show bank selection. Should explain what each abbreviation means.",
+      "files": [],
+      "assertions": [
+        {
+          "id": "uses-s-function",
+          "description": "Uses the s() or sound() function for drum sounds",
+          "check": "Response includes s(\"...\") or sound(\"...\") with drum abbreviations"
+        },
+        {
+          "id": "uses-bd-sd-hh",
+          "description": "Uses standard drum abbreviations bd, sd, hh",
+          "check": "Response mentions or uses bd (kick), sd (snare), and hh (hi-hat)"
+        },
+        {
+          "id": "shows-parallel-pattern",
+          "description": "Shows how to play parallel patterns with comma",
+          "check": "Response demonstrates the comma separator for parallel patterns (e.g., s(\"bd*4, [~ sd]*2, hh*8\"))"
+        },
+        {
+          "id": "runnable-code",
+          "description": "Provides runnable code example",
+          "check": "Response contains a working Strudel code snippet in a code block"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "What does `(3,8)` mean in Strudel? I saw it in a pattern like `s(\"bd(3,8)\")`",
+      "expected_output": "Should explain Euclidean rhythms — the algorithm distributes N beats evenly over M steps. Should mention that (3,8) means 3 beats in 8 steps, and explain the optional third offset parameter. Should give an example showing what it sounds like written out vs. Euclidean notation.",
+      "files": [],
+      "assertions": [
+        {
+          "id": "explains-euclidean",
+          "description": "Explains that (3,8) means 3 beats over 8 steps",
+          "check": "Response explains beats and segments/steps parameters of Euclidean notation"
+        },
+        {
+          "id": "mentions-algorithm",
+          "description": "Mentions Euclidean or Bjorklund algorithm context",
+          "check": "Response mentions Euclidean rhythm or the distributing-evenly concept"
+        },
+        {
+          "id": "mentions-offset",
+          "description": "Mentions the optional offset/third parameter",
+          "check": "Response mentions the optional third offset parameter (e.g., (3,8,2))"
+        },
+        {
+          "id": "shows-example",
+          "description": "Shows an example of the pattern or what it sounds like written out",
+          "check": "Response provides at least one code example with Euclidean notation"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "I want to add reverb and delay to my pattern in Strudel. How do I do that?\n\n```javascript\nnote(\"c e g b\").s(\"piano\")\n```",
+      "expected_output": "Should show how to chain .room() for reverb and .delay() for delay onto the pattern. Should explain the parameters (room 0-1 for reverb amount, delay level, optional delaytime and delayfeedback). Should mention that these are global effects tied to orbits.",
+      "files": [],
+      "assertions": [
+        {
+          "id": "shows-room",
+          "description": "Shows .room() for reverb",
+          "check": "Response includes .room() with an example value"
+        },
+        {
+          "id": "shows-delay",
+          "description": "Shows .delay() for delay",
+          "check": "Response includes .delay() with an example value"
+        },
+        {
+          "id": "explains-parameters",
+          "description": "Explains at least one parameter for each effect",
+          "check": "Response explains what the room or delay value controls (e.g., amount, 0-1)"
+        },
+        {
+          "id": "working-example",
+          "description": "Provides a complete working example building on the given code",
+          "check": "Response contains a code example using note(\"c e g b\").s(\"piano\") with room and/or delay chained"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "How do I use a scale in Strudel so all my notes sound good together? I want to play in C minor.",
+      "expected_output": "Should explain the n() function with scale degrees and the .scale() method. Should show that n() values are scale degrees (0 = root), and that any number will sound in key. Should give a working example in C minor.",
+      "files": [],
+      "assertions": [
+        {
+          "id": "uses-n-and-scale",
+          "description": "Uses n() with .scale()",
+          "check": "Response demonstrates n() combined with .scale(\"C:minor\") or similar"
+        },
+        {
+          "id": "explains-degrees",
+          "description": "Explains that n() values are scale degrees",
+          "check": "Response explains that n() numbers are scale degrees where 0 is the root"
+        },
+        {
+          "id": "c-minor-example",
+          "description": "Provides a C minor example",
+          "check": "Response contains .scale(\"C:minor\") or equivalent"
+        },
+        {
+          "id": "mentions-any-number-works",
+          "description": "Mentions that any number will be in key",
+          "check": "Response indicates that any integer can be used and it will stay in scale"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "What's the difference between `*` and `!` in Strudel mini-notation? Like `note(\"c*3\")` vs `note(\"c!3\")`?",
+      "expected_output": "Should clearly explain the difference: `*` speeds up / repeats within the same time slot (all 3 notes fit in 1 event's space, so they're faster), while `!` replicates at the same speed (adds 3 slots of the same length). Examples showing both behaviors side by side would be ideal.",
+      "files": [],
+      "assertions": [
+        {
+          "id": "explains-multiply",
+          "description": "Correctly explains * as speeding up within a time slot",
+          "check": "Response explains that * plays the event N times faster (within the same duration slot)"
+        },
+        {
+          "id": "explains-replicate",
+          "description": "Correctly explains ! as replicating at normal speed",
+          "check": "Response explains that ! adds N identical events at normal speed (same duration each)"
+        },
+        {
+          "id": "clear-distinction",
+          "description": "Makes the distinction between the two clear",
+          "check": "Response makes clear that * is faster while ! keeps the same tempo"
+        },
+        {
+          "id": "code-examples",
+          "description": "Provides code examples for both",
+          "check": "Response includes code examples showing both * and ! usage"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "I want to make a synthesizer sound in Strudel — something like a classic synth bass. How do I use the built-in synths?",
+      "expected_output": "Should explain available waveforms (sawtooth, square, triangle, sine) via s(), explain that note() sets the pitch, and show how to shape the sound with lpf(), adsr() or individual attack/decay/sustain/release. Should give a working synth bass example.",
+      "files": [],
+      "assertions": [
+        {
+          "id": "mentions-waveforms",
+          "description": "Mentions available waveform types",
+          "check": "Response mentions sawtooth, square, triangle, or sine as available waveforms"
+        },
+        {
+          "id": "shows-note-with-s",
+          "description": "Shows note() combined with s(waveform)",
+          "check": "Response shows note(\"...\").s(\"sawtooth\") or similar combination"
+        },
+        {
+          "id": "shows-filter",
+          "description": "Shows using lpf() or filter for sound shaping",
+          "check": "Response includes .lpf() or other filter to shape the synth sound"
+        },
+        {
+          "id": "working-bass-example",
+          "description": "Provides a working synth bass example",
+          "check": "Response contains a complete runnable synth bass code snippet"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "How do I load my own samples from GitHub in Strudel?",
+      "expected_output": "Should explain the samples() function with GitHub shortcut format 'github:user/repo', mention that a strudel.json file is needed at the repo root, and show how to then use the loaded samples with s(). Should also mention alternative loading methods (URL, disk).",
+      "files": [],
+      "assertions": [
+        {
+          "id": "shows-samples-function",
+          "description": "Shows the samples() function",
+          "check": "Response demonstrates the samples() function"
+        },
+        {
+          "id": "github-shortcut",
+          "description": "Shows the github: shortcut",
+          "check": "Response shows samples('github:user/repo') syntax"
+        },
+        {
+          "id": "mentions-strudel-json",
+          "description": "Mentions the strudel.json requirement",
+          "check": "Response mentions that a strudel.json file needs to exist in the repository"
+        },
+        {
+          "id": "shows-usage-after-load",
+          "description": "Shows how to use loaded samples with s()",
+          "check": "Response shows how to play the loaded samples using s() after calling samples()"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "Can you help me write a full Strudel pattern with drums, a bassline, and a melody? I want something with a house music feel.",
+      "expected_output": "Should provide a complete, runnable Strudel pattern using $: for multiple voices. Should include: a drum pattern with bd*4 and typical house elements, a synth bassline, and a melodic element. Should use appropriate BPM (setcpm) and effects (reverb, filter) for house music.",
+      "files": [],
+      "assertions": [
+        {
+          "id": "uses-dollar-prefix",
+          "description": "Uses $: for multiple simultaneous patterns",
+          "check": "Response uses $: prefix to run multiple patterns simultaneously"
+        },
+        {
+          "id": "has-drums",
+          "description": "Includes a drum pattern",
+          "check": "Response includes a drum pattern with bd (kick) and other drum elements"
+        },
+        {
+          "id": "has-bassline",
+          "description": "Includes a bassline",
+          "check": "Response includes a bass element (low note pattern)"
+        },
+        {
+          "id": "house-feel",
+          "description": "Has elements characteristic of house music",
+          "check": "Response includes four-on-the-floor kick (bd*4) or other house music characteristic patterns"
+        },
+        {
+          "id": "uses-effects",
+          "description": "Uses at least one audio effect",
+          "check": "Response uses at least one effect like lpf, room, delay, or filter"
+        }
+      ]
+    }
+  ]
+}

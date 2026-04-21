@@ -1,0 +1,32 @@
+{
+  "eval_id": 4,
+  "eval_name": "eval-4-scale-notes",
+  "expectations": [
+    {
+      "text": "Response demonstrates n() combined with .scale(\"C:minor\") or similar",
+      "passed": true,
+      "evidence": "n(\"0 1 2 3 4\").scale(\"C:minor\") and n(\"0 2 4\").scale(\"C:minor\").s(\"piano\") both present"
+    },
+    {
+      "text": "Response explains that n() numbers are scale degrees where 0 is the root",
+      "passed": true,
+      "evidence": "'The numbers in n() represent positions (degrees) in the scale. In C minor, 0 maps to C (the root)'"
+    },
+    {
+      "text": "Response contains .scale(\"C:minor\") or equivalent",
+      "passed": true,
+      "evidence": ".scale(\"C:minor\") appears in multiple code examples"
+    },
+    {
+      "text": "Response indicates that any integer can be used and it will stay in scale",
+      "passed": false,
+      "evidence": "'I'm not fully certain how large numbers or negative numbers behave — they may wrap around octaves, but I'd verify in the docs' — the response hedges and does not affirm that any integer works"
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 1,
+    "total": 4,
+    "pass_rate": 0.75
+  }
+}

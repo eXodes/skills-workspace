@@ -1,0 +1,34 @@
+Strudel is a browser-based live coding environment for music, inspired by TidalCycles. Here is how to create a basic drum beat:
+
+**Common drum abbreviations:**
+- `bd` — bass drum / kick
+- `sd` — snare drum
+- `hh` — hi-hat (closed)
+
+**Basic sequence:**
+
+```javascript
+s("bd sd bd sd")
+```
+
+**Playing patterns simultaneously:**
+
+Use a comma inside the pattern string to layer rhythms:
+
+```javascript
+s("bd*4, sd*2, hh*8")
+```
+
+The `*N` syntax repeats a sound N times per cycle.
+
+**Using stack():**
+
+```javascript
+stack(
+  s("bd ~ ~ ~"),
+  s("~ ~ sd ~"),
+  s("hh hh hh hh hh hh hh hh")
+)
+```
+
+I would recommend visiting https://strudel.cc/ for the full list of available sounds, banks, and more complex patterns.

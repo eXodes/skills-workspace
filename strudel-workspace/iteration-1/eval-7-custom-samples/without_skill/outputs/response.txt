@@ -1,0 +1,37 @@
+Strudel is a JavaScript live coding environment for making music in the browser. To load your own samples from GitHub, you can use the `samples()` function that Strudel provides.
+
+Here's the general approach:
+
+```javascript
+// Load samples from a GitHub repository
+samples('github:yourusername/yourrepo')
+
+// Then reference them by name in patterns
+s("mysample")
+```
+
+The GitHub integration works by pointing Strudel at a repository that contains your audio files. You'll typically need some kind of manifest or configuration file in your repository so that Strudel knows which files to load and what names to give them.
+
+**Alternative ways to load samples:**
+
+1. **Direct URL**: You can pass an object mapping sample names to URLs:
+```javascript
+samples({
+  kick: 'https://example.com/kick.wav',
+  snare: 'https://example.com/snare.wav'
+})
+s("kick snare kick snare")
+```
+
+2. **Local files**: The Strudel REPL usually has an option to import a folder of sounds from your local disk through the browser's file picker.
+
+3. **Built-in samples**: Strudel comes with many built-in samples you can use right away without any loading step.
+
+Once samples are loaded, you use them in patterns with the `s()` function (short for "sound"). For example:
+```javascript
+s("kick snare, hihat*8")
+```
+
+For the GitHub approach specifically, make sure your repository is public so Strudel can access the files. The repository should be organized so that audio files are accessible — often you'll need a JSON configuration file at the root that lists your sample files and their paths.
+
+Note: I'd recommend checking the official Strudel documentation for the exact format required, as the specifics (like the configuration file format) may have particular requirements I'm not certain about.

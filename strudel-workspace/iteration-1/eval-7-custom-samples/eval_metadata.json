@@ -1,0 +1,27 @@
+{
+  "eval_id": 7,
+  "eval_name": "eval-7-custom-samples",
+  "prompt": "How do I load my own samples from GitHub in Strudel?",
+  "assertions": [
+    {
+      "id": "shows-samples-function",
+      "description": "Demonstrates the samples() function",
+      "check": "Response demonstrates the samples() function"
+    },
+    {
+      "id": "github-shortcut",
+      "description": "Shows github: shortcut syntax",
+      "check": "Response shows samples('github:user/repo') syntax"
+    },
+    {
+      "id": "mentions-strudel-json",
+      "description": "Mentions strudel.json requirement",
+      "check": "Response mentions that a strudel.json file needs to exist in the repository"
+    },
+    {
+      "id": "shows-usage-after-load",
+      "description": "Shows s() usage after loading samples",
+      "check": "Response shows how to play the loaded samples using s() after calling samples()"
+    }
+  ]
+}

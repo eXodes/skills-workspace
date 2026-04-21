@@ -1,0 +1,32 @@
+{
+  "eval_id": 8,
+  "eval_name": "eval-8-house-pattern",
+  "prompt": "Can you help me write a full Strudel pattern with drums, a bassline, and a melody? I want something with a house music feel.",
+  "assertions": [
+    {
+      "id": "uses-dollar-prefix",
+      "description": "Uses $: prefix for simultaneous patterns",
+      "check": "Response uses $: prefix to run multiple patterns simultaneously"
+    },
+    {
+      "id": "has-drums",
+      "description": "Includes drum pattern with bd",
+      "check": "Response includes a drum pattern with bd (kick) and other drum elements"
+    },
+    {
+      "id": "has-bassline",
+      "description": "Includes bass element",
+      "check": "Response includes a bass element (low note pattern)"
+    },
+    {
+      "id": "house-feel",
+      "description": "Includes four-on-the-floor or house characteristics",
+      "check": "Response includes four-on-the-floor kick (bd*4) or other house music characteristic patterns"
+    },
+    {
+      "id": "uses-effects",
+      "description": "Uses at least one audio effect",
+      "check": "Response uses at least one effect like lpf, room, delay, or filter"
+    }
+  ]
+}
