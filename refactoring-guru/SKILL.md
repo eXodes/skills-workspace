@@ -1,17 +1,11 @@
 ---
 name: refactoring-guru
 description: >
-  Expert advisor for code quality, design patterns, and refactoring using the Refactoring Guru
-  knowledge base. Use this skill when the user shares code asking what's wrong with it
-  structurally; mentions code smells (Long Method, Shotgun Surgery, Feature Envy, etc.); asks
-  which design pattern to use (Factory, Observer, Strategy, Decorator, Command, etc.); wants to
-  refactor messy code; asks about composition vs. inheritance; needs to eliminate duplication,
-  untangle dependencies, or simplify conditionals. Trigger for casual phrasings too — "this code
-  is a mess", "I have to change 10 files every time I add a feature", "this method does too much",
-  "should I use inheritance or composition?", "what pattern fits this problem?",
-  "how do I structure this so it's easier to maintain?". Use for DESIGN and REFACTORING questions
-  — how code is structured or which pattern to apply — not for debugging runtime bugs, writing
-  tests, or explaining language features.
+  Code quality and design patterns advisor using Refactoring Guru principles. Trigger when users
+  ask what's structurally wrong with code, mention code smells, ask which design pattern to use,
+  want to refactor messy code, or ask about composition vs. inheritance. Examples: "this code is a
+  mess", "I have to change 10 files every time I add a feature", "what pattern fits this?". Use
+  for structural design questions—not runtime debugging, testing, or language features.
 ---
 
 # Refactoring Guru Skill

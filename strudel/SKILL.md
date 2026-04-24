@@ -1,18 +1,11 @@
 ---
 name: strudel
 description: >
-  Expert assistant for Strudel, the JavaScript live coding music environment and port of Tidal Cycles.
-  Use this skill when the user wants to write, understand, debug, or compose music with Strudel code;
-  asks about mini-notation syntax (sequences, brackets, euclidean rhythms, rests, randomness);
-  wants to know how to use drum samples, synths, or effects in Strudel; asks about pattern
-  manipulation (stack, cat, slow, fast, every, jux, rev, etc.); wants to load custom samples;
-  asks how to structure a live performance in Strudel; mentions "live coding music", "TidalCycles in
-  JavaScript", "pattern language", "strudel.cc", or "cycles". Trigger for casual phrasings too —
-  "how do I make a drum beat in Strudel?", "what does * mean in the pattern?", "how do I add reverb?",
-  "can you help me write a bassline?", "how do I use the scale function?", "what's the difference
-  between s and note?", "how do euclidean rhythms work?". Do NOT trigger for general JavaScript,
-  audio programming outside Strudel, DAW software questions, or music theory questions not
-  involving Strudel code.
+  JavaScript live coding music expert for Strudel (Tidal Cycles port). Trigger for Strudel code
+  questions: writing patterns, mini-notation syntax, samples, synths, effects, pattern manipulation,
+  live performances. Examples: "how do I make a drum beat?", "what does * mean?", "how do I add
+  reverb?", "how do euclidean rhythms work?". Not for general JavaScript, DAWs, or music theory
+  outside Strudel code.
 ---
 
 # Strudel Skill

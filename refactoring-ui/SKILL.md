@@ -1,18 +1,13 @@
 ---
 name: refactoring-ui
 description: >
-  Expert advisor for UI and visual design using the Refactoring UI knowledge base. Use this skill
-  when the user shares a UI asking what looks wrong or feels off; asks how to improve a design;
-  asks about color, typography, spacing, layout, shadows, or visual hierarchy; wants to know how
-  to pick fonts, build a color palette, or establish a design system; is struggling with contrast,
-  readability, or accessibility in their UI; asks questions like "my design looks boring",
-  "this layout feels too cramped", "I don't know how to pick colors", "how do I make my UI look
-  more professional", "something feels off about this design", "how much padding should I use",
-  "how do I make a good type scale", "what shadow should I use for a modal", "how do I style an
-  empty state", or "my buttons don't look right". Trigger for casual phrasings about visual
-  appearance and UI aesthetics. Use for UI DESIGN and VISUAL questions — how something looks,
-  feels, and is perceived — not for frontend framework implementation, JavaScript logic, CSS
-  debugging, animations/motion, or backend/API design.
+  Expert advisor for UI and visual design using Refactoring UI principles. Use this skill when
+  the user shares a UI design for review, asks about color, typography, spacing, layout, shadows,
+  contrast, or visual hierarchy, wants to build a design system or color palette, or asks casual
+  questions like "my design looks boring", "this layout feels cramped", "how do I pick colors",
+  "what shadow should I use", "how do I make my UI more professional", or "something feels off".
+  Do NOT use for frontend framework implementation, JavaScript logic, CSS debugging, animations,
+  or API design.
 ---
 
 # Refactoring UI Skill
