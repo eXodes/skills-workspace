@@ -1,0 +1,22 @@
+{
+  "eval_id": 6,
+  "eval_name": "out-of-scope-routing",
+  "prompt": "How do I learn Python? I'm coming from JavaScript and want to get up to speed.",
+  "assertions": [
+    {
+      "id": "recognizes_out_of_scope",
+      "description": "Skill recognizes query is not engineering workflow guidance",
+      "check": "Response notes that language learning is out of scope for the engineering skill (no reference loaded for workflow routing)"
+    },
+    {
+      "id": "no_wrong_routing",
+      "description": "Doesn't force-match to an engineering reference",
+      "check": "Response does NOT attempt to load architecture.md, debug.md, or any other engineering workflow reference"
+    },
+    {
+      "id": "still_helpful",
+      "description": "Provides value despite being out-of-scope",
+      "check": "Response gives Python onboarding basics (indentation, list comprehensions, common packages) without pretending it's engineering guidance"
+    }
+  ]
+}

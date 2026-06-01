@@ -1,0 +1,11 @@
+**Skill loaded:** `engineering`  
+**Reference file consulted:** `references/tech-debt.md`
+
+**Routing decision:** The if-else question is squarely a tech debt prioritization problem — not a debugging, architecture design, or code review task. The `tech-debt.md` reference was the right and only file to load.
+
+**What the guidance provided:**
+- Classified the if-else as **code debt** (poor abstraction grown over time)
+- Applied the scoring formula: `Priority = (Impact + Risk) × (6 − Effort)`
+- Used the three categories to generate concrete, answerable questions for each dimension
+
+**The answer in short:** Score Impact (how much it slows work), Risk (consequences of leaving it), and Effort (how hard to fix), then compute the priority score. ≥30 = schedule it explicitly. 15–29 = fix opportunistically. <15 = log it and move on. Before acting, confirm you have tests and an agreed target design — otherwise that's the first step.

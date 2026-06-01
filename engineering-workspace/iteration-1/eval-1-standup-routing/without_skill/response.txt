@@ -1,0 +1,18 @@
+Here's what to cover in your standup:
+
+**Yesterday:**
+- User auth refactor progress (specify what part you completed)
+- Code review on the payments module (note if you left comments or approved)
+
+**Today:**
+- What's next on the auth refactor (session handling, tests, PR submission?)
+- Follow-up on payments review (waiting on author to address feedback?)
+
+**Blockers:**
+- Any dependencies holding up the auth work? If none, say so.
+
+A concrete example:
+
+> "Yesterday I finished reviewing the payments module and left comments on the error handling. I'm also about two-thirds through the auth refactor — got token refresh restructured. Today I'm wrapping up session invalidation and writing tests. No blockers."
+
+Keep it under 60 seconds and focus on what's changed since the last standup.

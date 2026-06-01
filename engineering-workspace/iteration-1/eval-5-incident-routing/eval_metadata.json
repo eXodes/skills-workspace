@@ -1,0 +1,27 @@
+{
+  "eval_id": 5,
+  "eval_name": "incident-routing",
+  "prompt": "We just had an outage. The cache layer went down and took out half our requests. What do we do right now, and how do we figure out what went wrong?",
+  "assertions": [
+    {
+      "id": "loads_incident_ref",
+      "description": "Skill loads incident-response.md reference",
+      "check": "Response explicitly mentions loading incident-response.md"
+    },
+    {
+      "id": "immediate_mitigation",
+      "description": "Provides immediate action steps (Triage + Communicate phases)",
+      "check": "Response covers severity assessment, role assignment, immediate communication template, and fastest mitigation paths (failover, bypass, etc.)"
+    },
+    {
+      "id": "post_incident_investigation",
+      "description": "Addresses root cause analysis (Mitigate + Postmortem phases)",
+      "check": "Response includes evidence collection steps, postmortem template structure (timeline, 5 Whys, action items, blameless tone)"
+    },
+    {
+      "id": "blameless_framing",
+      "description": "Postmortem focuses on systems, not individuals",
+      "check": "Response emphasizes blameless postmortem, systems/process improvement, not individual accountability"
+    }
+  ]
+}

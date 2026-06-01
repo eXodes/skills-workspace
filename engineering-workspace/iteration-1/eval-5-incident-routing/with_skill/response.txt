@@ -1,0 +1,15 @@
+The response has been saved. Here's a summary of what was applied:
+
+**Reference file loaded:** `references/incident-response.md`
+
+**Why:** The prompt described an active production incident — cache layer down, half of requests failing. This matches the "in an incident, on-call response" trigger condition in the skill routing table.
+
+**How the guidance was applied:**
+
+The reference defines four phases (Triage → Communicate → Mitigate → Postmortem). The response maps the user's two questions directly onto those phases:
+
+- **"What do we do right now"** → Phase 1 (Triage: severity assessment, role assignment) and Phase 2 (Communicate: immediate status update template with the exact output format from the reference). Fastest mitigation path: restart, failover, cache bypass, or rollback.
+
+- **"How do we figure out what went wrong"** → Phase 3 (evidence collection during the incident) and Phase 4 (blameless postmortem template with 5 Whys, action items table, lessons learned — using the exact postmortem output format from the reference).
+
+The reference's key principles were enforced throughout: start writing immediately (don't wait for complete information), keep updates factual, postmortems are blameless (systems and processes, not individuals), and set a fixed update cadence so the team isn't waiting for news.

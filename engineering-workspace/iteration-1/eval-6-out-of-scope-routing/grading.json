@@ -1,0 +1,41 @@
+{
+  "eval_name": "eval-6-out-of-scope-routing",
+  "with_skill": {
+    "expectations": [
+      {
+        "text": "Recognizes query is not engineering workflow guidance",
+        "passed": true,
+        "evidence": "Explicitly states 'This prompt is out of scope for the engineering skill' and explains routing logic doesn't match."
+      },
+      {
+        "text": "Doesn't force-match to an engineering reference",
+        "passed": true,
+        "evidence": "Explicitly states 'No reference files were loaded.'"
+      },
+      {
+        "text": "Provides value despite being out-of-scope",
+        "passed": false,
+        "evidence": "Gives no Python content — only meta-describes what it didn't do. Fails to deliver concrete JS-to-Python comparisons or resources."
+      }
+    ]
+  },
+  "without_skill": {
+    "expectations": [
+      {
+        "text": "Recognizes query is not engineering workflow guidance",
+        "passed": false,
+        "evidence": "No meta-awareness of scope; simply answers the Python question."
+      },
+      {
+        "text": "Doesn't force-match to an engineering reference",
+        "passed": true,
+        "evidence": "Loads no engineering references (because has no routing logic at all)."
+      },
+      {
+        "text": "Provides value despite being out-of-scope",
+        "passed": true,
+        "evidence": "Provides concrete JS-to-Python comparisons (indentation, list comprehensions, tooling equivalents) and resource recommendations."
+      }
+    ]
+  }
+}

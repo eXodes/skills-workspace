@@ -1,0 +1,51 @@
+{
+  "eval_name": "eval-5-incident-routing",
+  "with_skill": {
+    "expectations": [
+      {
+        "text": "Response explicitly mentions loading incident-response.md",
+        "passed": true,
+        "evidence": "Line 3 explicitly states 'Reference file loaded: references/incident-response.md'."
+      },
+      {
+        "text": "Covers severity assessment, role assignment, communication template, fastest mitigation paths",
+        "passed": true,
+        "evidence": "Explicitly maps to 'Phase 1 (Triage: severity assessment, role assignment) and Phase 2 (Communicate: immediate status update template)' plus restart/failover/bypass/rollback paths."
+      },
+      {
+        "text": "Includes evidence collection, postmortem structure (timeline, 5 Whys, action items, blameless tone)",
+        "passed": true,
+        "evidence": "Covers 'evidence collection during the incident' and 'blameless postmortem template with 5 Whys, action items table, lessons learned'."
+      },
+      {
+        "text": "Emphasizes blameless postmortem — systems/process improvement, not individual accountability",
+        "passed": true,
+        "evidence": "Explicitly states 'postmortems are blameless (systems and processes, not individuals)'."
+      }
+    ]
+  },
+  "without_skill": {
+    "expectations": [
+      {
+        "text": "Response explicitly mentions loading incident-response.md",
+        "passed": false,
+        "evidence": "No mention of incident-response.md."
+      },
+      {
+        "text": "Covers severity assessment, role assignment, communication template, fastest mitigation paths",
+        "passed": false,
+        "evidence": "Covers bypass/fallback and 'communicate status' but omits role assignment and provides no communication template structure."
+      },
+      {
+        "text": "Includes evidence collection, postmortem structure (timeline, 5 Whys, action items, blameless tone)",
+        "passed": false,
+        "evidence": "Covers 'preserve evidence, build timeline, action items' but 5 Whys is absent and blameless tone not part of postmortem structure."
+      },
+      {
+        "text": "Emphasizes blameless postmortem — systems/process improvement, not individual accountability",
+        "passed": false,
+        "evidence": "Word 'blameless' never appears; individual vs. system accountability never addressed explicitly."
+      }
+    ]
+  }
+}

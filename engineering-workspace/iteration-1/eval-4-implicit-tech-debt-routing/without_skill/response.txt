@@ -1,0 +1,10 @@
+The answer covers:
+
+1. **Assess actual pain** — churn rate, bug history, onboarding time, merge conflicts
+2. **Classify the if-else type** — dispatching, state machine, config flags, business rules, or ad-hoc accumulation. Each type has a different appropriate refactor pattern.
+3. **Cost/benefit framing** — refactoring has real costs; quantify both sides before committing
+4. **Test coverage prerequisite** — characterization tests before any refactor of legacy conditionals
+5. **Incremental over big-bang** — extract branch by branch rather than rewriting wholesale
+6. **Decision tree** — a quick framework for the final call
+
+The core position: don't refactor for aesthetics. Refactor when churn + bug rate makes the maintenance cost exceed the refactor cost.

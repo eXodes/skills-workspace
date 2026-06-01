@@ -1,0 +1,7 @@
+Since no diff was provided, I gave a general review covering the most common security and performance issues for a user preferences caching endpoint:
+
+**Security:** IDOR/authorization checks, input validation, cache key poisoning (user-scoped keys), sensitive data in cache, rate limiting.
+
+**Performance:** Cache invalidation on write, TTL strategy, serialization efficiency, batching cache reads, cache miss fallback to indexed DB lookups, observability for hit/miss ratio.
+
+If you share the actual diff, I can give line-level feedback on specific code paths.

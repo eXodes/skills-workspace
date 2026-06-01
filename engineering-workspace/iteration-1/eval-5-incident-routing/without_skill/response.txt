@@ -1,0 +1,9 @@
+Response saved to `engineering-workspace/iteration-1/eval-5-incident-routing/without_skill/response.txt`.
+
+The response covers:
+
+1. **Immediate actions** — declare incident, stop the bleeding via cache bypass/fallback, communicate status
+2. **Stabilization** — restore the cache layer, watch for thundering herd on the DB, confirm recovery before closing
+3. **Post-incident investigation** — preserve evidence, build a timeline, enumerate common root causes (OOM, network partition, bad deploy, connection exhaustion)
+4. **Postmortem structure** — standard format with action items targeting root cause, detection gaps, and resilience improvements
+5. **Systemic questions** — circuit breakers, fallback paths, monitoring thresholds, capacity headroom

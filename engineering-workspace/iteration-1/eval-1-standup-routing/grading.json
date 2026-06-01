@@ -1,0 +1,41 @@
+{
+  "eval_name": "eval-1-standup-routing",
+  "with_skill": {
+    "expectations": [
+      {
+        "text": "Skill loads standup.md reference",
+        "passed": true,
+        "evidence": "Response opens with '**Reference loaded:** `references/standup.md`' and explicitly cites the reference structure."
+      },
+      {
+        "text": "Applies standup structure to user input",
+        "passed": true,
+        "evidence": "Correctly categorizes auth refactor + payments code review under Yesterday, prompts for Today next-steps, includes Blockers section."
+      },
+      {
+        "text": "Adds specificity beyond the prompt",
+        "passed": true,
+        "evidence": "Explicitly prompts for PR numbers (e.g., 'PR #412'), specific next steps like 'session token migration', and explains why these details are typically missing."
+      }
+    ]
+  },
+  "without_skill": {
+    "expectations": [
+      {
+        "text": "Skill loads standup.md reference",
+        "passed": false,
+        "evidence": "Never mentions loading any reference file."
+      },
+      {
+        "text": "Applies standup structure to user input",
+        "passed": true,
+        "evidence": "Correctly categorizes into Yesterday/Today/Blockers and provides concrete filled-in example sentence."
+      },
+      {
+        "text": "Adds specificity beyond the prompt",
+        "passed": true,
+        "evidence": "Mentions PR submission, token refresh, session invalidation, and error handling — similarly concrete specifics."
+      }
+    ]
+  }
+}

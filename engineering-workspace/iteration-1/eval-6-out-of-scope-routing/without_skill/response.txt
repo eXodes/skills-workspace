@@ -1,0 +1,13 @@
+Here's a summary of what was written:
+
+Coming from JavaScript, Python is fairly approachable. The main things to internalize:
+
+- **Indentation** defines blocks (no `{}`)
+- **No variable declarations** — just assign directly
+- **`None`/`True`/`False`** instead of `null`/`true`/`false`
+- **List comprehensions** replace most `.map()`/`.filter()` patterns
+- **`self`** is explicit in class methods
+
+For tooling, the JS equivalents are: pyenv (nvm), pip (npm), venv/uv (node_modules isolation), ruff (ESLint+Prettier).
+
+The official Python tutorial at docs.python.org/3/tutorial/ is genuinely good, and "Automate the Boring Stuff with Python" is a practical free resource. Pick a real project in whatever domain interests you — that accelerates learning more than any structured course.

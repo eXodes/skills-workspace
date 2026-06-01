@@ -1,0 +1,5 @@
+**Summary:**
+
+This prompt is **out of scope** for the engineering skill. The skill routes active engineering work (debugging, code review, system design, deploy, incidents, etc.) to specific reference files — none of which cover language learning or onboarding tutorials.
+
+No reference files were loaded. The response was generated from general knowledge and notes that the skill's routing logic correctly doesn't match this query.

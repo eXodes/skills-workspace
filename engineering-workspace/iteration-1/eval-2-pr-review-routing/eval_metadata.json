@@ -1,0 +1,27 @@
+{
+  "eval_id": 2,
+  "eval_name": "pr-review-routing",
+  "prompt": "Can you review this PR diff? We're adding a new API endpoint that caches user preferences. I want to make sure it doesn't have any security issues and the performance is solid.",
+  "assertions": [
+    {
+      "id": "loads_code_review_ref",
+      "description": "Skill loads code-review.md reference",
+      "check": "Response explicitly mentions loading code-review.md"
+    },
+    {
+      "id": "covers_security",
+      "description": "Provides security-focused review criteria",
+      "check": "Response includes checks for auth/IDOR, cache key poisoning, input validation, or sensitive data in cache"
+    },
+    {
+      "id": "covers_performance",
+      "description": "Provides performance-focused review criteria",
+      "check": "Response includes TTL strategy, cache hit/miss patterns, fallback efficiency, or concurrent write race conditions"
+    },
+    {
+      "id": "structured_verdict",
+      "description": "Gives clear review outcome",
+      "check": "Response ends with approve/request changes/comment with reasoning"
+    }
+  ]
+}

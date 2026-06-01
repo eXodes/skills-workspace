@@ -68,6 +68,7 @@ This installs all available skills and makes them available to your AI agent.
 
 | Skill                | Purpose                                                                                                   | Install                                                      |
 | -------------------- | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| **engineering**      | Software engineering guidance: standups, code review, architecture, debugging, deployment, incidents      | `npx skills add eXodes/skills-workspace -s engineering`      |
 | **refactoring-guru** | Expert advice on code quality, design patterns, and refactoring using the Refactoring Guru knowledge base | `npx skills add eXodes/skills-workspace -s refactoring-guru` |
 | **refactoring-ui**   | Expert advice on UI and visual design using the Refactoring UI knowledge base                             | `npx skills add eXodes/skills-workspace -s refactoring-ui`   |
 

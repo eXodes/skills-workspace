@@ -1,0 +1,51 @@
+{
+  "eval_name": "eval-4-implicit-tech-debt-routing",
+  "with_skill": {
+    "expectations": [
+      {
+        "text": "Recognizes tech debt despite no explicit 'tech debt' phrasing",
+        "passed": true,
+        "evidence": "Explicitly states 'Reference file consulted: references/tech-debt.md' demonstrating successful implicit routing."
+      },
+      {
+        "text": "Applies tech debt scoring framework",
+        "passed": true,
+        "evidence": "Provides scoring formula verbatim: 'Priority = (Impact + Risk) × (6 − Effort)'."
+      },
+      {
+        "text": "Helps user decide whether to refactor",
+        "passed": true,
+        "evidence": "Provides explicit thresholds: '≥30 = schedule it explicitly. 15–29 = fix opportunistically. <15 = log it and move on.'"
+      },
+      {
+        "text": "Notes test coverage prerequisite",
+        "passed": true,
+        "evidence": "States 'confirm you have tests and an agreed target design — otherwise that's the first step.'"
+      }
+    ]
+  },
+  "without_skill": {
+    "expectations": [
+      {
+        "text": "Recognizes tech debt despite no explicit 'tech debt' phrasing",
+        "passed": false,
+        "evidence": "No mention of tech-debt.md or explicit reference file."
+      },
+      {
+        "text": "Applies tech debt scoring framework",
+        "passed": false,
+        "evidence": "Uses vague 'cost/benefit framing' with no quantitative formula or scoring method."
+      },
+      {
+        "text": "Helps user decide whether to refactor",
+        "passed": false,
+        "evidence": "Mentions 'decision tree' but provides no concrete score-based thresholds or prioritization levels."
+      },
+      {
+        "text": "Notes test coverage prerequisite",
+        "passed": true,
+        "evidence": "Explicitly requires 'characterization tests before any refactor of legacy conditionals'."
+      }
+    ]
+  }
+}

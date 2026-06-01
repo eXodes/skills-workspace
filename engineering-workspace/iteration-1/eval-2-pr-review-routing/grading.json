@@ -1,0 +1,51 @@
+{
+  "eval_name": "eval-2-pr-review-routing",
+  "with_skill": {
+    "expectations": [
+      {
+        "text": "Skill loads code-review.md reference",
+        "passed": true,
+        "evidence": "Line 1 explicitly states 'Loaded `references/code-review.md` — matched because the user is reviewing a PR diff...'"
+      },
+      {
+        "text": "Provides security-focused review criteria",
+        "passed": true,
+        "evidence": "Covers auth/ownership check (IDOR), user-scoped cache key (poisoning), input validation, no PII in cache."
+      },
+      {
+        "text": "Provides performance-focused review criteria",
+        "passed": true,
+        "evidence": "Mentions TTL, indexed fallback DB query, stampede protection, and concurrent write race condition."
+      },
+      {
+        "text": "Gives clear review outcome",
+        "passed": true,
+        "evidence": "Ends with '**Verdict:** Request Changes — confirm auth ownership check, user-scoped cache key...' with clear conclusion and reasoning."
+      }
+    ]
+  },
+  "without_skill": {
+    "expectations": [
+      {
+        "text": "Skill loads code-review.md reference",
+        "passed": false,
+        "evidence": "No mention of code-review.md anywhere in the response."
+      },
+      {
+        "text": "Provides security-focused review criteria",
+        "passed": true,
+        "evidence": "Explicitly lists 'IDOR/authorization checks, input validation, cache key poisoning (user-scoped keys), sensitive data in cache'."
+      },
+      {
+        "text": "Provides performance-focused review criteria",
+        "passed": true,
+        "evidence": "Mentions 'TTL strategy', 'cache miss fallback to indexed DB lookups', 'hit/miss ratio observability'."
+      },
+      {
+        "text": "Gives clear review outcome",
+        "passed": false,
+        "evidence": "Ends with offer to give line-level feedback if diff is provided — no approve/request-changes/comment verdict."
+      }
+    ]
+  }
+}

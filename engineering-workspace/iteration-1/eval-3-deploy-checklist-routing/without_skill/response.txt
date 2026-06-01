@@ -1,0 +1,15 @@
+Here's the deployment guidance provided:
+
+**Pre-Production Checklist covers:**
+- Code & build (tests passing, clean artifact, no debug leftovers)
+- Configuration & secrets (prod env vars, secrets in vault, correct DB)
+- Infrastructure (capacity, health checks, resource limits)
+- Networking & security (TLS validity, rate limiting, CORS)
+- Observability (metrics, logs, alerts, dashboards)
+- Downstream dependencies (migrations, message queues, API compatibility)
+- Runbook & communication (on-call awareness, stakeholder notice)
+
+**Rollback Plan covers:**
+- Clear trigger conditions (error rate, latency, health check failures)
+- Step-by-step rollback (redeploy previous image, revert migrations, restore config, verify)
+- Risk reduction strategies (canary/progressive rollout, blue/green, DB snapshot before migrations, backward-compatible changes)

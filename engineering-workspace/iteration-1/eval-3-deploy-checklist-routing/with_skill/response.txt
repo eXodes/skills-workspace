@@ -1,0 +1,8 @@
+**Skill routing applied:** The user's question — "what to check before we flip the switch" and "rollback plan if things go sideways" — maps to the `references/deploy-checklist.md` file per the skill's routing table ("About to deploy, asking what to check before shipping"). No other reference files were needed.
+
+**What the guidance provided:**
+
+- A structured three-phase checklist: Pre-Deploy → Deploy → Post-Deploy
+- Explicit rollback triggers with concrete, pre-committed thresholds (error rate %, latency delta) — the key insight being that thresholds should be decided before the deploy, not during
+- A sequenced rollback procedure: reroute traffic, verify, notify, preserve evidence, postmortem
+- Additional checks specific to a *new* microservice (service discovery, secrets, resource limits, observability) that a standard "update" deploy wouldn't need

@@ -1,0 +1,51 @@
+{
+  "eval_name": "eval-3-deploy-checklist-routing",
+  "with_skill": {
+    "expectations": [
+      {
+        "text": "Response explicitly mentions loading deploy-checklist.md",
+        "passed": true,
+        "evidence": "Line 1 states 'maps to the references/deploy-checklist.md file per the skill's routing table'."
+      },
+      {
+        "text": "Provides pre-deployment checks for tests, secrets, infrastructure, observability, health checks",
+        "passed": true,
+        "evidence": "Mentions 'structured three-phase checklist: Pre-Deploy → Deploy → Post-Deploy' with observability called out explicitly."
+      },
+      {
+        "text": "Specifies rollback triggers (error rate %, latency %), step-by-step procedure, pre-committed thresholds",
+        "passed": true,
+        "evidence": "Explicitly mentions 'concrete, pre-committed thresholds (error rate %, latency delta)' and 'sequenced rollback procedure: reroute traffic, verify, notify, preserve evidence, postmortem'."
+      },
+      {
+        "text": "Includes service-specific checks (service discovery, secrets, resource limits) for new microservice",
+        "passed": true,
+        "evidence": "Explicitly calls out 'service discovery, secrets, resource limits, observability' as checks specific to a new microservice that a standard update wouldn't need."
+      }
+    ]
+  },
+  "without_skill": {
+    "expectations": [
+      {
+        "text": "Response explicitly mentions loading deploy-checklist.md",
+        "passed": false,
+        "evidence": "No mention of deploy-checklist.md anywhere."
+      },
+      {
+        "text": "Provides pre-deployment checks for tests, secrets, infrastructure, observability, health checks",
+        "passed": true,
+        "evidence": "Enumerates all five areas: code & build (tests), configuration & secrets, infrastructure, observability, health checks."
+      },
+      {
+        "text": "Specifies rollback triggers (error rate %, latency %), step-by-step procedure, pre-committed thresholds",
+        "passed": false,
+        "evidence": "Lists error rate/latency triggers and has a procedure, but lacks the critical 'pre-committed threshold' framing — thresholds are reactive, not pre-decided before deploy."
+      },
+      {
+        "text": "Includes service-specific checks (service discovery, secrets, resource limits) for new microservice",
+        "passed": false,
+        "evidence": "Includes secrets and resource limits in generic checklist, but no service discovery and not framed as microservice-specific — reads as universal deploy guidance."
+      }
+    ]
+  }
+}

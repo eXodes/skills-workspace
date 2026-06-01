@@ -1,0 +1,22 @@
+{
+  "eval_id": 1,
+  "eval_name": "standup-routing",
+  "prompt": "I need to write my standup update for the team. Been working on the user auth refactor for the past couple days and just finished a code review on the payments module. What should I cover?",
+  "assertions": [
+    {
+      "id": "loads_standup_ref",
+      "description": "Skill loads standup.md reference",
+      "check": "Response explicitly mentions loading standup.md and applies its structure (Yesterday/Today/Blockers)"
+    },
+    {
+      "id": "structures_standup",
+      "description": "Applies standup structure to user input",
+      "check": "Response categorizes user's auth work + code review into Yesterday section, provides Today next-steps prompt, mentions blockers"
+    },
+    {
+      "id": "adds_concrete_details",
+      "description": "Adds specificity beyond the prompt",
+      "check": "Suggests PR numbers, specific auth subtasks, or follow-up actions the user might have forgotten"
+    }
+  ]
+}

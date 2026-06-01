@@ -1,0 +1,22 @@
+**Skill routing:** Loaded `references/code-review.md` — matched because the user is reviewing a PR diff and explicitly asked for security and performance analysis.
+
+**What the review covers** (no diff was provided, so findings are framed as "what to check"):
+
+**Security (Critical)**
+- Authorization: ownership check on every read/write path (missing = any user reads any user's prefs)
+- Cache key must be user-scoped (`prefs:{user_id}`) — a global key leaks data cross-user
+- Input validation: allowlist preference keys/values to prevent cache poisoning and XSS
+- No secrets/PII in cached data — cache layers have weaker access controls than DB
+
+**Performance**
+- Cache TTL set; fallback DB query is indexed on user_id
+- Stampede protection for high-traffic cache expiry
+- Max payload size to prevent cache memory exhaustion
+
+**Correctness**
+- Partial update (PATCH) must merge, not overwrite
+- Concurrent write race condition — optimistic lock or CAS
+- Cache invalidated on logout/account suspension
+- Graceful degradation if cache backend is down
+
+**Verdict:** Request Changes — confirm auth ownership check, user-scoped cache key, input validation, indexed fallback, and concurrent write behavior before merging. Provide the actual diff for line-level findings.

@@ -1,0 +1,27 @@
+{
+  "eval_id": 3,
+  "eval_name": "deploy-checklist-routing",
+  "prompt": "We're about to push our new microservice to production. What should we check before we flip the switch? And what's our rollback plan if things go sideways?",
+  "assertions": [
+    {
+      "id": "loads_deploy_ref",
+      "description": "Skill loads deploy-checklist.md reference",
+      "check": "Response explicitly mentions loading deploy-checklist.md"
+    },
+    {
+      "id": "pre_deploy_checklist",
+      "description": "Provides pre-deployment checks",
+      "check": "Response includes checks for tests, secrets, infrastructure, observability, and health checks before deploy"
+    },
+    {
+      "id": "rollback_plan",
+      "description": "Addresses rollback triggers and procedures",
+      "check": "Response specifies rollback triggers (error rate %, latency %), step-by-step rollback procedure, and pre-committed thresholds"
+    },
+    {
+      "id": "microservice_specific",
+      "description": "Tailors guidance to a new microservice",
+      "check": "Response includes service-specific checks (service discovery, secrets management, resource limits) beyond generic deploy steps"
+    }
+  ]
+}

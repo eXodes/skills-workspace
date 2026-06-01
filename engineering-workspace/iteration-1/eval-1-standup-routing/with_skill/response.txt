@@ -1,0 +1,22 @@
+**Reference loaded:** `references/standup.md`
+
+The request is standup writing, so that's the only reference needed. The skill's reference covers standalone mode (no connected tools) — structure from user description into yesterday/today/blockers.
+
+---
+
+## Standup — Tue Jun 02 2026
+
+### Yesterday / Recent
+- Continued user auth refactor — implementation in progress over the past 2 days
+- Completed code review on the payments module
+
+### Today
+- [Next concrete step on auth refactor — e.g., "Open PR for session token migration"]
+- [Any follow-up from payments review — e.g., "Re-review after author addresses comments"]
+
+### Blockers
+- [None, or anything blocking auth refactor completion?]
+
+---
+
+**What to add:** ticket/PR numbers if you have them (e.g., "Code review on payments module (PR #412)"), today's specific next step on the refactor, and any blockers. The standup reference flags these as the items most likely to be missing from off-the-cuff updates.

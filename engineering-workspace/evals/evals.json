@@ -1,0 +1,41 @@
+{
+  "skill_name": "engineering",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I need to write my standup update for the team. Been working on the user auth refactor for the past couple days and just finished a code review on the payments module. What should I cover?",
+      "expected_output": "Should load standup.md and provide guidance on writing a standup that captures auth work + code review activity, structured by time/domain.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Can you review this PR diff? We're adding a new API endpoint that caches user preferences. I want to make sure it doesn't have any security issues and the performance is solid.",
+      "expected_output": "Should load code-review.md (primary) and possibly system-design.md, focusing on security + perf review criteria for cache + API code.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "We're about to push our new microservice to production. What should we check before we flip the switch? And what's our rollback plan if things go sideways?",
+      "expected_output": "Should load deploy-checklist.md and provide pre-deploy verification steps + rollback readiness checklist.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "We've got this huge if-else statement that's been growing for like 3 years. It's getting hard to maintain and I think it's slowing us down. How do we decide if we should refactor it?",
+      "expected_output": "Should load tech-debt.md even though user didn't say 'tech debt' explicitly. Route to categorization + prioritization framework.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "We just had an outage. The cache layer went down and took out half our requests. What do we do right now, and how do we figure out what went wrong?",
+      "expected_output": "Should load incident-response.md for immediate triage + comms guidance, possibly debug.md for root cause analysis.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "How do I learn Python? I'm coming from JavaScript and want to get up to speed.",
+      "expected_output": "Out-of-scope for engineering skill. Should acknowledge but explain this is language learning, not engineering workflow guidance.",
+      "files": []
+    }
+  ]
+}

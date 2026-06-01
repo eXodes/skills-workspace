@@ -1,0 +1,315 @@
+{
+  "iteration": 1,
+  "skill_name": "engineering",
+  "summary": {
+    "with_skill": {
+      "pass_rate": 0.944,
+      "pass_count": 17,
+      "total_assertions": 18,
+      "mean_assertions_per_eval": 3.0
+    },
+    "without_skill": {
+      "pass_rate": 0.611,
+      "pass_count": 11,
+      "total_assertions": 18,
+      "mean_assertions_per_eval": 3.0
+    },
+    "delta": {
+      "pass_rate_delta": "+33.3 percentage points",
+      "pass_count_delta": "+6 assertions"
+    }
+  },
+  "evals": [
+    {
+      "eval_id": 1,
+      "eval_name": "eval-1-standup-routing",
+      "with_skill": {
+        "pass_rate": 1.0,
+        "pass_count": 3,
+        "total": 3,
+        "assertions": [
+          {
+            "text": "Skill loads standup.md reference",
+            "passed": true
+          },
+          {
+            "text": "Applies standup structure to user input",
+            "passed": true
+          },
+          {
+            "text": "Adds specificity beyond the prompt",
+            "passed": true
+          }
+        ]
+      },
+      "without_skill": {
+        "pass_rate": 0.667,
+        "pass_count": 2,
+        "total": 3,
+        "assertions": [
+          {
+            "text": "Skill loads standup.md reference",
+            "passed": false
+          },
+          {
+            "text": "Applies standup structure to user input",
+            "passed": true
+          },
+          {
+            "text": "Adds specificity beyond the prompt",
+            "passed": true
+          }
+        ]
+      }
+    },
+    {
+      "eval_id": 2,
+      "eval_name": "eval-2-pr-review-routing",
+      "with_skill": {
+        "pass_rate": 1.0,
+        "pass_count": 4,
+        "total": 4,
+        "assertions": [
+          {
+            "text": "Skill loads code-review.md reference",
+            "passed": true
+          },
+          {
+            "text": "Provides security-focused review criteria",
+            "passed": true
+          },
+          {
+            "text": "Provides performance-focused review criteria",
+            "passed": true
+          },
+          {
+            "text": "Gives clear review outcome",
+            "passed": true
+          }
+        ]
+      },
+      "without_skill": {
+        "pass_rate": 0.5,
+        "pass_count": 2,
+        "total": 4,
+        "assertions": [
+          {
+            "text": "Skill loads code-review.md reference",
+            "passed": false
+          },
+          {
+            "text": "Provides security-focused review criteria",
+            "passed": true
+          },
+          {
+            "text": "Provides performance-focused review criteria",
+            "passed": true
+          },
+          {
+            "text": "Gives clear review outcome",
+            "passed": false
+          }
+        ]
+      }
+    },
+    {
+      "eval_id": 3,
+      "eval_name": "eval-3-deploy-checklist-routing",
+      "with_skill": {
+        "pass_rate": 1.0,
+        "pass_count": 4,
+        "total": 4,
+        "assertions": [
+          {
+            "text": "Response explicitly mentions loading deploy-checklist.md",
+            "passed": true
+          },
+          {
+            "text": "Provides pre-deployment checks for tests, secrets, infrastructure, observability, health checks",
+            "passed": true
+          },
+          {
+            "text": "Specifies rollback triggers (error rate %, latency %), step-by-step procedure, pre-committed thresholds",
+            "passed": true
+          },
+          {
+            "text": "Includes service-specific checks (service discovery, secrets, resource limits) for new microservice",
+            "passed": true
+          }
+        ]
+      },
+      "without_skill": {
+        "pass_rate": 0.25,
+        "pass_count": 1,
+        "total": 4,
+        "assertions": [
+          {
+            "text": "Response explicitly mentions loading deploy-checklist.md",
+            "passed": false
+          },
+          {
+            "text": "Provides pre-deployment checks for tests, secrets, infrastructure, observability, health checks",
+            "passed": true
+          },
+          {
+            "text": "Specifies rollback triggers (error rate %, latency %), step-by-step procedure, pre-committed thresholds",
+            "passed": false
+          },
+          {
+            "text": "Includes service-specific checks (service discovery, secrets, resource limits) for new microservice",
+            "passed": false
+          }
+        ]
+      }
+    },
+    {
+      "eval_id": 4,
+      "eval_name": "eval-4-implicit-tech-debt-routing",
+      "with_skill": {
+        "pass_rate": 1.0,
+        "pass_count": 4,
+        "total": 4,
+        "assertions": [
+          {
+            "text": "Recognizes tech debt despite no explicit 'tech debt' phrasing",
+            "passed": true
+          },
+          {
+            "text": "Applies tech debt scoring framework",
+            "passed": true
+          },
+          {
+            "text": "Helps user decide whether to refactor",
+            "passed": true
+          },
+          {
+            "text": "Notes test coverage prerequisite",
+            "passed": true
+          }
+        ]
+      },
+      "without_skill": {
+        "pass_rate": 0.25,
+        "pass_count": 1,
+        "total": 4,
+        "assertions": [
+          {
+            "text": "Recognizes tech debt despite no explicit 'tech debt' phrasing",
+            "passed": false
+          },
+          {
+            "text": "Applies tech debt scoring framework",
+            "passed": false
+          },
+          {
+            "text": "Helps user decide whether to refactor",
+            "passed": false
+          },
+          {
+            "text": "Notes test coverage prerequisite",
+            "passed": true
+          }
+        ]
+      }
+    },
+    {
+      "eval_id": 5,
+      "eval_name": "eval-5-incident-routing",
+      "with_skill": {
+        "pass_rate": 1.0,
+        "pass_count": 4,
+        "total": 4,
+        "assertions": [
+          {
+            "text": "Response explicitly mentions loading incident-response.md",
+            "passed": true
+          },
+          {
+            "text": "Covers severity assessment, role assignment, communication template, fastest mitigation paths",
+            "passed": true
+          },
+          {
+            "text": "Includes evidence collection, postmortem structure (timeline, 5 Whys, action items, blameless tone)",
+            "passed": true
+          },
+          {
+            "text": "Emphasizes blameless postmortem — systems/process improvement, not individual accountability",
+            "passed": true
+          }
+        ]
+      },
+      "without_skill": {
+        "pass_rate": 0.0,
+        "pass_count": 0,
+        "total": 4,
+        "assertions": [
+          {
+            "text": "Response explicitly mentions loading incident-response.md",
+            "passed": false
+          },
+          {
+            "text": "Covers severity assessment, role assignment, communication template, fastest mitigation paths",
+            "passed": false
+          },
+          {
+            "text": "Includes evidence collection, postmortem structure (timeline, 5 Whys, action items, blameless tone)",
+            "passed": false
+          },
+          {
+            "text": "Emphasizes blameless postmortem — systems/process improvement, not individual accountability",
+            "passed": false
+          }
+        ]
+      }
+    },
+    {
+      "eval_id": 6,
+      "eval_name": "eval-6-out-of-scope-routing",
+      "with_skill": {
+        "pass_rate": 0.667,
+        "pass_count": 2,
+        "total": 3,
+        "assertions": [
+          {
+            "text": "Recognizes query is not engineering workflow guidance",
+            "passed": true
+          },
+          {
+            "text": "Doesn't force-match to an engineering reference",
+            "passed": true
+          },
+          {
+            "text": "Provides value despite being out-of-scope",
+            "passed": false
+          }
+        ]
+      },
+      "without_skill": {
+        "pass_rate": 0.667,
+        "pass_count": 2,
+        "total": 3,
+        "assertions": [
+          {
+            "text": "Recognizes query is not engineering workflow guidance",
+            "passed": false
+          },
+          {
+            "text": "Doesn't force-match to an engineering reference",
+            "passed": true
+          },
+          {
+            "text": "Provides value despite being out-of-scope",
+            "passed": true
+          }
+        ]
+      }
+    }
+  ],
+  "analyst_notes": [
+    "Strong routing performance: Evals 1-5 demonstrate correct reference loading. Evals 3, 4, 5 show >75% delta (with_skill 100% vs without_skill 0-25%).",
+    "Weak discriminators: Eval 1 (standup) and Eval 6 (out-of-scope) don't strongly differentiate with/without skill. Baseline can produce good standups without routing. Eval 6 shows skill fails to provide value when routing fails.",
+    "Critical gap in Eval 6: The skill correctly identifies Python learning as out-of-scope but then provides zero value. Better behavior: acknowledge scope miss and still help with general knowledge.",
+    "High-value evals: Evals 3, 4, 5 (deploy, implicit tech debt, incidents) show strong value-add (75-100% delta). These test the skill's core value: routing to specialized references.",
+    "Reference quality signal: Without-skill responses for evals 3-5 lack structured guidance (pre-committed rollback thresholds, quantitative scoring, 5-Whys postmortem structure). Skill + reference combo is stronger."
+  ]
+}

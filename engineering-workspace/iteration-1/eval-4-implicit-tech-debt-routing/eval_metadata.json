@@ -1,0 +1,27 @@
+{
+  "eval_id": 4,
+  "eval_name": "implicit-tech-debt-routing",
+  "prompt": "We've got this huge if-else statement that's been growing for like 3 years. It's getting hard to maintain and I think it's slowing us down. How do we decide if we should refactor it?",
+  "assertions": [
+    {
+      "id": "loads_tech_debt_ref",
+      "description": "Skill recognizes tech debt despite no explicit 'tech debt' phrasing",
+      "check": "Response explicitly mentions loading tech-debt.md (strong signal of successful implicit routing)"
+    },
+    {
+      "id": "applies_scoring",
+      "description": "Applies tech debt scoring framework",
+      "check": "Response provides or references a quantitative scoring method (Impact + Risk × (6 - Effort) or similar)"
+    },
+    {
+      "id": "prioritization_guidance",
+      "description": "Helps user decide whether to refactor",
+      "check": "Response clarifies when to refactor immediately (high score), opportunistically (medium), or defer (low score)"
+    },
+    {
+      "id": "mentions_preconditions",
+      "description": "Notes test coverage prerequisite",
+      "check": "Response emphasizes need for tests/characterization before refactoring legacy code"
+    }
+  ]
+}
