@@ -2,15 +2,27 @@
 
 ## Project Overview
 
-This is a **skills workspace** for building, evaluating, and packaging agent skills for GitHub Copilot CLI. A skill is a `SKILL.md` prompt module that gives an agent specialised domain knowledge for a specific class of tasks.
+Skills workspace for building, evaluating, and packaging agent skills. Skill = `SKILL.md` prompt module giving agents specialised domain knowledge.
 
-No build system or package manager is used. All work is file authoring and JSON-based evaluation.
+No build system or package manager. All work is file authoring and JSON-based evaluation.
 
 ---
 
-## Repository Conventions
+## Skills in this repo
 
-Each skill lives in two sibling directories at the repo root:
+| Skill              | Benchmark           |
+| ------------------ | ------------------- |
+| `engineering`      | 94% vs 61% (+33pp)  |
+| `pdf-viewer`       | 100% vs 11% (+89pp) |
+| `refactoring-guru` | 100% vs 61% (+39pp) |
+| `refactoring-ui`   | 100% vs 75% (+25pp) |
+| `strudel`          | 100% vs 91% (+9pp)  |
+
+---
+
+## Repository Structure
+
+Each skill = two sibling dirs at repo root:
 
 ```
 <skill-name>/               ← installable skill source
@@ -20,37 +32,38 @@ Each skill lives in two sibling directories at the repo root:
 
 <skill-name>-workspace/     ← development artefacts (not installed)
     <skill-name>.skill      ← packaged zip archive
+    README.md               ← file index + benchmark summary
     evals/
         evals.json
-    trigger-evals.json
+    trigger-evals.json      ← not all workspaces have this yet
     iteration-<n>/
         benchmark.json
         benchmark.md
         eval-<n>-<name>/
             eval_metadata.json
+            grading.json
             with_skill/
             without_skill/
-    run_loop.log
+    run_loop.log            ← description optimiser session log (optional)
 ```
 
 **Naming rules:**
-- Skill directory names use kebab-case: `my-skill`
-- Reference files are lowercase kebab-case: `code-smells.md`
-- Eval folders are numbered and named: `eval-1-code-review`
-- Iteration folders are numbered sequentially: `iteration-1`, `iteration-2`
+
+- Skill dirs: kebab-case (`my-skill`)
+- Reference files: lowercase kebab-case (`code-smells.md`)
+- Eval folders: `eval-<n>-<name>` (e.g. `eval-1-code-review`)
+- Iteration folders: `iteration-1`, `iteration-2` — never overwrite, always increment
 
 ---
 
 ## Skill File Format (`SKILL.md`)
 
-Every `SKILL.md` opens with YAML front matter followed by the agent instructions:
-
 ```markdown
 ---
-name: skill-name
+name: skill-name          ← must match directory name exactly
 description: >
-  When to trigger this skill — written for the agent's routing logic.
-  Include the exact scenarios it handles and explicitly state what it does NOT handle.
+  When to trigger — written for agent routing logic.
+  Cover exact scenarios handled. Explicitly state what it does NOT handle.
 ---
 
 # Skill Title
@@ -58,19 +71,15 @@ description: >
 [Agent instructions: workflow, vocabulary, reference file index, output format, tone]
 ```
 
-**Front matter rules:**
-- `name` must match the directory name exactly
-- `description` is used verbatim by the agent to decide whether to load the skill — write it to be unambiguous and precise
-
 **Reference file table** (standard pattern in SKILL.md body):
 
 ```markdown
-| File | What's in it | When to read it |
-|------|-------------|----------------|
-| `references/foo.md` | ... | When the user asks about X |
+| File                | What's in it | When to read it            |
+| ------------------- | ------------ | -------------------------- |
+| `references/foo.md` | ...          | When the user asks about X |
 ```
 
-Reference files should be loaded on demand, not eagerly. The skill should specify exactly when each file is needed.
+Reference files: load on demand, not eagerly. Specify conditional loading logic.
 
 ---
 
@@ -78,66 +87,73 @@ Reference files should be loaded on demand, not eagerly. The skill should specif
 
 ### `evals/evals.json`
 
-Array of eval objects. Each eval must have:
-
 ```json
 {
   "id": 1,
-  "prompt": "The user message sent to the agent",
-  "expected_output": "Human-readable description of what a passing response looks like",
+  "prompt": "User message sent to the agent",
+  "expected_output": "Human-readable description of passing response",
   "files": [],
   "assertions": [
     {
       "id": "kebab-case-id",
       "description": "What this assertion checks",
-      "check": "Specific, verifiable criterion"
+      "check": "Specific, falsifiable criterion"
     }
   ]
 }
 ```
 
-- `assertions` are graded by a separate analyser model — write `check` fields as falsifiable statements
-- `files` lists any files the agent should have access to during the eval
+- `assertions` graded by separate analyser model — `check` must be falsifiable from response text alone
+- `files`: any files agent needs during eval
 - Use 3–6 assertions per eval; avoid redundancy
 
 ### `trigger-evals.json`
 
-Array of `{ "query": "...", "should_trigger": true|false }` objects testing whether the skill fires correctly. Include roughly equal numbers of true/false cases. False cases should represent plausible but out-of-scope queries.
+```json
+{ "query": "...", "should_trigger": true|false }
+```
+
+≥ 10 cases, roughly equal true/false split. False cases = plausible but out-of-scope queries.
 
 ---
 
 ## Iteration and Benchmarking
 
-Each benchmark run produces an `iteration-<n>/` folder:
-
-- `benchmark.md` — human-readable summary table (pass rate with/without skill, delta, timing)
-- `benchmark.json` — full machine-readable results with per-assertion evidence
-- `eval-<n>-<name>/` — per-eval outputs split into `with_skill/` and `without_skill/`
-
 **Target metrics:**
+
 - Pass rate with skill: ≥ 90%
-- Delta over baseline: ≥ +20 percentage points
-- Trigger precision/recall (from `trigger-evals.json`): ≥ 95%
+- Delta over baseline: ≥ +20pp
+- Trigger precision/recall: ≥ 95%
 
-When iterating on a skill, increment the iteration folder number. Do not overwrite previous benchmark results.
-
----
-
-## Adding a New Skill
-
-1. Create `<skill-name>/SKILL.md` with front matter and agent instructions
-2. Add reference files to `<skill-name>/references/` if needed
-3. Create `<skill-name>-workspace/evals/evals.json` with at least 3 evals
-4. Create `<skill-name>-workspace/trigger-evals.json` with ≥ 10 cases (mix of true/false)
-5. Run the benchmark and save results to `<skill-name>-workspace/iteration-1/`
-6. Package the skill: `cd <skill-name> && zip -r ../<skill-name>-workspace/<skill-name>.skill .`
+`benchmark.md` has human-readable summary table. `benchmark.json` has per-assertion evidence. `grading.json` per eval has raw grading output.
 
 ---
 
-## Installing a Skill Locally
+## Key Commands
+
+### Package a skill
 
 ```bash
-# From source directory
+cd <skill-name> && zip -r ../<skill-name>-workspace/<skill-name>.skill .
+```
+
+### Install (preferred — npx CLI)
+
+```bash
+# All skills
+npx skills add eXodes/skills-workspace
+
+# Single skill
+npx skills add eXodes/skills-workspace -s <skill-name>
+
+# List available
+npx skills add eXodes/skills-workspace -l
+```
+
+### Install (manual)
+
+```bash
+# From source
 cp -r <skill-name> ~/.agents/skills/
 
 # From packaged archive
@@ -146,10 +162,24 @@ unzip <skill-name>-workspace/<skill-name>.skill -d ~/.agents/skills/<skill-name>
 
 ---
 
+## Adding a New Skill
+
+1. Create `<skill-name>/SKILL.md` with front matter + agent instructions
+2. Add reference files to `<skill-name>/references/` if needed
+3. Create `<skill-name>-workspace/evals/evals.json` (≥ 3 evals)
+4. Create `<skill-name>-workspace/trigger-evals.json` (≥ 10 cases)
+5. Run benchmark → save to `<skill-name>-workspace/iteration-1/`
+6. Package: `cd <skill-name> && zip -r ../<skill-name>-workspace/<skill-name>.skill .`
+
+Use the `skill-creator` skill for creating, modifying, and benchmarking skills.
+
+---
+
 ## Key Authoring Guidelines
 
-- **Skill descriptions** must cover casual phrasings, not just formal ones — agents match on natural language
-- **Reference files** should be self-contained knowledge documents, not instructions; instructions go in `SKILL.md`
-- **Assertions** in evals must be verifiable by an LLM analyser reading only the response text — avoid assertions that require running code
-- **Do not load all reference files by default** — specify conditional loading logic in `SKILL.md`
-- **Tone in skills** should be direct and practical; avoid filler phrases like "Great question!"
+- **Skill descriptions**: cover casual phrasings — agents match on natural language
+- **Reference files**: self-contained knowledge docs, not instructions; instructions go in `SKILL.md`
+- **Assertions**: must be verifiable by LLM analyser reading only response text — no assertions requiring code execution
+- **Reference loading**: specify conditional logic in `SKILL.md`; never load all eagerly
+- **Tone**: direct and practical; no filler like "Great question!"
+- **Out-of-scope handling**: when skill routing fails, still help with general knowledge — don't abandon user with only a meta-explanation
