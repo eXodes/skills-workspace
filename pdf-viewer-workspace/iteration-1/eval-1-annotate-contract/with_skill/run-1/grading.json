@@ -1,0 +1,61 @@
+{
+  "expectations": [
+    {
+      "text": "calls-display-pdf",
+      "passed": true,
+      "evidence": "Line 5-7: '**Tool Call**: `display_pdf` - url: `/documents/vendor-agreement.pdf`' - The response clearly describes calling display_pdf with the vendor-agreement.pdf path"
+    },
+    {
+      "text": "reads-content-before-annotating",
+      "passed": true,
+      "evidence": "Line 13: '**Tool Call**: `interact(viewUUID, [{ command: \"get_text\", pages: [1, 2, 3, 4, 5] }])`' - The response shows the agent calling get_text to read the first 5 pages before proposing what to highlight"
+    },
+    {
+      "text": "proposes-annotations-to-user",
+      "passed": true,
+      "evidence": "Lines 17-41: The agent provides a detailed Step 3 'Proposing Annotations' section describing 5 key areas (Payment Terms, Liability, Termination, Confidentiality/IP, Renewal) with specific highlights proposed. Line 41: 'Does this annotation approach work for you? I can proceed with highlighting these sections and adding sticky notes.' - explicitly asks for user approval"
+    },
+    {
+      "text": "uses-screenshot-to-confirm",
+      "passed": true,
+      "evidence": "Lines 100-104: The interact command includes `{ command: \"get_screenshot\", page: 1 }` after the annotations are applied. Line 106: 'The annotations are now visible in your PDF viewer.' - confirms the screenshot was used to show the result"
+    },
+    {
+      "text": "mentions-download",
+      "passed": true,
+      "evidence": "Line 116: 'When you're done reviewing, you can **download the annotated PDF** directly from the viewer toolbar. The annotations will be embedded in the downloaded file so you have a record of your review.' - explicitly mentions download capability from toolbar"
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "total_tool_calls": 3,
+    "output_chars": 3695
+  },
+  "timing": {
+    "total_duration_seconds": 0.0
+  },
+  "claims": [
+    "Agent workflow is complete and well-structured with clear steps",
+    "User approval is sought before applying annotations (Step 3 proposal)",
+    "Response provides helpful guidance on contract review best practices",
+    "Download capability is clearly communicated at the end"
+  ],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": []
+  },
+  "eval_feedback": {
+    "suggestions": [
+      "Response is excellent - all assertions pass cleanly with clear evidence",
+      "The workflow follows best practices: open \u2192 read \u2192 propose \u2192 apply \u2192 confirm \u2192 remind",
+      "Annotation proposal with user approval before application is a strong pattern"
+    ],
+    "overall": "Perfect execution. All 5 assertions passed. The response demonstrates a thoughtful, user-centric workflow for annotating contracts with clear communication at each step."
+  }
+}

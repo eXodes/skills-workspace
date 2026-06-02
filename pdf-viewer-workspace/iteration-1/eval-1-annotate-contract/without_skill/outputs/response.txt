@@ -1,0 +1,51 @@
+I wasn't able to locate the PDF file at /documents/vendor-agreement.pdf. This could be because:
+- The path is incorrect or the file doesn't exist
+- The file is in a different location
+- The file system path needs to be verified
+
+As a general assistant, my native capabilities for reading PDF files are limited. I can't directly render or extract text from PDF documents through standard file reading tools.
+
+However, I can still help you review a vendor agreement if you either:
+1. Copy the text content from the PDF and paste it here
+2. Provide the correct file path where the PDF is located
+3. Describe the key sections you're uncertain about
+
+That said, here are the KEY TERMS typically important in vendor agreements to watch for:
+
+**Payment & Pricing:**
+- Payment terms (Net 30, Net 60, etc.)
+- Late payment penalties
+- Currency and any FX adjustment clauses
+- Volume discounts or tiered pricing
+- Price escalation or adjustment mechanisms
+
+**Term & Termination:**
+- Contract duration and renewal terms
+- Termination for convenience (notice period required)
+- Termination for cause conditions
+- Obligations upon termination
+
+**Liability & Insurance:**
+- Limitation of liability caps
+- Indemnification clauses (who covers losses)
+- Insurance requirements and coverage amounts
+- Warranties and their disclaimers
+
+**Intellectual Property:**
+- Ownership of work products or deliverables
+- Use of proprietary information
+- Confidentiality and NDA requirements
+- Rights to feedback or modifications
+
+**Performance & Service Levels:**
+- Service level agreements (SLAs) and uptime guarantees
+- Remedies for SLA breaches
+- Response times and support availability
+
+**General/Administrative:**
+- Dispute resolution and governing law
+- Force majeure and unforeseen circumstances
+- Amendment procedures
+- Assignment rights and restrictions
+
+To proceed with a detailed review, please provide access to the actual PDF content or verify the file location.

@@ -1,0 +1,27 @@
+I can help you add your signature to the NDA PDF. Here's how we can approach this:
+
+**Option 1: Using Built-in PDF Tools (Recommended)**
+- On Mac, you can use Preview (the default PDF viewer):
+  1. Open the NDA PDF in Preview
+  2. Go to page 4
+  3. Click Tools → Annotate → Signature
+  4. Select your signature image (~/Desktop/signature.png)
+  5. Click where you want to place it
+  6. Save the PDF
+
+**Option 2: Using Online Tools**
+- Upload the PDF to a service like Adobe Fill & Sign, DocuSign, or HelloSign
+- They make it easy to place signature images at specific locations
+- Download the signed PDF when done
+
+**Option 3: Using Third-Party Software**
+- Adobe Acrobat Pro can annotate PDFs and place images
+- PDFtk or similar command-line tools can merge a signature image onto specific pages
+
+**What I'd need to help you further:**
+- Are you on Mac, Windows, or Linux?
+- Do you have any PDF editing software installed?
+- Do you need to preserve the original PDF or create a new signed version?
+- Should the signature be embedded or remain as an annotation?
+
+Would you like me to walk you through one of these approaches in detail?

@@ -1,0 +1,32 @@
+{
+  "eval_id": 2,
+  "eval_name": "eval-2-fill-w9-form",
+  "prompt": "Help me fill out the W-9 tax form at /forms/w9.pdf. I need to put it in as John Smith, sole proprietor, SSN 555-12-3456, address 100 Main St, Springfield, IL.",
+  "assertions": [
+    {
+      "id": "calls-display-pdf",
+      "description": "Calls display_pdf to open the form",
+      "check": "The agent calls display_pdf on the W-9 path"
+    },
+    {
+      "id": "handles-cryptic-fields",
+      "description": "Takes screenshot to resolve cryptic field names",
+      "check": "Because W-9 fields have cryptic names (f1_1 etc.), the agent uses get_screenshot to visually identify which field is which before filling"
+    },
+    {
+      "id": "fills-all-provided-values",
+      "description": "Fills all user-provided field values",
+      "check": "The agent fills in all values provided: name (John Smith), business type/SSN, and address using fill_form"
+    },
+    {
+      "id": "confirms-with-screenshot",
+      "description": "Confirms filled form with screenshot",
+      "check": "The agent calls get_screenshot after fill_form to show the user the filled result"
+    },
+    {
+      "id": "mentions-signature-still-needed",
+      "description": "Notes signature field still needs signature image",
+      "check": "The agent points out that the signature line requires a separate signature image step (visual sign workflow)"
+    }
+  ]
+}

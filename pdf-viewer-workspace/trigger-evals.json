@@ -1,0 +1,82 @@
+[
+  {
+    "query": "I have a vendor contract PDF at ~/Documents/contracts/saas-agreement-v3.pdf — can you open it and highlight all the indemnification clauses before I sign?",
+    "should_trigger": true
+  },
+  {
+    "query": "open this NDA and walk me through it, annotating anything I should negotiate",
+    "should_trigger": true
+  },
+  {
+    "query": "my boss sent me a performance-review-template.pdf and I need to fill it out with my info and sign it — can you help?",
+    "should_trigger": true
+  },
+  {
+    "query": "stamp this document CONFIDENTIAL on every page",
+    "should_trigger": true
+  },
+  {
+    "query": "I need to put my signature on page 3 of this lease agreement, my sig is at ~/Desktop/my-signature.png",
+    "should_trigger": true
+  },
+  {
+    "query": "can you show me the arxiv paper at https://arxiv.org/abs/2310.06825 and add notes on the methodology section",
+    "should_trigger": true
+  },
+  {
+    "query": "show me this PDF and mark up the sections I should review",
+    "should_trigger": true
+  },
+  {
+    "query": "add my initials to the bottom of every page in this agreement",
+    "should_trigger": true
+  },
+  {
+    "query": "I've got a W-9 form I need to fill in, can you help me get through the fields visually?",
+    "should_trigger": true
+  },
+  {
+    "query": "open /downloads/invoice-march.pdf and put an APPROVED stamp on it",
+    "should_trigger": true
+  },
+  {
+    "query": "what are the main findings in this research paper? (attaching PDF)",
+    "should_trigger": false
+  },
+  {
+    "query": "extract all the line items from the invoice at /invoices/march-2024.pdf into a CSV",
+    "should_trigger": false
+  },
+  {
+    "query": "can you summarize this terms-of-service.pdf for me?",
+    "should_trigger": false
+  },
+  {
+    "query": "what does page 5 of this contract say about termination clauses?",
+    "should_trigger": false
+  },
+  {
+    "query": "parse the table in section 3.2 of this PDF and turn it into JSON",
+    "should_trigger": false
+  },
+  {
+    "query": "I need to merge two PDFs into one document",
+    "should_trigger": false
+  },
+  {
+    "query": "convert this PDF to Word format",
+    "should_trigger": false
+  },
+  {
+    "query": "add a certified digital signature with timestamp and PKI to this contract for legal compliance",
+    "should_trigger": false
+  },
+  {
+    "query": "help me write a new PDF from scratch with my company's letterhead",
+    "should_trigger": false
+  },
+  {
+    "query": "translate the text in this scanned PDF image",
+    "should_trigger": false
+  }
+]

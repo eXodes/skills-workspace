@@ -1,0 +1,42 @@
+{
+  "eval_id": "eval-5-annotate-arxiv",
+  "run_id": "run-1",
+  "with_skill": false,
+  "assertions": [
+    {
+      "id": "handles-arxiv-url",
+      "description": "The agent opens the arXiv paper — either noting it auto-converts /abs/ URLs to PDF URLs or passing the URL to display_pdf",
+      "passed": false,
+      "evidence": "Agent attempts to fetch from the arXiv URL but encounters PDF format constraints and does not use display_pdf API. No mention of converting /abs/ to /pdf/ URLs or using the viewer tool."
+    },
+    {
+      "id": "reads-before-annotating",
+      "description": "The agent uses get_text to read methodology and/or results sections before proposing annotations",
+      "passed": false,
+      "evidence": "Agent describes what it would read (methodology, results) but never actually calls get_text. Only extracts high-level topic information from abstract page."
+    },
+    {
+      "id": "annotates-in-batches",
+      "description": "The agent batches annotations in manageable groups (not all at once) and shows the user each batch",
+      "passed": false,
+      "evidence": "No attempt to call add_annotations at all. Agent identifies batching as best practice but does not execute batched annotations."
+    },
+    {
+      "id": "screenshot-each-batch",
+      "description": "get_screenshot is called after each batch of add_annotations to verify and present results",
+      "passed": false,
+      "evidence": "No calls to get_screenshot. No visual verification or presentation of results attempted."
+    },
+    {
+      "id": "mentions-download",
+      "description": "The response mentions downloading the annotated PDF from the viewer toolbar",
+      "passed": false,
+      "evidence": "No mention of the viewer toolbar's download feature. Agent provides general recommendations about what tools would be needed but does not reference toolbar download."
+    }
+  ],
+  "summary": {
+    "passed_count": 0,
+    "total_count": 5,
+    "pass_rate": 0.0
+  }
+}

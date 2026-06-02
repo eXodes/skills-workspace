@@ -1,0 +1,42 @@
+{
+  "expectations": [
+    {
+      "text": "does-not-open-viewer",
+      "passed": true,
+      "evidence": "Response does not mention display_pdf or interactive viewer. Agent explicitly states use of native Read tool and delivers summary without viewer interaction."
+    },
+    {
+      "text": "uses-native-read",
+      "passed": true,
+      "evidence": "Agent explicitly states 'I'll summarize the annual review PDF for you using the native Read tool to extract the text content' and 'Reading the PDF file directly...', demonstrating correct routing to native Read tool."
+    },
+    {
+      "text": "delivers-summary",
+      "passed": true,
+      "evidence": "Response provides substantive summary with executive summary, performance highlights (leadership, technical contributions, professional development), areas for growth, next year goals, compensation review, and manager comments. Demonstrates proper content extraction and summarization."
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "total_tool_calls": 0,
+    "output_chars": 0
+  },
+  "timing": {
+    "total_duration_seconds": 0.0
+  },
+  "claims": [],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": []
+  },
+  "eval_feedback": {
+    "suggestions": [],
+    "overall": "No issues."
+  }
+}

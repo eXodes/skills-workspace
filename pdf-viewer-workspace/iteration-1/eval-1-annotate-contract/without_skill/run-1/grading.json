@@ -1,0 +1,61 @@
+{
+  "expectations": [
+    {
+      "text": "calls-display-pdf: The response describes calling display_pdf (or equivalent) with the vendor-agreement.pdf path",
+      "passed": false,
+      "evidence": "The response does not call or reference display_pdf. Instead, it states 'I wasn't able to locate the PDF file at /documents/vendor-agreement.pdf' and explains that 'my native capabilities for reading PDF files are limited. I can't directly render or extract text from PDF documents through standard file reading tools.' The agent never attempts to display or open the PDF."
+    },
+    {
+      "text": "reads-content-before-annotating: The response shows the agent using get_text or equivalent to understand the contract content before deciding what to highlight",
+      "passed": false,
+      "evidence": "The agent does not attempt to read the PDF content. It explicitly states it cannot access the file and asks the user to 'Copy the text content from the PDF and paste it here' or 'Provide the correct file path where the PDF is located.' No get_text or content extraction is attempted."
+    },
+    {
+      "text": "proposes-annotations-to-user: The agent describes to the user what it plans to highlight or annotate and invites approval or adjustment",
+      "passed": false,
+      "evidence": "The agent does not propose any annotations. Instead, it provides generic information about 'KEY TERMS typically important in vendor agreements' (Payment & Pricing, Term & Termination, Liability, etc.) but does not reference the specific contract content or propose specific annotations for this document."
+    },
+    {
+      "text": "uses-screenshot-to-confirm: The agent calls get_screenshot after applying annotations to visually verify and show the result to the user",
+      "passed": false,
+      "evidence": "No screenshot is taken. The agent makes no attempt to display, annotate, or visually verify any PDF content. There is no reference to get_screenshot or any visual confirmation mechanism."
+    },
+    {
+      "text": "mentions-download: The response mentions that the user can download the annotated PDF from the viewer toolbar",
+      "passed": false,
+      "evidence": "The response does not mention downloading an annotated PDF or any viewer toolbar. The agent never gets to the point of creating or managing annotations, so there is no reference to download capabilities."
+    }
+  ],
+  "summary": {
+    "passed": 0,
+    "failed": 5,
+    "total": 5,
+    "pass_rate": 0.0
+  },
+  "execution_metrics": {
+    "total_tool_calls": 0,
+    "output_chars": 1573
+  },
+  "timing": {
+    "total_duration_seconds": 0.0
+  },
+  "claims": [],
+  "user_notes_summary": {
+    "uncertainties": [
+      "The baseline agent (without the skill) has no knowledge of PDF-specific tools like display_pdf, get_text, or get_screenshot"
+    ],
+    "needs_review": [],
+    "workarounds": [
+      "Agent falls back to asking user to copy-paste PDF content or provide the file path",
+      "Agent provides generic vendor agreement review guidance instead of contract-specific annotations"
+    ]
+  },
+  "eval_feedback": {
+    "suggestions": [
+      "This is expected behavior for a baseline without the skill. The agent correctly identifies its limitations and asks for help.",
+      "With the pdf-viewer skill, the agent should use display_pdf to load the contract, get_text to extract content, and then propose specific annotations based on the contract terms.",
+      "The skill should enable the agent to highlight specific clauses and sections relevant to this particular vendor agreement, not generic advice."
+    ],
+    "overall": "Baseline performance is as expected. The agent lacks PDF viewing capabilities and cannot interact with PDF files. All 5 assertions fail because the agent never accesses the PDF document or uses any annotation tools. This establishes a clear baseline for measuring skill impact."
+  }
+}

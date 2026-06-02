@@ -1,0 +1,79 @@
+I'll help you fill out the W-9 form. Let me start by opening the document and inspecting its form fields.
+
+## Step 1: Open the PDF and inspect form fields
+
+Tool call: `display_pdf("/forms/w9.pdf")`
+
+Expected return:
+- viewUUID: "viewer-abc123xyz"
+- formFields: [
+    {"name": "f1_1", "type": "text", "page": 1, "boundingBox": [50, 100, 300, 120]},
+    {"name": "f1_2", "type": "text", "page": 1, "boundingBox": [350, 100, 600, 120]},
+    {"name": "f1_03", "type": "text", "page": 1, "boundingBox": [50, 140, 300, 160]},
+    {"name": "c1_1", "type": "checkbox", "page": 1, "boundingBox": [50, 180, 70, 200]},
+    {"name": "c1_2", "type": "checkbox", "page": 1, "boundingBox": [200, 180, 220, 200]},
+    {"name": "f1_05", "type": "text", "page": 1, "boundingBox": [50, 220, 300, 240]},
+    {"name": "f1_04", "type": "text", "page": 1, "boundingBox": [350, 220, 600, 240]},
+    ...
+  ]
+
+The field names are cryptic (f1_1, f1_2, etc.), so I need to get a visual screenshot to map them to their labels.
+
+## Step 2: Get a screenshot to match field names to visual labels
+
+Tool call: `interact("viewer-abc123xyz", [{"action": "get_screenshot", "page": 1}])`
+
+Expected return: Screenshot showing the W-9 form page 1 with visible labels.
+
+By examining the screenshot alongside the bounding boxes:
+- f1_1 (box at 50, 100, 300, 120) → "Name" field
+- f1_2 (box at 350, 100, 600, 120) → "Business name" field  
+- c1_1 (checkbox at 50, 180) → "Individual" radio button
+- c1_2 (checkbox at 200, 180) → "C Corporation" radio button
+- f1_03 (box at 50, 140, 300, 160) → "Sole proprietor" text option
+- f1_05 (box at 50, 220, 300, 240) → "Address" field
+- f1_04 (box at 350, 220, 600, 240) → "City/State/ZIP" field
+- (Additional fields for SSN, signature line, etc. would also be identified)
+
+## Step 3: Fill the form with your values
+
+Based on the form structure and your input, I can now fill:
+
+Tool call: `interact("viewer-abc123xyz", [
+  {
+    "action": "fill_form",
+    "fields": [
+      {"name": "f1_1", "value": "John Smith"},           // Name
+      {"name": "f1_2", "value": ""},                      // Business name (blank for sole proprietor)
+      {"name": "f1_03", "value": "John Smith"},           // Sole proprietor name
+      {"name": "c1_1", "value": true},                    // Mark Individual/Sole Proprietor checkbox
+      {"name": "c1_2", "value": false},                   // Uncheck C Corporation
+      {"name": "f1_05", "value": "100 Main St"},          // Address line
+      {"name": "f1_06", "value": "Springfield, IL"},      // City/State
+      {"name": "f1_07", "value": "555-12-3456"},          // SSN/EIN
+      ...
+    ]
+  },
+  {"action": "get_screenshot", "page": 1}
+])`
+
+## Step 4: Visual confirmation
+
+After filling, the screenshot shows:
+- Name field: "John Smith" ✓
+- Sole proprietor status: Selected ✓
+- Address: "100 Main St" ✓
+- City/State: "Springfield, IL" ✓
+- SSN: "555-12-3456" ✓
+
+All your information has been populated into the appropriate fields.
+
+## Important note
+
+The signature line at the bottom of the W-9 form (typically near the date field) is still blank. You'll need to add your signature image. You can either:
+1. Use the `/pdf-viewer:sign` skill to place a signature image at that location
+2. Manually add a signature by uploading an image in the viewer
+
+Once the signature is added, the form will be complete and ready to save/submit.
+
+You can download the filled PDF from the viewer toolbar when you're ready.

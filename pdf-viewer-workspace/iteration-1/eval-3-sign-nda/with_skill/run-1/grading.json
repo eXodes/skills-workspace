@@ -1,0 +1,40 @@
+{
+  "assertions": [
+    {
+      "id": "calls-display-pdf",
+      "status": "pass",
+      "evidence": "Line 7: '1. `display_pdf(url: \"~/Documents/nda-2024.pdf\", page: 4)` - Document opened successfully'",
+      "notes": "Agent clearly calls display_pdf with the NDA path"
+    },
+    {
+      "id": "uses-image-annotation",
+      "status": "pass",
+      "evidence": "Lines 21-28: annotation object with 'type': 'image' and 'imageUrl': '~/Desktop/signature.png' is specified in the add_annotations command",
+      "notes": "Agent uses correct image annotation type with imageUrl pointing to signature.png"
+    },
+    {
+      "id": "targets-correct-page",
+      "status": "pass",
+      "evidence": "Lines 22 and 7: Both the display_pdf call (page: 4) and the annotation object ('page': 4) target page 4",
+      "notes": "Image annotation is correctly placed on page 4 as specified"
+    },
+    {
+      "id": "confirms-with-screenshot",
+      "status": "pass",
+      "evidence": "Lines 13, 32: Agent calls interact with get_screenshot command after add_annotations: 'Command: get_screenshot of page 4 to verify placement'",
+      "notes": "Agent confirms placement with screenshot of page 4 after annotation"
+    },
+    {
+      "id": "includes-disclaimer",
+      "status": "pass",
+      "evidence": "Lines 39-40: '⚠️ Important Disclaimer: This places your signature **image** on the PDF. It is **not** a certified or cryptographic digital signature.'",
+      "notes": "Agent includes clear disclaimer about visual signature vs certified digital signature, with recommendation for DocuSign/Adobe Sign"
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "pass_rate": 1.0
+  }
+}

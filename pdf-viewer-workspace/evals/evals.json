@@ -1,0 +1,157 @@
+[
+  {
+    "id": 1,
+    "prompt": "I have a contract at /documents/vendor-agreement.pdf. Can you open it and highlight the key terms I should pay attention to before signing?",
+    "expected_output": "Agent calls display_pdf with the file path, then uses get_text to read the contract, proposes a set of annotations (highlights, notes) to the user describing what it will mark, then on implicit approval applies them via interact add_annotations and confirms with get_screenshot. Ends by reminding the user they can download the annotated PDF.",
+    "files": [],
+    "assertions": [
+      {
+        "id": "calls-display-pdf",
+        "description": "Calls display_pdf with the file path",
+        "check": "The response describes calling display_pdf (or equivalent) with the vendor-agreement.pdf path"
+      },
+      {
+        "id": "reads-content-before-annotating",
+        "description": "Reads document content before proposing annotations",
+        "check": "The response shows the agent using get_text or equivalent to understand the contract content before deciding what to highlight"
+      },
+      {
+        "id": "proposes-annotations-to-user",
+        "description": "Proposes annotation plan to user before applying",
+        "check": "The agent describes to the user what it plans to highlight or annotate and invites approval or adjustment"
+      },
+      {
+        "id": "uses-screenshot-to-confirm",
+        "description": "Uses get_screenshot to confirm annotation result",
+        "check": "The agent calls get_screenshot after applying annotations to visually verify and show the result to the user"
+      },
+      {
+        "id": "mentions-download",
+        "description": "Reminds user about download",
+        "check": "The response mentions that the user can download the annotated PDF from the viewer toolbar"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "prompt": "Help me fill out the W-9 tax form at /forms/w9.pdf. I need to put it in as John Smith, sole proprietor, SSN 555-12-3456, address 100 Main St, Springfield, IL.",
+    "expected_output": "Agent calls display_pdf on the W-9, inspects the returned formFields (which on a W-9 have cryptic names like f1_1, f1_2), takes a screenshot to match cryptic names to visual labels, then fills the fields using fill_form with the user-provided values, takes a screenshot to confirm, and shows the result. Notes that the signature line still needs a signature image.",
+    "files": [],
+    "assertions": [
+      {
+        "id": "calls-display-pdf",
+        "description": "Calls display_pdf to open the form",
+        "check": "The agent calls display_pdf on the W-9 path"
+      },
+      {
+        "id": "handles-cryptic-fields",
+        "description": "Takes screenshot to resolve cryptic field names",
+        "check": "Because W-9 fields have cryptic names (f1_1 etc.), the agent uses get_screenshot to visually identify which field is which before filling"
+      },
+      {
+        "id": "fills-all-provided-values",
+        "description": "Fills all user-provided field values",
+        "check": "The agent fills in all values provided: name (John Smith), business type/SSN, and address using fill_form"
+      },
+      {
+        "id": "confirms-with-screenshot",
+        "description": "Confirms filled form with screenshot",
+        "check": "The agent calls get_screenshot after fill_form to show the user the filled result"
+      },
+      {
+        "id": "mentions-signature-still-needed",
+        "description": "Notes signature field still needs signature image",
+        "check": "The agent points out that the signature line requires a separate signature image step (visual sign workflow)"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "prompt": "I need to sign the NDA at ~/Documents/nda-2024.pdf on page 4. My signature image is at ~/Desktop/signature.png.",
+    "expected_output": "Agent calls display_pdf on the NDA, checks formFields for signature-type fields or asks about placement on page 4. Places the signature image using interact add_annotations with type 'image', imageUrl pointing to the .png, on page 4 at appropriate coordinates (e.g., bottom area). Calls get_screenshot of page 4 to confirm placement. Offers to adjust if positioning looks off. Includes the disclaimer about this being a visual signature, not a certified digital signature.",
+    "files": [],
+    "assertions": [
+      {
+        "id": "calls-display-pdf",
+        "description": "Opens the PDF with display_pdf",
+        "check": "The agent calls display_pdf on the NDA path"
+      },
+      {
+        "id": "uses-image-annotation",
+        "description": "Places signature as image annotation",
+        "check": "The agent uses an image annotation type with imageUrl pointing to the signature.png file to place the signature"
+      },
+      {
+        "id": "targets-correct-page",
+        "description": "Places signature on page 4",
+        "check": "The image annotation is placed on page 4 as specified by the user"
+      },
+      {
+        "id": "confirms-with-screenshot",
+        "description": "Verifies placement with get_screenshot",
+        "check": "The agent calls get_screenshot of page 4 after placing the annotation to verify and show the user"
+      },
+      {
+        "id": "includes-disclaimer",
+        "description": "Includes visual-only signature disclaimer",
+        "check": "The response includes a disclaimer that this is a visual signature image, not a certified or cryptographic digital signature"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "prompt": "Can you summarize the key points in /reports/annual-review-2023.pdf for me?",
+    "expected_output": "Agent correctly identifies this as a pure text extraction / summarization task — NOT an interactive viewer task. It uses the native Read tool to read the PDF content directly and returns a summary. It does NOT call display_pdf or open the viewer at all.",
+    "files": [],
+    "assertions": [
+      {
+        "id": "does-not-open-viewer",
+        "description": "Does NOT open the PDF viewer",
+        "check": "The agent does not call display_pdf or open an interactive viewer for this summarization request"
+      },
+      {
+        "id": "uses-native-read",
+        "description": "Uses native Read tool instead",
+        "check": "The agent uses the native Read tool or equivalent text extraction to access the PDF content for summarization"
+      },
+      {
+        "id": "delivers-summary",
+        "description": "Delivers an actual summary",
+        "check": "The response provides a substantive summary of what the annual review would contain, demonstrating correct routing"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "prompt": "I'm reviewing a research paper at https://arxiv.org/abs/2401.01234. Walk me through it and annotate the methodology and results sections with your analysis notes.",
+    "expected_output": "Agent opens the arXiv paper (auto-converting the /abs/ URL to the PDF URL) via display_pdf, uses get_text to read through the paper in sections, proposes annotations for the methodology and results sections (notes, highlights on key findings), applies them in batches with get_screenshot after each batch, and iterates section by section. Reminds user they can download at the end.",
+    "files": [],
+    "assertions": [
+      {
+        "id": "handles-arxiv-url",
+        "description": "Handles arXiv URL correctly",
+        "check": "The agent opens the arXiv paper — either noting it auto-converts /abs/ URLs to PDF URLs or passing the URL to display_pdf"
+      },
+      {
+        "id": "reads-before-annotating",
+        "description": "Reads paper content before annotating",
+        "check": "The agent uses get_text to read methodology and/or results sections before proposing annotations"
+      },
+      {
+        "id": "annotates-in-batches",
+        "description": "Applies annotations in reviewable batches",
+        "check": "The agent batches annotations in manageable groups (not all at once) and shows the user each batch"
+      },
+      {
+        "id": "screenshot-each-batch",
+        "description": "Screenshots after each annotation batch",
+        "check": "get_screenshot is called after each batch of add_annotations to verify and present results"
+      },
+      {
+        "id": "mentions-download",
+        "description": "Reminds user they can download",
+        "check": "The response mentions downloading the annotated PDF from the viewer toolbar"
+      }
+    ]
+  }
+]

@@ -1,0 +1,22 @@
+{
+  "eval_id": 4,
+  "eval_name": "eval-4-summarize-no-viewer",
+  "prompt": "Can you summarize the key points in /reports/annual-review-2023.pdf for me?",
+  "assertions": [
+    {
+      "id": "does-not-open-viewer",
+      "description": "Does NOT open the PDF viewer",
+      "check": "The agent does not call display_pdf or open an interactive viewer for this summarization request"
+    },
+    {
+      "id": "uses-native-read",
+      "description": "Uses native Read tool instead",
+      "check": "The agent uses the native Read tool or equivalent text extraction to access the PDF content for summarization"
+    },
+    {
+      "id": "delivers-summary",
+      "description": "Delivers an actual summary",
+      "check": "The response provides a substantive summary of the PDF content, demonstrating correct routing to the native tool"
+    }
+  ]
+}

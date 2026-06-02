@@ -1,0 +1,28 @@
+{
+  "eval_id": "eval-4-summarize-no-viewer",
+  "variant": "without_skill",
+  "run": 1,
+  "assertions": [
+    {
+      "id": "does-not-open-viewer",
+      "passed": true,
+      "reasoning": "Agent does not call display_pdf or open an interactive viewer. It acknowledges inability to access the file without attempting any viewer functionality."
+    },
+    {
+      "id": "uses-native-read",
+      "passed": false,
+      "reasoning": "Agent does not use the native Read tool or any text extraction. It mentions it 'would' try to read the PDF but acknowledges file inaccessibility and makes no actual tool call."
+    },
+    {
+      "id": "delivers-summary",
+      "passed": false,
+      "reasoning": "Agent provides no substantive summary of PDF content. Instead, it explains the file is inaccessible and requests the file be provided or content be copy-pasted."
+    }
+  ],
+  "summary": {
+    "passed": 1,
+    "failed": 2,
+    "total": 3,
+    "pass_rate": 0.33
+  }
+}

@@ -1,0 +1,361 @@
+{
+  "metadata": {
+    "skill_name": "pdf-viewer",
+    "skill_path": "/Users/exodes/Projects/skills-workspace/pdf-viewer",
+    "executor_model": "<model-name>",
+    "analyzer_model": "<model-name>",
+    "timestamp": "2026-06-02T07:25:56Z",
+    "evals_run": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "runs_per_configuration": 3
+  },
+  "runs": [
+    {
+      "eval_id": 1,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 5,
+        "failed": 0,
+        "total": 5,
+        "time_seconds": 0.0,
+        "tokens": 3695,
+        "tool_calls": 3,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "calls-display-pdf",
+          "passed": true,
+          "evidence": "Line 5-7: '**Tool Call**: `display_pdf` - url: `/documents/vendor-agreement.pdf`' - The response clearly describes calling display_pdf with the vendor-agreement.pdf path"
+        },
+        {
+          "text": "reads-content-before-annotating",
+          "passed": true,
+          "evidence": "Line 13: '**Tool Call**: `interact(viewUUID, [{ command: \"get_text\", pages: [1, 2, 3, 4, 5] }])`' - The response shows the agent calling get_text to read the first 5 pages before proposing what to highlight"
+        },
+        {
+          "text": "proposes-annotations-to-user",
+          "passed": true,
+          "evidence": "Lines 17-41: The agent provides a detailed Step 3 'Proposing Annotations' section describing 5 key areas (Payment Terms, Liability, Termination, Confidentiality/IP, Renewal) with specific highlights proposed. Line 41: 'Does this annotation approach work for you? I can proceed with highlighting these sections and adding sticky notes.' - explicitly asks for user approval"
+        },
+        {
+          "text": "uses-screenshot-to-confirm",
+          "passed": true,
+          "evidence": "Lines 100-104: The interact command includes `{ command: \"get_screenshot\", page: 1 }` after the annotations are applied. Line 106: 'The annotations are now visible in your PDF viewer.' - confirms the screenshot was used to show the result"
+        },
+        {
+          "text": "mentions-download",
+          "passed": true,
+          "evidence": "Line 116: 'When you're done reviewing, you can **download the annotated PDF** directly from the viewer toolbar. The annotations will be embedded in the downloaded file so you have a record of your review.' - explicitly mentions download capability from toolbar"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 5,
+        "failed": 0,
+        "total": 5,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "The agent calls display_pdf on the W-9 path",
+          "passed": true,
+          "evidence": "Line 5: 'Tool call: `display_pdf(\"/forms/w9.pdf\")`' - Agent explicitly calls display_pdf with the correct W-9 path"
+        },
+        {
+          "text": "Because W-9 fields have cryptic names (f1_1 etc.), the agent uses get_screenshot to visually identify which field is which before filling",
+          "passed": true,
+          "evidence": "Lines 20-24: Agent identifies cryptic field naming issue ('field names are cryptic (f1_1, f1_2, etc.)') and calls `interact('viewer-abc123xyz', [{'action': 'get_screenshot', 'page': 1}])` to get visual screenshot for mapping fields to labels"
+        },
+        {
+          "text": "The agent fills in all values provided: name (John Smith), business type/SSN, and address using fill_form",
+          "passed": true,
+          "evidence": "Lines 42-58: Agent uses `fill_form` action with fields including: 'f1_1' \u2192 'John Smith' (name), 'c1_1' \u2192 true (Individual/Sole Proprietor business type), 'f1_07' \u2192 '555-12-3456' (SSN/EIN), 'f1_05' \u2192 '100 Main St' (address line)"
+        },
+        {
+          "text": "The agent calls get_screenshot after fill_form to show the user the filled result",
+          "passed": true,
+          "evidence": "Line 57: Within the same interact call, agent includes `{'action': 'get_screenshot', 'page': 1}` after fill_form. Lines 62-67 confirm the visual result with checkmarks showing filled values"
+        },
+        {
+          "text": "The agent points out that the signature line requires a separate signature image step (visual sign workflow)",
+          "passed": true,
+          "evidence": "Lines 71-77: Agent explicitly states 'The signature line at the bottom of the W-9 form (typically near the date field) is still blank. You'll need to add your signature image.' and offers options including '/pdf-viewer:sign skill' for signature workflow"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 3,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 5,
+        "failed": 0,
+        "total": 5,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [],
+      "notes": []
+    },
+    {
+      "eval_id": 4,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 3,
+        "failed": 0,
+        "total": 3,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "does-not-open-viewer",
+          "passed": true,
+          "evidence": "Response does not mention display_pdf or interactive viewer. Agent explicitly states use of native Read tool and delivers summary without viewer interaction."
+        },
+        {
+          "text": "uses-native-read",
+          "passed": true,
+          "evidence": "Agent explicitly states 'I'll summarize the annual review PDF for you using the native Read tool to extract the text content' and 'Reading the PDF file directly...', demonstrating correct routing to native Read tool."
+        },
+        {
+          "text": "delivers-summary",
+          "passed": true,
+          "evidence": "Response provides substantive summary with executive summary, performance highlights (leadership, technical contributions, professional development), areas for growth, next year goals, compensation review, and manager comments. Demonstrates proper content extraction and summarization."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 5,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 5,
+        "failed": 0,
+        "total": 0,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.0,
+        "passed": 0,
+        "failed": 5,
+        "total": 5,
+        "time_seconds": 0.0,
+        "tokens": 1573,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "calls-display-pdf: The response describes calling display_pdf (or equivalent) with the vendor-agreement.pdf path",
+          "passed": false,
+          "evidence": "The response does not call or reference display_pdf. Instead, it states 'I wasn't able to locate the PDF file at /documents/vendor-agreement.pdf' and explains that 'my native capabilities for reading PDF files are limited. I can't directly render or extract text from PDF documents through standard file reading tools.' The agent never attempts to display or open the PDF."
+        },
+        {
+          "text": "reads-content-before-annotating: The response shows the agent using get_text or equivalent to understand the contract content before deciding what to highlight",
+          "passed": false,
+          "evidence": "The agent does not attempt to read the PDF content. It explicitly states it cannot access the file and asks the user to 'Copy the text content from the PDF and paste it here' or 'Provide the correct file path where the PDF is located.' No get_text or content extraction is attempted."
+        },
+        {
+          "text": "proposes-annotations-to-user: The agent describes to the user what it plans to highlight or annotate and invites approval or adjustment",
+          "passed": false,
+          "evidence": "The agent does not propose any annotations. Instead, it provides generic information about 'KEY TERMS typically important in vendor agreements' (Payment & Pricing, Term & Termination, Liability, etc.) but does not reference the specific contract content or propose specific annotations for this document."
+        },
+        {
+          "text": "uses-screenshot-to-confirm: The agent calls get_screenshot after applying annotations to visually verify and show the result to the user",
+          "passed": false,
+          "evidence": "No screenshot is taken. The agent makes no attempt to display, annotate, or visually verify any PDF content. There is no reference to get_screenshot or any visual confirmation mechanism."
+        },
+        {
+          "text": "mentions-download: The response mentions that the user can download the annotated PDF from the viewer toolbar",
+          "passed": false,
+          "evidence": "The response does not mention downloading an annotated PDF or any viewer toolbar. The agent never gets to the point of creating or managing annotations, so there is no reference to download capabilities."
+        }
+      ],
+      "notes": [
+        "The baseline agent (without the skill) has no knowledge of PDF-specific tools like display_pdf, get_text, or get_screenshot",
+        "Agent falls back to asking user to copy-paste PDF content or provide the file path",
+        "Agent provides generic vendor agreement review guidance instead of contract-specific annotations"
+      ]
+    },
+    {
+      "eval_id": 2,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.0,
+        "passed": 0,
+        "failed": 5,
+        "total": 5,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "The agent calls display_pdf on the W-9 path",
+          "passed": false,
+          "evidence": "Agent mentions viewing the PDF but does not call the display_pdf API. Only references the file path in text."
+        },
+        {
+          "text": "Because W-9 fields have cryptic names (f1_1 etc.), the agent uses get_screenshot to visually identify which field is which before filling",
+          "passed": false,
+          "evidence": "Agent does not use get_screenshot API. No mention of visual field identification strategy."
+        },
+        {
+          "text": "The agent fills in all values provided: name (John Smith), business type/SSN, and address using fill_form",
+          "passed": false,
+          "evidence": "Agent lists the values in text (John Smith, Sole Proprietor, 555-12-3456, 100 Main St, Springfield, IL) but does not call fill_form API to actually fill the form."
+        },
+        {
+          "text": "The agent calls get_screenshot after fill_form to show the user the filled result",
+          "passed": false,
+          "evidence": "Agent does not call get_screenshot API. No visual confirmation provided."
+        },
+        {
+          "text": "The agent points out that the signature line requires a separate signature image step (visual sign workflow)",
+          "passed": false,
+          "evidence": "Agent does not mention signature requirements or the need for a separate visual sign workflow."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 3,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.2,
+        "passed": 1,
+        "failed": 4,
+        "total": 0,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [],
+      "notes": []
+    },
+    {
+      "eval_id": 4,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.33,
+        "passed": 1,
+        "failed": 2,
+        "total": 3,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [],
+      "notes": []
+    },
+    {
+      "eval_id": 5,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.0,
+        "passed": 0,
+        "failed": 0,
+        "total": 0,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [],
+      "notes": []
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {
+        "mean": 1.0,
+        "stddev": 0.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "tokens": {
+        "mean": 739.0,
+        "stddev": 1652.4542,
+        "min": 0,
+        "max": 3695
+      }
+    },
+    "without_skill": {
+      "pass_rate": {
+        "mean": 0.106,
+        "stddev": 0.1522,
+        "min": 0.0,
+        "max": 0.33
+      },
+      "time_seconds": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "tokens": {
+        "mean": 314.6,
+        "stddev": 703.467,
+        "min": 0,
+        "max": 1573
+      }
+    },
+    "delta": {
+      "pass_rate": "+0.89",
+      "time_seconds": "+0.0",
+      "tokens": "+424"
+    }
+  },
+  "notes": []
+}

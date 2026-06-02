@@ -1,0 +1,52 @@
+{
+  "expectations": [
+    {
+      "text": "The agent calls display_pdf on the W-9 path",
+      "passed": false,
+      "evidence": "Agent mentions viewing the PDF but does not call the display_pdf API. Only references the file path in text."
+    },
+    {
+      "text": "Because W-9 fields have cryptic names (f1_1 etc.), the agent uses get_screenshot to visually identify which field is which before filling",
+      "passed": false,
+      "evidence": "Agent does not use get_screenshot API. No mention of visual field identification strategy."
+    },
+    {
+      "text": "The agent fills in all values provided: name (John Smith), business type/SSN, and address using fill_form",
+      "passed": false,
+      "evidence": "Agent lists the values in text (John Smith, Sole Proprietor, 555-12-3456, 100 Main St, Springfield, IL) but does not call fill_form API to actually fill the form."
+    },
+    {
+      "text": "The agent calls get_screenshot after fill_form to show the user the filled result",
+      "passed": false,
+      "evidence": "Agent does not call get_screenshot API. No visual confirmation provided."
+    },
+    {
+      "text": "The agent points out that the signature line requires a separate signature image step (visual sign workflow)",
+      "passed": false,
+      "evidence": "Agent does not mention signature requirements or the need for a separate visual sign workflow."
+    }
+  ],
+  "summary": {
+    "passed": 0,
+    "failed": 5,
+    "total": 5,
+    "pass_rate": 0.0
+  },
+  "execution_metrics": {
+    "total_tool_calls": 0,
+    "output_chars": 0
+  },
+  "timing": {
+    "total_duration_seconds": 0.0
+  },
+  "claims": [],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": []
+  },
+  "eval_feedback": {
+    "suggestions": [],
+    "overall": "No issues."
+  }
+}

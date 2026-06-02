@@ -1,0 +1,29 @@
+I'd help you fill out the W-9 tax form. Here's how I'd approach this:
+
+First, I'd need to view the PDF file at /forms/w9.pdf to see the form structure and identify all the fields that need to be filled. Unfortunately, I don't have direct PDF editing capabilities, but I can guide you through the process.
+
+Here's what I'd suggest:
+
+1. Open the PDF in a PDF viewer like Adobe Acrobat Reader, Preview (on Mac), or your browser
+2. Look for fillable form fields in the document
+3. Fill in the following information based on what you've provided:
+   - Name: John Smith
+   - Business type: Sole Proprietor
+   - Social Security Number (SSN): 555-12-3456
+   - Address: 100 Main St, Springfield, IL
+
+The W-9 form typically has fields for:
+- Your name
+- Business name (if applicable)
+- Address
+- City, state, ZIP
+- Taxpayer identification number (SSN or EIN)
+- Business type (sole proprietor, partnership, corporation, etc.)
+
+Since I can't directly manipulate the PDF file, I'd recommend:
+- If the form has fillable fields: use a PDF editor like Adobe Acrobat, PDFtk, or even Google Docs (by uploading the PDF)
+- If the form is not fillable: print it out and fill it by hand, or use OCR-based tools to detect the fields
+
+For a more automated approach, you might want to use PDF libraries or tools that can programmatically fill forms, but that would require command-line tools or software I don't have direct access to.
+
+Would you like me to provide instructions for a specific tool or method you prefer to use for editing the PDF?

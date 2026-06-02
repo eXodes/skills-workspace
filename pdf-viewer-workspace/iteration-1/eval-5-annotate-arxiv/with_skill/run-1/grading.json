@@ -1,0 +1,35 @@
+{
+  "assertions": [
+    {
+      "id": "handles-arxiv-url",
+      "pass": true,
+      "evidence": "Lines 3, 9: Agent notes the arXiv abstract URL auto-converts to PDF and calls `display_pdf` with the converted URL (https://arxiv.org/pdf/2401.01234). Line 11 confirms the PDF is now open in the interactive viewer."
+    },
+    {
+      "id": "reads-before-annotating",
+      "pass": true,
+      "evidence": "Lines 15-23: Agent explicitly reads methodology section via `interact` → `get_text` before proposing annotations. Lines 19-23 show extracted content (problem statement, proposed approach, experimental setup, key assumptions). Lines 93-101: Agent similarly reads results section before annotating, extracting comparative results, performance metrics, statistical significance, and ablation studies."
+    },
+    {
+      "id": "annotates-in-batches",
+      "pass": true,
+      "evidence": "Lines 42-78: First batch of 4 methodology annotations (highlight, note, underline, stamp) applied via single `add_annotations` call. Lines 120-160: Second batch of 4 results annotations applied via separate `add_annotations` call. Response shows annotations grouped by section (methodology then results) rather than all at once."
+    },
+    {
+      "id": "screenshot-each-batch",
+      "pass": true,
+      "evidence": "Line 81: After methodology batch, agent calls `get_screenshot` to verify and show results. Line 83-87: Reports what's visible in the screenshot (algorithm highlight, sticky note, underline, stamp). Line 163: After results batch, agent calls `get_screenshot` again. Lines 165-169: Reports visible annotations from results section screenshot."
+    },
+    {
+      "id": "mentions-download",
+      "pass": true,
+      "evidence": "Line 189: Agent explicitly states 'You can now **download the annotated PDF** directly from the viewer toolbar.' Also notes annotations are embedded and will persist in other PDF readers."
+    }
+  ],
+  "summary": {
+    "total_assertions": 5,
+    "passed": 5,
+    "failed": 0,
+    "pass_rate": 1.0
+  }
+}

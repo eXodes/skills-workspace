@@ -1,0 +1,32 @@
+{
+  "eval_id": 3,
+  "eval_name": "eval-3-sign-nda",
+  "prompt": "I need to sign the NDA at ~/Documents/nda-2024.pdf on page 4. My signature image is at ~/Desktop/signature.png.",
+  "assertions": [
+    {
+      "id": "calls-display-pdf",
+      "description": "Opens the PDF with display_pdf",
+      "check": "The agent calls display_pdf on the NDA path"
+    },
+    {
+      "id": "uses-image-annotation",
+      "description": "Places signature as image annotation",
+      "check": "The agent uses an image annotation type with imageUrl pointing to the signature.png file to place the signature"
+    },
+    {
+      "id": "targets-correct-page",
+      "description": "Places signature on page 4",
+      "check": "The image annotation is placed on page 4 as specified by the user"
+    },
+    {
+      "id": "confirms-with-screenshot",
+      "description": "Verifies placement with get_screenshot",
+      "check": "The agent calls get_screenshot of page 4 after placing the annotation to verify and show the user"
+    },
+    {
+      "id": "includes-disclaimer",
+      "description": "Includes visual-only signature disclaimer",
+      "check": "The response includes a disclaimer that this is a visual signature image, not a certified or cryptographic digital signature"
+    }
+  ]
+}

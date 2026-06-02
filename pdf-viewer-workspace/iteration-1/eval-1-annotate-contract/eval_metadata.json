@@ -1,0 +1,32 @@
+{
+  "eval_id": 1,
+  "eval_name": "eval-1-annotate-contract",
+  "prompt": "I have a contract at /documents/vendor-agreement.pdf. Can you open it and highlight the key terms I should pay attention to before signing?",
+  "assertions": [
+    {
+      "id": "calls-display-pdf",
+      "description": "Calls display_pdf with the file path",
+      "check": "The response describes calling display_pdf (or equivalent) with the vendor-agreement.pdf path"
+    },
+    {
+      "id": "reads-content-before-annotating",
+      "description": "Reads document content before proposing annotations",
+      "check": "The response shows the agent using get_text or equivalent to understand the contract content before deciding what to highlight"
+    },
+    {
+      "id": "proposes-annotations-to-user",
+      "description": "Proposes annotation plan to user before applying",
+      "check": "The agent describes to the user what it plans to highlight or annotate and invites approval or adjustment"
+    },
+    {
+      "id": "uses-screenshot-to-confirm",
+      "description": "Uses get_screenshot to confirm annotation result",
+      "check": "The agent calls get_screenshot after applying annotations to visually verify and show the result to the user"
+    },
+    {
+      "id": "mentions-download",
+      "description": "Reminds user about download",
+      "check": "The response mentions that the user can download the annotated PDF from the viewer toolbar"
+    }
+  ]
+}

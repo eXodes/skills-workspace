@@ -1,0 +1,39 @@
+{
+  "eval_id": "eval-2-fill-w9-form",
+  "run": "run-1",
+  "skill_active": true,
+  "expectations": [
+    {
+      "text": "The agent calls display_pdf on the W-9 path",
+      "passed": true,
+      "evidence": "Line 5: 'Tool call: `display_pdf(\"/forms/w9.pdf\")`' - Agent explicitly calls display_pdf with the correct W-9 path"
+    },
+    {
+      "text": "Because W-9 fields have cryptic names (f1_1 etc.), the agent uses get_screenshot to visually identify which field is which before filling",
+      "passed": true,
+      "evidence": "Lines 20-24: Agent identifies cryptic field naming issue ('field names are cryptic (f1_1, f1_2, etc.)') and calls `interact('viewer-abc123xyz', [{'action': 'get_screenshot', 'page': 1}])` to get visual screenshot for mapping fields to labels"
+    },
+    {
+      "text": "The agent fills in all values provided: name (John Smith), business type/SSN, and address using fill_form",
+      "passed": true,
+      "evidence": "Lines 42-58: Agent uses `fill_form` action with fields including: 'f1_1' \u2192 'John Smith' (name), 'c1_1' \u2192 true (Individual/Sole Proprietor business type), 'f1_07' \u2192 '555-12-3456' (SSN/EIN), 'f1_05' \u2192 '100 Main St' (address line)"
+    },
+    {
+      "text": "The agent calls get_screenshot after fill_form to show the user the filled result",
+      "passed": true,
+      "evidence": "Line 57: Within the same interact call, agent includes `{'action': 'get_screenshot', 'page': 1}` after fill_form. Lines 62-67 confirm the visual result with checkmarks showing filled values"
+    },
+    {
+      "text": "The agent points out that the signature line requires a separate signature image step (visual sign workflow)",
+      "passed": true,
+      "evidence": "Lines 71-77: Agent explicitly states 'The signature line at the bottom of the W-9 form (typically near the date field) is still blank. You'll need to add your signature image.' and offers options including '/pdf-viewer:sign skill' for signature workflow"
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "pass_rate": 1.0
+  },
+  "notes": "All assertions met. Agent demonstrates sophisticated handling of cryptic PDF field names by proactively using get_screenshot to map field IDs to visual labels before filling. Workflow is logical and user-friendly: inspect fields \u2192 visualize \u2192 fill \u2192 confirm \u2192 note remaining requirements."
+}

@@ -1,0 +1,32 @@
+{
+  "eval_id": 5,
+  "eval_name": "eval-5-annotate-arxiv",
+  "prompt": "I'm reviewing a research paper at https://arxiv.org/abs/2401.01234. Walk me through it and annotate the methodology and results sections with your analysis notes.",
+  "assertions": [
+    {
+      "id": "handles-arxiv-url",
+      "description": "Handles arXiv URL correctly",
+      "check": "The agent opens the arXiv paper — either noting it auto-converts /abs/ URLs to PDF URLs or passing the URL to display_pdf"
+    },
+    {
+      "id": "reads-before-annotating",
+      "description": "Reads paper content before annotating",
+      "check": "The agent uses get_text to read methodology and/or results sections before proposing annotations"
+    },
+    {
+      "id": "annotates-in-batches",
+      "description": "Applies annotations in reviewable batches",
+      "check": "The agent batches annotations in manageable groups (not all at once) and shows the user each batch"
+    },
+    {
+      "id": "screenshot-each-batch",
+      "description": "Screenshots after each annotation batch",
+      "check": "get_screenshot is called after each batch of add_annotations to verify and present results"
+    },
+    {
+      "id": "mentions-download",
+      "description": "Reminds user they can download",
+      "check": "The response mentions downloading the annotated PDF from the viewer toolbar"
+    }
+  ]
+}

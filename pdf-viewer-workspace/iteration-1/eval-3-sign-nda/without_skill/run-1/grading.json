@@ -1,0 +1,34 @@
+{
+  "assertions": [
+    {
+      "id": "calls-display-pdf",
+      "pass": false,
+      "evidence": "The agent does not call display_pdf on the NDA path. Instead, it provides manual instructions for using Preview (Mac), online tools, and third-party software. No API calls are made."
+    },
+    {
+      "id": "uses-image-annotation",
+      "pass": false,
+      "evidence": "The agent does not use an image annotation type with imageUrl pointing to signature.png. It mentions 'Annotate → Signature' in Preview UI but does not programmatically use image annotation APIs."
+    },
+    {
+      "id": "targets-correct-page",
+      "pass": true,
+      "evidence": "The response correctly mentions page 4 where the signature should be placed: 'Go to page 4' (line 6) and 'place signature images at specific locations' for the user's specified page."
+    },
+    {
+      "id": "confirms-with-screenshot",
+      "pass": false,
+      "evidence": "The agent does not call get_screenshot of page 4 after placing the annotation. It does not provide any screenshot verification or visual confirmation."
+    },
+    {
+      "id": "includes-disclaimer",
+      "pass": false,
+      "evidence": "The response does not include a disclaimer about this being a visual signature image rather than a certified or cryptographic digital signature. No disclaimer is present in the output."
+    }
+  ],
+  "summary": {
+    "passed": 1,
+    "failed": 4,
+    "pass_rate": 0.2
+  }
+}
