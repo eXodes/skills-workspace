@@ -74,7 +74,7 @@ Tell me about the problem. Any of these help:
 - [Guard to put in place]
 ```
 
-## If Connectors Available
+## If MCP tools Available
 
 If **~~monitoring** is connected:
 - Pull logs, error rates, and metrics around the time of the issue

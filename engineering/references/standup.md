@@ -54,7 +54,7 @@ If your tools are connected, just say `/standup` and I'll gather everything auto
 - [Blocker with context and who can help]
 ```
 
-## If Connectors Available
+## If MCP tools Available
 
 If **~~source control** is connected:
 - Pull recent commits and PRs (opened, reviewed, merged)

@@ -137,7 +137,7 @@ Provide clear, factual updates at regular cadence. Include: what's happening, wh
 [Key takeaways for the team]
 ```
 
-## If Connectors Available
+## If MCP tools Available
 
 If **~~monitoring** is connected:
 - Pull alert details and metrics

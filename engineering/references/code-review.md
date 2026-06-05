@@ -98,7 +98,7 @@ If no specific file or URL is provided, ask what to review.
 [Approve / Request Changes / Needs Discussion]
 ```
 
-## If Connectors Available
+## If MCP tools Available
 
 If **~~source control** is connected:
 - Pull the PR diff automatically from the URL

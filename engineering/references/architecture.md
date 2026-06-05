@@ -68,7 +68,7 @@ See the **system-design** skill for detailed frameworks on requirements gatherin
 2. [ ] [Follow-up]
 ```
 
-## If Connectors Available
+## If MCP tools Available
 
 If **~~knowledge base** is connected:
 - Search for prior ADRs and design docs

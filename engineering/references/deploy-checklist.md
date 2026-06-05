@@ -57,7 +57,7 @@ Tell me about your deploy and I'll customize the checklist:
 - "This includes a database migration" → adds migration-specific checks
 - "This is a breaking API change" → adds consumer notification steps
 
-## If Connectors Available
+## If MCP tools Available
 
 If **~~source control** is connected:
 - Pull the release diff and list of changes
