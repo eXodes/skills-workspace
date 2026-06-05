@@ -1,0 +1,30 @@
+{
+  "expectations": [
+    {
+      "text": "error-structure",
+      "passed": true,
+      "evidence": "Error 1 rewrite: 'Incorrect email or password. Please try again.' — states what went wrong and what to do. Error 2 rewrite: 'Please enter a valid email address (e.g. name@example.com).' — explains the problem and shows the expected format."
+    },
+    {
+      "text": "cta-verb-start",
+      "passed": true,
+      "evidence": "All three recommended button labels start with action verbs: 'Sign In', 'Log In', 'Continue'. Response explicitly advises against 'Submit' as generic."
+    },
+    {
+      "text": "specific-to-context",
+      "passed": true,
+      "evidence": "Error 1 rewrite specifically addresses the wrong email/password scenario. Error 2 rewrite specifically addresses invalid email format (missing @), including a concrete example 'name@example.com'."
+    },
+    {
+      "text": "alternatives-provided",
+      "passed": true,
+      "evidence": "Four button label variants provided and ranked: 'Sign In', 'Log In', 'Continue', with 'Submit' explicitly listed as an option to avoid. Multiple options given for a single copy element."
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "pass_rate": 1.0
+  }
+}

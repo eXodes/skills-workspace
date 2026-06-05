@@ -1,0 +1,35 @@
+{
+  "expectations": [
+    {
+      "text": "themes-identified",
+      "passed": true,
+      "evidence": "Response identifies 4 distinct named themes: 'Prioritization is invisible', 'Search is broken', 'Notifications are so noisy, users go dark', and 'Gantt view is valued but gated — by performance and by plan', each with a summary."
+    },
+    {
+      "text": "quotes-used",
+      "passed": true,
+      "evidence": "Multiple direct quotes used per theme, e.g. 'I spend so much time figuring out what to work on next. The backlog is a mess.' (P1), 'I can never find stuff I worked on last month. Search is pretty useless.' (P3), 'Notifications are overwhelming, I turned most of them off.' (P4), 'I love the Gantt view but it's slow to load on big projects.' (P2)."
+    },
+    {
+      "text": "prevalence-noted",
+      "passed": true,
+      "evidence": "Every theme includes an explicit prevalence count: '2 of 6 participants (P1, P6)', '1 of 6 participants (P1 partial, P3 primary)', '1 of 6 participants (P4)', '2 of 6 participants (P2, P5)'."
+    },
+    {
+      "text": "recommendations-prioritized",
+      "passed": true,
+      "evidence": "Five numbered recommendations with explicit priority labels: items 1–3 are marked '(high priority)' and items 4–5 are marked '(medium priority)', each linked to specific participant findings."
+    },
+    {
+      "text": "opportunities-mapped",
+      "passed": true,
+      "evidence": "The 'Insights → Opportunities' table maps each research finding to a concrete product opportunity (e.g. 'Search fails for historical tasks' → 'Improve search indexing for older tasks; add filters by date range, assignee, status') with Impact and Effort ratings."
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "pass_rate": 1.0
+  }
+}

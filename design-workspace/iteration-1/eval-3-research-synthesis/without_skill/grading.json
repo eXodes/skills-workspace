@@ -1,0 +1,35 @@
+{
+  "expectations": [
+    {
+      "text": "themes-identified",
+      "passed": true,
+      "evidence": "5 distinct themes are named and summarized: 'Prioritization & Backlog Management', 'Performance Issues in Complex Projects', 'Search & Discoverability of Past Work', 'Notification Fatigue', 'Feature Accessibility / Paywall Friction'."
+    },
+    {
+      "text": "quotes-used",
+      "passed": false,
+      "evidence": "The response references participants by ID only (e.g., 'Evidence: P1, P6') but includes no direct quotes from the interview notes anywhere in the synthesis."
+    },
+    {
+      "text": "prevalence-noted",
+      "passed": false,
+      "evidence": "Themes cite participant IDs (e.g., 'P1, P6') rather than counts like '2 of 6 participants'. The only count phrase ('4 of 6 participants have built manual workarounds') appears in the meta-observations section, not attached to individual themes."
+    },
+    {
+      "text": "recommendations-prioritized",
+      "passed": true,
+      "evidence": "Recommendations are numbered 1–6 and grouped into three explicitly labeled priority tiers: 'Short-term (High Impact, Lower Effort)', 'Medium-term', and 'Strategic', each with participant references."
+    },
+    {
+      "text": "opportunities-mapped",
+      "passed": true,
+      "evidence": "Each recommendation maps to a concrete product opportunity: e.g., 'Focus View or Daily Priority Surface', 'Notification Preferences Granularity', 'Gantt Performance Optimization', 'Revisit Paywall Tier Structure' — going beyond problem description to specific interventions."
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 2,
+    "total": 5,
+    "pass_rate": 0.6
+  }
+}

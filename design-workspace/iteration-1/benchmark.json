@@ -1,0 +1,298 @@
+{
+  "metadata": {
+    "skill_name": "design",
+    "skill_path": "/Users/exodes/Projects/skills-workspace/design",
+    "executor_model": "anthropic/claude-haiku-4-5-20251001",
+    "timestamp": "2026-06-06T00:00:00Z",
+    "evals_run": [
+      "eval-1-design-critique",
+      "eval-2-ux-copy-rewrites",
+      "eval-3-research-synthesis",
+      "eval-4-dev-handoff-spec"
+    ],
+    "runs_per_configuration": 1
+  },
+  "runs": [
+    {
+      "eval_id": 1,
+      "eval_name": "design-critique",
+      "config": "with_skill",
+      "path": "/Users/exodes/Projects/skills-workspace/design-workspace/iteration-1/eval-1-design-critique/with_skill",
+      "assertions_passed": 4,
+      "assertions_total": 4,
+      "pass_rate": 1.0,
+      "assertions": [
+        {
+          "id": "uses-critique-framework",
+          "passed": true,
+          "evidence": "Response includes explicit 'Usability' section (table with 4 findings) and 'Visual Hierarchy' section (bullet analysis covering reading flow, eye-tracking, whitespace). Both are substantive sections with specific findings about the described layout, not generic commentary."
+        },
+        {
+          "id": "severity-labels",
+          "passed": true,
+          "evidence": "Usability table uses 🔴/🟡 severity indicators on every row, e.g. 'KPI cards with no trend indicators make it impossible to know if numbers are good or bad at a glance | 🔴 Critical' and '8 sidebar nav items is at the high end of cognitive load | 🟡 Moderate'."
+        },
+        {
+          "id": "specific-actionable",
+          "passed": true,
+          "evidence": "Response directly references all four prompt elements: sidebar nav ('8 sidebar nav items'), KPI cards ('revenue, burn rate, runway'), line chart ('large line chart at 60% page width'), and transactions table ('Transactions table below the chart competes for attention'). Findings are tied to these specific components, not generic advice."
+        },
+        {
+          "id": "recommendations-included",
+          "passed": true,
+          "evidence": "Every finding includes a specific recommendation, e.g. 'Add a small sparkline or delta (e.g., \"+12% vs last month\") to each card' for KPI trend issue, and 'Limit the table to 5–7 rows with a \"View all\" link' for the transactions table. A ranked 'Priority Recommendations' section closes the response with three concrete improvement proposals."
+        }
+      ]
+    },
+    {
+      "eval_id": 1,
+      "eval_name": "design-critique",
+      "config": "without_skill",
+      "path": "/Users/exodes/Projects/skills-workspace/design-workspace/iteration-1/eval-1-design-critique/without_skill",
+      "assertions_passed": 2,
+      "assertions_total": 4,
+      "pass_rate": 0.5,
+      "assertions": [
+        {
+          "id": "uses-critique-framework",
+          "passed": false,
+          "evidence": "Response uses sections ('What works', numbered issues, 'Summary') but does not include explicitly named sections for 'usability' and 'visual hierarchy' as required by the assertion. Visual hierarchy is touched on in issues #3 and #5, and usability concerns appear throughout, but there is no structured critique framework with those labeled categories."
+        },
+        {
+          "id": "severity-labels",
+          "passed": false,
+          "evidence": "No severity indicators appear anywhere in the response. There are no Critical/Moderate/Minor labels, no emoji equivalents (🔴/🟡/🟢), and no other severity classification system applied to any finding."
+        },
+        {
+          "id": "specific-actionable",
+          "passed": true,
+          "evidence": "Response directly references all four specific elements from the prompt: left sidebar ('Eight items suggests the app has grown without pruning'), KPI cards ('Four cards side by side at equal weight compete with each other'), line chart ('The line chart at 60% of the page is likely too large'), and transactions table ('The transactions table below the chart will be below the fold')."
+        },
+        {
+          "id": "recommendations-included",
+          "passed": true,
+          "evidence": "Every issue includes concrete alternatives: sidebar → group with headers or collapsible icons+labels; chart → reduce to 30-40% or make expandable; KPI row → make burn rate/runway visually heavier or lead left; table → reduce chart height, make collapsible, or move to own tab; typography → large+bold primary numbers, small+muted labels, consistent spacing tokens."
+        }
+      ]
+    },
+    {
+      "eval_id": 2,
+      "eval_name": "ux-copy-rewrites",
+      "config": "with_skill",
+      "path": "/Users/exodes/Projects/skills-workspace/design-workspace/iteration-1/eval-2-ux-copy-rewrites/with_skill",
+      "assertions_passed": 4,
+      "assertions_total": 4,
+      "pass_rate": 1.0,
+      "assertions": [
+        {
+          "id": "error-structure",
+          "passed": true,
+          "evidence": "Both rewrites follow the what+fix structure: 'Incorrect email or password. Please check and try again.' (names the failed inputs, provides action) and 'Please enter a valid email address (e.g. name@example.com).' (names field, shows correct format). Rationale section explicitly states the original 'tells the user something went wrong but not what or how to fix it.'"
+        },
+        {
+          "id": "cta-verb-start",
+          "passed": true,
+          "evidence": "All three button options start with action verbs: Option A 'Log in', Option B 'Sign in', Option C 'Continue'. Rationale explicitly rejects 'Submit' and 'Go' as non-action form artifacts."
+        },
+        {
+          "id": "specific-to-context",
+          "passed": true,
+          "evidence": "Wrong credentials rewrite specifically names 'email or password' and explains the security rationale for not singling out one field. Invalid format rewrite targets the email field specifically with a concrete example 'name@example.com'. Neither message is a generic placeholder."
+        },
+        {
+          "id": "alternatives-provided",
+          "passed": true,
+          "evidence": "Three alternatives provided for each of the three copy elements: wrong credentials error (A: neutral/direct, B: warmer with reset path, C: formal), invalid email format (A: instructional with example, B: conversational, C: terse), and submit button (A: 'Log in', B: 'Sign in', C: 'Continue')."
+        }
+      ]
+    },
+    {
+      "eval_id": 2,
+      "eval_name": "ux-copy-rewrites",
+      "config": "without_skill",
+      "path": "/Users/exodes/Projects/skills-workspace/design-workspace/iteration-1/eval-2-ux-copy-rewrites/without_skill",
+      "assertions_passed": 4,
+      "assertions_total": 4,
+      "pass_rate": 1.0,
+      "assertions": [
+        {
+          "id": "error-structure",
+          "passed": true,
+          "evidence": "Error 1 rewrite: 'Incorrect email or password. Please try again.' — states what went wrong and what to do. Error 2 rewrite: 'Please enter a valid email address (e.g. name@example.com).' — explains the problem and shows the expected format."
+        },
+        {
+          "id": "cta-verb-start",
+          "passed": true,
+          "evidence": "All three recommended button labels start with action verbs: 'Sign In', 'Log In', 'Continue'. Response explicitly advises against 'Submit' as generic."
+        },
+        {
+          "id": "specific-to-context",
+          "passed": true,
+          "evidence": "Error 1 rewrite specifically addresses the wrong email/password scenario. Error 2 rewrite specifically addresses invalid email format (missing @), including a concrete example 'name@example.com'."
+        },
+        {
+          "id": "alternatives-provided",
+          "passed": true,
+          "evidence": "Four button label variants provided and ranked: 'Sign In', 'Log In', 'Continue', with 'Submit' explicitly listed as an option to avoid. Multiple options given for a single copy element."
+        }
+      ]
+    },
+    {
+      "eval_id": 3,
+      "eval_name": "research-synthesis",
+      "config": "with_skill",
+      "path": "/Users/exodes/Projects/skills-workspace/design-workspace/iteration-1/eval-3-research-synthesis/with_skill",
+      "assertions_passed": 5,
+      "assertions_total": 5,
+      "pass_rate": 1.0,
+      "assertions": [
+        {
+          "id": "themes-identified",
+          "passed": true,
+          "evidence": "Response identifies 4 distinct named themes: 'Prioritization is invisible', 'Search is broken', 'Notifications are so noisy, users go dark', and 'Gantt view is valued but gated — by performance and by plan', each with a summary."
+        },
+        {
+          "id": "quotes-used",
+          "passed": true,
+          "evidence": "Multiple direct quotes used per theme, e.g. 'I spend so much time figuring out what to work on next. The backlog is a mess.' (P1), 'I can never find stuff I worked on last month. Search is pretty useless.' (P3), 'Notifications are overwhelming, I turned most of them off.' (P4), 'I love the Gantt view but it's slow to load on big projects.' (P2)."
+        },
+        {
+          "id": "prevalence-noted",
+          "passed": true,
+          "evidence": "Every theme includes an explicit prevalence count: '2 of 6 participants (P1, P6)', '1 of 6 participants (P1 partial, P3 primary)', '1 of 6 participants (P4)', '2 of 6 participants (P2, P5)'."
+        },
+        {
+          "id": "recommendations-prioritized",
+          "passed": true,
+          "evidence": "Five numbered recommendations with explicit priority labels: items 1–3 are marked '(high priority)' and items 4–5 are marked '(medium priority)', each linked to specific participant findings."
+        },
+        {
+          "id": "opportunities-mapped",
+          "passed": true,
+          "evidence": "The 'Insights → Opportunities' table maps each research finding to a concrete product opportunity (e.g. 'Search fails for historical tasks' → 'Improve search indexing for older tasks; add filters by date range, assignee, status') with Impact and Effort ratings."
+        }
+      ]
+    },
+    {
+      "eval_id": 3,
+      "eval_name": "research-synthesis",
+      "config": "without_skill",
+      "path": "/Users/exodes/Projects/skills-workspace/design-workspace/iteration-1/eval-3-research-synthesis/without_skill",
+      "assertions_passed": 3,
+      "assertions_total": 5,
+      "pass_rate": 0.6,
+      "assertions": [
+        {
+          "id": "themes-identified",
+          "passed": true,
+          "evidence": "5 distinct themes are named and summarized: 'Prioritization & Backlog Management', 'Performance Issues in Complex Projects', 'Search & Discoverability of Past Work', 'Notification Fatigue', 'Feature Accessibility / Paywall Friction'."
+        },
+        {
+          "id": "quotes-used",
+          "passed": false,
+          "evidence": "The response references participants by ID only (e.g., 'Evidence: P1, P6') but includes no direct quotes from the interview notes anywhere in the synthesis."
+        },
+        {
+          "id": "prevalence-noted",
+          "passed": false,
+          "evidence": "Themes cite participant IDs (e.g., 'P1, P6') rather than counts like '2 of 6 participants'. The only count phrase ('4 of 6 participants have built manual workarounds') appears in the meta-observations section, not attached to individual themes."
+        },
+        {
+          "id": "recommendations-prioritized",
+          "passed": true,
+          "evidence": "Recommendations are numbered 1–6 and grouped into three explicitly labeled priority tiers: 'Short-term (High Impact, Lower Effort)', 'Medium-term', and 'Strategic', each with participant references."
+        },
+        {
+          "id": "opportunities-mapped",
+          "passed": true,
+          "evidence": "Each recommendation maps to a concrete product opportunity: e.g., 'Focus View or Daily Priority Surface', 'Notification Preferences Granularity', 'Gantt Performance Optimization', 'Revisit Paywall Tier Structure' — going beyond problem description to specific interventions."
+        }
+      ]
+    },
+    {
+      "eval_id": 4,
+      "eval_name": "dev-handoff-spec",
+      "config": "with_skill",
+      "path": "/Users/exodes/Projects/skills-workspace/design-workspace/iteration-1/eval-4-dev-handoff-spec/with_skill",
+      "assertions_passed": 4,
+      "assertions_total": 4,
+      "pass_rate": 1.0,
+      "assertions": [
+        {
+          "id": "covers-states",
+          "passed": true,
+          "evidence": "Dedicated 'States and Interactions' section covers PromoCodeField with 5 states (Idle, Active/focused, Applied, Error, Loading) and CTAButton with 4 states (Default, Pressed, Loading, Disabled), each with explicit appearance and behavior columns."
+        },
+        {
+          "id": "edge-cases-included",
+          "passed": true,
+          "evidence": "Explicit 'Edge Cases' section addresses: empty cart (server-side removal), long item names (2-line truncation with ellipsis), missing/broken images not directly called out, but covers large totals, free shipping, zero tax, long promo code strings (max 32 chars), slow network, and network errors."
+        },
+        {
+          "id": "token-references",
+          "passed": true,
+          "evidence": "Full 'Design Tokens Used' table lists semantic tokens such as `color-primary`, `spacing-md`, `radius-lg`, `font-heading-md`, `shadow-sm`. These tokens are consistently referenced throughout component specs, states, and edge cases rather than raw hex/px values."
+        },
+        {
+          "id": "accessibility-notes",
+          "passed": true,
+          "evidence": "Dedicated 'Accessibility Notes' section specifies explicit focus order (8 steps top-to-bottom), ARIA/accessibilityLabel table for every interactive element, keyboard interactions (Tab/Enter/Space/Escape), minimum tap targets (44×44pt), color contrast ratios, and live region annotations for promo error/success states."
+        }
+      ]
+    },
+    {
+      "eval_id": 4,
+      "eval_name": "dev-handoff-spec",
+      "config": "without_skill",
+      "path": "/Users/exodes/Projects/skills-workspace/design-workspace/iteration-1/eval-4-dev-handoff-spec/without_skill",
+      "assertions_passed": 4,
+      "assertions_total": 4,
+      "pass_rate": 1.0,
+      "assertions": [
+        {
+          "id": "covers-states",
+          "passed": true,
+          "evidence": "CTA button states listed as 'Default, Loading (spinner), Disabled' (line 116). Promo code field has explicit 'Success state' and 'Error state' entries (lines 103-104). Edge cases table also documents 'Loading state (Place Order tapped): CTA shows spinner; disable tap'."
+        },
+        {
+          "id": "edge-cases-included",
+          "passed": true,
+          "evidence": "Dedicated 'Edge Cases & States' table (lines 175-184) covers: single item, many items, long product name (truncate at 2 lines with ellipsis), promo applied, invalid promo, free shipping, loading state, and network error. Missing images are implicitly handled via 'Product thumbnail images (from cart data)' note."
+        },
+        {
+          "id": "token-references",
+          "passed": true,
+          "evidence": "Section 'Colors (Use Design Token Names)' (lines 149-161) uses semantic token names throughout: `surface.primary`, `surface.nav`, `surface.card`, `border.subtle`, `color.primary`, `color.on-primary`, `color.error`, `content.primary`. Section heading explicitly instructs use of token names."
+        },
+        {
+          "id": "accessibility-notes",
+          "passed": true,
+          "evidence": "Accessibility section (lines 189-194) includes: 'All interactive elements have accessible labels', CTA minimum tap target 44×44px, 'Color is not the sole indicator of state (use icons/text alongside color)', product images have `alt` text, and 'Screen reader reading order: Header → Cart items → Summary → Promo → CTA'."
+        }
+      ]
+    }
+  ],
+  "aggregate_stats": {
+    "with_skill": {
+      "pass_rate": 0.9375,
+      "assertions_passed": 15,
+      "assertions_total": 16
+    },
+    "without_skill": {
+      "pass_rate": 0.8125,
+      "assertions_passed": 13,
+      "assertions_total": 16
+    },
+    "delta": {
+      "pass_rate_delta": "+0.125",
+      "assertions_delta": "+2"
+    }
+  },
+  "notes": [
+    "eval-1 (design-critique): Skill adds structured framework with severity labels; baseline identifies issues but lacks systematic approach.",
+    "eval-2 (ux-copy-rewrites): Both with-skill and baseline perform excellently; minimal differentiation on this task.",
+    "eval-3 (research-synthesis): Skill uses direct quotes and explicit 'N of 6' prevalence counts; baseline cites IDs only without quantification.",
+    "eval-4 (dev-handoff-spec): Both configurations score perfectly; high-quality output regardless of skill loading.",
+    "Overall delta: +12.5pp improvement with skill, driven by eval-1 (critique framework) and eval-3 (research synthesis precision)."
+  ]
+}

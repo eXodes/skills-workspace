@@ -1,0 +1,30 @@
+{
+  "expectations": [
+    {
+      "text": "error-structure",
+      "passed": true,
+      "evidence": "Both rewrites follow the what+fix structure: 'Incorrect email or password. Please check and try again.' (names the failed inputs, provides action) and 'Please enter a valid email address (e.g. name@example.com).' (names field, shows correct format). Rationale section explicitly states the original 'tells the user something went wrong but not what or how to fix it.'"
+    },
+    {
+      "text": "cta-verb-start",
+      "passed": true,
+      "evidence": "All three button options start with action verbs: Option A 'Log in', Option B 'Sign in', Option C 'Continue'. Rationale explicitly rejects 'Submit' and 'Go' as non-action form artifacts."
+    },
+    {
+      "text": "specific-to-context",
+      "passed": true,
+      "evidence": "Wrong credentials rewrite specifically names 'email or password' and explains the security rationale for not singling out one field. Invalid format rewrite targets the email field specifically with a concrete example 'name@example.com'. Neither message is a generic placeholder."
+    },
+    {
+      "text": "alternatives-provided",
+      "passed": true,
+      "evidence": "Three alternatives provided for each of the three copy elements: wrong credentials error (A: neutral/direct, B: warmer with reset path, C: formal), invalid email format (A: instructional with example, B: conversational, C: terse), and submit button (A: 'Log in', B: 'Sign in', C: 'Continue')."
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "pass_rate": 1.0
+  }
+}

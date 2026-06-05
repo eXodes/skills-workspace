@@ -1,0 +1,30 @@
+{
+  "expectations": [
+    {
+      "text": "uses-critique-framework",
+      "passed": true,
+      "evidence": "Response includes explicit 'Usability' section (table with 4 findings) and 'Visual Hierarchy' section (bullet analysis covering reading flow, eye-tracking, whitespace). Both are substantive sections with specific findings about the described layout, not generic commentary."
+    },
+    {
+      "text": "severity-labels",
+      "passed": true,
+      "evidence": "Usability table uses 🔴/🟡 severity indicators on every row, e.g. 'KPI cards with no trend indicators make it impossible to know if numbers are good or bad at a glance | 🔴 Critical' and '8 sidebar nav items is at the high end of cognitive load | 🟡 Moderate'."
+    },
+    {
+      "text": "specific-actionable",
+      "passed": true,
+      "evidence": "Response directly references all four prompt elements: sidebar nav ('8 sidebar nav items'), KPI cards ('revenue, burn rate, runway'), line chart ('large line chart at 60% page width'), and transactions table ('Transactions table below the chart competes for attention'). Findings are tied to these specific components, not generic advice."
+    },
+    {
+      "text": "recommendations-included",
+      "passed": true,
+      "evidence": "Every finding includes a specific recommendation, e.g. 'Add a small sparkline or delta (e.g., \"+12% vs last month\") to each card' for KPI trend issue, and 'Limit the table to 5–7 rows with a \"View all\" link' for the transactions table. A ranked 'Priority Recommendations' section closes the response with three concrete improvement proposals."
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "pass_rate": 1.0
+  }
+}

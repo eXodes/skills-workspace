@@ -1,0 +1,82 @@
+[
+  {
+    "query": "hey can you take a look at this screen? https://www.figma.com/file/abc123/checkout-v3?node-id=42 — it's our checkout redesign and I want feedback before we hand it off to dev",
+    "should_trigger": true
+  },
+  {
+    "query": "we just finished 8 user interviews for our onboarding flow and i have all the transcripts. can you help me figure out what the main pain points are and what we should fix first?",
+    "should_trigger": true
+  },
+  {
+    "query": "what should the empty state say when a user has no saved reports yet? we want it to feel encouraging not like an error",
+    "should_trigger": true
+  },
+  {
+    "query": "my designer flagged that our modal confirm button says 'OK' and our delete button says 'Yes'. she wants me to fix the copy — what should these say?",
+    "should_trigger": true
+  },
+  {
+    "query": "we're about to launch and legal wants an accessibility audit of our main dashboard. specifically worried about color contrast and keyboard nav for screen reader users",
+    "should_trigger": true
+  },
+  {
+    "query": "our design system has gotten pretty messy — buttons are named differently across components (btn, button, cta) and spacing is all hardcoded px values. can you help us audit it?",
+    "should_trigger": true
+  },
+  {
+    "query": "I need to write an interview guide for user research sessions next week. we're trying to understand why enterprise customers churn in the first 90 days",
+    "should_trigger": true
+  },
+  {
+    "query": "can you generate a handoff spec for this settings page? I need measurements, states, responsive rules, and edge cases so the devs have everything they need",
+    "should_trigger": true
+  },
+  {
+    "query": "does this navigation structure make sense for mobile? top nav has logo, search icon, hamburger. hamburger opens a drawer with 12 items including nested categories",
+    "should_trigger": true
+  },
+  {
+    "query": "we're adding a new 'team activity feed' component that doesn't exist in our design system yet. help me spec out variants, states, and tokens",
+    "should_trigger": true
+  },
+  {
+    "query": "how do I implement a sticky header in CSS that disappears on scroll down and reappears on scroll up?",
+    "should_trigger": false
+  },
+  {
+    "query": "write unit tests for my form validation logic — the email field uses a regex and I want to cover edge cases",
+    "should_trigger": false
+  },
+  {
+    "query": "what's the best blue color for a CTA button? should it be #0070f3 or something darker?",
+    "should_trigger": false
+  },
+  {
+    "query": "review this PR — I added a new UserProfile component and refactored the auth middleware",
+    "should_trigger": false
+  },
+  {
+    "query": "I want to build a Figma plugin that auto-exports assets to S3 when I press a button. where do I start?",
+    "should_trigger": false
+  },
+  {
+    "query": "help me set up a storybook for our React component library so designers can browse components",
+    "should_trigger": false
+  },
+  {
+    "query": "our marketing team wants a landing page redesign. who should I hire — a freelancer or an agency?",
+    "should_trigger": false
+  },
+  {
+    "query": "explain the difference between serif and sans-serif fonts — just want to understand the basics",
+    "should_trigger": false
+  },
+  {
+    "query": "I need to add dark mode support to our app. what's the best approach in Tailwind CSS?",
+    "should_trigger": false
+  },
+  {
+    "query": "can you help me write a product requirements doc for our new search feature? I need user stories and acceptance criteria",
+    "should_trigger": false
+  }
+]

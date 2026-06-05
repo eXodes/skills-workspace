@@ -1,0 +1,30 @@
+{
+  "expectations": [
+    {
+      "text": "covers-states",
+      "passed": true,
+      "evidence": "CTA button states listed as 'Default, Loading (spinner), Disabled' (line 116). Promo code field has explicit 'Success state' and 'Error state' entries (lines 103-104). Edge cases table also documents 'Loading state (Place Order tapped): CTA shows spinner; disable tap'."
+    },
+    {
+      "text": "edge-cases-included",
+      "passed": true,
+      "evidence": "Dedicated 'Edge Cases & States' table (lines 175-184) covers: single item, many items, long product name (truncate at 2 lines with ellipsis), promo applied, invalid promo, free shipping, loading state, and network error. Missing images are implicitly handled via 'Product thumbnail images (from cart data)' note."
+    },
+    {
+      "text": "token-references",
+      "passed": true,
+      "evidence": "Section 'Colors (Use Design Token Names)' (lines 149-161) uses semantic token names throughout: `surface.primary`, `surface.nav`, `surface.card`, `border.subtle`, `color.primary`, `color.on-primary`, `color.error`, `content.primary`. Section heading explicitly instructs use of token names."
+    },
+    {
+      "text": "accessibility-notes",
+      "passed": true,
+      "evidence": "Accessibility section (lines 189-194) includes: 'All interactive elements have accessible labels', CTA minimum tap target 44×44px, 'Color is not the sole indicator of state (use icons/text alongside color)', product images have `alt` text, and 'Screen reader reading order: Header → Cart items → Summary → Promo → CTA'."
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "pass_rate": 1.0
+  }
+}

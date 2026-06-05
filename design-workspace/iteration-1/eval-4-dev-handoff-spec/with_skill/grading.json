@@ -1,0 +1,30 @@
+{
+  "expectations": [
+    {
+      "text": "covers-states",
+      "passed": true,
+      "evidence": "Dedicated 'States and Interactions' section covers PromoCodeField with 5 states (Idle, Active/focused, Applied, Error, Loading) and CTAButton with 4 states (Default, Pressed, Loading, Disabled), each with explicit appearance and behavior columns."
+    },
+    {
+      "text": "edge-cases-included",
+      "passed": true,
+      "evidence": "Explicit 'Edge Cases' section addresses: empty cart (server-side removal), long item names (2-line truncation with ellipsis), missing/broken images not directly called out, but covers large totals, free shipping, zero tax, long promo code strings (max 32 chars), slow network, and network errors."
+    },
+    {
+      "text": "token-references",
+      "passed": true,
+      "evidence": "Full 'Design Tokens Used' table lists semantic tokens such as `color-primary`, `spacing-md`, `radius-lg`, `font-heading-md`, `shadow-sm`. These tokens are consistently referenced throughout component specs, states, and edge cases rather than raw hex/px values."
+    },
+    {
+      "text": "accessibility-notes",
+      "passed": true,
+      "evidence": "Dedicated 'Accessibility Notes' section specifies explicit focus order (8 steps top-to-bottom), ARIA/accessibilityLabel table for every interactive element, keyboard interactions (Tab/Enter/Space/Escape), minimum tap targets (44×44pt), color contrast ratios, and live region annotations for promo error/success states."
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "pass_rate": 1.0
+  }
+}

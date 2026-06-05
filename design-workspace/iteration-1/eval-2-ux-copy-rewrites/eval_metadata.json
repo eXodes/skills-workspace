@@ -1,0 +1,27 @@
+{
+  "eval_id": 2,
+  "eval_name": "ux-copy-rewrites",
+  "prompt": "Our login form has these two error messages and I'm not sure they're good. First one: 'Error occurred.' — shown when the email/password combo is wrong. Second one: 'Invalid input detected.' — shown when the email field has no @ sign. Can you rewrite these and also suggest what the submit button should say?",
+  "assertions": [
+    {
+      "id": "error-structure",
+      "description": "Error messages follow proper structure",
+      "check": "Rewritten error messages explain what happened and how to fix it, not just that an error occurred"
+    },
+    {
+      "id": "cta-verb-start",
+      "description": "CTA suggestions start with a verb",
+      "check": "Suggested button copy starts with an action verb (e.g. 'Sign in', 'Log in', 'Continue') rather than generic words like 'Submit' or 'OK'"
+    },
+    {
+      "id": "specific-to-context",
+      "description": "Rewrites are specific to login context",
+      "check": "Error message rewrites reference the specific error scenarios (wrong credentials, invalid email format) rather than being generic placeholder text"
+    },
+    {
+      "id": "alternatives-provided",
+      "description": "Multiple copy options given",
+      "check": "Response provides at least 2 options or variants for at least one of the copy elements"
+    }
+  ]
+}

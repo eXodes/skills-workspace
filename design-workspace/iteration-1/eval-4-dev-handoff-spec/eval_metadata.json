@@ -1,0 +1,27 @@
+{
+  "eval_id": 4,
+  "eval_name": "dev-handoff-spec",
+  "prompt": "Our mobile checkout flow is going to dev next sprint. The key screen is the order review page: header 'Review your order', a scrollable list of cart items (image + name + qty + price), an order summary section (subtotal, shipping, tax, total), a promo code field, and a primary CTA button at the bottom. Can you generate a dev handoff spec for this screen?",
+  "assertions": [
+    {
+      "id": "covers-states",
+      "description": "Spec covers component states",
+      "check": "Response specifies states for interactive elements (promo code field validation, CTA button loading/disabled states) not just the default appearance"
+    },
+    {
+      "id": "edge-cases-included",
+      "description": "Edge cases are documented",
+      "check": "Response addresses edge cases such as empty cart, very long product names, or missing images"
+    },
+    {
+      "id": "token-references",
+      "description": "Uses token references not hardcoded values",
+      "check": "Spec references design tokens or semantic naming (e.g. color-primary, spacing-md) rather than only raw values"
+    },
+    {
+      "id": "accessibility-notes",
+      "description": "Includes accessibility requirements",
+      "check": "Response includes at least one accessibility requirement such as focus order, ARIA labels, or keyboard interactions"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "eval_id": 1,
+  "eval_name": "design-critique",
+  "prompt": "I'm building a SaaS dashboard for finance teams. Here's our main overview screen: a top nav with logo + avatar, a left sidebar with 8 nav items, a summary row of 4 KPI cards (revenue, expenses, burn rate, runway), then a large line chart taking up 60% of the page, and below that a transactions table. The whole thing is pretty data-dense. Can you critique this layout?",
+  "assertions": [
+    {
+      "id": "uses-critique-framework",
+      "description": "Response follows the critique framework sections",
+      "check": "Response includes at minimum sections covering usability and visual hierarchy with specific findings about the described layout"
+    },
+    {
+      "id": "severity-labels",
+      "description": "Findings include severity levels",
+      "check": "Response uses severity indicators (Critical/Moderate/Minor or emoji equivalents 🔴/🟡/🟢) for at least one finding"
+    },
+    {
+      "id": "specific-actionable",
+      "description": "Feedback is specific to the described UI, not generic",
+      "check": "Response references specific elements mentioned in the prompt (nav items, KPI cards, line chart, transactions table) rather than giving only generic design advice"
+    },
+    {
+      "id": "recommendations-included",
+      "description": "Response includes concrete fix recommendations",
+      "check": "Response proposes specific improvements or alternatives, not just identifies problems"
+    }
+  ]
+}

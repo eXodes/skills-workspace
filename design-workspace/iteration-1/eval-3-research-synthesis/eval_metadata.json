@@ -1,0 +1,32 @@
+{
+  "eval_id": 3,
+  "eval_name": "research-synthesis",
+  "prompt": "I ran 6 user interviews for our project management app last week. Here are my notes:\n\n- P1: 'I spend so much time figuring out what to work on next. The backlog is a mess.' Uses personal labels to organize.\n- P2: 'I love the Gantt view but it's slow to load on big projects.' Workaround: filters down to 2-week windows.\n- P3: 'I can never find stuff I worked on last month. Search is pretty useless.' Uses browser history to find old tasks.\n- P4: 'Notifications are overwhelming, I turned most of them off.' Misses important deadlines as a result.\n- P5: 'The Gantt is great but my whole team is on a free plan so we can't use it.' Pain around paywalls.\n- P6: 'I just want to know what's blocking me.' Creates a manual 'blocked' tag.\n\nCan you synthesize these into key themes and recommendations?",
+  "assertions": [
+    {
+      "id": "themes-identified",
+      "description": "Multiple distinct themes extracted",
+      "check": "Response identifies at least 3 distinct themes from the interview data with names and summaries"
+    },
+    {
+      "id": "quotes-used",
+      "description": "Participant quotes used as evidence",
+      "check": "Response includes direct quotes from the interview notes as supporting evidence for themes"
+    },
+    {
+      "id": "prevalence-noted",
+      "description": "Theme prevalence is quantified",
+      "check": "Response indicates how many participants expressed each theme (e.g. '3 of 6 participants') rather than using vague language like 'most users'"
+    },
+    {
+      "id": "recommendations-prioritized",
+      "description": "Recommendations are prioritized",
+      "check": "Response includes a prioritized list of recommendations (numbered or with priority labels) linked to the research findings"
+    },
+    {
+      "id": "opportunities-mapped",
+      "description": "Insights mapped to product opportunities",
+      "check": "Response connects research findings to specific product improvement opportunities, not just describes the problems"
+    }
+  ]
+}

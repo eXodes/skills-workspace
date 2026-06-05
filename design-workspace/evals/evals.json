@@ -1,0 +1,122 @@
+{
+  "skill_name": "design",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I'm building a SaaS dashboard for finance teams. Here's our main overview screen: a top nav with logo + avatar, a left sidebar with 8 nav items, a summary row of 4 KPI cards (revenue, expenses, burn rate, runway), then a large line chart taking up 60% of the page, and below that a transactions table. The whole thing is pretty data-dense. Can you critique this layout?",
+      "expected_output": "Structured design critique covering first impression, usability, visual hierarchy, and consistency. Should identify specific issues (e.g. too many nav items, chart dominance, information density) with severity levels and concrete recommendations. Should follow the critique framework from references/design-critique.md including the markdown table output format.",
+      "files": [],
+      "assertions": [
+        {
+          "id": "uses-critique-framework",
+          "description": "Response follows the critique framework sections",
+          "check": "Response includes at minimum sections covering usability and visual hierarchy with specific findings about the described layout"
+        },
+        {
+          "id": "severity-labels",
+          "description": "Findings include severity levels",
+          "check": "Response uses severity indicators (Critical/Moderate/Minor or emoji equivalents 🔴/🟡/🟢) for at least one finding"
+        },
+        {
+          "id": "specific-actionable",
+          "description": "Feedback is specific to the described UI, not generic",
+          "check": "Response references specific elements mentioned in the prompt (nav items, KPI cards, line chart, transactions table) rather than giving only generic design advice"
+        },
+        {
+          "id": "recommendations-included",
+          "description": "Response includes concrete fix recommendations",
+          "check": "Response proposes specific improvements or alternatives, not just identifies problems"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Our login form has these two error messages and I'm not sure they're good. First one: 'Error occurred.' — shown when the email/password combo is wrong. Second one: 'Invalid input detected.' — shown when the email field has no @ sign. Can you rewrite these and also suggest what the submit button should say?",
+      "expected_output": "UX copy rewrites for both error messages following the 'what happened + why + how to fix' structure. Rewritten errors should be specific, empathetic, and actionable. Should provide CTA options for the submit button starting with a verb. Should include alternatives/rationale per the ux-copy.md output template.",
+      "files": [],
+      "assertions": [
+        {
+          "id": "error-structure",
+          "description": "Error messages follow proper structure",
+          "check": "Rewritten error messages explain what happened and how to fix it, not just that an error occurred"
+        },
+        {
+          "id": "cta-verb-start",
+          "description": "CTA suggestions start with a verb",
+          "check": "Suggested button copy starts with an action verb (e.g. 'Sign in', 'Log in', 'Continue') rather than generic words like 'Submit' or 'OK'"
+        },
+        {
+          "id": "specific-to-context",
+          "description": "Rewrites are specific to login context",
+          "check": "Error message rewrites reference the specific error scenarios (wrong credentials, invalid email format) rather than being generic placeholder text"
+        },
+        {
+          "id": "alternatives-provided",
+          "description": "Multiple copy options given",
+          "check": "Response provides at least 2 options or variants for at least one of the copy elements"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "I ran 6 user interviews for our project management app last week. Here are my notes:\n\n- P1: 'I spend so much time figuring out what to work on next. The backlog is a mess.' Uses personal labels to organize.\n- P2: 'I love the Gantt view but it's slow to load on big projects.' Workaround: filters down to 2-week windows.\n- P3: 'I can never find stuff I worked on last month. Search is pretty useless.' Uses browser history to find old tasks.\n- P4: 'Notifications are overwhelming, I turned most of them off.' Misses important deadlines as a result.\n- P5: 'The Gantt is great but my whole team is on a free plan so we can't use it.' Pain around paywalls.\n- P6: 'I just want to know what's blocking me.' Creates a manual 'blocked' tag.\n\nCan you synthesize these into key themes and recommendations?",
+      "expected_output": "Research synthesis with identified themes (e.g. prioritization/navigation, search/findability, notifications, paywall friction), supporting evidence with participant quotes, insight→opportunity mapping, and prioritized recommendations. Should follow the research-synthesis.md output format.",
+      "files": [],
+      "assertions": [
+        {
+          "id": "themes-identified",
+          "description": "Multiple distinct themes extracted",
+          "check": "Response identifies at least 3 distinct themes from the interview data with names and summaries"
+        },
+        {
+          "id": "quotes-used",
+          "description": "Participant quotes used as evidence",
+          "check": "Response includes direct quotes from the interview notes as supporting evidence for themes"
+        },
+        {
+          "id": "prevalence-noted",
+          "description": "Theme prevalence is quantified",
+          "check": "Response indicates how many participants expressed each theme (e.g. '3 of 6 participants') rather than using vague language like 'most users'"
+        },
+        {
+          "id": "recommendations-prioritized",
+          "description": "Recommendations are prioritized",
+          "check": "Response includes a prioritized list of recommendations (numbered or with priority labels) linked to the research findings"
+        },
+        {
+          "id": "opportunities-mapped",
+          "description": "Insights mapped to product opportunities",
+          "check": "Response connects research findings to specific product improvement opportunities, not just describes the problems"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Our mobile checkout flow is going to dev next sprint. The key screen is the order review page: header 'Review your order', a scrollable list of cart items (image + name + qty + price), an order summary section (subtotal, shipping, tax, total), a promo code field, and a primary CTA button at the bottom. Can you generate a dev handoff spec for this screen?",
+      "expected_output": "Developer handoff spec covering layout, design tokens, component states, responsive behavior, edge cases, and accessibility notes. Should follow the design-handoff.md output format with the structured markdown tables.",
+      "files": [],
+      "assertions": [
+        {
+          "id": "covers-states",
+          "description": "Spec covers component states",
+          "check": "Response specifies states for interactive elements (promo code field validation, CTA button loading/disabled states) not just the default appearance"
+        },
+        {
+          "id": "edge-cases-included",
+          "description": "Edge cases are documented",
+          "check": "Response addresses edge cases such as empty cart, very long product names, or missing images"
+        },
+        {
+          "id": "token-references",
+          "description": "Uses token references not hardcoded values",
+          "check": "Spec references design tokens or semantic naming (e.g. color-primary, spacing-md) rather than only raw values"
+        },
+        {
+          "id": "accessibility-notes",
+          "description": "Includes accessibility requirements",
+          "check": "Response includes at least one accessibility requirement such as focus order, ARIA labels, or keyboard interactions"
+        }
+      ]
+    }
+  ]
+}

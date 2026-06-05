@@ -1,0 +1,30 @@
+{
+  "expectations": [
+    {
+      "text": "uses-critique-framework",
+      "passed": false,
+      "evidence": "Response uses sections ('What works', numbered issues, 'Summary') but does not include explicitly named sections for 'usability' and 'visual hierarchy' as required by the assertion. Visual hierarchy is touched on in issues #3 and #5, and usability concerns appear throughout, but there is no structured critique framework with those labeled categories."
+    },
+    {
+      "text": "severity-labels",
+      "passed": false,
+      "evidence": "No severity indicators appear anywhere in the response. There are no Critical/Moderate/Minor labels, no emoji equivalents (🔴/🟡/🟢), and no other severity classification system applied to any finding."
+    },
+    {
+      "text": "specific-actionable",
+      "passed": true,
+      "evidence": "Response directly references all four specific elements from the prompt: left sidebar ('Eight items suggests the app has grown without pruning'), KPI cards ('Four cards side by side at equal weight compete with each other'), line chart ('The line chart at 60% of the page is likely too large'), and transactions table ('The transactions table below the chart will be below the fold')."
+    },
+    {
+      "text": "recommendations-included",
+      "passed": true,
+      "evidence": "Every issue includes concrete alternatives: sidebar → group with headers or collapsible icons+labels; chart → reduce to 30-40% or make expandable; KPI row → make burn rate/runway visually heavier or lead left; table → reduce chart height, make collapsible, or move to own tab; typography → large+bold primary numbers, small+muted labels, consistent spacing tokens."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 2,
+    "total": 4,
+    "pass_rate": 0.5
+  }
+}
